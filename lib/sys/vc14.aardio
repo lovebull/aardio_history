@@ -1,0 +1,66 @@
+﻿//vc14 运行时（VC2015~2019）
+import inet.installer;
+import win.reg;
+
+namespace sys.vc14;
+
+isInstalled = function(minorVersion,buildNumber){
+	if(type.isString(minorVersion) ){
+		if(minorVersion=="2017"){
+			minorVersion = 13;
+			if( !buildNumber || (buildNumber<26020) ) buildNumber = 26020;	
+		}
+		elseif(minorVersion=="2017"){
+			if( !buildNumber || (buildNumber<27820) ) buildNumber = 27820;
+		}
+		else {
+			minorVersion = null;
+		}
+	}
+	
+	var module = ::Kernel32.LoadLibraryExP("VCRUNTIME140.dll",,2/*_LOAD_LIBRARY_AS_DATAFILE*/ );
+	if(!module) return;
+	::Kernel32.FreeLibrary(module);
+	
+	var reg = ..win.regReader("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\VisualStudio\14.0\VC\Runtimes\x86");
+	if(!reg) return;
+	
+	var installed = reg.queryValue("Installed");
+	if(installed){
+		if(minorVersion){
+			installed = reg.queryValue("Minor")>minorVersion;	
+		}
+		
+		if(buildNumber){
+			installed = reg.queryValue("Bld")>buildNumber;	
+		}
+	}
+	
+	reg.close();
+	
+	return installed;
+}
+
+require = function(minorVersion,buildNumber){
+    if(isInstalled(minorVersion,buildNumber)){
+    	return true;
+    }
+    
+	return !!..inet.installer("VC++ 2015~1019 支持组件"
+		,"https://aka.ms/vs/16/release/vc_redist.x86.exe"
+		,`/install /quiet /norestart /log "%temp%\Install_vc_redist_2019_x86.log"`
+	)	
+}
+
+/**intellisense(sys.vc14)
+isInstalled( = 是否安装 VC++14 运行时\n注意VC2015、2017、2019都是使用同一运行库\
+isInstalled(.(minorVersion,buildNumber)  =  可选在参数中指定最低 minorVersion 或 buildNumber,\n也可以直接在minorVersion中用字符串指定"2019","2017","2015"
+isInstalled(.() = 是否安装 VC2015 运行时
+isInstalled(.("2017") = 是否安装 VC2015 运行时
+isInstalled(.("2019") = 是否安装 VC2015 运行时
+require( = 如果未安装 VC++14（VC2015、2017、2019） 运行时，则安装，\n注意VC2015、2017、2019都是使用同一运行库
+require(.(minorVersion,buildNumber)  = 可选在参数中指定最低 minorVersion 或 buildNumber,\n也可以直接在minorVersion中用字符串指定"2019","2017","2015"
+require(.() = 如果未安装 VC++14（VC2015） 运行时，则安装
+require(.("2017") = 如果未安装 VC++14（2017） 运行时，则安装
+require(.("2019") = 如果未安装 VC++14（2019） 运行时，则安装
+end intellisense**/

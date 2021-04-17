@@ -624,7 +624,7 @@
 1625072607|710656|301617|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
-1527325945|14|33|config\SYS.CFG
+1803970210|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 620307770|107153|28055|config\intellisense\kernel.txt
@@ -1502,7 +1502,7 @@
 1198441300|4653|1566|lib\string\database.aardio
 -277035125|1511|682|lib\string\encoding.aardio
 1160691486|3558|1353|lib\string\fontRanges.aardio
-275810664|1519|720|lib\string\fuzzyMatching.aardio
+-183080371|2290|999|lib\string\fuzzyMatching.aardio
 810202900|1952|873|lib\string\glob.aardio
 -213421199|3657|1492|lib\string\html.aardio
 478056621|1984|697|lib\string\lcid.aardio
@@ -1534,7 +1534,7 @@
 -193603692|3125|1269|lib\sys\runAsTask.aardio
 -986346657|1880|797|lib\sys\soundDevice.aardio
 1031716355|5236|1805|lib\sys\storage.aardio
-424363817|864|540|lib\sys\vc2017.aardio
+-1239671427|2387|940|lib\sys\vc14.aardio
 84729105|5444|2007|lib\sys\volume.aardio
 -1224990289|2072|918|lib\sys\_.aardio
 -928803953|1904|727|lib\table\product.aardio
