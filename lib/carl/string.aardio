@@ -1,0 +1,75 @@
+
+namespace carl.string
+
+string = ..string;
+table = ..table;
+
+/*intellisense(carl.string)*/
+
+//返回字符串中节点对像内的字符，类似于 wb.getEle("id").outerHTML
+outerHTML = function(html,patten){
+	var getEleHtml,getTagName;
+	
+	getTagName=function(patten,html){			//	
+		for tagstr in string.gmatch(html,"(\<\a+?\s.*?\>)") {
+			if(string.find(tagstr,"@=" + patten) 
+				or string.find(tagstr,'@="' + patten + '"') 
+				or string.find(tagstr,"@='" + patten + "'")
+				or string.find(tagstr,"@" + patten)
+				or string.find(tagstr,patten)){
+				var tagname = string.match(tagstr,"\<(\a+)")
+				if(tagname){								//得到tag标签名
+					var i = string.find(html,"@" + tagstr);
+					var htmlstr = string.sub(html,i,#html)
+					return tagname,htmlstr;
+				}
+			}
+		}
+	}
+	
+	getEleHtml=function(tagname,pattenstr,html){	//得到节点内容
+		var str=string.match(html,"(" + pattenstr + ")");
+		if(str){
+			var i=0;var j=0;
+			for n1 in string.gmatch( str,"(\<" + tagname + ")") { 
+				i++;
+			} 
+			for n1 in string.gmatch( str,"(\</" + tagname + "\>)") { 
+				j++;
+			}
+			if(i==j){
+				var n,m=string.find(html,pattenstr);
+				html=string.sub(html,m,#html); 
+				return str,html; 
+			}
+			else {
+				pattenstr += ".*?\</" + tagname + "\>";
+				return getEleHtml(tagname,pattenstr,html); 
+			}
+		}
+	}	
+	//返回所有符合的结果table对像
+	var tab={};
+	var outerhtml,pattenstr,tagname;
+	while(html){
+		tagname,html = getTagName(patten,html)
+		if(tagname and html){
+			pattenstr="\<" + tagname + ".*?\</" + tagname + "\>";
+			outerhtml,html = getEleHtml(tagname,pattenstr,html);
+			if(outerhtml)	table.push(tab,outerhtml);
+		}
+	}
+	if(#tab)	return tab[1],tab;
+};
+
+findCount = function(str, pattern){//查找字符串出现次数
+	var count = 0;
+	var rep = function(){
+		count++;
+	}
+	string.replace(str,pattern,rep)
+	return count; 
+}
+
+
+/*end intellisense*/

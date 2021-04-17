@@ -1,0 +1,10 @@
+import fsys; 
+fsys.createDir("~\lib\");
+fsys.copy( "\parseyMcParseface","~\lib\" ); 
+
+
+import ide;
+ide.refreshStdLib();
+
+import win;
+win.msgboxTimeout("parseyMcParseface扩展库已安装成功!","aardio- parseyMcParseface扩展库安装程序")

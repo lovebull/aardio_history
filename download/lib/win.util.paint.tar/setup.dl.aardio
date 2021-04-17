@@ -1,0 +1,9 @@
+import fsys; 
+fsys.createDir("~\lib\win\util\");
+fsys.copy( "\paint.aardio","~\lib\win\util\" ); 
+
+import ide;
+ide.refreshStdLib();
+
+import win;
+win.msgboxTimeout("win.util.paint扩展库已安装成功!","aardio- win.util.paint扩展库安装程序")

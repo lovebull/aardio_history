@@ -1,0 +1,119 @@
+//image图像库
+namespace carl.image
+
+import gdip;
+
+/*intellisense(carl.image)*/
+
+
+size = function(img,cx,cy){	/*重新设置图片大小(放大或缩小)。*/
+	if(img.pImage){
+		var re, hBmp = gdip.GetImageThumbnail(img.pImage, cx, cy, topointer(0));
+		img.pImage = topointer(hBmp);
+	}else {
+		var re, hBmp = gdip.GetImageThumbnail(img.pBitmap, cx, cy, topointer(0));
+		img.pBitmap = topointer(hBmp);
+	}
+	return img; 
+}
+
+imageCrop = function(bmp,x=0,y=0,cx,cy ){//须gdip.bitmap对像，参数指定一个矩形的左(x),上(y),cx,cy,并沿矩形区域修剪图片。
+	if(!cx) cx = bmp.width;
+ 	if(!cy) cy = bmp.height;
+	bmpnew = gdip.bitmap(cx,cy);
+	var argb;
+	for(w=0;cx-1;1){
+  		for(h=0;cy-1;1){
+  			argb = bmp.getPixel(w+x,h+y) : -1;
+  			bmpnew.setPixel(w,h,argb)
+  		}
+  	}
+	return bmpnew; 
+}
+
+printImageTextex = function(img,txt,x,y,cx,cy,size){//加文字水印 gdip.image对像
+
+	var graphics = gdip.graphics.fromImage(img)
+
+	//创建刷子 黑体
+	var re,Brush = gdip.CreateSolidFill(0xFF000000);
+
+	//创建FontFamily 
+	var family = gdip.family("Arial");//
+	
+	//创建stringFormat 
+	var strformat = gdip.stringformat ( ); 
+	//设置样式
+	strformat.align = 0/*_GdipStringAlignmentNear*/;
+
+	//创建Font 文字大小，加粗
+	var curFont = family.createFont( size,1/*_GdipFontStyleBold*/, 2/*_GdipUnitPixel*/)
+
+	//设置文字抗据齿
+	graphics.textRenderingHint = 3/*_GdipTextRenderingHintAntiAliasGridFit*/;
+
+	//设置文字区域
+	rclayout = gdip.RECTF(); 
+	rclayout.left = x
+	rclayout.top = y
+	rclayout.right = cx //在这里指的是宽度
+	rclayout.bottom = cy //在这里指的是高度
+		
+	graphics.drawString( txt  , curFont, rclayout, strformat,Brush);
+	
+	//删除所有GDI+对象  
+	gdip.DeleteFont(curFont);
+	gdip.DeleteBrush(Brush);
+	strformat.delete();
+	family.delete(); 
+	return img; 
+}
+
+//生成图片文字水印(图片路径或图片数据,水印文字,文字x坐标,文字y坐标,大小,透明度0-255,颜色,样式,字体,输出路径)
+//printImageText("/a.jpg","快手AAuto文字水印",100,100,20,155,0xFF0000,2/*_GdipFontStyleItalic*/,"宋体","/水印.jpg")
+printImageText = function(imgBuff,text,x,y,size,alpha,color,fontStyle,family,outPath){
+	var img = gdip.image(imgBuff);
+	var graphics = gdip.graphics.fromImage(img)
+	
+	alpha = tonumber(alpha<<24,2);
+	var argb = alpha + tonumber(color,16)
+	//创建刷子 颜色
+	var re,Brush = gdip.CreateSolidFill(argb);
+
+	//创建字体 
+	var family = gdip.family(family);
+	
+	//创建stringFormat 
+	var strformat = gdip.stringformat ( ); 
+	//设置对齐广式
+	strformat.align = 0/*_GdipStringAlignmentNear*/;
+
+	//创建Font 文字大小，加粗
+	var curFont = family.createFont(size,fontStyle, 2/*_GdipUnitPixel*/)
+
+	//设置文字抗据齿
+	graphics.textRenderingHint = 3/*_GdipTextRenderingHintAntiAliasGridFit*/;
+
+	//设置文字区域
+	rclayout = gdip.RECTF(); 
+	rclayout.x = x
+	rclayout.y = y
+	rclayout.width = img.width-x //在这里指的是宽度
+	rclayout.height = img.height-y //在这里指的是高度
+
+	graphics.drawString( text  , curFont, rclayout, strformat,Brush);
+	
+	//删除所有GDI+对象  
+	gdip.DeleteFont(curFont);
+	gdip.DeleteBrush(Brush);
+	strformat.delete();
+	family.delete();
+	img.save(outPath,80);
+	img.dispose();
+}
+
+/*end intellisense*/
+
+/**intellisense()
+carl.image=自定义Image图像库
+end intellisense**/

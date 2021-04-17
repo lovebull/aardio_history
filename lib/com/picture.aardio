@@ -182,13 +182,12 @@ is = function(v){
 	return( type(v) == type.cdata && type.rget(v) == "com.IPicture")
 }
 
-	
 /**intellisense(com.picture) 
 load(__/*请输入文件路径*/) =  载入图像并返回com.IPicture对象,\n参数也可以指定资源路径、或者图像的内存数据\n如果已经导入了inet.http,加载路径可以使用小写http,https开头的网址,网址长度必须小于1040字节
-snap(.(窗口句柄,左坐标,顶坐标,宽,高) = 自屏幕抓取窗口图象并返回IPicture对象,\n截图结果会包含透明部分的背景图像，\n所有参数都是可选参数
-snapClient(.(窗口句柄,左坐标,顶坐标,宽,高) = 自屏幕抓取窗口客户区图像并返回IPicture对象,\n截图结果会包含透明部分的背景图像，\n所有参数都是可选参数
-printWindow(.(窗口句柄,左坐标,顶坐标,宽,高) = 后台抓取窗口图象并返回IPicture对象\n所有参数都是可选参数
-printClient(.(窗口句柄,左坐标,顶坐标,宽,高) = 后台抓取窗口客户区图像并返回IPicture对象 \n所有参数都是可选参数
+snap(.(窗口句柄,左坐标,顶坐标,宽,高) = 自屏幕抓取窗口图象并返回com.IPicture对象,\n截图结果会包含透明部分的背景图像，\n所有参数都是可选参数
+snapClient(.(窗口句柄,左坐标,顶坐标,宽,高) = 自屏幕抓取窗口客户区图像并返回com.IPicture对象,\n截图结果会包含透明部分的背景图像，\n所有参数都是可选参数
+printWindow(.(窗口句柄,左坐标,顶坐标,宽,高) = 后台抓取窗口图象并返回com.IPicture对象\n所有参数都是可选参数
+printClient(.(窗口句柄,左坐标,顶坐标,宽,高) = 后台抓取窗口客户区图像并返回com.IPicture对象 \n所有参数都是可选参数
 loadBitmap(__/*请输入文件路径*/) = 载入图像并返回位图句柄,\n参数也可以指定资源路径、或者图像的内存数据
 fromBitmap(__/*位图句柄*/) = 自位置句柄返回IPicture对象
 fromIcon(__/*图标句柄*/) = 从图标句柄返回IPicture对象
@@ -202,7 +201,7 @@ end intellisense**/
 com.picture = IPictrue图像支持库\n在导入win.ui,win.ui.ctrl中时自动导入此库
 !ipicture.Handle = 位图句柄
 !ipicture.Type = 图片类型\n参考com.picture.type成员
-!ipicture.Save(__/*文件路径*/) = 保存位图到文件，只能保存为bmp格式
+!ipicture.Save(__/*文件路径*/) = 保存位图到文件，只能保存为bmp格式\n使用 com.interface.IPicture 可保存到内存
 !ipicture.CopyHandle(.(宽度,高度) = 复制新的位图并返回位图句柄,位图类型(_IMAGE_BITMAP 或 _IMAGE_ICON)\n可选指定宽度、高度
 !ipicture.Width = 图像宽度
 !ipicture.Height = 图像高度

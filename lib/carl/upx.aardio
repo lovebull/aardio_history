@@ -1,0 +1,91 @@
+
+namespace carl;
+
+upx = class {
+	ctor( /*输入构造函数所需要的参数*/ ){
+		installUpx();
+		var publishExe = getPublishPath()
+		if( ! io.exist(publishExe) ){
+    		win.msgboxErr("请先创建工程并点击发布按钮生成EXE文件","UPX压缩工具 - AAuto")
+		}
+		
+		io.remove(getPublishUpxPath()) 
+		var prcs = process.popen("~/config/upx308w/upx.exe", '-9 -q -k -o "'+ getPublishUpxPath() + '" "'+ publishExe  +'" ' );
+		var cmdOut = prcs.read(-1)
+		prcs.close();
+		
+		win.msgbox( cmdOut,"UPX压缩工具 - AAuto") 
+	};
+	
+}
+
+namespace upx{
+	import ide;
+	import zlib.unzip;
+	import inet.whttp;
+	import inet.downBox;
+	import win;
+	import fsys;
+	import process;
+	
+	io = ..io;
+	string = ..string;
+	
+	installUpx = function(){
+		if( !io.exist("~/config/upx308w/upx.exe") ){
+        	if( win.msgboxTest('是否下载upx压缩组件(343KB)?',"UPX压缩工具 - AAuto") ){
+            	var downBox = inet.downBox(mainForm,"正在下载upx压缩组件...")
+            	downBox.endProc = function(ret,fileSize,err){ 
+                	if(ret)
+                    	owner.endModal();
+            	} 
+            	
+            	downBox.download(
+                	"http://upx.sourceforge.net/download/upx308w.zip"
+                	, "~/download/upx/upx308w.zip" ) 
+                	
+            	if( downBox.complete ){
+                	fsys.createDir("~/config/upx")
+                	zlib.unzip.extract( "~/download/upx/upx308w.zip" ,"~/config/",
+                    	function(fileName,extractPath,fileInfo,size,unitSize,unitName){ 
+                        	
+                        	return true;
+                    	}
+                	) 
+            	} 
+        	}
+        	else {
+            	return;
+        	}
+		}
+	};
+	
+	getPublisDir = function(){
+    	var dir = ide.getProjectProperty("publishDir")
+    	if( dir[1] == '\\'# || dir[1] == '/'# ){
+        	dir = fsys.joinpath(ide.getProjectDir(),dir )
+    	}
+    	return dir;
+	};
+	
+	getPublishPath = function(){
+    	return fsys.joinpath( 
+    	getPublisDir(),
+    	ide.getProjectProperty("name") + ".exe"  );
+	};
+	
+	getPublishUpxPath = function(){
+    	return fsys.joinpath( 
+    	getPublisDir(),
+    	ide.getProjectProperty("name") + ".upx.exe"  );
+	};
+
+}
+
+
+/**intellisense(carl)
+upx = upx库
+upx() = upx加壳
+end intellisense**/
+
+

@@ -1,0 +1,6 @@
+{
+["mysql.client"]={version="2.2.1.0"};
+tesseract={version="3.02.02.03"};
+["youdao.fanyi"]={version="1.2.0.0"};
+libvlc={version="2.2.5.03"}
+}

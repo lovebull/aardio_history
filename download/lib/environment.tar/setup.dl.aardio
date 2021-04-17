@@ -1,0 +1,10 @@
+import fsys; 
+fsys.createDir("~\lib\");
+fsys.copy( "\environment","~\lib\" ); 
+
+
+import ide;
+ide.refreshStdLib();
+
+import win;
+win.msgboxTimeout("environment扩展库已安装成功!","aardio- environment扩展库安装程序")

@@ -104,6 +104,7 @@ GetTypeInfo(__/*com对象*/) = 返回类型信息
 Variant( = 创建VARIANT对象\n可用于API中VARIANT*API函数中可自动转换为pointer指针类型\n也可用于普通COM参数
 Variant(.(指针,true) = 创建VARIANT对象\n如果参数@2为true,则参数@1必须为VARIANT指针\n调用VariantCopyInd函数拷贝参数指定的源VARIANT对象
 Variant(.(初始值) = 创建VARIANT对象,可选指定一个初始值,\n可选在第二个参数中使用一个_VT_前缀的整数常量指定COM数据类型
+Variant(.(null) = 创建VARIANT对象,vt 类型属性初始化为 VT_NULL
 Variant() = !comVariant.
 LoadTypeLibrary(.("->tlb") = 加载类型库\n参数可以是CLSID、类型库路径、或包含类型库资源的组件路径
 LoadTypeLibrary() = !comTypeLib.
@@ -198,7 +199,7 @@ GUID = GUID
 end intellisense**/
 
 /**intellisense(!comVariant)
-vt = Variant类型,数值
+vt = Variant类型，数值，\n只读属性，不可修改
 clear() = 清空值\n调用VariantClear函数清空值并重新初始化对象\n调用了此函数以后,对象的vt置为0，\n其他所有成员置为null，包括clear函数也置为null，\n除非通过value属性重新赋值,clear函数才会变为可用\n\n即使不调用这个函数，\naardio在析构回收对象时也会自动调用VariantClear函数释放资源
 bstrVal = 只读属性,获取BSTR指针
 parray = 只读属性,获取SAFEARRAY指针

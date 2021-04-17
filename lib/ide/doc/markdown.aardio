@@ -64,6 +64,10 @@ class markdown{
 			..table.push(tOutput,this.libPath,"帮助文档",'\r\n'
 				,"===========================================");
 
+			if(this.details && this.detailsSummary){
+				..table.push(tOutput, '\r\n\r\n<details>  <summary>'+this.detailsSummary+'</summary>  <p>'+this.details +'</p></details>','\r\n\r\n');
+			}
+			
 			var sortNames;
 			if( this.libPath ) {
 				sortNames = { this.libPath;this.libPath + "Object"};
@@ -132,6 +136,7 @@ class markdown{
 					..table.push(tOutput,k,"=",v,'  \r\n');
 				}
 			}
+			
 			
 			this.outputString = ..string.join(tOutput);
 	} };

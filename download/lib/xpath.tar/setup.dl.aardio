@@ -1,0 +1,10 @@
+import fsys; 
+fsys.createDir("~\lib\");
+fsys.copy( "\xpath","~\lib\" ); 
+
+
+import ide;
+ide.refreshStdLib();
+
+import win;
+win.msgboxTimeout("xpath扩展库已安装成功!","aardio- xpath扩展库安装程序")

@@ -1,0 +1,10 @@
+import fsys; 
+fsys.createDir("~\lib\");
+fsys.copy( "\libvlc","~\lib\" ); 
+
+
+import ide;
+ide.refreshStdLib();
+
+import win;
+win.msgboxTimeout("libvlc 扩展库已安装成功!","aardio- libvlc扩展库安装程序")

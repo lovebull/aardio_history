@@ -1,0 +1,10 @@
+import fsys; 
+fsys.createDir("~\lib\web\");
+fsys.copy( "\kit","~\lib\web\" ); 
+
+
+import ide;
+ide.refreshStdLib();
+
+import win;
+win.msgboxTimeout("web.kit扩展库已安装成功!","aardio- web.kit扩展库安装程序")

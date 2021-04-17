@@ -18,7 +18,10 @@ class file{
 		else{
 			path = ..io.fullpath(path);
 			var lastChar = path[#path];
-			if( lastChar=='/'# || lastChar=='\\'# ){
+			if( lastChar=='/'# 
+				|| lastChar=='\\'# 
+				|| (::Kernel32.GetFileAttributes(path)& 0x10/*_FILE_ATTRIBUTE_DIRECTORY*/) 
+				){
 				if( flagsAndAttributes == 0x80/*_FILE_ATTRIBUTE_NORMAL*/ )
 					flagsAndAttributes = 0x2000000/*_FILE_FLAG_BACKUP_SEMANTICS*/;
 			}
@@ -86,6 +89,7 @@ class file{
  
 var push = ..table.push;
 namespace file{	 
+    
 	_metaProperty = ..util.metaProperty(
 		close = function(){
 			if(owner.hfile)
@@ -385,7 +389,7 @@ fsys.file.lastModified(__) = 参数指定文件路径,\n返回最后修改时间
 fsys.file(__/*文件句柄*/) = 可以指定文件、管道等句柄
 fsys.file(__/*文件句柄*/,true) = 直接文件、管道等句柄\n添加析构函数负责释放句柄
 fsys.file("__/*文件路径*/") = 只读模式打开,文件必须存在\n如果路径以斜杠结束,则以目录模式打开.\n更多参数参考源码
-fsys.file("__/*文件路径*/","r+") = 读写模式打开,文件必须存在\n更多参数参考源码
+fsys.file("__/*文件路径*/","r+") = 读写模式打开,文件必须存在\n文件路径也可以指定一个目录,可使用返回对象读写目录时间属性,\n更多参数参考源码
 fsys.file("__/*文件路径*/","w") = 只写模式打开,创建新文件清空原文件
 fsys.file("__/*文件路径*/","w+") = 读写模式打开,创建新文件清空原文件
 fsys.file("__/*文件路径*/","w+D") = 读写模式打开临时文件,关闭对象时自动删除文件

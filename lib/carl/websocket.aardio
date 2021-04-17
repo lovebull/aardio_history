@@ -1,0 +1,395 @@
+//web.socket
+namespace carl.websocket{}
+
+import win.guid;
+import crypt.bin;
+import inet.url;
+import wsock.tcp.client;
+
+namespace web{
+	class socket{
+		ctor(url, options){
+			//For debugger
+			this.traceEnabled = false;
+			
+			this._url = url;
+			this._options = options;
+			this._socket = ..wsock.tcp.client();
+			if(!this._socket){
+				return null,"Create websocket client failed.";
+			}
+	
+			this.version = 13;
+			this.connect_state = 0/*_WEBS_CONNECTING*/;			
+			this.header_protocol = "";
+			this.header_extensions = "";
+			this.buffered_amount = 0;
+			this.binary_type = 2/*_WEBS_BINARYTYPE_ARRAYBUFFER*/;
+			
+			HEADER_END_SIGN = '\r\n\r\n';
+        	HEADER_VALIDATE_KEY = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11';
+        
+			LENGTH_7  = 0x7d;
+    		LENGTH_16 = 1 << 16;
+    		LENGTH_63 = ..math.abs(1 << 63);
+    	
+			OPCODES = {0/*_WEBS_OPCODE_CONT*/; 1/*_WEBS_OPCODE_TEXT*/; 2/*_WEBS_OPCODE_BINARY*/; 
+			8/*_WEBS_OPCODE_CLOSE*/; 9/*_WEBS_OPCODE_PING*/; 0xA/*_WEBS_OPCODE_PONG*/}
+			//Masked the data by a random number
+			this._masked = function(mask_key, data){
+				var toArray = function(str){
+					var tmp = {};
+					for(i=1;#str;1){
+        				var chr = ..string.sub(str,i,i);
+        				if(chr){
+        					..table.push(tmp, chr);
+        				}
+        			}
+        			return tmp; 
+				}
+        		var _m = toArray(tostring(mask_key));
+        		var _d = toArray(data);
+        		for(i=1;#_d;1){
+        			_d[i] = ..string.unpack(_d[i])^..string.unpack(_m[((i-1) % 4) +1]);
+        		}
+        		return ..string.pack(_d);
+        	};
+        	//Connected websocket server must handshake at first.
+			this._handshake = function(host, port, resource, options){
+				var validate_header = function(acceptKey, key){					
+					var sha1 = ..crypt.sha1(key++HEADER_VALIDATE_KEY);
+					var tmp = {};
+					for(i=1;#sha1;2){
+						var num = tonumber(..string.sub(sha1,i,i+1),16);
+						..table.push(tmp,num);
+					}
+					var vkey = ..crypt.bin.encodeBase64(..string.pack(tmp));
+					if(acceptKey && ..string.lower(acceptKey) == ..string.lower(vkey)){
+						return true;
+					}
+					return false;
+				};
+			
+        		var headers = {};
+        		..table.push(headers,..string.format("GET %s HTTP/1.1", resource), "Upgrade: websocket", "Connection: Upgrade");
+				if(port == 80){
+            		hostport = host;
+        		}else{
+            		hostport = ..string.format("%s:%d", host, port);
+            	}
+        		..table.push(headers, ..string.format("Host: %s", hostport));					
+        		if(options["origin"]){
+            		..table.push(headers,..string.format("Origin: %s", options["origin"]));
+        		}else{
+            		..table.push(headers,..string.format("Origin: http://%s", hostport));
+				}
+				if(options["protocol"]){
+					..table.push(headers,..string.format("Sec-WebSocket-Protocol: %s", options["protocol"]));
+				}
+				
+				var uid = tostring(..win.guid.create().Data1);
+    			var key = ..string.trim(..crypt.bin.encodeBase64(uid));
+        		..table.push(headers, ..string.format("Sec-WebSocket-Key: %s",key), ..string.format("Sec-WebSocket-Version: %s", this.version));
+        		if(options["header"]){
+        			headers = ..table.concat(headers, options["header"]);
+				}
+        		header_str = ..string.join(headers, '\r\n');
+        		header_str += HEADER_END_SIGN;
+        		this._socket.write(header_str);
+        		if(this.traceEnabled){
+            		..debug.log.print('#Request Header#\n'+header_str);
+        		}
+        		var responseHead = this._socket.readTo(HEADER_END_SIGN);
+        		if(!#responseHead){
+            		this.close();
+            		this.throwerr("Can't connect websocket server");
+            		return; 
+        		}
+				if(this.traceEnabled){					
+					..debug.log.print("#Response Header#\n"+responseHead);
+				}
+				
+				var lstHeaders = ..string.list(responseHead,'\r\n', ":");
+				this.header_protocol = lstHeaders["Sec-WebSocket-Protocol"];
+				this.header_extensions = lstHeaders["Sec-WebSocket-Extensions"];
+				
+        		if(!validate_header(lstHeaders["Sec-WebSocket-Accept"], key)){
+            		this.close();
+            		this.throwerr("Invalid webSocket header.");
+            	}
+			};
+			//Format this object to string(byte array) to send data to server.
+			this._formatData = function(data = "", opcode){
+				var fin = 1;
+				var rsv1 = 0;
+				var rsv2 = 0;
+				var rsv3 = 0;
+				var mask = 1;
+        		
+        		var existCode = false;
+        		for(k,v in OPCODES){
+					if(v === opcode){
+						existCode = true;
+						break; 
+					}
+				}
+        		if(!existCode){
+            		this.throwerr("Invalid opcode.");
+            	}
+        		length = #data;
+        		if(length >= LENGTH_63){
+            		this.throwerr("Data is too long");
+            	}	
+        		var frame_header = ..string.pack(fin << 7
+                           		| rsv1 << 6 | rsv2 << 5 | rsv3 << 4
+                           		| opcode);
+        		if(length < LENGTH_7){
+            		frame_header += ..string.pack(mask << 7 | length)
+        		}elseif(length < LENGTH_16){
+            		frame_header += ..string.pack(mask << 7 | 0x7e)
+            		frame_header += ..string.pack(length);
+        		}else{
+            		frame_header += ..string.pack(mask << 7 | 0x7f)
+            		frame_header += ..string.pack(length);
+				}
+            	var mask_key = ..math.random(1000, 9999);
+            	return frame_header ++ mask_key ++ this._masked(mask_key, data);
+			}
+			//Ping mode
+			this._ping = function(data){
+        		this.send(data, 9/*_WEBS_OPCODE_PING*/);
+        	};
+        	//Pong mode
+    		this._pong = function(data){
+        		this.send(data, 0xA/*_WEBS_OPCODE_PONG*/);
+        	}
+        	//Listen to receive data
+    		this._listen = function(){
+    			var cont_data = {};
+				
+        		while(true){
+        			//receive frame
+        			var frame_header = this._socket.read(2);
+        			b1 = frame_header[1];
+        			var fin = b1 >> 7 & 1;
+        			var rsv1 = b1 >> 6 & 1;
+        			var rsv2 = b1 >> 5 & 1;
+        			var rsv3 = b1 >> 4 & 1;
+        			var opcode = b1 & 0xf;
+        			b2 = frame_header[2];
+        			var has_mask = b2 >> 7 & 1;
+        			//Frame length
+        			var length_data;
+            		var frame_length = b2 & 0x7f;
+            		if(frame_length == 0x7e){
+                		length_data = this._socket.read(2);
+                		frame_length = ..string.sub(..string.unpack(length_data));
+                	}elseif(frame_length == 0x7f){
+                		length_data = this._socket.read(8);
+                		frame_length = ..string.sub(..string.unpack(length_data));
+                	}
+            		var frame_mask = has_mask ? this._socket.read(4) : "";
+        			var data = this._socket.read(frame_length);
+        			if(has_mask){
+            			data = this._masked(frame_mask, data);
+            		}
+
+            		if(opcode==1/*_WEBS_OPCODE_TEXT*/ || opcode==2/*_WEBS_OPCODE_BINARY*/ || opcode==0/*_WEBS_OPCODE_CONT*/){
+                		if(cont_data["data"]){
+                    		cont_data["data"] += data;
+                    	} else{
+                    		cont_data["data"] = data;
+                    		cont_data["type"] = opcode;
+                    	}
+                		if(fin){
+                			if(this.onmessage){
+                    			this.onmessage(cont_data);
+                    		}
+                    	}
+                	}elseif(opcode == 8/*_WEBS_OPCODE_CLOSE*/){
+        				this.send("", 8/*_WEBS_OPCODE_CLOSE*/);        				
+                		if(this.onmessage){
+                    		cont_data["type"] = opcode;
+                    		this.onmessage(cont_data);
+                    	}
+            		}elseif(opcode == 9/*_WEBS_OPCODE_PING*/){
+                		this._pong(data);
+                	}else {
+                		this.throwerr("Not a valid frame");
+                	}
+            	}
+			};
+			//Parse the service url
+			this.parse_url = function(url){
+    			var parsed = ..inet.url.split(url);
+    			if(!parsed.host || !#parsed.host){
+        			this.throwerr("Host name is invalid");
+        		}
+    			var is_secure = false;
+    			var port = parsed.port;
+    			if(parsed.scheme == "ws"){
+            		port := 80
+        		}elseif(parsed.scheme == "wss"){
+        			is_secure = true
+            		port := 443;
+    			}else{
+        			this.throwerr(..string.format("Invalid scheme:%s", parsed.scheme));
+				}
+        		var path = parsed.path : "/";
+    			if(parsed.extraInfo){
+        			path += parsed.extraInfo;
+        		}
+    			return ..table.unpack({parsed.host; port; path; is_secure});
+    		};
+    		//Throw error.
+        	this.throwerr = function(msg, code){
+        		if(this.onerror){
+        			var e = {};
+        			e.msg = msg;
+        			e.code = code;
+        			this.onerror(e);
+        		}elseif(this.traceEnabled){
+        			error(msg, 2);
+        		}
+        	}
+		};
+		@_metaProperty;
+	}
+	
+	namespace socket{
+		_metaProperty = ..util.metaProperty(
+			onopen = {
+        		_set = function(value){
+        			if(value){
+        				if(owner.connect_state != 0/*_WEBS_CONNECTING*/ && owner.connect_state != 3/*_WEBS_CLOSED*/){
+        					owner.throwerr("Websocket is opened.")
+        				}
+            			host, port, resource, is_secure = owner.parse_url(owner._url);		
+						owner._socket.connect(host, port);
+						if(is_secure){
+            				owner.throwerr("SSL not available.");
+                		}
+						owner._handshake(host, port, resource, owner._options : {});
+						owner.connect_state = 1/*_WEBS_OPEN*/;
+						value();
+						owner._listen();
+					}
+        		}
+			};
+			binaryType = {
+				_get = function(){  
+            		return binary_type;
+        		}
+			};
+			readyState = {
+				_get = function(){  
+            		return owner.connect_state;
+        		}
+			};
+			bufferedAmount = {
+				_get = function(){  
+            		return owner.buffered_amount;
+        		}
+			};
+			extensions = {
+				_get = function(){  
+            		return owner.header_extensions;
+        		}
+			};
+			protocol = {
+				_get = function(){  
+            		return owner.header_protocol;
+        		}
+			};
+			url = {
+				_get = function(){  
+            		return owner._url;
+        		}
+			}
+			close = function(code, reason){
+				owner.connect_state = 2/*_WEBS_CLOSING*/;
+				code := 0x3E8/*_WEBS_STATUS_NORMAL*/;
+				if(code!==1000 || 3000<code || code>4999){
+					owner.throwerr("Invalid access error");
+				}
+				if(owner.onclose){
+					var arg = {};
+					arg.code = code;
+					arg.reason = reason;
+					if(owner.onclose(arg) === false){
+						return;
+					}
+				}
+				if(owner.connect_state == 1/*_WEBS_OPEN*/){
+                	owner.send(..string.pack(code) + reason, 8/*_WEBS_OPCODE_CLOSE*/);
+            	}
+        		owner._socket.close();
+        		if(owner.traceEnabled){					
+					..debug.log.print("Disconnect websocket server.");
+				}
+				owner.connect_state = 3/*_WEBS_CLOSED*/;
+			};
+			send = function(data, datatype){
+        		var buffers = owner._formatData(data, datatype : 1/*_WEBS_OPCODE_TEXT*/);
+        		length = #buffers;
+            	owner._socket.write(buffers, buffered_amount);
+        		if(owner.traceEnabled){					
+					..debug.log.print(..string.format("Complete send data:%s",data));
+				}
+        		return length;
+			}
+		);
+	}
+}
+
+
+/**intellisense(web)
+socket('__/*url*/', /*选项(可选)*/) = 构造WebSocket客户端对象\n!client
+!client.readyState = 当前连接状态(只读)
+!client.protocol = 服务器所选中的协议(只读)
+!client.extensions = 服务器所选中的扩展名(只读)
+!client.url = 套接字的当前 URL(只读)
+!client.onopen = @.onopen = function(){
+	__/*打开并连接websocket服务器*/
+}
+!client.onmessage = @.onmessage = function(e){
+	__/*接受服务端消息*/
+}
+!client.onerror = @.onerror = function(e){
+	__/*错误捕获*/
+}
+!client.onclose = @.onclose = function(e){
+	__/*关闭websocket连接，返回false阻止关闭*/
+}
+!client.send(data, datatype) = 发送数据
+!client.close(code, reason) = 断开并关闭连接
+end intellisense**/
+
+
+/**intellisense()
+_WEBS_CONNECTING=@0/*_WEBS_CONNECTING*/
+_WEBS_OPEN=@1/*_WEBS_OPEN*/
+_WEBS_CLOSING=@2/*_WEBS_CLOSING*/
+_WEBS_CLOSED=@3/*_WEBS_CLOSED*/
+_WEBS_OPCODE_CONT=@0/*_WEBS_OPCODE_CONT*/
+_WEBS_OPCODE_TEXT=@1/*_WEBS_OPCODE_TEXT*/
+_WEBS_OPCODE_BINARY=@2/*_WEBS_OPCODE_BINARY*/
+_WEBS_OPCODE_CLOSE=@8/*_WEBS_OPCODE_CLOSE*/
+_WEBS_OPCODE_PING=@9/*_WEBS_OPCODE_PING*/
+_WEBS_OPCODE_PONG=@0xA/*_WEBS_OPCODE_PONG*/
+_WEBS_BINARYTYPE_BLOB=@1/*_WEBS_BINARYTYPE_BLOB*/
+_WEBS_BINARYTYPE_ARRAYBUFFER=@2/*_WEBS_BINARYTYPE_ARRAYBUFFER*/
+_WEBS_STATUS_NORMAL=@0x3E8/*_WEBS_STATUS_NORMAL*/
+_WEBS_STATUS_GOING_AWAY=@0x3E9/*_WEBS_STATUS_GOING_AWAY*/
+_WEBS_STATUS_PROTOCOL_ERROR=@0x3EA/*_WEBS_STATUS_PROTOCOL_ERROR*/
+_WEBS_STATUS_UNSUPPORTED_DATA_TYPE=@0x3EB/*_WEBS_STATUS_UNSUPPORTED_DATA_TYPE*/
+_WEBS_STATUS_STATUS_NOT_AVAILABLE=@0x3ED/*_WEBS_STATUS_STATUS_NOT_AVAILABLE*/
+_WEBS_STATUS_ABNORMAL_CLOSED=@0x3EE/*_WEBS_STATUS_ABNORMAL_CLOSED*/
+_WEBS_STATUS_INVALID_PAYLOAD=@0x3EF/*_WEBS_STATUS_INVALID_PAYLOAD*/
+_WEBS_STATUS_POLICY_VIOLATION=@0x3F0/*_WEBS_STATUS_POLICY_VIOLATION*/
+_WEBS_STATUS_MESSAGE_TOO_BIG=@0x3F1/*_WEBS_STATUS_MESSAGE_TOO_BIG*/
+_WEBS_STATUS_INVALID_EXTENSION=@0x3F2/*_WEBS_STATUS_INVALID_EXTENSION*/
+_WEBS_STATUS_UNEXPECTED_CONDITION=@0x3F3/*_WEBS_STATUS_UNEXPECTED_CONDITION*/
+_WEBS_STATUS_TLS_HANDSHAKE_ERROR=@0x3F7/*_WEBS_STATUS_TLS_HANDSHAKE_ERROR*/
+end intellisense**/
+

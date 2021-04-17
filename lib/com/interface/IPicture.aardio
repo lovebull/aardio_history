@@ -1,3 +1,4 @@
+import com.picture;
 import util.metaProperty;
 import com.interface;
 
@@ -28,27 +29,54 @@ namespace IPicture{
 	IID = "{7BF80980-BF32-101A-8BBB-00AA00300CAB}";
 	
 	Query = function(obj){ 
+		if(obj){
 			return {
 				_object = ..com.interface(obj,..com.interface.IPicture);
 				@_metaProperty;
-			}
+			}	
+		} 	
+	} 
+	
+	Load = function(strfile){   
+		return  Query(..com.picture.load(strfile)); 
+	}
+	
+	PrintClient = function(hwnd,x,y,w,h){
+		return  Query(..com.picture.printClient(hwnd,x,y,w,h)); 
+	}
+	
+	PrintWindow = function(hwnd,x=0,y=0,w,h,clientOnly) {
+		 return  Query(..com.picture.printWindow(hwnd,x,y,w,h,clientOnly)); 
+	} 
+	
+	SnapClient = function(hwnd,x,y,w,h){
+		return  Query(..com.picture.snapClient(hwnd,x,y,w,h));
+	}
+	
+	Snap = function(hwnd,x=0,y=0,w,h,clientOnly)   {
+		return  Query(..com.picture.snap(hwnd,x,y,w,h,clientOnly));  
 	} 
 	
 	_metaProperty = ..util.metaProperty(
 		saveToBuffer = function(saveMemCopy){
 			if(saveMemCopy===null) saveMemCopy = true;
-			var hr,pSteam = ::CreateStreamOnHGlobal( , true ); 
-			owner._object.SaveAsFile(pSteam,saveMemCopy,0);  
-			var hr,handle = ::GetHGlobalFromStream(pSteam);    
+			var hr,pstream = ::CreateStreamOnHGlobal( , true ); 
+			owner._object.SaveAsFile(pstream,saveMemCopy,0);  
+			var hr,handle = ::GetHGlobalFromStream(pstream);    
 			var size = ::GlobalSize(handle);
 			var ptr = ::GlobalLock(handle); 
 			var bytes = ..raw.buffer(size,ptr); 
-			..com.Release(pSteam);
+			..com.Release(pstream);
 			return bytes;
 		};
-		saveAsFile = function(steam,saveMemCopy){
+		saveAsFile = function(stream,saveMemCopy){
+			if(type.isString(stream)){
+				var buf = owner.saveToBuffer(saveMemCopy)
+				return ..string.save(stream,buf)
+			}
+			
 			if(saveMemCopy===null) saveMemCopy = true;
-			var hr,size = owner._object.SaveAsFile(steam,saveMemCopy,0);
+			var hr,size = owner._object.SaveAsFile(stream,saveMemCopy,0);
 			if( hr>=0/*_SUCCEEDED*/ ) return size; 
 		};
 		pictureChanged = function(){
@@ -126,11 +154,24 @@ namespace IPicture{
 	)
 }
 
+/**intellisense(com.interface.IPicture)
+Query(.(IPicture对象) = 参数为com.picture 对象\n返回 com.interface.IPicture 接口对象
+Load(__/*请输入文件路径*/) =  载入图像并返回 com.interface.IPicture 接口对象,\n参数也可以指定资源路径、或者图像的内存数据\n如果已经导入了inet.http,加载路径可以使用小写http,https开头的网址,网址长度必须小于1040字节
+Snap(.(窗口句柄,左坐标,顶坐标,宽,高) = 自屏幕抓取窗口图象并返回 com.interface.IPicture 接口对象,\n截图结果会包含透明部分的背景图像，\n所有参数都是可选参数
+SnapClient(.(窗口句柄,左坐标,顶坐标,宽,高) = 自屏幕抓取窗口客户区图像并返回 com.interface.IPicture 接口对象,\n截图结果会包含透明部分的背景图像，\n所有参数都是可选参数
+PrintWindow(.(窗口句柄,左坐标,顶坐标,宽,高) = 后台抓取窗口图象并返回 com.interface.IPicture 接口对象\n所有参数都是可选参数
+PrintClient(.(窗口句柄,左坐标,顶坐标,宽,高) = 后台抓取窗口客户区图像并返回 com.interface.IPicture 接口对象 \n所有参数都是可选参数
+Query() = !RawIPicture.
+Load() = !RawIPicture.
+Snap() = !RawIPicture.
+SnapClient() = !RawIPicture.
+PrintWindow() = !RawIPicture.
+PrintClient() = !RawIPicture.
+end intellisense**/
+
 /**intellisense()
-com.interface.IPicture.Query(.(IPicture对象) = 参数为com.picture 对象\n返回原生接口
-com.interface.IPicture.Query() = !RawIPicture.
-!RawIPicture.saveToBuffer(.(saveMemCopy) = 保存图像到缓冲区\nsaveMemCopy指定是否保存内存副本,默认为true
-!RawIPicture.saveAsFile(.(steam,saveMemCopy) = 保存图像,成功返回保存大小\nsaveMemCopy指定是否保存内存副本,默认为true
+!RawIPicture.saveToBuffer(.(saveMemCopy) = 保存图像到缓冲区，只能保存为bmp格式，\nsaveMemCopy指定是否保存内存副本,默认为true
+!RawIPicture.saveAsFile(.(stream,saveMemCopy) = 保存图像，成功返回保存大小，\n只能保存为bmp格式，\nstream参数可以是 fsys.stream 对象或 *.bmp 文件路径，\naveMemCopy指定是否保存内存副本，默认为true
 !RawIPicture.pictureChanged() = 图像是否已被修改
 !RawIPicture.selectPicture(.(hDCIn) = 选择绘图设备\n成功返回原设备,以及位图句柄
 !RawIPicture.render(.(hDC,x,y, cx,cy, xSrc, ySrc, cxSrc,cySrc,pRcWBounds) = 绘图\nhdc 绘图设备句柄\nx,y 设备显示坐标\ncx,cy 显示长度和宽度\nxSrc,ySrc 源图像偏移坐标\ncxSrc,cySrc 源图像输出宽度和高度,注意位图在内存是倒过来的,cySrc要取负数

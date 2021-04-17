@@ -1,0 +1,10 @@
+import fsys; 
+fsys.createDir("~\lib\");
+fsys.copy( "\soImage","~\lib\" ); 
+
+
+import ide;
+ide.refreshStdLib();
+
+import win;
+win.msgboxTimeout("soImage扩展库已安装成功!","aardio- soImage扩展库安装程序")

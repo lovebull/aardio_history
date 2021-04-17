@@ -1,0 +1,7 @@
+﻿{
+txtCtlName="default";
+txtSvcName="system";
+afterLoad=null;
+txtProjectDir="";
+beforeSave=null
+}

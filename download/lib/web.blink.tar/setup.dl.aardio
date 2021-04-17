@@ -1,0 +1,10 @@
+import fsys; 
+fsys.createDir("~\lib\web\");
+fsys.copy( "\blink","~\lib\web\" ); 
+
+
+import ide;
+ide.refreshStdLib();
+
+import win;
+win.msgboxTimeout("web.blink扩展库已安装成功!","aardio- web.blink扩展库安装程序")

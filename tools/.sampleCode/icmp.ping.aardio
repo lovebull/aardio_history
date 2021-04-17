@@ -1,0 +1,56 @@
+import win.ui;
+import fonts.fontAwesome;
+/*DSG{{*/
+var winform = win.form(cls="PING_FORM";text="PING测试";right=599;bottom=399;max=false;min=false)
+winform.add(
+listbox={cls="listbox";left=7;top=8;right=590;bottom=388;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;edge=1;items={};ownerDraw=1;z=1};
+loading={cls="plus";left=461;top=298;right=552;bottom=372;bgcolor=16777215;clipBk=false;font=LOGFONT(h=-29;name='FontAwesome');z=2}
+)
+/*}}*/
+
+//设定自绘每行的高度
+winform.listbox.onMeasureItem = function(measureItem){
+    measureItem.itemHeight = 16;  
+}
+
+//自绘列表项
+winform.listbox.onDrawItem = function(drawItem){
+    var text = winform.listbox.getItemText( drawItem.itemID + 1 )
+    ::SetTextColor(drawItem.hDC,winform.listbox.ipColors[drawItem.itemID + 1] ) ;
+    ::DrawText(drawItem.hDC,text,#text,drawItem.rcItem,0x20/*_DT_SINGLELINE*/)
+}
+winform.show() 
+  
+winform.listbox.ipColors = {};
+winform.listbox.addIp = function(clr,ip,label){
+    winform.listbox.add( ip + ": " + (label || "Failed") )
+    winform.listbox.ipColors[winform.listbox.count] = clr	
+}
+ 
+var pingThread = function( ip,winform ) {
+    import icmp.ping; 
+    var ping = icmp.ping(); 
+    
+    for(i=1;4;1){
+        if( ping.perform(ip) ){
+             winform.listbox.addIp(0xF00,ip,string.format( "Reply from %s: bytes=%d time=%dms TTL=%d"
+                , ping.ip , #ping.requestData  , ping.echoReply.roundTripTime , ping.echoReply.options.ttl ) ); 
+            return;
+        }  
+        sleep(10)
+    }  
+    
+    winform.listbox.addIp(0x0f0,ip) 
+} 
+
+winform.loading.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
+
+import thread.manage;
+manage = thread.manage(3) 
+manage.createSuspended(pingThread,"www.baidu.com",winform)
+manage.createSuspended(pingThread,"www.aardio.com",winform)
+manage.waitClose()
+
+winform.loading.disabledText = null;
+
+win.loopMessage();

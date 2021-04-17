@@ -1,0 +1,78 @@
+
+namespace carl;
+
+
+sqlite = class {
+	ctor( dbpath,pwd ){
+	
+	};
+	connect = function () {
+		this.conn = sqlite.aes256(dbpath, pwd);
+		this.conn.busy_timeout(5000);
+	}
+	
+	close = function () {
+		if (this.conn) {
+			this.conn.close();
+			this.conn = null;
+		}
+	}
+	
+	reGetTable=function(sql){
+		var t={}
+		try{
+			t=this.conn.getTable(sql)
+		}
+		catch(e){
+			..io.print(e)
+			t=null;
+		}
+		return t;
+	}
+
+	getTable=function(sql){
+		var t={}
+		for(i=1;20;1){	
+			t=this.reGetTable(sql)
+			if(t){break;}
+			..win.delay(100);
+			..io.print("db getTable:" + i)
+		}
+		return t; 
+	}
+	
+	reExec=function(sql){
+		var re
+		try{
+			re=this.conn.getTable(sql)
+		}
+		catch(e){
+			..io.print(e)
+			re=null;
+		}
+		return re;
+	}
+	
+	exec=function(sql){
+		var re
+		for(i=1;20;1){
+			re=this.reExec(sql)
+			if(re){break;}
+			..win.delay(100);
+			..io.print("db exec:" + i)
+		}				
+		return re; 
+	}
+	
+	..gcdata(
+		_gc = this.close;
+	)
+}
+
+namespace sqlite{
+	import sqlite.aes256;
+	string = ..string;
+	table = ..table;
+	io = ..io;
+	time = ..time;
+}

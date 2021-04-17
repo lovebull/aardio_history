@@ -27,7 +27,7 @@ winex.enumTop(
     }
 );
 
-import gdip;
+import gdip.snap;
 import win.dlg.message;
 winform.listbox.onSelChange = function(){ 
     if(winform.listbox.selIndex>0){   
@@ -38,35 +38,23 @@ winform.listbox.onSelChange = function(){
         if( hwnd ){ 
             if( winform.radioSnap.checked ){
             	winform.show( false )
-            	picture = com.picture.snap(hwnd) 
+            	picture = gdip.snap(hwnd) 
             	winform.show( 0x1/*_SW_SHOWNORMAL*/ )
             }
             elseif( winform.radioSnapClient.checked ){
             	winform.show( false )
-            	picture = com.picture.snapClient(hwnd)
+            	picture = gdip.snap.client(hwnd)
             	winform.show( 0x1/*_SW_SHOWNORMAL*/ )
             }
             elseif( winform.radioPrint.checked ){
-            	picture = com.picture.printWindow( hwnd )
+            	picture = gdip.snap.print( hwnd )
             }
             elseif( winform.radioPrintClient.checked ){
-            	picture = com.picture.printClient(hwnd)
+            	picture = gdip.snap.printClient(hwnd)
             }
             
             if(picture){
-                if(picture.Handle){
-                	//picture.Save("/test.jpg"); 
-       		
-            		//com.picture 转换为GDI+位图
-            		var bmp =  gdip.bitmap(picture);
-            		var old = winform.picturebox.setBackground(bmp,,true);
-            		if( old ) old.dispose()	
-                }
-                else {
-                	winform.msgFrown("截图失败")
-                }
-                 
-            	com.Release(picture)  
+                winform.picturebox.background = picture
             }
             else {
                 winform.msgFrown("截图失败")

@@ -1,0 +1,403 @@
+//func公共函数
+
+
+//千分位符号
+namespace string{
+    formatThousandSeperator = function(n){
+        return ( replace(tostring(n),"\d+",function(s){
+            while(  var c; s,c = replace(s,"(\d)(\d{3})!\D","\1,\2");c ) {};
+            return s;  
+        },1) )
+    }
+}
+
+formatThousand = function(num){
+	var str,l = math.modf(tonumber(num));
+	l = l ? string.replace(tostring(num),"[\-\d]+\.",".",1) : "";
+	str = tostring(str);
+	var t = {};
+	for(i=1;#str;3) table.insert(t, string.sub(str, -i-2, -i));
+	return string.join(t,",") ++ l;
+}
+
+namespace carl
+
+func = class {
+	ctor( /*输入构造函数所需要的参数*/ ){
+	
+	};
+	
+	getEleouterHTML=function(patten,html){//返回字符串中节点对像内的字符，类似于 wb.getEle("id").outerHTML
+		var getHtml,getTagName;
+		getTagName=function(patten,html){			//	
+			for tagstr in string.gmatch(html,"(\<\a+?\s.*?\>)") {
+				if(string.find(tagstr,"@=" + patten) 
+					or string.find(tagstr,'@="' + patten + '"') 
+					or string.find(tagstr,"@='" + patten + "'")
+					or string.find(tagstr,"@" + patten)
+					or string.find(tagstr,patten)){
+					tagname=string.match(tagstr,"\<(\a+)")
+					if(tagname){								//得到tag标签名
+						var i=string.find(html,"@" + tagstr);
+						htmlstr=string.sub(html,i,#html)
+						return tagname,htmlstr;
+					}
+				}
+			}
+		}	
+		getHtml=function(tagname,pattenstr,html){	//得到节点内容
+			var str=string.match(html,"(" + pattenstr + ")");
+			if(str){
+				var i=0;var j=0;
+				for n1 in string.gmatch( str,"(\<" + tagname + ")") { 
+					i++;
+				} 
+				for n1 in string.gmatch( str,"(\</" + tagname + "\>)") { 
+					j++;
+				}
+				if(i==j){
+					var n,m=string.find(html,pattenstr);
+					html=string.sub(html,m,#html); 
+					return str,html; 
+				}
+				else {
+					pattenstr += ".*?\</" + tagname + "\>";
+					return getHtml(tagname,pattenstr,html); 
+				}
+			}
+		}	
+		//返回所有符合的结果table对像
+		var tab={};var outerhtml="";var pattenstr="";
+		while(html){
+			tagname,html=getTagName(patten,html)
+			if(tagname and html){
+				pattenstr="\<" + tagname + ".*?\</" + tagname + "\>";			
+				outerhtml,html=getHtml(tagname,pattenstr,html);
+				if(outerhtml){
+					table.push(tab,outerhtml);
+				}			
+			}
+		}
+		if(#tab){
+			return tab[1],tab;
+		}
+	};
+	
+	/// <summary>
+	/// 读取指定tag的值
+	/// </summary>
+	/// <param name="tagname">Tag名称</param>
+	/// <param name="idname">条件id名称</param>
+	/// <param name="idvalue">条件id值</param>
+	/// <param name="value">返回值名称</param>
+	/// <returns>string</returns>
+	readTagValue=function(html,tagname,idname,idvalue,value){
+		tagname=string.lower(tagname);
+		idname=string.lower(idname)
+		value=string.lower(value)
+		var uptag = string.upper(tagname);
+		var upidname = string.upper(idname);
+		var upvalue = string.upper(value);		
+		for str in string.gmatch( html,"(\<<" + tagname + ">|<" + uptag + ">\s.+?\>)") { 
+			var k=string.match(str,"<" + idname + ">|<" + upidname + ">\s*?=\s*?['""]?(.+?)['""\>\s]")
+			var v=string.match(str,"<" + value + ">|<" + upvalue + ">\s*?=\s*?['""]?(.*?)['""\>\s]"):"";
+			if(k=idvalue){
+				return v;
+			}
+		}
+	};
+	
+	//格式网页表单为提交表单
+	getFormPostData=function(html,tocode){
+		html=string.replace(html,"\<script.+?\<\/script\>","")
+		html=string.match(html,"(\<<FORM>|<form>\s.+?\</<FORM>|<form>\>)"):"";
+		var t={}
+		for str in string.gmatch( html,"(\<<INPUT>|<input>\s.+?\>)") { 
+			var k=string.match(str,"<name>|<NAME>\s*?=\s*?['""]?(.+?)['""\>\s]")
+			var v=string.match(str,"<value>|<VALUE>\s*?=\s*?['""]?(.*?)['""\>\s]"):"";
+			if(k and v){
+				//io.print(k ,v)
+				if(tocode)
+					v = string.fromto(v,0,tocode):"";
+				v=inet.url.encode(v)
+				table.push(t,k + "=" + v);
+			}
+		}
+		for str in string.gmatch( html,"(\<<select>|<SELECT>\s.+?\</<select>|<SELECT>\>)") { 
+			var k = string.match(str,"<name>|<NAME>\s*?=\s*?['""]?(.+?)['""\>\s]")
+			var v = this.readTagValue(str,"option","selected","selected","value"):string.match(str,"<value>|<VALUE>\s*?=\s*?['""]?(.*?)['""\>\s]");
+			if(k and v){
+				//io.print(k ,v)
+				if(tocode)
+					v = string.fromto(v,0,tocode):"";
+				v=inet.url.encode(v)
+				table.push(t,k + "=" + v);
+			}
+		}
+		return string.join(t,"&"); 
+	};
+	
+	//合并重复项
+	distinct =  function(str,sep='\n',tdist) {
+    	var tnew = {};
+    	tdist :=  {};
+    	var tarr = string.split( str,sep);  
+    	for (i,line in tarr) {
+        	if(not tdist[line] ) { 
+            	tdist[line] = 1; 
+            	table.push( tnew,line ); 
+        	}
+        	else{
+            	tdist[line]++;
+        	}
+        	
+    	};
+    	return string.join(tnew,sep);
+	};
+	
+	//table对像格式化成xml文件
+	formatXmlString = function(tab,encoding="gb2312"){
+		var head = "<?xml version=""1.0"" encoding=""" + encoding + """ ?>" + '\r\n';
+		var xmlstr = this.formatXml(tab);
+		xmlstr = head ++ xmlstr;
+		if(string.lower(encoding) == "utf-8"){
+			xmlstr = string.fromto(xmlstr,0,65001);
+		}
+		return xmlstr; 
+	};
+	formatXml = function(tab,nodName){
+		var t = {}
+		var str=""
+		for(k,v in tab){
+			if(type(v) == type.table){
+				if(type(k) == type.number){
+					str = formatXml(v,nodName);
+				}else {
+					str = formatXml(v,k);
+				}
+			}else {
+				v = tostring(v:"");
+				if(string.find(v,"&|\<|\>")){
+					v = "<![CDATA[" + v + "]]";
+				}
+				str = "<" + tostring(k) + ">" + v + "</" + tostring(k) + ">";
+			}
+			table.push(t,str)
+		}
+		if(nodName and table.count(tab) != #tab){
+			table.insert(t,"<" + nodName + ">");
+			table.push(t,"</" + nodName + ">");
+		}
+		return string.join(t,'\r\n');
+	};
+	
+	//xml转换为table对像
+	getStringXml=function(xmlstr,ele){
+		var each;
+		var push=table.push;
+		var tab={}
+		var trow={};//列名
+	
+		each = function(tab,tabxml,tag){
+			for(index,tagName,childCount,xNode in tabxml.eachChild() ){
+				if(tagName == tag){
+					var t={}
+					for(index,tagName,childCount,x in xNode.eachChild() ){
+						if(childCount){
+							t[tagName] = (x.innerText()="") ? x[1].cdata : x.innerText();
+						}else {
+							t[tagName] = "";
+						}
+					}
+					push(tab,t)
+				}elseif(tagName == "xs:sequence"){//列名
+					for(index,tagName,childCount,x in xNode.eachChild() ){
+						push(trow,x["name"])
+					}
+				}else {
+					each(tab,xNode,tag)
+				}
+			}
+			return tab; 
+		}
+		try{
+			var xml = string.xml(xmlstr);
+			tab = each(tab,xml,ele)
+		}
+		catch(e){ io.print(e)	}
+		
+		return tab,trow; 
+	};
+	
+	//HTML字符实体解码 ASCII转字符
+	dehtml = function(str){ 
+    	return string.replace(
+        	str,
+        	"\&\s*\#(\d+)\;",
+        	function(m){
+            	var ascii = tonumber(m,10);
+            	if (ascii >= 160) {
+            		return string.fromUnicode(string.pack(ascii,ascii>>8));
+            	} else {
+                	return string.pack(ascii);
+            	}
+        	}
+    	) 
+	};
+	
+	//HTML字符实体编码  字符转ASCII
+	enhtml = function(instr){
+    	var outstr = "";
+    	for(i=1;#instr) {
+			var ascii = instr[ i ];
+			if(ascii >= 160){
+				var str = string.toUnicode(string.sub(instr,i,i+1));//转为unicode编码
+				str = tonumber(string.format("%x%x",str[2],str[1]), 16);//十六进制转换为十进制数字
+				outstr += "&#"+ str +";";
+				i++;
+			} else {
+				outstr += "&#"+ ascii +";";
+			}
+    	}
+    	return outstr;
+	};
+	
+	saveExcel = function(filename,tab,sheetname = "sheet2"){
+		var excel = com.excel();
+		excel.alerts = false; //关闭所有操作提示	 	
+		var book = excel.WorkBooks.Add(); //创建工作簿
+  		for(i=1;excel.Sheets.Count;1){
+  			if(i>1){
+  				excel.ActiveWorkbook.Sheets(1).Delete();
+  			}
+  		}
+		var sheet = excel.ActiveWorkbook.Sheets(1);
+		sheet.Select();	
+		sheet.Name = sheetname;
+		var cols={};
+		for(i,str in tab){
+			if(type(str) == type.table){
+				cols = str;
+			}else {
+				cols = string.split(str,'\t');
+			}
+			for(n=1;#cols;1){
+				sheet.Cells(i,n).Value2 = cols[n]; 
+			}
+		};
+		excel.ActiveWorkBook.SaveAs(filename);
+		excel.ActiveWorkbook.close();
+		excel.Quit();
+		book = null;
+		sheet = null;
+		excel = null;//释放所有对excel对象的引用
+		collectgarbage("collect");//内存回收,确保excel完全退出
+	}
+	
+	httpDown = function(url,postdata,referer){
+		var fun = function(url,postdata,ref){
+			import win;
+			import inet.http;
+			var tab={}
+			var tid = tostring(thread.getId());
+			thread.set("downDataTable" ++ tid,null)
+			var http=inet.http();
+			http.flags = 0x80000000/*_INTERNET_FLAG_RELOAD强制文件从服务器下载不是缓存*/ 
+            	| 0x4000000/*_INTERNET_FLAG_DONT_CACHE*不缓存数据*/ 
+			http.setTimeouts(10000,10000,15000);
+			if(postdata){
+				html,msg=http.post(url,postdata,,ref);
+			}else {
+				html,msg=http.get(url,,ref)
+			}
+			http.close()
+			table.push(tab,html,msg);
+			thread.set("downDataTable" ++ tid, tab)
+		}
+		var t={};
+		var h,tid = thread.create(fun,url,postdata,ref);
+		for(i=1;100;1){
+			win.delay(100)
+			t = thread.get("downDataTable" ++ tid)
+			if(t){break ;}
+		}
+		raw.closehandle(h);
+		if(!t){
+			t={};		
+		}
+		return table.unpack(t); 
+	}
+	
+	//毫秒
+	formatTime=function(sec){
+		var ss = sec;// / 1000;
+		var hh = math.floor(ss / 3600);
+		var mm = math.floor(ss % 3600 / 60);
+		ss = math.round(ss % 60,3);
+		var ss,mi = math.modf(ss);
+		hh = string.format("%02i",hh);
+		mm = string.format("%02i",mm);
+		ss = string.format("%02i",ss);
+		mi = string.format("%03i",(mi*1000));
+		return hh ++ ":" ++ mm ++ ":" ++ ss;// ++ "." + mi;
+	}
+	
+	//后台切图
+	printWindowToStream = function (hwnd,filepath) {
+		import win.graphics;
+		import gdip;
+		
+		// 取得窗口大小
+		var x, y, cx, cy = win.getPos(hwnd);
+		
+		var cvs = win.graphics.canvas();
+		cvs.fromHDC(::GetDC(0));
+		var cvsMem = win.graphics.canvas();
+		cvsMem.create();
+		var imgMem = win.graphics.image(cvs, cx, cy);
+		cvsMem.image = imgMem;
+		cvsMem.printWindow(hwnd);
+	
+		// 取出图片数据
+		var bmp,err = gdip.bitmap(imgMem.handle,0);
+    	if(bmp){
+    		bmp.save(filepath)
+    	}else {
+    		io.print(err)
+    	}
+    	
+		imgMem.destroy();
+		cvsMem.destroy();
+		cvs.destroy();
+	}
+	
+}
+
+namespace func{
+	import inet.url;
+	import string.xml;
+	import com.excel;
+	
+	string = ..string;
+	table = ..table;
+	io = ..io;
+	time = ..time;
+
+}
+
+
+/**intellisense()
+carl.func = 公共函数库
+carl.func() = 实例化公共函数
+?carl.func = !func.
+!func.getEleouterHTML(patten,html) = 返回字符串中节点对像内的字符，类似于 wb.getEle("id").outerHTML
+!func.readTagValue(html,tagname,idname,idvalue,value) = 读取指定tag的值
+!func.getFormPostData(html) = 格式网页表单为提交表单,第二个参数编码转换可不填
+!func.distinct(str) = 去重复项,第二，三参数可不填
+!func.formatXmlString(tab) = table对像格式化成xml文件,第二参数指定encoding,如gb2312,utf-8编码可不填
+!func.getStringXml(xmlstr,elename) = xml转换为table对像,返回table和列名
+!func.saveExcel(filename,tab) = 保存为excel文件
+!func.dehtml(str) = HTML字符实体解码 ASCII转字符
+!func.enhtml(str) = HTML字符实体编码 字符转ASCII
+end intellisense**/	
+

@@ -1,0 +1,10 @@
+import fsys; 
+fsys.createDir("~\lib\youdao\");
+fsys.copy( "\fanyi.aardio","~\lib\youdao\" ); 
+
+
+import ide;
+ide.refreshStdLib();
+
+import win;
+win.msgboxTimeout("youdao.fanyi扩展库已安装成功!","aardio- youdao.fanyi扩展库安装程序")

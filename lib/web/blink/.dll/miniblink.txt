@@ -1,0 +1,11 @@
+关于 miniblink( node.dll )：
+https://github.com/weolar/miniblink49/
+https://github.com/weolar/miniblink49/blob/master/LICENSE
+
+miniblink内核版本相当于chrome 49，
+但chrome 49的V8版本是4.9，而miniblink提供2个dll，分别为：
+node_v8_4_8.dll 这个体积小一点，带的是v4.8版的v8
+node.dll 这个体积大一点，带的是v5.7版的v8
+
+其中node_v8_4_8.dll 支持的ES6特性较少，
+因为与chrome 49默认的v8版本不同，在node里使用前端工具编译时如果指定输出浏览器环境为chrome 49，要注意不要使用js解构语法。

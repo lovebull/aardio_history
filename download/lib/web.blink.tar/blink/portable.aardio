@@ -1,0 +1,17 @@
+﻿//portable 嵌入组件
+import fsys;
+
+namespace web.blink{
+	if( !_STUDIO_INVOKED){
+		_dllPath = ..fsys.appdata("aardio/std/miniblink/210123/node.dll",$"~\lib\web\blink\.dll\node.dll");
+		_dllPathX = ..fsys.appdata("aardio/std/miniblink/210123/wkex.dll",$"~\lib\web\blink\.dll\wkex.dll");
+	}
+}
+
+import web.blink;
+import web.blink.form;
+namespace web.blink.portable;
+
+/**intellisense()
+web.blink.portable = 导入此支持库以支持生成独立 EXE 文件,\n此库会同时导入 web.blink,web.blink.form\n请使用wsock.tcp.simpleHttpServer以支持资源目录中的HTML文件,\n必须在导入其他web.blink组件以前导入\n注意生成的EXE文件不包含plugins目录下的Flash插件
+end intellisense**/

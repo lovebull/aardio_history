@@ -1,0 +1,24 @@
+﻿//portable 嵌入组件
+namespace web.kit{
+
+	if( !_STUDIO_INVOKED){
+		import fsys;
+		_dllPath = ..fsys.getSpecial( 0x1c /*_CSIDL_LOCAL_APPDATA*/  ,"aardio/std/wke/1.2.1.4/wke.dll");
+		if(!..io.exist(_dllPath)){
+			..string.save(_dllPath,$"~\lib\web\kit\.dll\wke.dll") 
+		}
+		
+		_dllPathX = ..fsys.getSpecial( 0x1c /*_CSIDL_LOCAL_APPDATA*/  ,"aardio/std/wke/1.2.1.4/wkex.dll");
+		if(!..io.exist(_dllPathX)){
+			..string.save(_dllPathX,$"~\lib\web\kit\.dll\wkex.dll") 
+		}
+	}
+}
+
+import web.kit;
+import web.kit.fileSystem;
+namespace web.kit.portable;
+
+/**intellisense()
+web.kit.portable = 导入此支持库可生成独立EXE文件，已包含web.kit.fileSystem\n必须在导入其他web.kit组件以前导入\n注意生成的EXE文件不包含plugins目录下的Flash插件
+end intellisense**/

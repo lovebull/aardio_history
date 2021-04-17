@@ -1,7 +1,8 @@
-﻿//屏幕找图
+//屏幕找图
 import win.ui;
 /*DSG{{*/
 var winform = win.form(text="请稍候正在打开网页......";right=759;bottom=469)
+winform.add()
 /*}}*/
 
 //导入浏览器控件支持库
@@ -9,6 +10,7 @@ import web.form;
 
 //在winform上建立浏览器控件窗口
 var wb = web.form( winform  ); 
+wb.noScriptErr = true;
 
 //打开网页
 wb.go("http://bbs.aardio.com/forum-image-1.html");
@@ -36,18 +38,14 @@ imgFind.crop(29,33,193,55);//裁剪图像,尽可能去掉背景，保留特征�
 查找图像要尽可能的小，并尽可能裁剪去掉背景，突出查找特征。
 img.load("/要查找的图片.bmp");
 */
-
-//抓取屏幕图像
-var imgScreen = soImage();
-imgScreen.capture(winform.hwnd); //窗口截图
-
+ 
 /*
-在屏幕上查找图像
-img.findImage(屏幕图像,x,y,x2,y2,step)
+在窗口内查找图像
+img.findImage(窗口句柄,x,y,x2,y2,step)
 参数x,y,x2,y2指定要查找的范围，x、y为左上角坐标,x2、y2为右下角坐标。
 step参数指定步进。除第一个参数以外，所有参数可选。
 */
-var sm,x,y = imgFind.findImage(imgScreen  );
+var sm,x,y = imgFind.findImageInWindow(winform);
 winform.text = "已找到图片，相似度：" + sm;
 
 //移动鼠标

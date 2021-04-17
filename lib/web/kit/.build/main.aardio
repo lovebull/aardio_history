@@ -1,0 +1,54 @@
+import ide;
+import fsys;
+
+var publisDir = ide.getPublisDir();
+if(!#publisDir)return; 
+
+
+var portable,needvlc;
+var dataFile = ::Kernel32.LoadLibraryExW(ide.getPublishPath() , ,2/*_LOAD_LIBRARY_AS_DATAFILE*/)
+if(dataFile){
+	import fsys.res;  
+	fsys.res.enum(
+		function(module,resType,resName){
+			if( ( resName == "WEB.KIT.PORTABLE") ||  ( resName == "WEB.HTML5FORM") ){
+				portable = true;
+				return false;
+			}
+			if( ( resName == "LIBVLC") ){
+				needvlc = true;
+				return false;
+			}
+			return true;
+		},"LIB",topointer(dataFile)
+	) 
+	::Kernel32.FreeLibrary(dataFile);
+}
+
+
+var pluginsDir = fsys.joinpath(publisDir,"plugins");
+if(!..io.exist(pluginsDir)){
+	..fsys.createDir(pluginsDir);
+	..fsys.copy("~\lib\web\kit\.dll\plugins\*",pluginsDir,0x10/*_FOF_NOCONFIRMATION*/  | 0x200/*_FOF_NOCONFIRMMKDIR*/);
+	
+
+}
+
+if(needvlc){
+	..fsys.copy("~\lib\web\kit\.dll\plugins\npvlc.dll",pluginsDir);
+}
+else {
+	..io.remove( io.joinpath(pluginsDir,"npvlc.dll"));
+}
+
+if(portable)return;
+
+
+var wkePubDir =  fsys.joinpath(publisDir,"\lib\web\kit\.dll\" ); 
+if( ! io.exist(wkePubDir) ){ 
+	..fsys.createDir(wkePubDir);
+	..fsys.copy( "~\lib\web\kit\.dll\wke.dll",wkePubDir,0x10/*_FOF_NOCONFIRMATION*/  | 0x200/*_FOF_NOCONFIRMMKDIR*/);
+	..fsys.copy( "~\lib\web\kit\.dll\wkex.dll" ,wkePubDir,0x10/*_FOF_NOCONFIRMATION*/  | 0x200/*_FOF_NOCONFIRMMKDIR*/); 
+}
+
+

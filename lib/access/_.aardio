@@ -1,5 +1,4 @@
 ﻿import com;
-import com.VariantNull;
 import fsys;
 import string.list;
 import time.ole;
@@ -287,7 +286,7 @@ class access {
 				case "null"{
 					adType = 3/*adInteger*/;
 					adSize = 0;
-					value = ..com.VariantNull();
+					value = ..com.Variant(null);
 				}
 				else {
 					if( ..time.istime(value) ){
@@ -321,7 +320,7 @@ class access {
 						v = parameters[n];
 						
 						if(v===null){
-							p.Value = ..com.VariantNull();
+							p.Value = ..com.Variant(null);
 							continue;
 						}
 						

@@ -109,6 +109,8 @@ class doc{
             this.sections[""] = createList( this,str,"");
         }
         
+        _,this.detailsSummary,this.details  = ..string.match( str,"/(**)details\((.*?)\)(.+?)end details\1/")
+        
         this.sections["::"] = null;
         for(path,section in this.sections){
         	for(k,v in section){
@@ -334,6 +336,8 @@ doc() = !libDocument.
 end intellisense*/
 
 /**intellisense()
+!libDocument.details = 补充文档
+!libDocument.detailsSummary = 补充文档标题
 !libDocument.sections = 智能提示数据\n键为名字空间,值是一个名值对组成的表
 !libDocument.define = 智能提示中配置自动完成为字面值的全局常量列表\n一律为下划线开始,并大写的常量名
 !libDocument.const = ::开头的全局函数列表

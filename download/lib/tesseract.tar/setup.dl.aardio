@@ -1,0 +1,9 @@
+import fsys; 
+fsys.createDir("~\lib\");
+fsys.copy( "\tesseract","~\lib\" ); 
+
+import ide;
+ide.refreshStdLib();
+
+import win;
+win.msgboxTimeout("tesseract扩展库已安装成功!","aardio- tesseract扩展库安装程序")

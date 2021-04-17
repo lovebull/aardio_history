@@ -1,0 +1,140 @@
+//xmlDoc文档
+/*
+创建简单xml文档 donque2010
+http://bbs.aardio.com/forum.php?mod=viewthread&tid=12713
+(出处: aardio编程语言官方论坛)
+*/
+
+import util.metaProperty;
+namespace carl;
+
+var string = ..string;
+var stringify;
+
+stringify = function(xmlNode,indented){
+	var tag = xmlNode.tagName;
+	if(!tag)
+		return ;
+		
+	var childs,attrs = {},{};
+	for(k,v in xmlNode){
+		if(type(k) == type.number && type(v)== type.table ){
+			if(indented) childIndented = indented + 1;
+			..table.push(childs, stringify(v,childIndented));
+			
+		}elseif( k != "tagName" && k != "text" ){
+			..table.push(attrs,k+'="'+tostring(v)+'"');
+		}
+	}
+	var innerText = xmlNode.text ? (xmlNode.text ++ string.join(childs)) : string.join(childs);
+	var strAttr = string.join(attrs," ");
+
+	var tagStart = string.concat("<",tag);
+	if( #strAttr )	tagStart = string.concat(tagStart," ",strAttr);
+	if( indented )	tagStart = string.concat('\r\n',string.repeat(indented-1,'\t'),tagStart);
+
+	var tagEnd =  #innerText ? string.concat("</",tag ,">") :  "/>";
+	if( indented && #innerText && #childs){
+		tagEnd = string.concat('\r\n',string.repeat(indented-1,'\t'),tagEnd);
+	}
+	
+	if(#innerText){
+		return string.concat(tagStart,">",innerText,tagEnd); 
+	}
+	return string.concat(tagStart,tagEnd);
+}
+
+var xmlNode = class{
+	ctor(tagName, text){
+		this.tagName = tagName;
+		this.text = (text !== null) ? tostring(text);
+	};
+	
+	@_metaProperty;
+}
+
+xmlNode._metaProperty = ..util.metaProperty(
+	appendChild = function(node,text){
+		var childNode;
+		if( type(node) == type.table && node.tagName){
+			childNode = node;
+		}else {
+			childNode = owner.createNode(node,text);
+		}
+		
+		var ind = ..table.push(owner,childNode);
+		return childNode,ind;
+	}
+	createNode = function(tagName,text){
+		return xmlNode(tagName,text);
+	}
+	
+	setAttribute = function(k,v){
+		k = tostring(k);
+		owner[[k]] = tostring(v);
+	}
+	
+	clone = function(v){
+		var node = ..table.clone(v : owner);
+		return node; 
+	}
+	_tostring = function(){
+		return stringify(owner);
+	}
+)
+
+class xmlDoc{
+	ctor(version,encoding,indented=1){
+		this.version = version : "1.0"
+		this.encoding = encoding : "UTF-8";
+		this.indented = indented
+		this._root = xmlNode();
+	};
+	
+	@_metaProperty;
+}
+
+xmlDoc._metaProperty = ..util.metaProperty(
+	appendChild = function(...){
+		return owner._root.appendChild(...); 
+	}
+	createNode = function(...){
+		return owner._root.createNode(...);
+	}
+	
+	
+	_tostring = function(){
+		var nodes = {'<?xml version="'+tostring(owner.version)+'" encoding="'+ tostring(owner.encoding)+'"?>';};
+		for(k,v in owner._root){
+			if( type(v) == type.table )
+				..table.push(nodes,stringify(v,owner.indented));
+		}
+		
+		var str = string.join(nodes);
+		if( owner.encoding == "UTF-8")
+			return string.fromto(str,0,65001);
+		return str;
+	}
+)
+
+/**intellisense()
+carl.xmlDoc = 创建简单xml文档
+carl.xmlDoc(.(xml版本,编码,缩进) = 创建xmlDoc
+!str_xmlDoc.version = xml版本(默认1.0)
+!str_xmlDoc.encoding = 文件编码(默认utf-8)
+!str_xmlDoc.indented = 缩进数量(默认1个tab)
+!str_xmlDoc.appendChild(.(tagName,innerText) = 创建或添加子节点,返回节点及index
+!str_xmlDoc.createNode(.(tagName,innerText) = 创建节点
+!str_xmlDoc.appendChild() = !str_xmlNode.
+!str_xmlDoc.createNode() = !str_xmlNode.
+
+!str_xmlNode.appendChild(.(tagName,innerText) = 创建或添加子节点,返回节点及index
+!str_xmlNode.createNode(.(tagName,innerText) = 创建节点
+!str_xmlNode.setAttribute(.(k,v)  = 添加节点属性
+!str_xmlNode.clone(.(node)  = 克隆指定节点或自己
+
+!str_xmlNode.appendChild() = !str_xmlNode.
+!str_xmlNode.createNode() = !str_xmlNode.
+!str_xmlNode.clone() = !str_xmlNode.
+?carl.xmlDoc = !str_xmlDoc.
+end intellisense**/

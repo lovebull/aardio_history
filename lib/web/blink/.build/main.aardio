@@ -1,0 +1,63 @@
+import ide;
+import fsys;
+
+var publisDir = ide.getPublisDir();
+if(!#publisDir)return; 
+
+
+var portable,needvlc;
+var dataFile = ::Kernel32.LoadLibraryExW(ide.getPublishPath() , ,2/*_LOAD_LIBRARY_AS_DATAFILE*/)
+if(dataFile){
+	import fsys.res;  
+	fsys.res.enum(
+		function(module,resType,resName){
+			if( ( resName == "WEB.BLINK.PORTABLE") ||  ( resName == "WEB.HTML5FORM") ){
+				portable = true;
+				return false;
+			}
+			if( ( resName == "LIBVLC") ){
+				needvlc = true;
+				return false;
+			}
+			return true;
+		},"LIB",topointer(dataFile)
+	) 
+	::Kernel32.FreeLibrary(dataFile);
+}
+
+
+var pluginsDir = fsys.joinpath(publisDir,"plugins");
+if(!..io.exist(pluginsDir)){
+	..fsys.createDir(pluginsDir);
+	..fsys.copy("~\lib\web\blink\.dll\plugins\*",pluginsDir,0x10/*_FOF_NOCONFIRMATION*/  | 0x200/*_FOF_NOCONFIRMMKDIR*/);
+}
+
+if(needvlc){
+	..fsys.copy("~\lib\web\blink\.dll\plugins\npvlc.dll",pluginsDir);
+}
+else {
+	..io.remove( io.joinpath(pluginsDir,"npvlc.dll"));
+}
+
+var empty = true;
+..fsys.enum( pluginsDir, "*.*",
+	function(){ 
+		empty = false
+	},false
+);
+
+if(empty){
+	..fsys.delete(pluginsDir);	
+}
+
+if(portable)return;
+
+
+var wkePubDir =  fsys.joinpath(publisDir,"\lib\web\blink\.dll\" ); 
+if( ! io.exist(wkePubDir) ){ 
+	..fsys.createDir(wkePubDir);
+	..fsys.copy( "~\lib\web\blink\.dll\node.dll",wkePubDir,0x10/*_FOF_NOCONFIRMATION*/  | 0x200/*_FOF_NOCONFIRMMKDIR*/);
+	..fsys.copy( "~\lib\web\blink\.dll\wkex.dll" ,wkePubDir,0x10/*_FOF_NOCONFIRMATION*/  | 0x200/*_FOF_NOCONFIRMMKDIR*/); 
+}
+
+

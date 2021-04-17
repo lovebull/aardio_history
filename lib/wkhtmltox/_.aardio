@@ -1,0 +1,102 @@
+﻿    
+class wkhtmltox{
+	ctor(page, out){
+		var ok = dll.wkhtmltopdf_init(1)
+		if(ok!=1) error("初始化失败",2)
+		
+		this._pgs = dll.wkhtmltopdf_create_global_settingsP()
+		this._pos = dll.wkhtmltopdf_create_object_settingsP()
+
+		if(page) dll.wkhtmltopdf_set_object_setting(this._pos, "page", page)
+		if(out) dll.wkhtmltopdf_set_global_setting(this._pgs, "out", ..io.fullpath(out) )
+		
+		this.converter = dll.wkhtmltopdf_create_converterP( this._pgs )
+
+		this.global = settings();
+		this.object = settings();
+		
+		..table.gc(this, "destroy");
+	};
+	
+	destroy = function(){
+		dll.wkhtmltopdf_destroy_converter(this.converter)
+		dll.wkhtmltopdf_destroy_global_settings(this._pgs)
+		dll.wkhtmltopdf_destroy_object_settings(this._pos)	
+		dll.wkhtmltopdf_deinit()
+	};
+	
+	convert = function( data ){
+		if(this.onChanged) dll.wkhtmltopdf_set_progress_changed_callback(
+			this.converter, ..raw.tocdecl(this.onChanged,"void(pointer,int)")
+		);
+		if(this.onFinished) dll.wkhtmltopdf_set_finished_callback(
+			this.converter, ..raw.tocdecl(this.onFinished,"void(pointer,int)")
+		);
+		
+		for(k,v in this.global) dll.wkhtmltopdf_set_global_setting(this._pgs, k, tostring(v))
+		for(k,v in this.object) dll.wkhtmltopdf_set_object_setting(this._pos, k, tostring(v))
+		dll.wkhtmltopdf_add_object(this.converter, this._pos, data || null)
+		
+		return dll.wkhtmltopdf_convert(this.converter)
+	};
+	
+	getVersion = function(){
+		return ..raw.tostring( dll.wkhtmltopdf_versionP() ); 
+	}	
+}
+
+namespace wkhtmltox{ 
+   	_meta = {
+    	_get = function(k){
+        	if(owner[[k]]){
+            	owner[["(_idx_)"]] = null;
+        		return owner[[k]]
+        	}
+        	if(!owner[["(_idx_)"]]){
+            	owner[["(_idx_)"]] = k;
+            	return owner; 
+        	}
+        	k = owner[["(_idx_)"]] + "." + k
+        	if(owner[[k]]){
+            	owner[["(_idx_)"]] = null;
+        		return owner[[k]]
+        	} 
+        	owner[["(_idx_)"]] = k
+        	return owner;
+    	};
+    	_set = function(k,v){
+        	if(owner[["(_idx_)"]]){
+        		k = owner[["(_idx_)"]] + "." + k
+        	}
+        	if(type(v)=="table"){
+            	for(_k,_v in v) {
+                	if(type(_v)!="table"){
+                		owner[["(_idx_)"]] = null;
+               			owner[[k + "." + _k]] = _v;
+                	}
+                	owner[k + "." + _k] = _v;
+            	}
+            	return ;
+        	}
+        	owner[["(_idx_)"]] = null;
+        	owner[[k]] = v;
+    	};
+	}
+	settings = lambda(){ @_meta }
+	dll = ..raw.loadDll("~\lib\wkhtmltox\.res\wkhtmltox.dll")
+}
+
+// https://wkhtmltopdf.org/libwkhtmltox/
+// https://wkhtmltopdf.org/libwkhtmltox/pagesettings.html 
+
+/**intellisense()
+wkhtmltox(page,out) = 创建wkhtmltox对象,所有参数可选
+wkhtmltox() = !wkhtmltox.
+!wkhtmltox.convert() = 转换PDF
+!wkhtmltox.getVersion() = 获取版本号
+!wkhtmltox.global = 全局设置
+!wkhtmltox.object = 对象设置
+wkhtmltox.settings() = 创建设置表
+!wkhtmltox.onChanged = @.onChanged = function(ctr,val){\n	__/*转换进度回调*/\n}
+!wkhtmltox.onFinished = @.onFinished = function(ctr, val){\n    __/*转换完成回调*/\n}
+end intellisense**/

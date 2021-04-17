@@ -1,0 +1,9 @@
+import fsys; 
+fsys.createDir("~\lib\");
+fsys.copy( "\qrencode","~\lib\" ); 
+
+import ide;
+ide.refreshStdLib();
+
+import win;
+win.msgboxTimeout("qrencode扩展库已安装成功!","aardio- qrencode扩展库安装程序")

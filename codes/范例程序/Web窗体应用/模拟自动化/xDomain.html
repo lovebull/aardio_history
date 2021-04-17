@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8">  
+</head>
+<body style="margin:0px;"> 
+<div  style=" margin:5px;font-size:9pt;">   
+        下面的框架与父窗口分别位于不同域名下,默认无法跨域控制子框架<br />
+        调用 web.form.util.crossDomain() 开启跨域支持,<br />
+        所有web窗体函数即可自动支持跨域框架.
+</div> 
+        <iframe name="xDomainFrame" 
+        src="http://www.baidu.com" frameborder="0" scrolling="yes" 
+        height="900" width="100%" noresize="noresize">
+        </iframe>
+</body>
+</html>

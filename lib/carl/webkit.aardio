@@ -1,0 +1,263 @@
+//webkit 扩展库
+import inet.http;
+import inet.downBox;
+import fsys.dlg;
+
+namespace carl
+
+webkit = class {
+	ctor( winform ){
+		this = web.kit.form( winform );
+		
+		this.onURLChanged = function(url){
+			this.downFile(url);
+		}
+	};
+	
+	downFile = function(url){
+		if(!#url) return ; 
+ 		var http = ..inet.http();
+    	if(!http.beginRequest(url))return;
+    	http.send();
+   	
+    	var headerContent = http.readHeaderContent();
+    	http.close();
+   	
+    	if( ! string.startWith( headerContent[["type"]]:"","text/",true) ){
+        	this.goBack();
+        	var path = ..fsys.dlg.opendir(,winform,"选择保存目录","下载文件");
+        	if(path){
+        		var downBox = ..inet.downBox(winform,"下载" + url,true );
+        		downBox.download( url , path ++ "\" + headerContent.disposition.filename );
+        	}
+    	}
+	}
+	
+	getEle = function( id, frame ){
+		if( type(id) == "table" ) return id;
+		var ele;
+		try{
+			ele = this.document.getElementById(id);
+			if( !ele ){
+				var eles = this.document.getElementsByName(id);	
+				ele = eles[0]
+			}
+		}
+		return ele;
+	}
+	
+	dispatch = function(ele, commandName) {
+        var event = this.document.createEvent("Event");
+        event.initEvent(commandName, true, true);
+        ele.dispatchEvent(event)
+	}
+	
+	click = function( eleName,min=1,max=500,frame ){
+		var ele = this.getEle(eleName, frame);
+		if( !ele ) return ; 
+		if(ele.tagName=="INPUT" or ele.tagName=="BUTTON"){
+			ele.click()
+			return true; 
+		}else {
+			this.dispatch(ele, "click")
+			return true; 
+		}
+	}
+	
+	waitEle = function(name,frame,timeout,complete=true,test){
+		return ..win.wait(
+			function(){
+				return this.getEle(name);
+			},this.getForm().hwnd,timeout,200
+		)
+	}
+	
+	["select"] = function(eleName,v,sel=true, frame){ 
+		var opt,child,value,text;
+		var ele = this.getEle(eleName,frame);
+		if( string.cmp(ele.tagName,"select") ) return ; 
+		if(ele){
+   			if(type(v)==type.number and v < ele.length){
+   	   			opt = ele.options[i];
+   			}else{
+   				v = sel ? string.lower(v) : v;
+   	   			for(i=0;ele.length-1;1){
+   	   				child = ele.options[i];
+   	   				if( !child ) continue ;
+   	   				value = sel ? string.lower(child.value) : value;
+   	   				text = sel ? string.lower(child.text) : text;
+					if(value == v or text == v){
+						opt = child;
+						break ;
+					}
+				}
+   			}
+		} 
+		if( opt ){
+			opt.selected = true;
+			if( ele.onchange ) ele.fireEvent("onchange");
+		}
+		return opt; 
+	}
+	
+	setEle = function(eleName,val,name,frame){ 
+		var ele = this.getEle(eleName,frame);
+		if(!ele) return null,"未找到节点";
+		
+		var tagName = string.lower(ele.tagName);
+		if( type(val) == type.table ){
+			for(k,v in val) 
+				this.setEle(eleName,v,k,frame); 
+		}
+		elseif(name){ 
+			ele[name] = val; 
+		}
+		elseif( tagName == "textarea" ){
+			ele.innerHTML = val;
+		}
+		elseif( tagName == "input" ){
+			select(ele.type) { 
+				case "radio","checkbox" {
+					ele.checked = val;
+				};
+				else {
+					ele.value = val;
+				};
+			};
+		}; 
+		elseif( tagName == "select" ){
+			this.select( ele,val );
+		}
+		return ele;
+	}; 
+	
+	getHtml = function(){
+		var html;
+		try{
+			html = this.document.documentElement.outerHTML;
+		}
+		return html:""; 
+	}
+	
+	fromPoint = function(x = 0,y=0){
+		var ele
+   		try {
+			ele = this.document.elementFromPoint(x,y);
+		}
+		return ele;
+	};
+}
+
+namespace webkit{
+	import web.kit.form;
+	string = ..string;
+}
+
+/**intellisense()
+carl.webkit = web.kit扩展库,支持文件下载
+carl.webkit( __/*winform对象*/ ) = 创建webkit窗体
+?carl.webkit = !web_kit_view.
+
+!ele.src = 源文件地址
+!ele.fireEvent("onclick") = 自动触发element元素节点的事件脚本.
+!ele.click() = 触发onclick 事件来模拟单击
+!ele.focus() = 使得元素得到焦点并执行由 onfocus 事件指定的代码 
+!ele.hasFocus() = 是否拥有焦点
+!ele.blur() = 使元素失去焦点并触发onblur事件  
+!ele.setAttribute("属性名__","属性值")  = 修改属性\n也可以直接写 ele.属性名字 = 值
+!ele.getAttribute("属性名__/*属性名*/")  = 获取属性\n也可以直接写 var 返回值=ele.属性名字
+!ele.getAttributeNode("__/*属性名*/") = 获取attribute对象
+!ele.hasChildNodes = 对象是否有子对象的值。 
+!ele.appendChild(__) = 给对象添加一个子节点
+!ele.innerHTML = 返回节点内的HTML代码
+!ele.outerHTML = 返回该节点的HTML代码
+!ele.innerText = 设置或获取对象的文本 
+!ele.outerText = 设置或获取对象的文本 
+!ele.insertAdjacentHTML("beforeBegin",__/*HTML代码*/) = 在节点之前插入HTML
+!ele.insertAdjacentHTML("afterBegin",__/*HTML代码*/) = 在节点内部最前面插入HTML
+!ele.insertAdjacentHTML("beforeEnd",__/*HTML代码*/) = 在节点内部最后面插入HTML 
+!ele.insertAdjacentHTML("afterEnd",__/*HTML代码*/) = 在节点之后插入HTML
+!ele.insertAdjacentText("beforeBegin",__/*文本*/) = 在节点之前插入文本
+!ele.insertAdjacentText("afterBegin",__/*文本*/) = 在节点内部最前面插入文本
+!ele.insertAdjacentText("beforeEnd",__/*文本*/) = 在节点内部最后面插入文本
+!ele.insertAdjacentText("afterEnd",__/*文本*/) =  在节点之后插入文本
+!ele.insertBefore(__/*新节点对象*/) = 第二个参数可选指定一个子节点对象\n在该节点前插入新节点,忽略则插入到最后面.
+!ele.checked = 复选框、单选框等选中状态
+!ele.form.submit() = 自动提交表单
+!ele.elements["name值或索引"] = 表单控件集合,非表单节点该属性无性.\n索引可以为数值或字符串,\n如果有同名控件,可使用第二个参数指定在该集合中的索引.
+!ele.elements[] = !ele.
+!ele.getElementsByTagName("__") = 获取基于指定元素名称的对象集合
+!ele.getElementsByTagName() = !ele.
+!ele.contains(ele2__) = 判断一个节点是否包含另外一个节点
+!ele.selected = 设置为下拉选框选中项
+!ele.href = 超链接网址
+!ele.value = input控件值
+!ele.tagName = 获取对象的标签名称
+!ele.scrollHeight =  获取对象的滚动高度。 
+!ele.scrollLeft =  设置或获取位于对象左边界和窗口中目前可见内容的最左端之间的距离。 
+!ele.scrollTop = 设置或获取位于对象最顶端和窗口中可见内容的最顶端之间的距离。 
+!ele.scrollWidth = 获取对象的滚动宽度。 
+!ele.className = 设置或获取对象的CSS样式类
+!ele.hasChildNodes() = 对象是否有子对象的值。
+!ele.offsetParent = 获取定义对象 offsetTop 和 offsetLeft 属性的容器对象的引用
+!ele.offsetLeft = 相对于offsetParent对象的左侧位置.
+!ele.offsetTop =  相对于offsetParent对象的顶端位置.
+!ele.offsetWidth = 包括边线的宽度
+!ele.offsetHeight  = 包括边线的高度 
+!ele.ownerDocument = document.
+!ele.id = 获取标识对象的字符串 
+!ele.uniqueID = 对象自动生成的唯一标识符
+!ele.name = 设置或获取对象的名称 
+!ele.length = 节点集合长度
+!ele.nodeName = 获取特定结点类型的名称。 
+!ele.nodeType = 获取所需结点的类型。 
+!ele.nodeValue = 设置或获取结点的值。 
+!ele.parentElement = 获取对象层次中的父对象\n!ele.
+!ele.parentNode = 获取文档层次中的父对象\n!ele. 
+!ele.childNodes() = !ele. 
+!ele.children() = !ele. 
+!ele.getReadyState() = 获取对象的当前状态。 \n'uninitialized','loading','interactive','loaded' 'complete'
+!ele.sourceIndex = 获取对象在源序中的依次位置 
+!ele.title = 提示信息 
+!ele.attributes("name__/*属性名称*/") = 对象标签属性的集合指定位置的对象  
+!ele.childNodes(0__) =  对象直接后代的 HTML元素和TextNode对象的集合指定位置的对象
+!ele.children(0__) =  获取作为对象直接后代的DHTML对象的集合指定位置的对象 
+!ele.style.background = 背景
+!ele.style.display = 显示
+!ele.style.cursor = 鼠标指针
+!ele.style.height = 高度
+!ele.style.width = 宽度
+!ele.style.top = 顶部位置
+!ele.style.left = 左侧位置
+!ele.style.margin = 外边距
+!ele.style.padding = 内边距
+!ele.contentEditable = @.contentEditable = "true__"
+!ele.firstChild =  childNodes集合的第一个子对象的引用\n!ele.
+!ele.lastChild = childNodes集合中最后一个子对象的引用\n!ele.
+!ele.nextSibling = 返回当前节点的兄弟下一个节点(下一个兄弟节点)\n!ele.
+!ele.previousSibling = 返回紧挨当前节点、位于它之前的兄弟节点(上一个兄弟节点)\n!ele.
+!ele.hidefocus = 是否隐藏焦点选框 
+!ele.getAttributeNode() = !ele_attribute_node.
+!ele.attributes() = !ele_attribute_node.
+!ele_attribute_node.nodeName = 获取特定结点类型的名称
+!ele_attribute_node.nodeType = 获取所需结点的类型
+!ele_attribute_node.nodeValue = 设置或获取结点的值 
+!ele_attribute_node.specified =  获取是否指定了该属性 
+!ele_attribute_node.value =  设置或获取对象的值
+
+!web_kit_view.getEle() = !ele.
+!web_kit_view.select() = !ele.
+!web_kit_view.setEle() = !ele.
+!ele[] = !ele.
+
+!web_kit_view.waitEle(.("ID或名称","框架名",超时值,等待加载完成,页面加载完成允许返回空) = 返回一个节点对象,除参数一以外,其他能数可选\n第三个参数指定超时值(单位为毫秒)\n如果不需要节点完全加载,指定参数三为true\n如果网页加载完成节点不存在允许返回空,指定参数四为true
+!web_kit_view.getEle("__") = 返回一个节点对象或框架内子节点对象 
+!web_kit_view.getEle("__") = 返回一个节点对象或框架内子节点对象 
+!web_kit_view.getEle("__","框架名字") = 返回一个节点对象或框架内子节点对象
+!web_kit_view.click(.(控件名字,随机延时最小值,延时最大值,框架名) = 模拟点击控件,\n第一个参数也可以是ele对象,\n随机延时值为可选参数,默认为1,500.\n框架名为可选参数.
+!web_kit_view.setEle(.(控件名字,属性值,属性名,框架名) = 更新控件值,成节返回节点,失败返回null空值\n第一个参数也可以是ele对象,\n属性名,框架名为可选参数.\n属性值可以是一个指定多个属性键值对的table对象.
+!web_kit_view.select("控件名字",__/*输入选项索引,或选项值、选项文本*/) = 查找下拉选框的指定选项,选中并返回选项节点\n第一个参数也可以是ele对象
+!web_kit_view.select("控件名字",__/*输入选项索引,或选项值、选项文本*/,false) = 查找下拉选框的指定选项,取消选定并返回选项节点\n第一个参数也可以是ele对象
+!web_kit_view.getHtml() = 返回网页源码
+
+end intellisense**/

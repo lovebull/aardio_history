@@ -1,0 +1,10 @@
+import fsys; 
+fsys.createDir("~\lib\");
+fsys.copy( "\wkhtmltox","~\lib\" ); 
+
+
+import ide;
+ide.refreshStdLib();
+
+import win;
+win.msgboxTimeout("wkhtmltox扩展库已安装成功!","aardio- wkhtmltox扩展库安装程序")

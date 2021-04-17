@@ -1,0 +1,9 @@
+import fsys; 
+fsys.createDir("~\lib\process\");
+fsys.copy( "\imageView.aardio","~\lib\process\" ); 
+
+import ide;
+ide.refreshStdLib();
+
+import win;
+win.msgboxTimeout("process.imageView扩展库已安装成功!","aardio- process.imageView扩展库安装程序")

@@ -1,0 +1,120 @@
+/*
+ *排行及视频数据归抖音及原作者所有，
+ *请在合理合法范围内使用本源码
+ */
+import fonts.fontAwesome;
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="aardio form";right=419;bottom=799;bgcolor=13195370;border="none";min=false)
+winform.add(
+hideVideo={cls="plus";text='\uF053';left=0;top=1;right=42;bottom=43;color=16777215;dl=1;dt=1;font=LOGFONT(h=-18;name='FontAwesome');notify=1;z=5};
+menuItem1={cls="plus";text="list";left=0;top=49;right=420;bottom=84;align="left";bgcolor=13195370;dl=1;dr=1;dt=1;forecolor=15780518;paddingLeft=10;paddingRight=10;tabstop=1;textPadding={left=10;right=10};z=3};
+menuItem2={cls="plus";text="list";left=0;top=84;right=420;bottom=119;align="left";bgcolor=13195370;dl=1;dr=1;dt=1;forecolor=15780518;notify=1;paddingLeft=10;paddingRight=10;tabstop=1;textPadding={left=10;right=10};z=4};
+plus3={cls="plus";text="2019 © 抖音";left=0;top=755;right=420;bottom=797;color=13598861;db=1;dl=1;dr=1;z=6};
+title={cls="plus";text="抖音排行榜";left=42;top=0;right=378;bottom=42;color=16777215;dl=1;dr=1;dt=1;transparent=1;z=1};
+video={cls="custom";text="自定义控件";left=0;top=42;right=420;bottom=800;db=1;dl=1;dr=1;dt=1;z=2}
+)
+/*}}*/
+ 
+var style = {
+    titleBar ={
+        background = { 
+            hover = 0xFFFF3B3B;
+            active = 0xffff6666; 
+            default = 0x0A000000; 
+        };
+        color = { 
+            hover = 0xffffffff;
+            active = 0xffffffff; 
+            default = 0xffffffff; 
+        };
+    }; 
+     
+    tabs = {
+        //默认状态字体颜色
+        color = {
+            hover = 0xFFFFFFFF;
+            focus = 0xFFEBEBEB;
+            active =0xFFEBEBEB;
+            default = 0xFFFFFFFF;  
+        };
+        //默认状态边框
+        border = {
+            default = {
+                top=1;
+                color=0xFF6A58C9;
+            }
+        };
+        //默认状态前景色
+        foreground={
+            default = 0xFF7A68CF; 
+            hover = 0xFF9777F2;
+            focus = 0xFF9777F2;
+        };
+        //选中状态配置
+        checked = {
+            //选中颜色
+            color = {
+                default = 0xFF6A58C9;
+                hover = 0xFFFFFFFF;  
+            };
+            //选中前景色
+            foreground={
+                default = 0xFFFFFFFF; 
+                hover = 0xFF9777F2;
+            };
+        }
+    };
+}
+ 
+import win.ui.simpleWindow2;
+var bar = win.ui.simpleWindow2(winform,18,42,42).skin(style.titleBar);
+ 
+import win.ui.tabs;
+var tabs = win.ui.tabs(winform.menuItem1,winform.menuItem2);
+tabs.skin(style.tabs)
+tabs.clear();
+         
+// 获取热门视频
+import web.rest.jsonLiteClient;
+var restClient = web.rest.jsonLiteClient("user-agent:Mozilla/5.0 (Linux; U; Android 8.0.0; zh-cn; MI 5 Build/OPR1.170623.032) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/66.0.3359.126 MQQBrowser/9.6 Mobile Safari/537.36");
+var getHotList = function(url){
+    var res = restClient.get(url);
+    if(res[["status_code"]]=="0"){ 
+        return table.map(res.aweme_list,lambda(v){
+            text = v.aweme_info.desc;
+            url = "https://aweme.snssdk.com/aweme/v1/play/?video_id="++v.aweme_info.video.vid++"&line=0&ratio=720p";
+        })
+    } 
+};
+ 
+tabs.addItems(getHotList("https://www.iesdouyin.com/web/api/v2/hotsearch/billboard/aweme/"))
+tabs.selIndex = 1; // 设置默认选中的索引
+     
+// 将视频层切换orphanWindow模式
+winform.video.orphanWindow() 
+winform.video.beforeShowWindow = function(shown){ 
+    winform.hideVideo.show(shown)
+}
+winform.video.show(false) // 隐藏视频控件
+ 
+var wmp = winform.video.createEmbed( "WMPlayer.OCX" )._object;
+tabs.oncommand = function(strip,id,event){
+    winform.title.text = strip.text;  
+    wmp.url = restClient._http.location(strip.url) || "";
+    winform.video.show(true) // 显示视频控件
+}
+     
+winform.hideVideo.oncommand = function(id,event){
+    wmp.controls.stop()
+    winform.title.text="抖音排行榜"
+    winform.video.show(false) 
+}
+     
+// 优化视频层显示时，窗口关闭效果
+winform.onClose = function(hwnd,message,wParam,lParam){
+    winform.show(false)
+}
+     
+winform.show() 
+win.loopMessage();

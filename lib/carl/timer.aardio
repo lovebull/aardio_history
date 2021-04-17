@@ -1,0 +1,59 @@
+//timer 毫秒定时器
+
+namespace carl;
+
+class timer{
+	ctor( endTime, millsec = 0 ){
+		endTime = time(endTime,"%Y-%m-%d %H:%M:%S");
+		this.endTime = tonumber(endTime);
+		this.millsec = millsec;
+		this.stop = false;
+	};
+	
+	//格式化毫秒
+	formatMilliSecond =function(sec){
+		var ss = sec / 1000;
+		var hh = math.floor(ss / 3600);
+		var mm = math.floor(ss % 3600 / 60);
+		ss = math.round(ss % 60, 3);
+		var ss,mi = math.modf(ss);
+		hh = string.format("%02i", hh);
+		mm = string.format("%02i", mm);
+		ss = string.format("%02i", ss);
+		mi = string.format("%03i", (mi*1000));
+		return hh ++ ":" ++ mm ++ ":" ++ ss ++ "." + mi;
+	}
+	
+	//启动倒计时
+	start = function(){
+		var dtsec = (this.endTime - tonumber(time()))*1000 + this.millsec;
+		var n;
+		var startSec = time.performance.tick();
+		while(true){
+			n = dtsec - (time.performance.tick() - startSec);//毫秒
+			if(n<=0){
+				if(this[["func"]]){ this.func( this.formatMilliSecond(0),0 );}
+				break ;
+			}
+			if(n > 10000){
+				win.delay(1000)	
+				dtsec = (this.endTime - tonumber(time()))*1000 + this.millsec;
+				startSec = time.performance.tick();
+				if(this[["func"]]){ this.func( this.formatMilliSecond(n),n );}
+				if(this.stop){break ; }
+			}elseif(n > 100){
+				win.delay(1);
+				if(this[["func"]]){ this.func( this.formatMilliSecond(n),n );}
+			}
+		}
+	}
+}
+
+namespace timer{
+	import time.performance;
+	
+	time = ..time;
+	string = ..string;
+	math = ..math;
+	win = ..win;
+}

@@ -1,0 +1,4 @@
+NPSWF32.dll 是flash插件，
+npvlc.dll 是vlc插件，先要import libVlc(插件版本 2.2.6使用的libVlc版本是 2.2.5.1)，如果加载npvlc.dll失败会自动查找系统安装的vlc插件。
+
+如果网页用不到此插件，可删除此文件。
