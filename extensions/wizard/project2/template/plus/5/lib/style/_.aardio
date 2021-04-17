@@ -1,0 +1,113 @@
+﻿import gdip.bitmap;
+
+namespace style;
+
+tabs = {
+    background = { 
+	 	default = 0xff353740;
+	 	hover = 0xff25262d;
+	 	active = 0xff2e2f3a;
+	}; 
+	color = { 
+		default = 0xFFC0C0C0;
+        hover = 0xFF06C9A9; 
+        active = 0xFF06C9A9;
+    }; 
+    checked = {
+    	background = { 
+	 		default = 0xff25262d; 
+		}; 
+		border = {
+			default = {bottom=3;color=0xff02b79a}
+		}
+		color = { 
+			default = 0xFF06C9A9;
+        	hover = 0xFF06C9A9; 
+        	active = 0xFF06C9A9;
+    	}
+    }
+}
+
+tabsCloseButton ={
+    background = { 
+        hover = 0xFFe35c51; 
+        active = 0xFF8f241b;
+        default = 0x99FFCC66; 
+    }
+    color = {
+        hover = 0xFFFFFFFF; 
+        active = 0xFFEEEEEE;
+        default = 0xCCFFFFFF; 
+    } 	
+}
+
+titlebar = {
+	set = {
+		background = { 
+			hover = "\res\images\sys_setting_hover.png";
+		} 		
+	}
+	
+	min = {
+		background = {
+			hover = "\res\images\sys_min_hover.png";
+		} 		
+	}
+ 	
+	max = {
+		background = {
+			hover = "\res\images\sys_max_hover.png";
+		};
+		checked = {
+			background = {
+				default = "\res\images\sys_restore.png";
+				hover = "\res\images\sys_restore_hover.png";
+			}
+		}	
+	}
+	
+	close = {
+		background = {
+			hover = "\res\images\sys_close_hover.png";
+		}  		
+	}
+}
+
+searchBox = {
+	background = {
+		hover = "\res\images\sys_search_hover.png";
+	};
+}
+
+var chkImg = ..gdip.bitmap("\res\images\checkbox.png").split(12);
+checkbox = {	
+	background = chkImg.map(
+		default = 1;
+		hover = 2;
+		active = 3;
+	);
+    checked = {
+    	background = chkImg.map(
+			default = 5;
+			hover = 6;
+			active = 7;
+		)
+    }
+}
+
+var radioImg = ..gdip.bitmap("\res\images\radio.png").split(8);
+radioButton = {	
+	background = radioImg.map(
+		default = 1;
+		hover = 2;
+		active = 3;
+	);
+    checked = {
+    	background = radioImg.map(
+			default = 5;
+			hover = 6;
+			active = 7;
+		)
+    };
+    group = "default";
+}

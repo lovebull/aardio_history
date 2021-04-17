@@ -1,0 +1,22 @@
+import win;
+win.msgbox("直接运行此范例将会导致打开太多窗口","已自动中止")
+return;
+
+import process.rundll;
+
+//功能: 打开控制面板,参考@1是"shell32.dll"时可省略
+process.rundll(,"Control_RunDLL");
+
+//功能: 显示“控制面板－辅助选项－键盘”选项窗口
+process.rundll(,"Control_RunDLL access.cpl,,1");
+ 
+//功能: 显示“控制面板－区域设置属性－区域设置”选项窗口。
+process.rundll(,"Control_RunDLL intl.cpl,,0"); 
+
+/*
+打开控制面板也可以调用 process.control, 
+例如 process.control("access.cpl" )
+
+因为系统会更改控制面板功能以及外观，所以部分参数不同系统有所区别。
+https://www.tenforums.com/tutorials/77458-rundll32-commands-list-windows-10-a.html
+*/

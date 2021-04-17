@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project ver="10" name="Ovplayer" libEmbed="true" icon="..." ui="win" output="Ovplayer.exe" CompanyName="单位名称" FileDescription="Ovplayer" LegalCopyright="Copyright (C) 作者 2018" ProductName="Ovplayer" InternalName="Ovplayer" FileVersion="0.0.0.1" ProductVersion="0.0.0.1" publishDir="/dist/" dstrip="false">
+	<file name="main.aardio" path="main.aardio" comment="main.aardio"/>
+	<folder name="资源文件" path="res" embed="true">
+		<folder name="images" path="res\images" comment="res\images">
+			<file name="btn_setting_active.png" path="res\images\btn_setting_active.png" comment="res\images\btn_setting_active.png"/>
+			<file name="btn_setting_default.png" path="res\images\btn_setting_default.png" comment="res\images\btn_setting_default.png"/>
+			<file name="btn_setting_hover.png" path="res\images\btn_setting_hover.png" comment="res\images\btn_setting_hover.png"/>
+			<file name="checkbox.png" path="res\images\checkbox.png" comment="res\images\checkbox.png"/>
+			<file name="drop_menu_bk.png" path="res\images\drop_menu_bk.png" comment="res\images\drop_menu_bk.png"/>
+			<file name="drop_menu_split.png" path="res\images\drop_menu_split.png" comment="res\images\drop_menu_split.png"/>
+			<file name="logo.png" path="res\images\logo.png" comment="res\images\logo.png"/>
+			<file name="radio.png" path="res\images\radio.png" comment="res\images\radio.png"/>
+			<file name="sys_close.png" path="res\images\sys_close.png" comment="res\images\sys_close.png"/>
+			<file name="sys_close_hover.png" path="res\images\sys_close_hover.png" comment="res\images\sys_close_hover.png"/>
+			<file name="sys_input.png" path="res\images\sys_input.png" comment="res\images\sys_input.png"/>
+			<file name="sys_max.png" path="res\images\sys_max.png" comment="res\images\sys_max.png"/>
+			<file name="sys_max_hover.png" path="res\images\sys_max_hover.png" comment="res\images\sys_max_hover.png"/>
+			<file name="sys_min.png" path="res\images\sys_min.png" comment="res\images\sys_min.png"/>
+			<file name="sys_min_hover.png" path="res\images\sys_min_hover.png" comment="res\images\sys_min_hover.png"/>
+			<file name="sys_restore.png" path="res\images\sys_restore.png" comment="res\images\sys_restore.png"/>
+			<file name="sys_restore_hover.png" path="res\images\sys_restore_hover.png" comment="res\images\sys_restore_hover.png"/>
+			<file name="sys_search.png" path="res\images\sys_search.png" comment="res\images\sys_search.png"/>
+			<file name="sys_search_hover.png" path="res\images\sys_search_hover.png" comment="res\images\sys_search_hover.png"/>
+			<file name="sys_setting_default.png" path="res\images\sys_setting_default.png" comment="res\images\sys_setting_default.png"/>
+			<file name="sys_setting_hover.png" path="res\images\sys_setting_hover.png" comment="res\images\sys_setting_hover.png"/>
+			<file name="sys_split.png" path="res\images\sys_split.png" comment="res\images\sys_split.png"/>
+			<file name="volume_btn_default.png" path="res\images\volume_btn_default.png" comment="res\images\volume_btn_default.png"/>
+			<file name="volume_btn_disable.png" path="res\images\volume_btn_disable.png" comment="res\images\volume_btn_disable.png"/>
+		</folder>
+	</folder>
+	<folder name="其他窗口" path="form" comment="目录" embed="true">
+		<file name="player.aardio" path="form\player.aardio" comment="form\player.aardio"/>
+		<file name="videos.aardio" path="form\videos.aardio" comment="form\videos.aardio"/>
+		<folder name="set" path="form\set" comment="form\set">
+			<file name="advance.aardio" path="form\set\advance.aardio" comment="form\set\advance.aardio"/>
+			<file name="menu.aardio" path="form\set\menu.aardio" comment="form\set\menu.aardio"/>
+			<file name="player.aardio" path="form\set\player.aardio" comment="form\set\player.aardio"/>
+			<file name="set.aardio" path="form\set\set.aardio" comment="form\set\set.aardio"/>
+		</folder>
+	</folder>
+</project>

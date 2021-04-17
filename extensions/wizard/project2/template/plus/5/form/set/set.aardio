@@ -1,0 +1,55 @@
+import fonts.fontAwesome;
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="Ovplayer播放器设置";right=603;bottom=470;bgcolor=16777215;border="none";exmode="none";max=false;min=false;mode="popup";parent=...;sysmenu=false)
+winform.add(
+bk={cls="bk";left=0;top=418;right=604;bottom=471;bgcolor=15658734;z=5};
+btOk={cls="plus";text="确定";left=505;top=431;right=587;bottom=463;background="\res\images\btn_setting_default.png";bkBottom=2;bkLeft=2;bkRight=2;bkTop=2;notify=1;textPadding={bottom=2};transparent=1;z=6};
+btnCancel={cls="plus";text="取消";left=412;top=431;right=494;bottom=463;background="\res\images\btn_setting_default.png";bkBottom=2;bkLeft=2;bkRight=2;bkTop=2;notify=1;textPadding={bottom=2};transparent=1;z=7};
+custom={cls="custom";text="custom";left=119;top=35;right=605;bottom=422;bgcolor=15658734;z=8};
+plusAdvance={cls="plus";text="高级";left=0;top=88;right=119;bottom=133;background="\res\Images\set_tab_bkg.png";font=LOGFONT(h=-16);notify=1;repeat="repeat-x";z=4};
+plusPlayer={cls="plus";text="播放";left=0;top=50;right=119;bottom=88;background="\res\Images\set_tab_bkg.png";font=LOGFONT(h=-16);notify=1;repeat="repeat-x";z=3};
+titlebar={cls="bk";text="   Ovplayer播放器设置";left=0;top=0;right=604;bottom=35;align="left";bgcolor=16777215;color=8421504;forecolor=4208437;linearGradient=0;paddingLeft=10;z=1};
+titlebarClose={cls="plus";left=570;top=5;right=595;bottom=30;background="\res\images\sys_close.png";notify=1;repeat="repeat-x";transparent=1;z=2}
+)
+/*}}*/
+
+import style;
+import style.set;
+winform.titlebarClose.skin( style.titlebar.close )
+winform.titlebarClose.oncommand = function(id,event){
+	winform.close();
+}
+
+import win.ui.tabs;
+var tbs = win.ui.tabs(winform.plusPlayer,winform.plusAdvance)
+tbs.skin( style.set.tabs )
+
+tbs.loadForm(1,"\form\set\player.aardio");
+tbs.loadForm(2,"\form\set\advance.aardio");
+tbs.selIndex = 1;
+
+winform.btOk.skin( style.set.button );
+winform.btnCancel.skin( style.set.button  );
+
+winform.onOk = function(){
+	winform.msgbox("已保存到配置项文件!")
+}
+
+winform.onCancel = function(){
+    winform.endModal()
+}
+
+winform.btOk.oncommand = winform.onOk;
+winform.btnCancel.oncommand = winform.onCancel;
+
+winform.onMouseDown  = function(wParam,lParam){
+	winform.hitCaption(); 	
+}
+
+import win.ui.shadow;
+win.ui.shadow(winform,,5);
+
+winform.show();
+win.loopMessage();
+return winform;

@@ -1,0 +1,67 @@
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="aardio form";right=484;bottom=383;bgcolor=15658734;parent=...)
+winform.add(
+plus={cls="plus";left=90;top=27;right=103;bottom=40;background="\res\images\checkbox.png";notify=1;repeat="repeat-x";z=2};
+plus2={cls="plus";left=90;top=57;right=103;bottom=70;background="\res\images\checkbox.png";notify=1;repeat="repeat-x";z=3};
+plus3={cls="plus";left=90;top=88;right=103;bottom=101;background="\res\images\checkbox.png";notify=1;repeat="repeat-x";z=6};
+plus4={cls="plus";left=90;top=118;right=103;bottom=131;background="\res\images\checkbox.png";notify=1;repeat="repeat-x";z=7};
+plus5={cls="plus";left=90;top=147;right=103;bottom=160;background="\res\images\radio.png";notify=1;repeat="repeat-x";z=11};
+plus6={cls="plus";left=249;top=150;right=262;bottom=163;background="\res\images\radio.png";color=8421504;notify=1;repeat="repeat-x";z=13};
+plus7={cls="plus";left=90;top=178;right=103;bottom=191;background="\res\images\checkbox.png";notify=1;repeat="repeat-x";z=16};
+static={cls="static";text="开启";left=17;top=24;right=73;bottom=42;align="right";transparent=1;z=1};
+static10={cls="static";text="退出时";left=17;top=175;right=73;bottom=193;align="right";transparent=1;z=15};
+static11={cls="static";text="清空播放记录";left=105;top=177;right=193;bottom=195;align="right";color=8421504;notify=1;transparent=1;z=17};
+static3={cls="static";text="开机时自动启动";left=106;top=26;right=208;bottom=44;align="right";color=8421504;notify=1;transparent=1;z=4};
+static4={cls="static";text="剧集更新时提醒我";left=107;top=55;right=219;bottom=73;align="right";color=8421504;notify=1;transparent=1;z=5};
+static5={cls="static";text="推荐精彩视频给我";left=106;top=87;right=219;bottom=105;align="right";color=8421504;notify=1;transparent=1;z=8};
+static6={cls="static";text="推荐每日热剧大片给我";left=107;top=116;right=243;bottom=134;align="right";color=8421504;notify=1;transparent=1;z=9};
+static7={cls="static";text="关闭时";left=17;top=146;right=73;bottom=164;align="right";transparent=1;z=10};
+static8={cls="static";text="最小化到托盘";left=106;top=146;right=194;bottom=164;align="right";color=8421504;notify=1;transparent=1;z=12};
+static9={cls="static";text="直接退出";left=265;top=149;right=331;bottom=167;align="right";color=8421504;notify=1;transparent=1;z=14}
+)
+/*}}*/
+
+import style;
+winform.plus.skin( style.checkbox )
+winform.plus2.skin( style.checkbox )
+winform.plus3.skin( style.checkbox )
+winform.plus4.skin( style.checkbox )
+winform.plus7.skin( style.checkbox )
+winform.plus5.skin( style.radioButton )
+winform.plus6.skin( style.radioButton )
+winform.plus5.checked = true;
+
+winform.static3.oncommand = function(id,event){
+	winform.plus.checked = !winform.plus.checked?true:false;
+}
+
+winform.static4.oncommand = function(id,event){
+	winform.plus2.checked  = !winform.plus2.checked?true:false;
+}
+
+winform.static5.oncommand = function(id,event){
+	winform.plus3.checked  = !winform.plus3.checked?true:false;
+}
+
+winform.static6.oncommand = function(id,event){
+	winform.plus4.checked  = !winform.plus4.checked?true:false;
+}
+
+winform.static11.oncommand = function(id,event){
+	winform.plus7.checked  = !winform.plus7.checked?true:false;
+}
+
+winform.static8.oncommand = function(id,event){
+	winform.plus5.checked  = true;
+}
+
+winform.static9.oncommand = function(id,event){
+	winform.plus6.checked  = true;
+}
+
+//winform.enableDpiScaling();
+winform.show();
+
+win.loopMessage();
+return winform;

@@ -1,0 +1,16 @@
+﻿//IE11
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="调用 IE11 控件创建 Web 窗体";right=759;bottom=469)
+winform.add()
+/*}}*/
+
+//调用 IE11 控件创建 Web 窗体，如果版本低于 IE11 则自动安装
+import web.form.ie11;
+var wb = web.form.ie11( winform,5/*_UIFLAG_DIALOG*/);
+if(!wb) return;//XP系统，或用户取消安装IE11自动退出，已经显示了对话框
+
+wb.go("http://api.aardio.com/v10/pages/new-file/web-browser/"); 
+winform.show(3/*_SW_MAXIMIZE*/);
+
+win.loopMessage();

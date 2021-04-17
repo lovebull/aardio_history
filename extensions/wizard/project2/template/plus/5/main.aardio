@@ -1,0 +1,95 @@
+import win.ui;
+/*DSG{{*/
+mainForm = win.form(text="aardio工程8";right=1145;bottom=686;bgcolor=4208437;border="none")
+mainForm.add(
+bkplus={cls="bkplus";left=24;top=17;right=43;bottom=36;bgcolor=16777215;dl=1;dt=1;repeat="center";z=1};
+btnPlayer={cls="plus";text="播放器";left=78;top=1;right=214;bottom=50;background="\res\Images\sys_tab_bkg.png";clipBk=false;color=12632256;dl=1;dt=1;font=LOGFONT(h=-16);notify=1;repeat="repeat-x";z=3};
+btnVideos={cls="plus";text="影视库";left=214;top=1;right=350;bottom=50;background="\res\Images\sys_tab_bkg.png";clipBk=false;color=12632256;dl=1;dt=1;font=LOGFONT(h=-16);notify=1;repeat="repeat-x";z=5};
+custom={cls="custom";text="custom";left=0;top=50;right=1146;bottom=687;ah=1;aw=1;bgcolor=8421376;db=1;dl=1;dr=1;dt=1;z=13};
+logo={cls="bkplus";left=22;top=15;right=46;bottom=39;background="\res\images\logo.png";dl=1;dt=1;repeat="center";z=2};
+logoSplit={cls="bkplus";left=74;top=0;right=76;bottom=51;background="\res\images\sys_split.png";dl=1;dt=1;repeat="center";z=4};
+plus={cls="plus";left=1007;top=0;right=1009;bottom=51;background="\res\images\sys_split.png";clipBk=false;dr=1;dt=1;repeat="center";z=6};
+searchButton={cls="plus";left=950;top=12;right=979;bottom=41;background="\res\images\sys_search.png";clipBk=false;dr=1;dt=1;notify=1;repeat="repeat-x";transparent=1;z=12};
+searchText={cls="plus";text="足球小将翼";left=776;top=13;right=980;bottom=42;align="left";background="\res\images\sys_input.png";bkBottom=4;bkLeft=13;bkRight=32;bkTop=3;clipBk=false;color=12632256;dr=1;dt=1;editable=1;paddingLeft=17;paddingRight=33;paddingTop=7;transparent=1;valign="top";z=11};
+titlebarClose={cls="plus";left=1106;top=13;right=1131;bottom=38;background="\res\images\sys_close.png";dr=1;dt=1;notify=1;repeat="repeat-x";z=10};
+titlebarMax={cls="plus";left=1076;top=13;right=1101;bottom=38;background="\res\images\sys_max.png";dr=1;dt=1;notify=1;repeat="repeat-x";z=9};
+titlebarMin={cls="plus";left=1046;top=13;right=1071;bottom=38;background="\res\images\sys_min.png";dr=1;dt=1;notify=1;repeat="repeat-x";z=8};
+titlebarSet={cls="plus";left=1016;top=13;right=1041;bottom=38;background="\res\images\sys_setting_default.png";dr=1;dt=1;notify=1;repeat="repeat-x";z=7}
+)
+/*}}*/
+
+import win.ui.tabs;
+var tbs = win.ui.tabs(mainForm.btnPlayer,mainForm.btnVideos);//创建高级选项卡,至少要添加2个创建好的选项卡(作为设计模板)
+
+//指定选项卡的外观样式
+import style; 
+tbs.skin(style.tabs);
+
+//加载子窗口,并绑定指定索引的选项卡按钮
+tbs.loadForm(1,"\form\player.aardio");
+tbs.loadForm(2,"\form\videos.aardio");
+tbs.selIndex = 1;//设置当前选项卡
+
+//添加选项卡
+tbs.add({
+    text="看动漫";
+    hasCloseButton = true;
+    },"\form\videos.aardio"
+)
+
+//也可以用下面的代码自定义关闭按钮的外观样式
+tbs.closeButton.skin(style.tabsCloseButton)
+ 
+//可以自定义关闭按钮在选项卡上的显示位
+tbs.beforeShowCloseButton = function(strip,rcStrip,rcCloseButton){
+    return rcStrip.right - 15, rcStrip.top;
+}
+
+//这个函数会查询并获取选项卡绑定的子窗口,如果子窗口没有加载将会立即加载
+tbs.query( text = "看动漫" ).static.text = "看动漫";
+ 
+//搜索框
+mainForm.searchButton.skin( style.searchBox );
+mainForm.searchButton.setParent( mainForm.searchText );//嵌入文本框使其能够响应通知
+mainForm.searchButton.oncommand = function() mainForm.msgbox(mainForm.searchText.text);
+
+//标题栏按钮
+mainForm.titlebarMin.skin( style.titlebar.min );
+mainForm.titlebarMax.skin( style.titlebar.max );
+mainForm.titlebarClose.skin( style.titlebar.close );
+mainForm.titlebarMin.oncommand = function() mainForm.show(0x6/*_SW_MINIMIZE*/);
+mainForm.titlebarMax.oncommand = function() mainForm.titlebarMax.checked = mainForm.hitMax();
+mainForm.titlebarClose.oncommand = function() mainForm.close();
+mainForm.titlebarSet.skin( style.titlebar.set );
+
+mainForm.titlebarSet.oncommand = function(id,event){
+	var frmChild,wb = mainForm.loadForm("\form\set\menu.aardio");
+	var x,y,cx,cy = win.getPos(mainForm.titlebarSet.hwnd,true);
+	frmChild.setPos(x+cx/2-frmChild.width/2,y+cy);
+	frmChild.show();
+}
+
+mainForm.onMouseDown  = function(wParam,lParam){
+	mainForm.hitCaption();
+}
+
+mainForm.onMouseDoubuleClick = function(wParam,lParam){
+	mainForm.titlebarMax.oncommand();
+}
+
+//添加自定义函数供其他窗口调用
+mainForm.maximize = function(){
+	mainForm.titlebarMax.oncommand();
+}
+
+import win.ui.resizeBorder;
+win.ui.resizeBorder(mainForm,3);
+
+import win.ui.minmax;
+win.ui.minmax(mainForm,1000,500);
+
+import win.ui.shadow;
+win.ui.shadow(mainForm,,5);
+
+mainForm.show();
+return win.loopMessage();

@@ -1,0 +1,75 @@
+//web.sysView
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="Edge 浏览器控件 - web.sysView";right=759;bottom=469;bgcolor=16777215)
+winform.add()
+/*}}*/
+
+/*
+WebView1 内核稳定可靠，但 WebView2 还在起步期，更新也非常活跃，
+如果 运行范例（或发布EXE）遇到问题，请首先到控制面板找到 WebView2 并卸载。
+这时候再运行 import web.sysView 会自动改用 WebView1 控件。
+创建 web.view 对象时如果 WebView2 Runtime 未安装则会自动安装。 
+*/
+import web.sysView;
+var wb = web.sysView(winform);
+
+//导出任意个 Javascript 全局函数, 使用JSON自动转换参数和返回值
+//注意下面的 JS 回调函数内禁止调用 wb.doScript 或  wb.eval 执行Javascript。
+wb.export({
+    alert = function(msg){
+		winform.msgbox(msg)
+		return 123; 
+	}
+	nativeLog = function(msg){
+		winform.msgbox(msg) 
+	}
+})
+
+wb.html = /**
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style type="text/css">
+    html,body{ height:100%; } 
+    </style>
+    <script type="text/javascript">
+    alert("test").then( v=>nativeLog(v))
+    </script>
+</head>
+<body style="margin:50px"><pre>
+<b>扩展库 web.sysView</b>
+-----------------------------------
+如果是WIN10 系统并且未安装 WebView2 Runtime ，
+调用 WIN10 系统 Edge/Edge(Chromium) 浏览器自带的 WebView1 创建浏览器控件。 
+WebView1 是 UWP 控件，默认不能不能访问本机 locahost，
+aardio 在运行时会检测并自动解除限制（但有请求管理权限的提示）。
+
+如果是 WIN7，WIN8 或者已安装 WebView2 Runtime ，
+web.sysView 会自动调用标准库 web.view 创建对象。
+
+web.sysView 的体积非常小，可以生成独立 EXE文件。
+
+<b>标准库 web.view</b>
+-----------------------------------
+基于 WebView2（Edge/Chromium内核），支持 WIN7，WIN8，WIN10。
+WebView2 Runtime 需要单独安装，但没有默认不能访问本机 locahost 的限制。
+
+运行时可自动安装 WebView2 Runtime， 安装包较大并需要请求管理权限。
+好在微软官方提供下载，速度非常快，所以体验还不错，并且这种公共运行库，应当会较快普及。
+
+web.view 库的体积非常小，可以生成独立 EXE文件。
+</pre></body>
+</html>
+</html>
+**/
+//wb.go("https://quickref.me/javascript")
+
+//执行 JS 并获取返回值。
+wb.doScript("window.location.href",function(result,err){
+	winform.text = result;
+})
+
+winform.show(3/*_SW_MAXIMIZE*/);
+win.loopMessage();

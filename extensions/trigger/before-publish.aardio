@@ -1,0 +1,33 @@
+﻿import ide;
+import fsys;
+
+if(_WIN10_LATER){
+	if(!#ide.getConfig("mpPreferenceWarning")){
+		import win.dlg.message
+    	win.dlg.message(ide.getMainHwnd()).warn('如果生成 EXE 时遇到卡顿或异常。\n请将工程目录添加到安全监控类软件的「信任开发目录」。\n\n双击『工具/开发环境/信任开发目录』可自动\n添加工程目录到 Windows Defender 排除目录。')
+		ide.setConfig("mpPreferenceWarning","true");
+	}	
+}
+else {
+    if(!#ide.getConfig("mpPreferenceWarning")){
+    	import win.dlg.message
+    	win.dlg.message(ide.getMainHwnd()).warn('如果生成 EXE 时遇到卡顿或异常。\n请将工程目录添加到安全监控类软件的「信任排除目录」或「开发目录」。')
+		ide.setConfig("mpPreferenceWarning","true");
+	}	
+}
+
+var projectPath = ide.getProjectPath(); 
+var projectFileName = io.splitpath(projectPath).name; 
+var builder = fsys.joinpath(ide.getProjectDir(),".build\" + projectFileName + ".init.aardio"); 
+if( io.exist( builder ) ){   
+	var tHnd = thread.create(builder)
+	if(tHnd){
+		thread.waitOne(tHnd);
+		raw.closehandle(tHnd);
+	}
+} 
+else {
+	import fsys;
+	fsys.createParentDir(builder)
+	string.save(builder,'//发布前触发\nimport ide;') 
+} 

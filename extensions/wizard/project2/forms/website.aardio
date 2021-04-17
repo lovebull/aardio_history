@@ -1,0 +1,171 @@
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="aardio form";right=939;bottom=772;bgcolor=16777215)
+winform.add(
+custom={cls="custom";left=148;top=11;right=921;bottom=751;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;z=4};
+static={cls="static";left=139;top=7;right=140;bottom=757;bgcolor=16752414;clip=1;db=1;dl=1;dt=1;z=3};
+strip1={cls="plus";text="模板控件";left=1;top=34;right=139;bottom=63;align="right";bgcolor=16752414;clip=1;dl=1;dt=1;font=LOGFONT(h=-14);paddingRight=21;z=1};
+strip2={cls="plus";text="模板控件";left=1;top=63;right=139;bottom=92;align="right";bgcolor=16752414;clip=1;dl=1;dt=1;font=LOGFONT(h=-14);paddingRight=21;z=2}
+)
+/*}}*/
+
+//创建高级选项卡
+import win.ui.tabs;
+
+//至少要添加2个创建好的选项卡(作为设计模板,创建成功后可清除)
+var tbs = win.ui.tabs(winform.strip2,winform.strip1);
+
+//指定选项卡的外观样式,用法请参考plus控件说明
+tbs.skin(
+    background = {  //背景
+        default = 0xFFFFFFFF;
+    }
+    color = { //文本颜色
+        hover = 0xF00000FF; 
+    } 
+    border = { //边框
+        default = { bottom = 1;color= 0xFF1E9FFF;  }
+        hover = { bottom = 1;right = 4;color= 0xFF1E9FFF; }
+    }
+    checked = { //选中状态
+        background = { 
+            hover = 0xFF99CCFF;
+            focus = 0xFF1E9FFF;
+            active = 0xFF333366;
+            default = 0xFF1E9FFF;
+        }
+        color = { //文本颜色
+            hover = 0xFF000000; 
+            default = 0xFFFFFFFF; 
+        } 
+        border = { //边框
+            hover = { right = 2;color=0xFF1E9FFF}
+            default = { right = 2;color=0xFF1E9FFF}
+        }
+    }
+)
+
+tbs.clear();
+
+
+import web.form;
+var wb = web.form( win.form(),5/*_UIFLAG_DIALOG*/,,,true);
+wb.go("http://bbs.aardio.com/forum.php?mod=viewthread&tid=22149&from=portal");
+
+import process;
+wb.external ={
+	openSite = function(){
+		process.openUrl("http://bbs.aardio.com/forum.php?mod=viewthread&tid=13210&from=portal")
+	} 
+}
+
+wb.html = /** 
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />  
+    <title>网站程序</title> 
+	<style>body { font-family: "Segoe UI", sans-serif;  }</style>
+</head>
+<body style="white-space:pre;font-size:12pt;word-wrap: break-word;word-break: normal;">
+同一套aardio网站代码可以跑在aardio提供的simpleHttpServer、asynHttpServer等
+自带的嵌入HTTP服务器环境，也可以运行于IIS这样Web服务器环境。
+<a href='javascript:external.openSite()'>aardio网站开发、FastCGI开发入门教程</a> 
+ 
+一、一个aardio文件，即可以是纯aardio代码，也可以是纯HTML，
+也可以是HTML、aardio相互混合的模板代码，aardio都能自动识别并解析。
+
+二、aardio源代码文件里可以直接书写HTML代码，在HTML代码中aardio代码必须置于 &lt;? ..... ?&gt; 内部，，类似PHP的模板语法, 但是要注意与PHP的区别是，aardio规定开始标记  &lt;? 必须独立不能紧跟英文字母，例如 &lt;?xml.....  不是合法的aardio代码段开始标记(aardio会认为这是一个XML标记)。 另外，aardio总是忽略?&gt;后面或文件开始的空白字符（包含空格、制表符，换行）。
+
+三、在一个aardio文件中如果混合了HTML代码，aardio将&lt;? ..... ?&gt; 之外的部分解析为： 
+print("HTML代码") 以调用全局函数print输出HTML。关于print函数的规则：
+   1)、print允许接收多个参数，并且必须对每个参数调用tostring()转换为字符串
+   2)、在一个aardio文件解析结束时，print函数将收到一个null参数调用
+
+四、可以使用 &lt;?=表达式?&gt; 输出文本，该代码的作用类似于 print( 表达式 ) 
+
+五、aardio文件只能以UTF-8编码保存，不建议添加UTF8 BOM(如果添加了BOM,aardio仍然会自动移除)
+
+六、可直接将HTML模板代码复制到aardio编辑器中运行并生成网页。</body></html>
+**/
+
+wb._form.getTemplatePath = function(){
+	return io.fullpath("/template/website/") 
+}
+
+//动态添加更多选项卡
+tbs.add({
+    text="网站程序"; 
+},wb._form)
+
+import web.form;
+var wb = web.form( win.form(),5/*_UIFLAG_DIALOG*/,,,true);
+wb.go("http://bbs.aardio.com/forum.php?mod=viewthread&tid=22149&from=portal");
+
+wb.html = /** 
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script type="text/javascript"></script>
+    <title>HTTP服务端</title>
+    <style>body { font-family: "Segoe UI", sans-serif;  }</style>
+</head>
+
+</html>
+<body style="white-space:pre;font-size:12pt;word-wrap: break-word;word-break: normal;">
+<b>aardio 标准库提供：</b>
+wsock.tcp.simpleHttpServer 可以创建多线程HTTP服务端。
+wsock.tcp.asynHttpServer 可以创建单线程异步模式的服务端。
+创建这些服务仅仅需要很少的代码，不需要携带或安装其他第三方组件。
+这些服务端都是由纯aardio代码实现。
+
+这个示例﻿工程创建一个asynHttpServer单线程异步服务端。
+可以支持保持连接（Keep Alive），分块传输协议，支持断点续传，支持304缓存，
+支持文件表单上传.支持使用aardio编写的网站，提供的接口兼容IIS/FastCGI下的aardio/web应用。
+可以实现同一个网站在IIS上可以跑，在几句代码就实现的asynHttpServer也可以跑起来。
+
+并且最方便的是，可以与WebSocket服务端共存共享端口。
+关于WebSocket服务端请参考范例: Web应用/WebSocket
+</body>
+**/
+
+wb._form.getTemplatePath = function(){
+	return io.fullpath("/template/web-server/") 
+}
+
+tbs.add({
+    text="Web 服务器";
+},wb._form)
+
+tbs.selIndex = 1;
+
+//也可以用下面的代码自定义关闭按钮的外观样式
+tbs.closeButton.skin(
+    background = { 
+        hover = 0xFFe35c51; 
+        active = 0xFF8f241b;
+        default = 0x99FFCC66; 
+    }
+    color = {
+        hover = 0xFFFFFFFF; 
+        active = 0xFFEEEEEE;
+        default = 0xCCFFFFFF; 
+    } 
+)
+
+//可以自定义关闭按钮在选项卡上的显示位
+tbs.beforeShowCloseButton = function(strip,rcStrip,rcCloseButton){
+    return rcStrip.right - rcCloseButton.width() - 5, rcStrip.top + ( rcStrip.height() - rcCloseButton.height() )/2;
+}
+
+winform.getTemplatePath = function(){
+    return tbs.selForm.getTemplatePath() 
+}
+
+
+winform.show();
+win.loopMessage();
+return winform;

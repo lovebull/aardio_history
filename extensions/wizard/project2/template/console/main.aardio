@@ -1,0 +1,8 @@
+import console;
+ 
+console.setTitle("${PROJECTNAME}");
+
+var str = console.getText("请输入一行文本,然后回车:");
+console.log("您输入的是" ,str );
+ 
+console.pause();

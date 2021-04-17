@@ -1,0 +1,71 @@
+import win.ui;
+import fonts.fontAwesome;
+/*DSG{{*/
+var winform = win.form(text="aardio form";right=133;bottom=222;image=$"\res\images\drop_menu_bk.png";bkBottom=0;bkLeft=0;bkRight=0;bkTop=0;border="none";exmode="none";parent=...)
+winform.add(
+btnClear={cls="plus";text='\uF1F8  清理播放记录';left=1;top=44;right=133;bottom=71;align="left";background="\res\Images\drop_menu_btn.png";color=12632256;font=LOGFONT(name='FontAwesome');notify=1;paddingLeft=16;repeat="repeat-x";z=2};
+btnOpen={cls="plus";text='\uF07C  打开文件';left=1;top=7;right=133;bottom=35;align="left";background="\res\Images\drop_menu_btn.png";color=12632256;font=LOGFONT(name='FontAwesome');notify=1;paddingLeft=16;repeat="repeat-x";z=1};
+btnQuit={cls="plus";text='\uF08B  退出';left=1;top=190;right=133;bottom=217;align="left";background="\res\Images\drop_menu_btn.png";color=12632256;font=LOGFONT(name='FontAwesome');notify=1;paddingLeft=16;repeat="repeat-x";z=8};
+btnReport={cls="plus";text='\uF086  意见反馈';left=1;top=80;right=133;bottom=116;align="left";background="\res\Images\drop_menu_btn.png";color=12632256;font=LOGFONT(name='FontAwesome');notify=1;paddingLeft=16;repeat="repeat-x";z=3};
+btnSet={cls="plus";text='\uF013  设置';left=1;top=155;right=133;bottom=182;align="left";background="\res\Images\drop_menu_btn.png";color=12632256;font=LOGFONT(name='FontAwesome');notify=1;paddingLeft=16;repeat="repeat-x";z=5};
+btnUpdate={cls="plus";text='\uF0ED  检查更新';left=1;top=122;right=133;bottom=148;align="left";background="\res\Images\drop_menu_btn.png";color=12632256;font=LOGFONT(name='FontAwesome');notify=1;paddingLeft=16;repeat="repeat-x";z=4};
+plus6={cls="plus";left=1;top=38;right=133;bottom=40;align="left";background="\res\images\drop_menu_split.png";color=12632256;font=LOGFONT(name='FontAwesome');notify=1;paddingLeft=16;repeat="repeat-x";z=6};
+plus7={cls="plus";left=1;top=76;right=133;bottom=78;align="left";background="\res\images\drop_menu_split.png";color=12632256;font=LOGFONT(name='FontAwesome');notify=1;paddingLeft=16;repeat="repeat-x";z=7}
+)
+/*}}*/
+
+winform.onActivate = function(state,hwndOther,minimized){
+	if(!state) winform.close();
+}
+
+var menuSkin = {
+	background = {
+		hover = 0xff505157;
+		active = 0xff45474d;
+	}
+};
+
+winform.btnOpen.skin( menuSkin );
+winform.btnClear.skin( menuSkin );
+winform.btnReport.skin( menuSkin );
+winform.btnUpdate.skin( menuSkin );
+winform.btnSet.skin( menuSkin );
+winform.btnQuit.skin( menuSkin );
+
+import fsys.dlg;
+winform.btnOpen.oncommand = function(id,event){
+	var path = fsys.dlg.open("所有文件|*.*|",,,winform.parent);//获取路径
+    if(path){
+        winform.parent.msgbox("文件选择成功!")
+    }
+}
+
+winform.btnClear.oncommand = function(id,event){
+	winform.parent.msgbox("播放记录清理完毕!")
+}
+
+import process;
+winform.btnReport.oncommand = function(id,event){
+	process.openUrl("http://www.htmlayout.cn/")
+}
+
+winform.btnUpdate.oncommand = function(id,event){
+	process.openUrl("http://www.htmlayout.cn/")
+}
+
+winform.btnSet.oncommand = function(id,event){	
+	var frmChild = winform.parent.loadForm("\form\set\set.aardio");
+	frmChild.doModal();
+}
+
+winform.btnQuit.oncommand = function(id,event){
+	win.quitMessage();
+}
+
+import win.ui.layered;
+win.ui.layered(winform);
+
+if(!winform.parent){
+	winform.show();	
+	win.loopMessage();
+}

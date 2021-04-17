@@ -1,0 +1,31 @@
+﻿
+namespace style.set;
+
+tabs = {
+	background = {
+	 	default = 0;
+	 	hover = 0xfff1f1f1;
+	 	active = 0xff1db69a;
+	};
+	color = { 
+		default = 0xFF000000; 
+    }; 
+    checked = {
+    	background = {
+	 		default = 0xff1db69a;
+		}; 
+		color = { 
+			default = 0xFFFFFFFF;
+        	hover = 0xFFFFFFFF; 
+        	active = 0xFFFFFFFF;
+    	}
+    }
+}
+
+button = {
+	background = {
+		default = "\res\images\btn_setting_default.png";
+		hover = "\res\images\btn_setting_hover.png";
+		active = "\res\images\btn_setting_active.png";
+	}
+}

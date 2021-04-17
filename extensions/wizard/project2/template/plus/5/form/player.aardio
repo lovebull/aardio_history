@@ -1,0 +1,136 @@
+import fonts.fontAwesome;
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="aardio form";right=1145;bottom=636;bgcolor=3615018;border="none";parent=...)
+winform.add(
+bk={cls="bk";left=0;top=584;right=934;bottom=637;aw=1;bgcolor=3548965;bkLeft=5;bkRight=5;db=1;dl=1;dr=1;z=2};
+bk3={cls="bk";left=-7;top=561;right=934;bottom=580;aw=1;bgcolor=0;bkLeft=5;bkRight=5;db=1;dl=1;dr=1;z=10};
+bkVideo={cls="bk";text="custom";left=0;top=0;right=934;bottom=565;ah=1;aw=1;bgcolor=0;db=1;dl=1;dr=1;dt=1;z=12};
+btnFullScreen={cls="plus";text='\uF047';left=900;top=600;right=920;bottom=620;color=14079702;db=1;dr=1;font=LOGFONT(h=-18;name='FontAwesome');notify=1;repeat="tile";z=9};
+btnPlay={cls="plus";text='\uF04B';left=429;top=591;right=502;bottom=629;color=14079702;db=1;dl=1;font=LOGFONT(h=-29;name='FontAwesome');notify=1;repeat="tile";z=3};
+btnStop={cls="plus";text='\uF04D';left=336;top=600;right=358;bottom=622;color=14079702;db=1;dl=1;font=LOGFONT(h=-19;name='FontAwesome');notify=1;repeat="tile";z=6};
+first={cls="plus";text='\uF048';left=387;top=596;right=419;bottom=628;color=14079702;db=1;dl=1;font=LOGFONT(h=-19;name='FontAwesome');notify=1;repeat="tile";z=4};
+last={cls="plus";text='\uF051';left=510;top=595;right=542;bottom=627;color=14079702;db=1;dl=1;font=LOGFONT(h=-19;name='FontAwesome');notify=1;repeat="tile";z=5};
+trackbar={cls="plus";left=0;top=573;right=934;bottom=585;bgcolor=-5394771;border={radius=-1};color=14606046;db=1;dl=1;dr=1;foreRight=13;forecolor=-6505984;paddingBottom=5;paddingTop=5;z=11};
+video={cls="custom";text="custom";left=0;top=0;right=934;bottom=565;ah=1;aw=1;bgcolor=0;db=1;dl=1;dr=1;dt=1;z=1};
+voice={cls="plus";text='\uF027';left=758;top=604;right=774;bottom=617;color=14079702;db=1;dr=1;font=LOGFONT(h=-18;name='FontAwesome');notify=1;repeat="tile";z=7};
+volume={cls="plus";left=781;top=605;right=885;bottom=614;bgcolor=-12568520;border={radius=-1};color=15263976;db=1;dr=1;foreRepeat="expand";foreRight=8;forecolor=-5320927;notify=1;paddingBottom=3;paddingTop=3;z=8}
+)
+/*}}*/
+
+import style.player;
+winform.first.skin( style.player.first );
+winform.btnPlay.skin( style.player.play ); 	
+winform.last.skin( style.player.last );
+winform.btnStop.skin( style.player.stop );
+winform.voice.skin( style.player.voice );
+winform.volume.skin(style.player.volume);
+winform.btnFullScreen.skin( style.player.fullscreen );
+
+import libvlc; 
+import win.version;
+
+var vlc = libvlc( //初始化vlc引擎，可用参数：https://wiki.videolan.org/VLC_command-line_help/ 
+	"--subsdec-encoding=GB18030",//字幕默认使用中文编码
+	win.version.isVistaLater ? "--freetype-font=Microsoft JhengHei" : "--freetype-font=宋体",//WIN7可用字体：Arial Unicode MS,DFKai-SB, Microsoft JhengHei, MingLiU, MingLiU-ExtB, MingLiU_HKSCS, MingLiU_HKSCS-ExtB, PMingLiU, PMingLiU-ExtB
+	 "--no-snapshot-preview","-I","dummy","--ignore-config",//"--extraintf=logger" ,"--verbose=2", 
+	) 
+
+var vlcPlayer = vlc.mediaPlayer( winform.video ); 
+vlcPlayer.setKeyInput(true)
+
+import fsys.dlg;
+winform.btnPlay.oncommand = function(id,event){   
+ 	if( winform.btnPlay.checked ){ 
+ 		if(vlcPlayer.isPaused()){
+ 			vlcPlayer.resume();
+ 			return;
+ 		}
+ 		
+ 		vlcPlayer.loadMedia("http://download.aardio.com/demo/video.aardio");
+		vlcPlayer.play()   
+	}
+	else {
+		vlcPlayer.pause(); 
+	}
+} 
+
+winform.btnStop.oncommand = function( id,event ){
+	vlcPlayer.stop()
+	winform.btnPlay.checked = false; 
+}
+
+var eventManager = vlcPlayer.getEventManager()
+eventManager.mediaPlayerTimeChanged = function(event){  
+	winform.trackbar.progressPos = event.newTime;
+}
+
+eventManager.mediaPlayerEndReached = function(event){
+	winform.btnPlay.checked = false;
+}
+
+eventManager.mediaPlayerLengthChanged = function(event){ 
+	winform.trackbar.setTrackbarRange(1,vlcPlayer.length);
+	winform.trackbar.progressPos = 0; 
+}  
+winform.trackbar.setTrackbarRange(1,100);
+winform.trackbar.skin(style.player.trackbar);
+
+winform.trackbar.onMouseUp = function(wParam,lParam){  
+	vlcPlayer.time =  winform.trackbar.progressPos; 
+} 
+
+import sys.audioVolume;
+var volumeCtrl = sys.audioVolume();
+winform.volume.setTrackbarRange(0,100);
+winform.volume.progressPos = volumeCtrl.volume;
+
+winform.volume.onPosChanged = function( pos,thumbTrack ){
+	if(thumbTrack){ 
+		volumeCtrl.volume = pos; 
+	}
+}
+
+winform.voice.oncommand = function(id,event){
+	volumeCtrl.mute = owner.checked;
+}
+
+winform.btnFullScreen.oncommand = function(id,event){
+	winform.video.fullscreen(true);
+} 
+
+// 关闭窗体时退出播放器
+winform.beforeDestroy = function(){
+    vlcPlayer.release()
+}
+
+//按回车、空格暂停
+winform.isDialogMessage = function(hwnd,msg){ 
+    if(  msg.wParam == 0xD/*_VK_RETURN*/ || msg.wParam == 0x20/*_VK_SPACE*/ ){
+        msg.hwnd = winform.btnPlay.hwnd;
+        return;
+    }
+    return win.isDialogMessage(hwnd,msg);
+}
+
+//全屏快捷键
+winform.video.translateAccelerator = function(msg){ 
+	 if(  msg.wParam == 0xD/*_VK_RETURN*/ || msg.wParam == 0x20/*_VK_SPACE*/ ){
+	 	  msg.hwnd = winform.btnPlay.hwnd;
+	 }
+	 if(  msg.wParam == 0x1B/*_VK_ESC*/ ){
+	 	 winform.video.fullscreen(false); 
+	 }
+}
+
+winform.last.oncommand = function(id,event){
+	vlcPlayer.time = vlcPlayer.length;
+}
+
+winform.first.oncommand = function(id,event){
+	vlcPlayer.time = 0;	
+}
+
+winform.show();
+win.loopMessage();
+return winform;

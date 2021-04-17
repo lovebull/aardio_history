@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project ver="10" name="aardio工程60" libEmbed="true" icon="" CompanyName="aardio" FileDescription="aardio工程60" LegalCopyright="Copyright (C) aardio 2021" ProductName="aardio工程60" InternalName="aardio工程60" FileVersion="0.0.0.1" ProductVersion="0.0.0.1" publishDir="/dist/" ui="win" output="Sciter.exe" dstrip="false">
+	<file name="main.aardio" path="main.aardio"/>
+	<folder name="资源文件(web.sciter)" path="layout" comment="" embed="true" local="false">
+		<file name="hooks.js" path="layout\hooks.js" comment="layout\hooks.js"/>
+		<file name="preact.js" path="layout\preact.js" comment="layout\preact.js"/>
+		<file name="tabs.css" path="layout\tabs.css" comment="layout\tabs.css"/>
+		<file name="ui.css" path="layout\ui.css" comment="layout\ui.css"/>
+		<file name="ui.html" path="layout\ui.html" comment="layout\ui.html"/>
+		<folder name="images" path="layout\images" comment="layout\images">
+			<file name="begin.png" path="layout\images\begin.png" comment="layout\images\begin.png"/>
+			<file name="bj.jpg" path="layout\images\bj.jpg" comment="layout\images\bj.jpg"/>
+			<file name="document.png" path="layout\images\document.png" comment="layout\images\document.png"/>
+			<file name="download.png" path="layout\images\download.png" comment="layout\images\download.png"/>
+			<file name="home.png" path="layout\images\home.png" comment="layout\images\home.png"/>
+			<file name="picture.png" path="layout\images\picture.png" comment="layout\images\picture.png"/>
+		</folder>
+		<folder name="styles" path="layout\styles" comment="layout\styles">
+			<folder name="images" path="layout\styles\images" comment="layout\styles\images"/>
+		</folder>
+	</folder>
+</project>

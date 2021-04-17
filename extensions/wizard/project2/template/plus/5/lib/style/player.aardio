@@ -1,0 +1,95 @@
+﻿import gdip.bitmap;
+
+namespace style.player;
+
+play = {	
+	color = {
+		default = 0xffd6d6d6;
+		hover = 0xff30af99;
+		active = 0x6f30af99;
+	};
+    checked = {
+    	text = '\uF04C';
+    	color = {
+			default = 0xffd6d6d6;
+			hover = 0xff30af99;
+			active = 0x6f30af99;
+		};
+    }
+}
+
+first = {	
+	color = {
+		default = 0xffd6d6d6;
+		hover = 0xff30af99;
+		active = 0x6f30af99;
+	}; 
+}
+
+last = {	
+	color = {
+		default = 0xffd6d6d6;
+		hover = 0xff30af99;
+		active = 0x6f30af99;
+	}; 
+}
+
+stop = {	
+	color = {
+		default = 0xffd6d6d6;
+		hover = 0xff30af99;
+		active = 0x6f30af99;
+	}; 
+}
+
+voice = {	
+	color = {
+		default = 0xffd6d6d6;
+		hover = 0xff30af99;
+		active = 0x6f30af99;
+	};
+    checked = {
+    	text = '\uF026';
+    	color = {
+			default = 0xffd6d6d6;
+			hover = 0xff30af99;
+			active = 0x6f30af99;
+		};
+    }
+}
+
+volume = {
+	background={
+		default=0xFF383840
+	};
+	foreground={
+		default=0xFF21CFAE;
+		hover=0xFFFFC000
+	};
+	color={
+		default=0xFFE8E8E8;
+		hover=0xFF00AEFF
+	}
+}
+
+fullscreen = {	
+	color = {
+		default = 0xffd6d6d6;
+		hover = 0xff30af99;
+		active = 0x6f30af99;
+	};
+}
+
+trackbar = {
+	background={
+		default=0xFFADAEAD
+	};
+	foreground={
+		default=0xFF00BA9C;
+		hover=0xFFFFC000
+	};
+	color={
+		default=0xFFDEDEDE;
+		hover=0xFF00AEFF
+	}
+}

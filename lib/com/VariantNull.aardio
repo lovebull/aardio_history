@@ -1,0 +1,15 @@
+﻿//VariantNull 空值
+import com;
+
+namespace com;
+
+class VariantNull{
+	ctor(){
+		this = ..com.Variant(null); 
+		..raw.copy(..raw.toPointer(this),{WORD vt=1})  
+	}; 
+}
+
+/**intellisense()
+com.VariantNull() = 创建类型为 VT_NULL 的 com.Variant 对象
+end intellisense**/

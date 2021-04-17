@@ -1,0 +1,20 @@
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="范例工程";right=703;bottom=511;bgcolor=16777215;border="dialog frame")
+winform.add(
+lbDescription={cls="static";left=24;top=445;right=680;bottom=506;db=1;dl=1;dr=1;notify=1;transparent=1;z=2};
+plus={cls="plus";left=24;top=24;right=680;bottom=432;background="~\forms\images\winform.jpg";db=1;dl=1;dr=1;dt=1;repeat="scale";z=1}
+)
+/*}}*/
+
+winform.getTemplatePath = function(){
+	return io.fullpath("/template/paint/") 
+}
+
+winform.lbDescription.text = /*
+这是一个无边框窗口的演示: 窗口边框被设为none，移除了系统默认的边框、标题栏、阴影等。这样我们就可以自己绘制边框和标题栏，使用win.ui.simpleWindow( winform ) 可以快速为无边框窗口添加新的标题栏、边框、阴影。因为这个标题栏是透明的背景，所以可以使用bk,bkplus等无窗口控件在窗口上修改背景，从而方便的更改标题栏背景。
+*/
+
+winform.show() 
+win.loopMessage();
+return winform;
