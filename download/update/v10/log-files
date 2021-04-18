@@ -523,14 +523,15 @@
 601718294|205|155|codes\范例程序\日期时间\performanceCount.aardio
 -691362532|3357|1346|codes\范例程序\日期时间\基本用法.aardio
 0|0|0|codes\范例程序\模拟自动化\MSAA\
-0|0|0|codes\范例程序\模拟自动化\找图找色\
+0|0|0|codes\范例程序\模拟自动化\找图找色找字\
 0|0|0|codes\范例程序\模拟自动化\窗口自动化\
 0|0|0|codes\范例程序\模拟自动化\输入文本\
 0|0|0|codes\范例程序\模拟自动化\进程操作\
 0|0|0|codes\范例程序\模拟自动化\鼠标按键\
 841674326|610|351|codes\范例程序\模拟自动化\MSAA\each.aardio
--1398106253|448|333|codes\范例程序\模拟自动化\找图找色\findColor.aardio
-1531720737|1887|1122|codes\范例程序\模拟自动化\找图找色\findImage.aardio
+-1398106253|448|333|codes\范例程序\模拟自动化\找图找色找字\findColor.aardio
+1531720737|1887|1122|codes\范例程序\模拟自动化\找图找色找字\findImage.aardio
+1972423984|1640|900|codes\范例程序\模拟自动化\找图找色找字\ocrLite.aardio
 -1499552517|1935|900|codes\范例程序\模拟自动化\窗口自动化\dskicon.aardio
 -1593946459|657|464|codes\范例程序\模拟自动化\窗口自动化\embed.aardio
 1659365738|360|228|codes\范例程序\模拟自动化\窗口自动化\listtxt.aardio
@@ -624,7 +625,7 @@
 1625072607|710656|301617|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
-1803970210|15|34|config\SYS.CFG
+-225495272|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 620307770|107153|28055|config\intellisense\kernel.txt
@@ -1402,7 +1403,7 @@
 999147542|13539|4046|lib\key\hotkey\_.aardio
 -67895191|6776|2200|lib\mouse\draw.aardio
 -543039773|2307|1134|lib\mouse\hook.aardio
-1578740911|8069|2268|lib\mouse\_.aardio
+-1802899828|8346|2366|lib\mouse\_.aardio
 -222487070|18019|3720|lib\nodeJs\_.aardio
 0|0|0|lib\preg\.res\
 248544567|14432|4037|lib\preg\_.aardio
