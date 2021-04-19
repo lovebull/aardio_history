@@ -1,4 +1,4 @@
--240310098|6397952|2348685|aardio.exe
+1732478802|6400000|2349752|aardio.exe
 0|0|0|codes\
 0|0|0|config\
 0|0|0|download\
@@ -625,7 +625,7 @@
 1625072607|710656|301617|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--225495272|15|34|config\SYS.CFG
+1782844565|15|33|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 620307770|107153|28055|config\intellisense\kernel.txt
@@ -1775,7 +1775,7 @@
 0|0|0|lib\winex\ctrl\
 -1069300197|680|367|lib\winex\desktop.aardio
 1514836294|2825|1140|lib\winex\key.aardio
-1306671023|4213|951|lib\winex\mouse.aardio
+-888729517|3858|874|lib\winex\mouse.aardio
 136927628|24625|6064|lib\winex\_.aardio
 -5254621|4764|1297|lib\winex\accObject\element.aardio
 -866080167|7557|2594|lib\winex\accObject\_.aardio
