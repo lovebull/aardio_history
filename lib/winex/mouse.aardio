@@ -18,6 +18,16 @@ var clickDelay = function(){
 }
 
 var send = function(hwnd,cmd,wParam,x=0,y=0){ 
+    var hChild = User32.ChildWindowFromPointEx(hwnd,x,y,7);
+    if(hChild && (hwnd!=hChild)){ 
+        var pt = {int x = x,int y = y }
+        if( ::User32.MapWindowPoints(hwnd,hChild,pt,1) ){
+        	hwnd = hChild;
+        	x = pt.x;
+        	y = pt.y;
+        } 
+    }
+    
     var lParam = ( ( (y & 0xFFFF) << 16) | (x & 0xFFFF) ) & 0xFFFFFFFF 
 	::User32.PostMessage(hwnd,cmd,wParam,lParam);
 }
@@ -94,15 +104,14 @@ namespace rb{
 }
 
 /*intellisense(winex.mouse)
-delay = 指定延时函数,默认为win.delay
 delayDown = 按下后的时间间隔,默认为5
 delayUp = 弹起后的时间间隔,默认为1
 delayClick = 完整击键之间的间隔,默认为5
-down(.(窗口句柄,x,y) = 左键按下\nx,y为目标窗口内客户区坐标\n可选增加wParam参数,用法参考源码
-up(.(窗口句柄,x,y) = 左键弹起\nx,y为目标窗口内客户区坐标\n可选增加wParam参数,用法参考源码
-click(.(窗口句柄,x,y) = 左键单击\nx,y为目标窗口内客户区坐标\n可选增加wParam参数,用法参考源码
-clickDB(.(窗口句柄,x,y) = 左键双击\nx,y为目标窗口内客户区坐标\n可选增加wParam参数,用法参考源码
-move(.(窗口句柄,x,y) = 移动鼠标\nx,y为目标窗口内客户区坐标\n可选增加wParam参数,用法参考源码
+down(.(窗口句柄,x,y) = 左键按下\nx,y为目标窗口内客户区坐标,\n如果该坐标存在直接子窗口,则将消息发送到该子窗口,\n可选增加wParam参数,用法参考源码
+up(.(窗口句柄,x,y) = 左键弹起\nx,y为目标窗口内客户区坐标\n如果该坐标存在直接子窗口,则将消息发送到该子窗口,可选增加wParam参数,用法参考源码
+click(.(窗口句柄,x,y) = 左键单击\nx,y为目标窗口内客户区坐标\n如果该坐标存在直接子窗口,则将消息发送到该子窗口,可选增加wParam参数,用法参考源码
+clickDB(.(窗口句柄,x,y) = 左键双击\nx,y为目标窗口内客户区坐标\n如果该坐标存在直接子窗口,则将消息发送到该子窗口,可选增加wParam参数,用法参考源码
+move(.(窗口句柄,x,y) = 移动鼠标\nx,y为目标窗口内客户区坐标\n如果该坐标存在直接子窗口,则将消息发送到该子窗口,可选增加wParam参数,用法参考源码
 end intellisense*/
 
 /*intellisense(winex.mouse.mb)

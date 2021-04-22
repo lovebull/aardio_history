@@ -6,15 +6,14 @@ namespace sys.vc14;
 
 isInstalled = function(minorVersion,buildNumber){
 	if(type.isString(minorVersion) ){
+		minorVersion = null;
+		
 		if(minorVersion=="2017"){
 			minorVersion = 13;
 			if( !buildNumber || (buildNumber<26020) ) buildNumber = 26020;	
 		}
-		elseif(minorVersion=="2017"){
+		elseif(minorVersion=="2019"){ 
 			if( !buildNumber || (buildNumber<27820) ) buildNumber = 27820;
-		}
-		else {
-			minorVersion = null;
 		}
 	}
 	

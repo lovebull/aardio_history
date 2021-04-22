@@ -74,6 +74,7 @@ import preload.raw;
 import preload.math;
 import preload.thread;
 import preload.io;
+import preload.struct;
 
 gcdata = function(t){
 	var d = ..raw.buffer(1);d@ = t;

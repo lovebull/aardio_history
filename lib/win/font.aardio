@@ -146,7 +146,8 @@ getResourceInfo = function(filename){
 
 /**intellisense()
 win.font.enum(proc,logfond,hdc) = @.enum( \n	function(logfont,fullname,ftype,style,script,lpntme){\n		if( ftype == 0x4/*_TRUETYPE_FONTTYPE*/ && fullname[1] != '@'#/*翻转90度字体*/ ){\n			__\n		}\n	},{ charset = 0x86/*_GB2312_CHARSET*/; name = "" }\n)
-win.font.add(.(字体) = 添加字体,参数可以是字体文件路径,资源文件路径,或内存数据\n参数2省略或为真删除成功后调用sendChange函数通知所有窗体\n返回值1为字体路径或字体句柄,返回值2为添加字体数目,失败返回空值\n注册的字体仅在当前进程可用，并可覆盖系统同名字体，\n内存字体仅适用于GDI以及传统控件
+win.font.add( = 添加字体,\n此函数加载的字体仅适用于GDI以及传统控件,\n有个别控件可能不支持内存字体\n建议改用 fonts.addFamily 函数可以支持GDI,GDI+,plus 控件等
+win.font.add(.(字体) = 添加字体,\n参数@!可以是字体文件路径,资源文件路径,或内存数据\n参数2省略或为真删除成功后调用sendChange函数通知所有窗体\n返回值1为字体路径或字体句柄,返回值2为添加字体数目,失败返回空值\n注册的字体仅在当前进程可用，并可覆盖系统同名字体
 win.font.remove(.(字体) = 移除字体,参数必须是add函数的第一个非空返回值\n参数2省略或为真删除成功后调用sendChange函数通知所有窗体
 win.font.sendChange() = 字体增删后可选使用此函数通知所有顶层窗口
 win.font.getResourceInfo(.("字体路径") = 返回字体文件信息\n注意此函数不支持内嵌资源文件

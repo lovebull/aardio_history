@@ -14,11 +14,11 @@ if( !clr ){
 var appDomain = clr.createAppDomain();
 
 //创建C#语言编译器
-var compile = appDomain.createCompiler("C#");
-compile.Reference("System.dll")
+var compiler = appDomain.createCompiler("C#");
+compiler.Reference("System.dll")
 
 //设置待编译C#源码
-compile.Source = /****** 
+compiler.Source = /****** 
 using System;
 using System.Reflection; 
 using System.Collections;
@@ -65,8 +65,8 @@ namespace CSharpLibrary
 ******/
 
 //编译并返回程序集  
-var assembly = compile.Compile()  
-console.log(compile.getLastError())
+var assembly = compiler.Compile()  
+console.log(compiler.getLastError())
  
 //调用程序集创建类对象
 var cSharpObject = assembly.new("CSharpLibrary.CSharpObject")  

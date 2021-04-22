@@ -1,13 +1,23 @@
 //appDomain 应用程序域
 namespace dotNet;
 
+var freeDomainId = 0;
+
 class appDomain{
 
 	ctor( clr,domainName ){
 	
 		var appDomain;
 		 
-		if(!domainName) domainName = "Aardio.CLR.AppDomain";   
+		if(!domainName) {
+			if( __appDomainCache[domainName] ){
+				error("指定的域名称已经被占用",2)
+			}
+			
+			domainName = "Aardio.CLR.AppDomain["+ ..thread.getId() +"]" + freeDomainId;  
+			freeDomainId++; 
+		}
+		
 		if( __appDomainCache[domainName] ) return __appDomainCache[domainName];
 		__appDomainCache[domainName] = this;
 		
@@ -318,7 +328,7 @@ class appDomain{
 					
 					if(!location){
 						var asm = this.load(path);
-						location = asm.Location;
+						if(asm) location = asm.Location;
 					}
 					
 					if(location){

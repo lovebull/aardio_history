@@ -1,17 +1,6 @@
 //调用C#程序集 
 import dotNet; 
-import console;
-
-import dotNet; 
-var clr = dotNet.clr(); 
-if( !clr ){
-    console.log("当前系统未安装.Net Framework", err )
-    console.pause();
-    return;
-}
-
-//创建应用程序域
-var appDomain = clr.createAppDomain();
+var appDomain = dotNet.clr().createAppDomain();
 
 //引用程序集,注意凡aardio扩展的接口函数首字母小写,凡C#对象提供的接口函数首字母大写
 var system = appDomain.load("System");
@@ -21,6 +10,7 @@ var CSharpCodeProvider = system.new( "Microsoft.CSharp.CSharpCodeProvider" )
 var Interop = appDomain.loadFile($"~/lib/dotNet/.res/Aardio.InteropServices.dll");
 var csUtility = Interop.new("Utility");//Aardio.InteropServices.csUtility可以省略程序集的名字空间
 
+import console;
 console.log(CSharpCodeProvider,csUtility)
 
 //加载应用程序目录下的程序集( 或 "/bin/" 目录下的程序集 )

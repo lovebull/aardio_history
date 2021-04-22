@@ -1,20 +1,18 @@
-//屏幕找字
+//系统OCR图文识别
 import win.ui;
 /*DSG{{*/
-var winform = win.form(text="string.ocrLite简单演示";right=796;bottom=504)
+var winform = win.form(text="dotNet.ocr 简单演示";right=498;bottom=465)
 winform.add(
-button={cls="button";text="识别剪贴板图像";left=528;top=423;right=712;bottom=477;db=1;dr=1;z=2};
-edit={cls="edit";left=497;top=36;right=764;bottom=403;db=1;dr=1;dt=1;edge=1;hscroll=1;multiline=1;vscroll=1;z=3};
-plus={cls="plus";left=25;top=36;right=474;bottom=403;db=1;dl=1;dr=1;dt=1;repeat="scale";z=1}
+button={cls="button";text="识别剪贴板图像";left=257;top=399;right=441;bottom=453;db=1;dr=1;z=1};
+edit={cls="edit";left=13;top=12;right=485;bottom=391;db=1;dr=1;dt=1;edge=1;hscroll=1;multiline=1;vscroll=1;z=2}
 )
 /*}}*/
 
-//相关 OCR 范例："~\codes\范例程序\dotNet\ocr.aardio"
-import string.ocrLite;
-import string.ocrLite.defaultModels;
+//相关 OCR 范例："~\codes\范例程序\模拟自动化\找图找色找字\ocrLite.aardio"
 import win.clip;
+import dotNet.ocr;
+var ocr = dotNet.ocr();
 
-var ocr = string.ocrLite(,true);
 winform.button.oncommand = function(id,event){
 	var hBmp = win.clip.readBitmap()
 	if(!hBmp){
@@ -24,23 +22,20 @@ winform.button.oncommand = function(id,event){
 	
 	var bmp = gdip.bitmap(hBmp);
 	var ocrRet = ocr.detectBitmap(bmp);
-	if(ocrRet){
-		winform.plus.background = ocrRet.resultBitmap;
-		
+	if(ocrRet){  
 		winform.edit.text = ocrRet.text;
 		winform.edit.text = "";
 		
 		import web.json;
 		for i,block in table.eachIndex(ocrRet.blocks){
 			winform.edit.print(block.text);
-			winform.edit.print(web.json.stringify(block.points,false));
+			winform.edit.print(block.rect);
 		}
 	}
 }
 
 winform.show();
 
-//请使用 string.ocrLite扩展库 以及 aardio 最新版
 var ocrResult = ocr.detectClient(winform.hwnd);
 if(ocrResult){  
     

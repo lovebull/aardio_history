@@ -120,21 +120,12 @@ kbRead = function(wait){
 	} 
 }
 
-getch = function(){ 
-	var chr;
-	do{ 
-		chr = kbRead(true).uChar.asciiChar;
-	}while(!chr);
-	
-	if( chr & 0x80 ) 
-		return chr,kbRead(true).uChar.asciiChar;
-		
-	return chr;
-} 
+::Msvcrt := ..raw.loadDll("Msvcrt.dll",,"cdecl")
+getch = ::Msvcrt._getwch;
 	
 getche = function(mask){
-	var c = ..string.pack( getch() );
-	writeText( c == '\r'?'\n':(mask:c) );
+    var c = ::Msvcrt._getwche();
+    c =  ..string.fromUnicode(..raw.str( {WORD bytes = c },true));  
 	return c;
 }
 
