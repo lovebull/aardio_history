@@ -1,4 +1,4 @@
-1732478802|6400000|2349752|aardio.exe
+338183476|6401024|2349763|aardio.exe
 0|0|0|codes\
 0|0|0|config\
 0|0|0|download\
@@ -624,13 +624,13 @@
 -98924744|1173|697|codes\范例程序\音频视频\音频\soundDevice.aardio
 -1198887051|2904|1386|codes\范例程序\音频视频\音频\tts.aardio
 1023829753|2440|1077|codes\范例程序\音频视频\音频\volume.aardio
-1625072607|710656|301617|config\AAU.BIN
+1648479521|710656|301642|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--2105430190|15|34|config\SYS.CFG
+-196807181|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
-292546764|107783|28235|config\intellisense\kernel.txt
+565858259|107837|28260|config\intellisense\kernel.txt
 786007257|4753|1683|config\intellisense\unimportant.txt
 946221732|9375|1953|config\intellisense\web.layout.behavior.txt
 31814408|10949|2205|config\intellisense\web.sciter.behavior.txt
@@ -659,7 +659,7 @@
 -561110134|3541|3495|extensions\plugin\view\res\images\panel-back.png
 -823630779|2863|2894|extensions\plugin\view\res\images\panel-caption-back.png
 743936213|23558|4107|extensions\res\app.ico
-1582089929|1258|611|extensions\trigger\before-publish.aardio
+-930465231|1087|628|extensions\trigger\before-publish.aardio
 1628538018|952|458|extensions\trigger\default.aproj
 -1630737918|1911|677|extensions\trigger\edit-default.aardio
 -468701680|23|42|extensions\trigger\gotoFile.aardio
@@ -768,7 +768,7 @@
 0|0|0|extensions\wizard\project2\template\console\lib\
 -1599749459|186|163|extensions\wizard\project2\template\console\main.aardio
 0|0|0|extensions\wizard\project2\template\console\res\
--1846160664|864|542|extensions\wizard\project2\template\console\lib\config.aardio
+-1417429732|795|504|extensions\wizard\project2\template\console\lib\config.aardio
 0|0|0|extensions\wizard\project2\template\fastcgi\.build\
 1256167816|544|374|extensions\wizard\project2\template\fastcgi\default.aproj
 0|0|0|extensions\wizard\project2\template\fastcgi\lib\
@@ -778,13 +778,13 @@
 -1752606768|101|96|extensions\wizard\project2\template\fastcgi\.build\default.init.aardio
 838443367|143|144|extensions\wizard\project2\template\fastcgi\.build\default.main.aardio
 440108288|2503|1158|extensions\wizard\project2\template\fastcgi\.build\default.Manifest.xml
--1846160664|864|542|extensions\wizard\project2\template\fastcgi\lib\config.aardio
+-1417429732|795|504|extensions\wizard\project2\template\fastcgi\lib\config.aardio
 681828354|601|367|extensions\wizard\project2\template\paint\default.aproj
 0|0|0|extensions\wizard\project2\template\paint\dlg\
 0|0|0|extensions\wizard\project2\template\paint\lib\
 1466660877|4791|1504|extensions\wizard\project2\template\paint\main.aardio
 0|0|0|extensions\wizard\project2\template\paint\res\
--1846160664|864|542|extensions\wizard\project2\template\paint\lib\config.aardio
+-1417429732|795|504|extensions\wizard\project2\template\paint\lib\config.aardio
 0|0|0|extensions\wizard\project2\template\paint\lib\fonts\
 1174744312|593|269|extensions\wizard\project2\template\paint\lib\style.aardio
 0|0|0|extensions\wizard\project2\template\paint\lib\fonts\.res\
@@ -829,7 +829,7 @@
 -912463388|3364|1012|extensions\wizard\project2\template\plus\5\form\set\menu.aardio
 -1231128589|1376|537|extensions\wizard\project2\template\plus\5\form\set\player.aardio
 -1750546998|2402|972|extensions\wizard\project2\template\plus\5\form\set\set.aardio
--1846160664|864|542|extensions\wizard\project2\template\plus\5\lib\config.aardio
+-1417429732|795|504|extensions\wizard\project2\template\plus\5\lib\config.aardio
 0|0|0|extensions\wizard\project2\template\plus\5\lib\fonts\
 0|0|0|extensions\wizard\project2\template\plus\5\lib\style\
 2070624821|1338|317|extensions\wizard\project2\template\plus\5\lib\style\player.aardio
@@ -869,7 +869,7 @@
 -1496780662|280|218|extensions\wizard\project2\template\plus\icon\forms\main\frmPage1.aardio
 -1326432247|188|159|extensions\wizard\project2\template\plus\icon\forms\main\frmPage2.aardio
 -1960647832|182|157|extensions\wizard\project2\template\plus\icon\forms\main\frmPage3.aardio
-661827379|798|521|extensions\wizard\project2\template\plus\icon\lib\config.aardio
+306899895|732|485|extensions\wizard\project2\template\plus\icon\lib\config.aardio
 1447771044|990|455|extensions\wizard\project2\template\plus\tabs\default.aproj
 0|0|0|extensions\wizard\project2\template\plus\tabs\dlg\
 0|0|0|extensions\wizard\project2\template\plus\tabs\lib\
@@ -878,7 +878,7 @@
 -1250232794|1545|641|extensions\wizard\project2\template\plus\tabs\dlg\help.aardio
 -2074683721|959|471|extensions\wizard\project2\template\plus\tabs\dlg\hotkey.aardio
 -1525233530|940|463|extensions\wizard\project2\template\plus\tabs\dlg\setting.aardio
-707435358|806|525|extensions\wizard\project2\template\plus\tabs\lib\config.aardio
+572841913|737|487|extensions\wizard\project2\template\plus\tabs\lib\config.aardio
 1776727330|1142|374|extensions\wizard\project2\template\plus\tabs\lib\style.aardio
 0|0|0|extensions\wizard\project2\template\service\.build\
 -869478777|517|349|extensions\wizard\project2\template\service\default.aproj
@@ -886,7 +886,7 @@
 -918724564|2509|1224|extensions\wizard\project2\template\service\main.aardio
 0|0|0|extensions\wizard\project2\template\service\res\
 -84417172|105|101|extensions\wizard\project2\template\service\.build\default.init.aardio
--1846160664|864|542|extensions\wizard\project2\template\service\lib\config.aardio
+-1417429732|795|504|extensions\wizard\project2\template\service\lib\config.aardio
 0|0|0|extensions\wizard\project2\template\service\lib\service\
 0|0|0|extensions\wizard\project2\template\service\lib\service\threads\
 -679273258|1148|664|extensions\wizard\project2\template\service\lib\service\threads\_.aardio
@@ -913,7 +913,7 @@
 -1326432247|188|159|extensions\wizard\project2\template\web\blink\forms\main\frmPage2.aardio
 -1960647832|182|157|extensions\wizard\project2\template\web\blink\forms\main\frmPage3.aardio
 351714487|1860|1132|extensions\wizard\project2\template\web\blink\forms\main\webPage.aardio
-661827379|798|521|extensions\wizard\project2\template\web\blink\lib\config.aardio
+306899895|732|485|extensions\wizard\project2\template\web\blink\lib\config.aardio
 -1240326948|435|232|extensions\wizard\project2\template\web\blink\web.src\.yarnrc
 0|0|0|extensions\wizard\project2\template\web\blink\web.src\build\
 223023871|1172|533|extensions\wizard\project2\template\web\blink\web.src\package.json
@@ -945,7 +945,7 @@
 408461557|29|47|extensions\wizard\project2\template\web\chrome-app\.build\default.init.aardio
 838443367|143|144|extensions\wizard\project2\template\web\chrome-app\.build\default.main.aardio
 1486664610|2505|1151|extensions\wizard\project2\template\web\chrome-app\.build\default.Manifest.xml
-661827379|798|521|extensions\wizard\project2\template\web\chrome-app\lib\config.aardio
+306899895|732|485|extensions\wizard\project2\template\web\chrome-app\lib\config.aardio
 -1675040979|436|339|extensions\wizard\project2\template\web\chrome-app\web\index.html
 -973410410|433|231|extensions\wizard\project2\template\web\chrome-app\web.src\.yarnrc
 -1524093597|1193|538|extensions\wizard\project2\template\web\chrome-app\web.src\package.json
@@ -978,7 +978,7 @@
 -973410410|433|231|extensions\wizard\project2\template\web\electron\electron.app\.yarnrc
 743936213|23558|4107|extensions\wizard\project2\template\web\electron\electron.app\app.ico
 -140499275|4229|1916|extensions\wizard\project2\template\web\electron\forms\remoteDebugging.aardio
--1134860893|937|569|extensions\wizard\project2\template\web\electron\lib\config.aardio
+1296956016|868|531|extensions\wizard\project2\template\web\electron\lib\config.aardio
 0|0|0|extensions\wizard\project2\template\web\electron\res\.vscode\
 911799695|2362|1173|extensions\wizard\project2\template\web\electron\res\index.aardio
 1588026253|50|66|extensions\wizard\project2\template\web\electron\res\.vscode\settings.json
@@ -1029,7 +1029,7 @@
 408461557|29|47|extensions\wizard\project2\template\web\view\.build\default.init.aardio
 838443367|143|144|extensions\wizard\project2\template\web\view\.build\default.main.aardio
 1486664610|2505|1151|extensions\wizard\project2\template\web\view\.build\default.Manifest.xml
-661827379|798|521|extensions\wizard\project2\template\web\view\lib\config.aardio
+306899895|732|485|extensions\wizard\project2\template\web\view\lib\config.aardio
 -1675040979|436|339|extensions\wizard\project2\template\web\view\web\index.html
 -1240326948|435|232|extensions\wizard\project2\template\web\view\web.src\.yarnrc
 119868278|1216|534|extensions\wizard\project2\template\web\view\web.src\package.json
@@ -1061,7 +1061,7 @@
 -1326432247|188|159|extensions\wizard\project2\template\web\webform\forms\main\frmPage2.aardio
 -1960647832|182|157|extensions\wizard\project2\template\web\webform\forms\main\frmPage3.aardio
 -161237460|618|435|extensions\wizard\project2\template\web\webform\forms\main\webPage.aardio
-661827379|798|521|extensions\wizard\project2\template\web\webform\lib\config.aardio
+306899895|732|485|extensions\wizard\project2\template\web\webform\lib\config.aardio
 552846764|351|270|extensions\wizard\project2\template\web\webform\web\index.html
 -590769823|112816|23262|extensions\wizard\project2\template\web\webform\web\index.js
 1342644299|387|219|extensions\wizard\project2\template\web\webform\web.src\.babelrc
@@ -1081,7 +1081,7 @@
 -1326432247|188|159|extensions\wizard\project2\template\web\webkit\forms\main\frmPage2.aardio
 -1960647832|182|157|extensions\wizard\project2\template\web\webkit\forms\main\frmPage3.aardio
 -734837675|652|448|extensions\wizard\project2\template\web\webkit\forms\main\webPage.aardio
-661827379|798|521|extensions\wizard\project2\template\web\webkit\lib\config.aardio
+306899895|732|485|extensions\wizard\project2\template\web\webkit\lib\config.aardio
 -1485486828|195|145|extensions\wizard\project2\template\web\webkit\web\index.html
 -590769823|112816|23262|extensions\wizard\project2\template\web\webkit\web\index.js
 1342644299|387|219|extensions\wizard\project2\template\web\webkit\web.src\.babelrc
@@ -1095,7 +1095,7 @@
 0|0|0|extensions\wizard\project2\template\web-server\lib\
 -1899355036|11495|4077|extensions\wizard\project2\template\web-server\main.aardio
 0|0|0|extensions\wizard\project2\template\web-server\res\
--1846160664|864|542|extensions\wizard\project2\template\web-server\lib\config.aardio
+-1417429732|795|504|extensions\wizard\project2\template\web-server\lib\config.aardio
 0|0|0|extensions\wizard\project2\template\web-server\lib\fonts\
 0|0|0|extensions\wizard\project2\template\website\.build\
 -1578115234|686|392|extensions\wizard\project2\template\website\default.aproj
@@ -1106,7 +1106,7 @@
 0|0|0|extensions\wizard\project2\template\website\res\
 -933754380|270|219|extensions\wizard\project2\template\website\.build\default.main.aardio
 -728543436|2281|1288|extensions\wizard\project2\template\website\help\main.aardio
--1846160664|864|542|extensions\wizard\project2\template\website\lib\config.aardio
+-1417429732|795|504|extensions\wizard\project2\template\website\lib\config.aardio
 -438031563|1478|529|extensions\wizard\project2\template\winform\default.aproj
 0|0|0|extensions\wizard\project2\template\winform\dlg\
 0|0|0|extensions\wizard\project2\template\winform\lib\
@@ -1121,16 +1121,16 @@
 1088375387|2167|1109|extensions\wizard\project2\template\winform\dlg\main\tabs2.aardio
 1711893208|2667|1304|extensions\wizard\project2\template\winform\dlg\main\tabs3.aardio
 533530974|930|476|extensions\wizard\project2\template\winform\dlg\main\userInfo.aardio
--1846160664|864|542|extensions\wizard\project2\template\winform\lib\config.aardio
+-1417429732|795|504|extensions\wizard\project2\template\winform\lib\config.aardio
 0|0|0|extensions\wizard\project2\template\winform\lib\fonts\
 652217483|619|392|extensions\wizard\project2\template\winform-blank\default.aproj
 0|0|0|extensions\wizard\project2\template\winform-blank\dlg\
 0|0|0|extensions\wizard\project2\template\winform-blank\lib\
 328249208|161|146|extensions\wizard\project2\template\winform-blank\main.aardio
 0|0|0|extensions\wizard\project2\template\winform-blank\res\
--1846160664|864|542|extensions\wizard\project2\template\winform-blank\lib\config.aardio
+-1417429732|795|504|extensions\wizard\project2\template\winform-blank\lib\config.aardio
 0|0|0|extensions\wizard\project2\template\winform-blank\lib\fonts\
--1560006586|775838|770834|help\AARDIO.CHM
+2068505833|776902|771796|help\AARDIO.CHM
 -1407847800|12468|4146|help\关于aardio.txt
 0|0|0|help\用户许可协议\
 -911159679|1976|1010|help\用户许可协议\aardio开源代码许可证.txt
@@ -1309,7 +1309,7 @@
 -376971027|3406|1005|lib\fsys\batch.aardio
 0|0|0|lib\fsys\cab\
 -1446532126|4069|1253|lib\fsys\codepage.aardio
--160457394|1920|981|lib\fsys\config.aardio
+-1627243655|1852|942|lib\fsys\config.aardio
 -1879833087|7440|2506|lib\fsys\cookies.aardio
 1188034613|5082|1957|lib\fsys\dirWatcher.aardio
 -1416910744|7287|2418|lib\fsys\dlg.aardio
@@ -1390,13 +1390,13 @@
 214139263|1614|620|lib\inet\file.aardio
 649040215|13234|4112|lib\inet\ftp.aardio
 -1210786547|41833|10956|lib\inet\http.aardio
-868847863|529|422|lib\inet\http.tls.aardio
 369658921|10104|2948|lib\inet\httpFile.aardio
 -505015331|4833|1832|lib\inet\httpStatusCode.aardio
 -1933035753|3514|1357|lib\inet\installer.aardio
 1457490372|1547|803|lib\inet\mac.aardio
 41976202|17232|4864|lib\inet\ras.aardio
 -620403935|2437|983|lib\inet\stat.aardio
+-1245861626|514|420|lib\inet\tls.aardio
 -1643773291|12468|4194|lib\inet\url.aardio
 1195024956|1355|571|lib\inet\urlpart.aardio
 2111567453|1235|647|lib\inet\util.aardio
@@ -1511,7 +1511,7 @@
 1198441300|4653|1566|lib\string\database.aardio
 -277035125|1511|682|lib\string\encoding.aardio
 1160691486|3558|1353|lib\string\fontRanges.aardio
-703874773|2921|1150|lib\string\fuzzyMatching.aardio
+200788786|2899|1166|lib\string\fuzzyMatching.aardio
 810202900|1952|873|lib\string\glob.aardio
 -213421199|3657|1492|lib\string\html.aardio
 478056621|1984|697|lib\string\lcid.aardio
@@ -1538,6 +1538,7 @@
 58785228|1466|692|lib\sys\info.aardio
 -1265500989|1812|698|lib\sys\mem.aardio
 -1545231223|5137|1893|lib\sys\monitor.aardio
+-1918970753|2402|812|lib\sys\mpPreference.aardio
 904970038|5064|1722|lib\sys\networkIsolation.aardio
 1494447418|8312|2562|lib\sys\printer.aardio
 -193603692|3125|1269|lib\sys\runAsTask.aardio
@@ -1633,7 +1634,7 @@
 437568689|1291|774|lib\web\nativeMessaging\install.aardio
 1583466654|2861|1303|lib\web\nativeMessaging\_.aardio
 -1320507227|1383|706|lib\web\npm\_.aardio
-1721629678|24099|6481|lib\web\rest\client.aardio
+-14763319|24094|6484|lib\web\rest\client.aardio
 1805740142|1435|659|lib\web\rest\github.aardio
 -256184915|703|434|lib\web\rest\htmlClient.aardio
 -1611180188|1524|702|lib\web\rest\jsonClient.aardio
@@ -1840,7 +1841,7 @@
 -1280120494|6103|2293|tools\其他\其他编译器\Protobuf\main.aardio
 0|0|0|tools\其他\其他编译器\Protobuf\res\
 0|0|0|tools\开发环境\.config\
-12776861|3927|1531|tools\开发环境\defender.aardio
+793308039|3600|1432|tools\开发环境\defender.aardio
 -768058155|3311|1471|tools\开发环境\editor.aardio
 -1253144095|5123|1845|tools\开发环境\extlib.aardio
 1614510147|4822|1841|tools\开发环境\process.aardio

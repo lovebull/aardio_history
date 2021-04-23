@@ -1,8 +1,8 @@
 ﻿{
-btnClose=false;
+btnClose=true;
 chkRestart=true;
-lnkDown=true;
+lnkDown=false;
 afterLoad=null;
 beforeSave=null;
-btnStart=true
+btnStart=false
 }

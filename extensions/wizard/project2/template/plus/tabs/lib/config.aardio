@@ -1,9 +1,8 @@
-﻿//config 配置文件
+//config 配置文件
 import fsys.config;
 config  = fsys.config( io.appData("/aardio/yourappname/") ); 
 
 //不需要序列化的配置名字前请添加下划线
-//在 config 名字空间内部请不要导入其他名字空间
 namespace config {
 	__appName = "我的软件";
 	__appVersion = "0.0.0.01";

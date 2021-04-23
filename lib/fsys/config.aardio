@@ -55,7 +55,7 @@ namespace config{
 };
  
 /**intellisense()
-fsys.config = 配置文件支持库,\n使用 fsys.config 对象作为名字空间时，\n请不要在该名字空间内部使用导入其他名字空间
+fsys.config = 配置文件支持库,\n使用 fsys.config 对象作为名字空间时
 fsys.config("/config/") = 创建fsys.config对象,\n参数指定默认目录.\nfsys.config对象的成员都映射到该目录下的同名文件.
 fsys.config() = 在默认目录"/config/"下创建fsys.config对象;\n!fsys_config.
 !fsys_config.saveAll() = 写入所有配置到文件

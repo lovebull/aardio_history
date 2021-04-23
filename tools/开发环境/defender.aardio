@@ -21,29 +21,16 @@ thread.invoke(
 	function(winform){
 		
 		import ide;
-		import dotNet.ps;
+		import sys.mpPreference;
 		import fsys;
 		
-		var ret,err = dotNet.ps("Get-MpPreference  | Select-Object -ExpandProperty ExclusionPath")
-		if(ret!==null){
-			var exclusionPaths = string.splitEx(string.trim(ret));
-			
-    		var dir = ide.getConfig("project_default_dir");
-			if(!#dir) dir = io.fullpath("~/project");
-	 		dir = fsys.path.removeBackslash(dir); 
-	 		 
-			if(!table.find(exclusionPaths,dir) ){
-				table.push(exclusionPaths,dir); 
-			}
-			
-			var dir = ide.getProjectDir();
-			dir = fsys.path.removeBackslash(dir); 
-			if(!table.find(exclusionPaths,dir) ){
-				table.push(exclusionPaths,dir); 
-			}
- 		 
+		var projectDir = ide.getConfig("project_default_dir");
+		if(!#projectDir) projectDir = io.fullpath("~/project");
+	 	projectDir = fsys.path.removeBackslash(projectDir); 
+	 	
+		var exclusionPaths,err = sys.mpPreference.getExclusionPaths({projectDir,ide.getProjectDir()})
+		if(exclusionPaths!==null){ 
 			winform.edit.text = string.join(exclusionPaths,'\r\n');
-			
 			winform.btnSave.disabledText = null;
 			winform.btnAdd.disabled = false;
 		}
@@ -66,8 +53,8 @@ winform.btnSave.oncommand = function(id,event){
 	winform.btnSave.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250';text="正在更新 Windows Defender 配置 ……"}
 	thread.invoke( 
 		function(winform,exclusionPaths){
-			import dotNet.ps;	
-			var ret,err = dotNet.ps.command("Set-MpPreference",{ExclusionPath=#exclusionPaths?exclusionPaths:""});
+			import sys.mpPreference;
+			sys.mpPreference.setExclusionPaths(exclusionPaths)
 			winform.btnSave.disabledText = null;
 			
 			if(#err){

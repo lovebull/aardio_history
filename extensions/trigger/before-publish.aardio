@@ -2,16 +2,17 @@
 import fsys;
 
 if(_WIN10_LATER){
-	if(!#ide.getConfig("mpPreferenceWarning")){
-		import win.dlg.message
-    	win.dlg.message(ide.getMainHwnd()).warn('如果生成 EXE 时遇到卡顿或异常。\n请将工程目录添加到安全监控类软件的「信任开发目录」。\n\n双击『工具/开发环境/信任开发目录』可自动\n添加工程目录到 Windows Defender 排除目录。')
-		ide.setConfig("mpPreferenceWarning","true");
+	var projectDir = ide.getProjectDir()
+	var path = ..io.joinpath(projectDir,".build/mp.lock")
+	if(string.load(path)!=string.crc32(path)){
+		string.save(path,string.crc32(path))
+		ide.createProcess("~\tools\开发环境\defender.aardio",,"runas");
 	}	
 }
 else {
-    if(!#ide.getConfig("mpPreferenceWarning")){
-    	import win.dlg.message
-    	win.dlg.message(ide.getMainHwnd()).warn('如果生成 EXE 时遇到卡顿或异常。\n请将工程目录添加到安全监控类软件的「信任排除目录」或「开发目录」。')
+	if(!#ide.getConfig("mpPreferenceWarning")){
+		import win.dlg.message
+		win.dlg.message(ide.getMainHwnd()).warn('如果生成 EXE 时遇到卡顿或异常。\n请将工程目录添加到安全监控类软件的「信任排除目录」或「开发目录」。')
 		ide.setConfig("mpPreferenceWarning","true");
 	}	
 }
