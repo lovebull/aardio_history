@@ -31,7 +31,9 @@ class sqlServer {
 		if(!ok) return null,"打开数据库连接失败:" +err;
 		
 		this.connection = conn;
-		this._tables = {@{_weak="kv"}}
+		this._tables = {@{_weak="kv"}};
+		this.codepage = 0;
+		
 		..table.gc(this,"close");
 	}; 
 	getCatalog = function(){
@@ -196,13 +198,11 @@ class sqlServer {
 				case "string" {
 					if(..string.isUnicode(value)){
 						adType = 203/*adLongVarWChar*/
-						value = value;
 						adSize = #value/2;	
 					}
 					else {
 						adType = 129 /*adChar*/;
-						value = ..string.toUnicode(value);
-						adSize = #value;
+						adSize = #..string.fromto(value,65001,this.codepage);
 					} 
 				}
 				case "number" {
@@ -450,6 +450,7 @@ sqlServer.formatSqlParameters(sql,其他格式化参数) = 如果格式化参数
 end intellisense**/
 
 /**intellisense(!sqlServer)
+codepage = 非 Unicode 字符的默认编码
 ? = 可直接使用对象的成员获取ADO组件提供的COM常量\n这些常量名的前缀都是 ad
 close() = 关闭数据库连接
 getTable(.("select * from [表名]",其他格式化参数) = 返回查询结果集数组\n每个元素代表一行,每行由N个键值对列组成\n返回值的fields成员记录了所有数据列的字段名\n结果集为空也会返回空数组,使用#操作符获取结果集长度

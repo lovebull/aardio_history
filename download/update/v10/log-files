@@ -627,7 +627,7 @@
 1648479521|710656|301642|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--196807181|15|34|config\SYS.CFG
+-2092710555|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 565858259|107837|28260|config\intellisense\kernel.txt
@@ -1502,7 +1502,7 @@
 938720881|37406|10140|lib\sqlite\base.aardio
 -960194185|489|350|lib\sqlite\_.aardio
 -1624201378|645592|283105|lib\sqlite\.res\sqlite3.dll
-571736248|19672|5565|lib\sqlServer\_.aardio
+-581070172|19718|5605|lib\sqlServer\_.aardio
 -745766250|628|371|lib\string\aasdl.aardio
 180083296|8638|2760|lib\string\builder.aardio
 1874621857|6568|2179|lib\string\chineseNumber.aardio
