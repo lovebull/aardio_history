@@ -234,6 +234,23 @@ richedit._metaProperty =  metaProperty(
 			return ::User32.SendMessage(owner[["hwnd"]],0xC2/*_EM_REPLACESEL*/,,tostring(str))
 		} 	
 	};
+	text = {
+		_get = function(){ 
+			return ..win.getText( owner[["hwnd"]] );
+		}
+		_set = function(v){
+			var zoom = owner.zoom;
+			..win.setText( owner[["hwnd"]],v !== null ? tostring(v) : "" );  
+			var transParent = owner[["transparent"]];
+			if( transParent === null ){
+				transParent = !!..win.getStyleEx(owner.hwnd,0x20/*_WS_EX_TRANSPARENT*/);
+				owner[["transparent"]] = transParent;
+			}
+			
+			owner.zoom = zoom;
+			if( transParent ) owner.redrawTransparent();
+		}
+	};
 	zoom = {
 		_get = function(){   
 			var numerator ={int v};

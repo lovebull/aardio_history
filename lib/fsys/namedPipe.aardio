@@ -7,7 +7,7 @@ class namedPipe{
 	ctor( pipeName,maxInstancess,defaultTimeOut
 		,openMode,pipeMode,outBufferSize,inBufferSize,securityAttributes){
 	
-		var pipe =  ::Kernel32.CreateNamedPipe(pipeName
+		var pipe =  ::Kernel32.CreateNamedPipeP(pipeName
 			, ( openMode : 0x3/*_PIPE_ACCESS_DUPLEX*/ )
 			, pipeMode : 0/*_PIPE_TYPE_BYTE | _PIPE_READMODE_BYTE | _PIPE_WAIT*/
 			, maxInstancess : 255 
@@ -16,8 +16,8 @@ class namedPipe{
 			, defaultTimeOut : 0
 			, securityAttributes : null
 		);
-	 	if( !pipe || pipe == -1/*_INVALID_HANDLE_NUM*/ ) return null;
-	 	this = ..fsys.file( topointer( pipe ) )
+	 	if( !pipe || pipe == _INVALID_HANDLE_VALUE ) return null;
+	 	this = ..fsys.file( pipe,true )
 	};
 	connect = function(){
 		if(  !!::Kernel32.ConnectNamedPipe( this.hfile ,null ) ) 

@@ -7,7 +7,7 @@ class file{
 		,mode = "r" 
 		,sharemode = 3/*_FILE_SHARE_READ | _FILE_SHARE_WRITE*/
 		,creation = 3/*_OPEN_EXISTING*/ 
-		,flagsAndAttributes = 0x80/*_FILE_ATTRIBUTE_NORMAL*/
+		,flagsAndAttributes
 		,secAttrib
 		,template
 		){ 
@@ -17,30 +17,33 @@ class file{
 		}
 		else{
 			path = ..io.fullpath(path);
-			var lastChar = path[#path];
-			if( lastChar=='/'# 
-				|| lastChar=='\\'# 
-				|| (::Kernel32.GetFileAttributes(path)& 0x10/*_FILE_ATTRIBUTE_DIRECTORY*/) 
-				){
-				if( flagsAndAttributes == 0x80/*_FILE_ATTRIBUTE_NORMAL*/ )
+			if(flagsAndAttributes === null ){
+				var lastChar = path[#path];
+				if( lastChar=='/'# 
+					|| lastChar=='\\'# 
+					|| ( path[1]!='\\'#/*named pipe*/ && (::Kernel32.GetFileAttributes(path)& 0x10/*_FILE_ATTRIBUTE_DIRECTORY*/) )
+					){
 					flagsAndAttributes = 0x2000000/*_FILE_FLAG_BACKUP_SEMANTICS*/;
+				}				
 			}
-			
+
 			var access = 0;
 			var seekend;
 			if( type(mode) == type.string ){
 				var f=mode[1];
 				if( f='r'# ) {
-					creation |= 0x3/*_OPEN_EXISTING*/  
+					creation |= 3/*_OPEN_EXISTING*/  
 					access |= 0x80000000/*_GENERIC_READ*/;
 				}
 				else {
 					creation &= ~3/*_OPEN_EXISTING*/;
 					access |= 0x40000000/*_GENERIC_WRITE*/
-					if( f='w'#  ) 
-						creation |= 0x2/*_CREATE_ALWAYS*/
+					if( f='w'#  ) {
+						creation |= 2/*_CREATE_ALWAYS*/
+						
+					}
 					else{
-						creation |= 0x4/*_OPEN_ALWAYS*/
+						creation |= 4/*_OPEN_ALWAYS*/
 						seekend = true;
 					}
 				}
@@ -50,30 +53,25 @@ class file{
 				}
 				
 				if(..string.indexAny(mode,"D") ){
-					flagsAndAttributes = 0x4000000/*_FILE_FLAG_DELETE_ON_CLOSE*/
+					flagsAndAttributes = (flagsAndAttributes:0) | 0x4000000/*_FILE_FLAG_DELETE_ON_CLOSE*/
 				}
 			}
 			else {
 				access = mode; 
 			} 
 			
-			var safeAttr;
-			if(access & 0x40000000/*_GENERIC_WRITE*/){
-				// 修正 WIN10 隐藏文件只读 BUG
-				safeAttr = ::Kernel32.GetFileAttributesW(path)
-				if( (safeAttr > 0) && (safeAttr&2/*_FILE_ATTRIBUTE_HIDDEN*/) ){
-					::Kernel32.SetFileAttributesW(path,safeAttr &(~2))
+			if(flagsAndAttributes===null){
+				flagsAndAttributes = 0x80/*_FILE_ATTRIBUTE_NORMAL*/
+				
+				if(creation & 2/*_CREATE_ALWAYS*/){
+					var attr = ::Kernel32.GetFileAttributesW(path);
+					if( attr > 0){
+						flagsAndAttributes = attr;
+					}
 				}
-				else {
-					safeAttr = null;
-				} 
 			}
 			
 			this.hfile = CreateFile(path,access,sharemode,secAttrib : {} ,creation,flagsAndAttributes ) 
-			if(safeAttr){
-				safeAttr = ::Kernel32.GetFileAttributesW(path)
-				if( safeAttr > 0) ::Kernel32.SetFileAttributesW(path,safeAttr | 2) 
-			}
 			
 			if( this.hfile == _INVALID_HANDLE_VALUE )
 				return null,..lasterr()
@@ -395,7 +393,7 @@ fsys.file("__/*文件路径*/","w+") = 读写模式打开,创建新文件清空�
 fsys.file("__/*文件路径*/","w+D") = 读写模式打开临时文件,关闭对象时自动删除文件
 fsys.file("__/*文件路径*/","a") = 只写追加模式打开,创建新文件保留原文件
 fsys.file("__/*文件路径*/","a+") = 读写追加模式打开,创建新文件保留原文件
-fsys.file(.(path,mode,shareMode,creation,flagsAndAttributes,secAttrib) = 所有参数可选,\n参数详细用法参考此函数源码与CreateFile参数用法,\nmode参数可指定数值指定打开模式,也可使用与io.open函数相同规则的描述字符\nshareMode参数默认为 _FILE_SHARE_READ | _FILE_SHARE_WRITE\ncreation参数默认值为 _OPEN_EXISTING
+fsys.file(.(path,mode,shareMode,creation,flagsAndAttributes,secAttrib) = 所有参数可选,\n参数详细用法参考此函数源码与CreateFile参数用法,\nmode参数可指定数值指定打开模式,也可使用与io.open函数相同规则的描述字符\nshareMode参数默认为 _FILE_SHARE_READ | _FILE_SHARE_WRITE\ncreation参数默认值为 _OPEN_EXISTING\n@flagsAndAttributes 为可选参数，指定文件属性,省略则自动设置此参数\n@secAttrib 不必指定
 fsys.file.is(__) = 判断参数是不是fsys.file对象
 !fsysfile.readTo( = 读取直到以指定的字符串结束
 !fsysfile.readTo(.('结束串') = 读取直到以指定的字符串结束,返回值不包含结束串,\n该函数每次仅读取一个字节,效率较低

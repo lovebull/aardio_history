@@ -203,7 +203,7 @@ daclGrantEveryone = function(objName,objType,premissions){
 
 getUserName = function(){ 
 	var name = ..raw.buffer(0x202);
-	if( ::Advapi32.GetUserNameW(name,{INT size=0x101}) ) return ..string.fromUnicode(name);
+	if( ::Advapi32.GetUserNameW(name,{INT size=0x101}) ) return ..string.fromUnicode(name,,-1);
 }
 	
 /**intellisense(sys.acl)

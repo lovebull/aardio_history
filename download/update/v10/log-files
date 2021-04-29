@@ -1,4 +1,4 @@
-338183476|6401024|2349763|aardio.exe
+154611747|6401024|2349810|aardio.exe
 0|0|0|codes\
 0|0|0|config\
 0|0|0|download\
@@ -624,10 +624,10 @@
 -98924744|1173|697|codes\范例程序\音频视频\音频\soundDevice.aardio
 -1198887051|2904|1386|codes\范例程序\音频视频\音频\tts.aardio
 1023829753|2440|1077|codes\范例程序\音频视频\音频\volume.aardio
-1648479521|710656|301642|config\AAU.BIN
+-1248884981|710656|301626|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--2092710555|15|34|config\SYS.CFG
+1862998544|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 565858259|107837|28260|config\intellisense\kernel.txt
@@ -1315,7 +1315,7 @@
 -1416910744|7287|2418|lib\fsys\dlg.aardio
 -1971860846|1039|558|lib\fsys\dlg.dir.aardio
 281411303|2154|930|lib\fsys\environment.aardio
--1846058058|18732|5179|lib\fsys\file.aardio
+-1386486168|18648|5186|lib\fsys\file.aardio
 587056913|2132|1039|lib\fsys\fileInfo.aardio
 1594660017|797|464|lib\fsys\hardlink.aardio
 116515129|2117|1017|lib\fsys\hosts.aardio
@@ -1328,7 +1328,7 @@
 -1121266671|3504|1141|lib\fsys\mime.aardio
 0|0|0|lib\fsys\mmap\
 1328382708|5845|1825|lib\fsys\multipartFormData.aardio
--1067250913|4663|1863|lib\fsys\namedPipe.aardio
+-1909897234|4652|1860|lib\fsys\namedPipe.aardio
 669194185|6663|2184|lib\fsys\partFile.aardio
 -442825052|8199|2863|lib\fsys\path.aardio
 -920801640|5657|2048|lib\fsys\res.aardio
@@ -1528,7 +1528,7 @@
 948733262|1652|820|lib\string\conv\pinyin.aardio
 -366851228|2777|1088|lib\string\conv\_.aardio
 -375387965|83892|59193|lib\string\conv\.res\data.txt
--555226973|8665|2476|lib\sys\acl.aardio
+1839814212|8669|2480|lib\sys\acl.aardio
 807901200|1524|814|lib\sys\comPort.aardio
 -297896486|1739|907|lib\sys\cp210x.aardio
 172844449|3214|1206|lib\sys\cpu.aardio
@@ -1754,7 +1754,7 @@
 423571103|7643|2694|lib\win\ui\ctrl\picturebox.aardio
 404008354|81006|18936|lib\win\ui\ctrl\plus.aardio
 53463247|5818|2105|lib\win\ui\ctrl\progress.aardio
--1816782080|36216|10543|lib\win\ui\ctrl\richedit.aardio
+1945919977|36712|10676|lib\win\ui\ctrl\richedit.aardio
 1154239158|5807|2206|lib\win\ui\ctrl\scrollbar.aardio
 1700347530|7406|2879|lib\win\ui\ctrl\spin.aardio
 -1127563964|9016|2921|lib\win\ui\ctrl\splitter.aardio
