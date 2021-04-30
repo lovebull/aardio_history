@@ -19,7 +19,7 @@ class mutex {
 			if(this.handle ) {
     			this.conflict = "互斥体已存在" 
     		}
-			else{ 
+			else{
 				this.handle  =  CreateMutex( { INT  nLength;pointer secDesc;bool inherit = inheritHandle }
 					,initialOwner,uniqueName);   
 					
@@ -73,8 +73,8 @@ namespace mutex{
 		}  
 	)
 	
-	OpenMutex = ::Kernel32.api("OpenMutex","ptr(INT desiredAccess,bool bInherit,string lpName)"); 
-	CreateMutex = ::Kernel32.api("CreateMutex","ptr(struct attr,bool bOwner,string lpName)" ); 
+	OpenMutex = ::Kernel32.api("OpenMutex","ptr(INT desiredAccess,bool bInherit,ustring lpName)"); 
+	CreateMutex = ::Kernel32.api("CreateMutex","ptr(struct attr,bool bOwner,ustring lpName)" ); 
 	ReleaseMutex= ::Kernel32.api("ReleaseMutex","int(ptr h)"); 
 	
 	lock = function(name,proc){

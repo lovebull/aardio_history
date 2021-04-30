@@ -1,4 +1,4 @@
-154611747|6401024|2349810|aardio.exe
+959821269|6401024|2349875|aardio.exe
 0|0|0|codes\
 0|0|0|config\
 0|0|0|download\
@@ -627,7 +627,7 @@
 -1248884981|710656|301626|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
-1862998544|15|34|config\SYS.CFG
+-2130347204|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 565858259|107837|28260|config\intellisense\kernel.txt
@@ -1115,7 +1115,7 @@
 0|0|0|extensions\wizard\project2\template\winform\dlg\login\
 0|0|0|extensions\wizard\project2\template\winform\dlg\main\
 -2142588251|594|433|extensions\wizard\project2\template\winform\dlg\login\loading.aardio
--1253536083|1577|814|extensions\wizard\project2\template\winform\dlg\login\login.aardio
+16023043|1657|833|extensions\wizard\project2\template\winform\dlg\login\login.aardio
 -1324104790|573|381|extensions\wizard\project2\template\winform\dlg\login\reg.aardio
 1218662829|2151|1139|extensions\wizard\project2\template\winform\dlg\main\tabs1.aardio
 1088375387|2167|1109|extensions\wizard\project2\template\winform\dlg\main\tabs2.aardio
@@ -1435,7 +1435,7 @@
 1225818497|2873|1015|lib\process\file.aardio
 -897350285|1586|661|lib\process\heap.aardio
 0|0|0|lib\process\job\
--819889997|4118|1699|lib\process\mutex.aardio
+1129615568|4119|1701|lib\process\mutex.aardio
 0|0|0|lib\process\php\
 667679807|13246|4203|lib\process\popen.aardio
 -475412020|852|521|lib\process\rundll.aardio
