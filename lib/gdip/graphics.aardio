@@ -310,6 +310,10 @@ namespace graphics {
 				cxDst = cxDst * dpiScaleX;
 				cyDst = cyDst * dpiScaleY;
 			}
+			else {
+				dpiScaleX = 1;
+				dpiScaleX = 1;	
+			}
 
 			if( cxDst > cx ){
 				x = ( (cxDst - cx)/dpiScaleX  ) /2;

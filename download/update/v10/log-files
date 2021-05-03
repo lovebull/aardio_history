@@ -627,7 +627,7 @@
 -1248884981|710656|301626|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--2130347204|15|34|config\SYS.CFG
+526511775|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 565858259|107837|28260|config\intellisense\kernel.txt
@@ -1362,7 +1362,7 @@
 -548087583|2262|1129|lib\gdip\feather.aardio
 1267949951|4323|1465|lib\gdip\font.aardio
 -1155750130|237|166|lib\gdip\fontAwesome.aardio
--782868592|35894|7417|lib\gdip\graphics.aardio
+463704292|35952|7430|lib\gdip\graphics.aardio
 64612783|23138|6502|lib\gdip\image.aardio
 -592245833|4460|1543|lib\gdip\imageAttributes.aardio
 -771480847|469|288|lib\gdip\installedFontCollection.aardio
@@ -1570,7 +1570,7 @@
 -139139510|5631|1582|lib\util\_.aardio
 -393628693|322|217|lib\web\asynServer.aardio
 0|0|0|lib\web\form\
--523766455|14266|5157|lib\web\json.aardio
+943217487|14484|5217|lib\web\json.aardio
 0|0|0|lib\web\layout\
 1730741985|4202|1679|lib\web\mshtml.aardio
 -857112126|6890|2366|lib\web\msxml.aardio
