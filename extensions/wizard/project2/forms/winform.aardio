@@ -47,21 +47,21 @@ tbs.skin(
 
 tbs.clear();
 
-//动态添加更多选项卡
 tbs.add({
     text="空白工程"; 
 },"\forms\winform\blank.aardio")
 
- 
-//动态添加更多选项卡
 tbs.add({
     text="范例工程"; 
 },"\forms\winform\demo.aardio")
 
-//动态添加更多选项卡
 tbs.add({
     text="简单画板"; 
 },"\forms\winform\paint.aardio")
+
+tbs.add({
+    text="批处理"; 
+},"\forms\winform\bat.aardio")
 
 tbs.selIndex = 1;
 

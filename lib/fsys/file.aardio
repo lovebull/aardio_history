@@ -78,7 +78,8 @@ class file{
 				
 			if(seekend)
 			 	llseek( this.hfile,0 ,0x2/*_SEEK_END*/); 
-			 	
+			 
+			this.path = path;
 			..table.gc(this,"close");
 		} 
 	}; 
@@ -89,6 +90,12 @@ var push = ..table.push;
 namespace file{	 
     
 	_metaProperty = ..util.metaProperty(
+		delete = function(){
+			owner.close();
+			if(owner.path){
+				return ..io.remove(owner.path)	
+			}
+		} 
 		close = function(){
 			if(owner.hfile)
 				..raw.closehandle(owner.hfile)
@@ -346,16 +353,28 @@ namespace file{
 	 	["set"] = 0x0/*_FILE_BEGIN*/;
 	} 
 	
-	temp = function( path
-			,mode = "w+b" 
-			,sharemode = 3/*_FILE_SHARE_READ | _FILE_SHARE_WRITE*/
-			,creation = 0 
-			,flagsAndAttributes = 0x80/*_FILE_ATTRIBUTE_NORMAL*/
-			,secAttrib
-			,template
-			){ 
-			flagsAndAttributes = flagsAndAttributes | 0x2/*_FILE_ATTRIBUTE_HIDDEN*/ | 0x4000000/*_FILE_FLAG_DELETE_ON_CLOSE*/;
-			return ..fsys.file(path,mode,sharemode,creation,flagsAndAttributes,secAttrib,template);
+	temp = function( path,dontDelete){ 
+		if(!path || path[1]=='.'#){
+			var ext = path : "";
+			var buf = ..raw.buffer(0x208/*_MAX_WPATH_BYTES*/);
+			if( ::Kernel32.GetTempPathW(0x104,buf) ){
+				var dir = ..string.fromUnicode(buf);
+				var tk = ..time.tick()
+				
+				var i = 0;
+				do{
+					path= ..io.joinpath(dir,"$" + tk + "$" + i ++ ext)
+					i++;
+				}while(..io.exist(path))
+			}
+			else {
+				return;
+			}
+		}
+		
+		return ..fsys.file(path,"w+b",3,,
+			0x100/*_FILE_ATTRIBUTE_TEMPORARY*/ | 0x2/*_FILE_ATTRIBUTE_HIDDEN*/ | (!dontDelete ? 0x4000000/*_FILE_FLAG_DELETE_ON_CLOSE*/ : 0)
+		);
 	}
 	
 	lines = function(path){
@@ -381,7 +400,7 @@ namespace file{
 
 /**intellisense() 
 fsys.file = 文件读写函数库
-fsys.file.temp(.("文件路径") = 创建临时文件
+fsys.file.temp(.(pathOrExt,dontDeleteOnClose) = 创建临时文件,\n可选用 @pathOrExt 参数指定临时文件路径或后缀名,\n指定临时文件后缀名时第一个字符必须是 . 号,\n可选指定 @dontDeleteOnClose 参数值为 true 以禁止关闭文件时自动删除文件\n可通过返回文件对象的 path 属性获取临时文件路径
 fsys.file.temp() = !fsysfile.
 fsys.file.lastModified(__) = 参数指定文件路径,\n返回最后修改时间,返回值是time.gmt对象,\n即RFC1123格式时间,HTTP协议使用该对象\n!time.
 fsys.file(__/*文件句柄*/) = 可以指定文件、管道等句柄
@@ -415,6 +434,7 @@ fsys.file.is(__) = 判断参数是不是fsys.file对象
 !fsysfile.seek("set",__) = 移动至相对开始处的指定偏移量
 !fsysfile.path = 返回文件路径
 !fsysfile.flush() = 刷新缓冲区
+!fsysfile.delete() = 关闭并删除文件
 !fsysfile.close() = 关闭文件句柄
 !fsysfile.seteof() = 将当前文件位置设为文件末尾,\n用于快速改变文件大小\n成功返回true
 !fsysfile.size() = 返回文件大小\n如果希望获取格式化的的文件大小请使用size64函数

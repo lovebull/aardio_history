@@ -1,4 +1,4 @@
-//远程调试
+//远程调试截图
 import win.ui;
 /*DSG{{*/
 var winform = win.form(text="Edge 浏览器控件 - web.view";right=759;bottom=469;bgcolor=16777215)
@@ -22,6 +22,16 @@ ws.Page.navigate(
     url = "http://www.baidu.com";
 ).end = function(result,err){
    
+} 
+
+//截图
+wb.wait("baidu");
+import crypt;
+ws.Page.captureScreenshot().end = function(result,err){
+   if(result[["data"]]){
+       var bin = crypt.decodeBin(result[["data"]]);
+       string.save("/screenshot.png",bin )
+   } 
 } 
 
 win.loopMessage();

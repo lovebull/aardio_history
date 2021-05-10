@@ -252,7 +252,7 @@ class popen{
 		sleep(10);
 		 
 		if( ret ){
-			return true,this.read(-1),this.readErr(-1);
+			return true,this.read(-1),this.readErr(-1),(this.process.getExitCode());
 		} 
 	};
 	waitOne = function(timeout){
@@ -261,8 +261,11 @@ class popen{
 		sleep(10);
 		
 		if( ret ){
-			return true,this.read(-1),this.readErr(-1);
+			return true,this.read(-1),this.readErr(-1),(this.process.getExitCode());
 		} 
+	};
+	getExitCode = function(){
+		return this.process.getExitCode();
 	};
 	assignToJobObject = function(hJob){
 		if( this.process ){
@@ -346,8 +349,9 @@ process.popen.cmd() = !process_popen.
 !process_popen.printf(__) = 清空标准输出然后写数据\n调用string.format函数格式化全部参数,尾部添加换行
 !process_popen.write(__) = 写数据,支持一个或多个参数
 !process_popen.writeClose(__) = 写数据并关闭进程输入流,可选指定一个或多个参数\n不指定参数则直接关闭输入流\n注意:有些进程会一直等待输入流关闭再继续下一下操作
-!process_popen.waitOne() = 等待进程关闭,不阻塞UI消息循环,可选使用一个毫秒值参数设定超时\n超时或失败返回 null,进程已退出则返回值1为true,返回值2为标准输出,返回值3为错误输出
-!process_popen.wait() = 等待进程关闭,可选使用一个毫秒值参数设定超时\n超时或失败返回 null,进程已退出则返回值1为true,返回值2为标准输出,返回值3为错误输出
+!process_popen.waitOne() = 等待进程关闭,不阻塞UI消息循环,可选使用一个毫秒值参数设定超时\n超时或失败返回 null,\n进程已退出则返回值1为true,返回值2为标准输出,返回值3为错误输出,返回值4为退出代码
+!process_popen.wait() = 等待进程关闭,可选使用一个毫秒值参数设定超时\n超时或失败返回 null,\n进程已退出则返回值1为true,返回值2为标准输出,返回值3为错误输出,返回值4为退出代码
+!process_popen.getExitCode() = 该函数调用成功有两个返回值:进程退出代码,进程是否已退出
 !process_popen.close() = 释放对象
 !process_popen.terminate() = 强制关闭进程并释放进程对象
 !process_popen.assignToJobObject(.(hJob) = 绑定到作业对象,成功返回true\n作业对象示例请参考标准库process.job.limitKill的源码

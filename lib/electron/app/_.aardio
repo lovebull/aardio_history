@@ -537,10 +537,10 @@ class app{
 			})
 		}
 		
-		startEnviron.browserWindow.icon = ..fsys.path.full(
+		startEnviron.browserWindow.icon = ..io.exist( ..fsys.path.full(
 			startEnviron.browserWindow.icon || startEnviron.icon ||  ".\app.ico"
 			,startEnviron.appPath
-			);
+			) );
 		startEnviron.icon = startEnviron.browserWindow.icon;
 		
 		var ip,port = this.http.getLocalIp();

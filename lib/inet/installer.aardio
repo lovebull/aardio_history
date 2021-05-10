@@ -27,22 +27,22 @@ class installer{
 
 			downBox.progress.setProgressRange(0,100) 
 			
-			var shInfo,err; 
+			var prcs,err; 
 			if(..string.endWith(downBox.savePath,".msi",true)){
 				parameters = `/i "` + downBox.savePath + `" ` + (parameters : "/quiet /qn /passive /norestart") ; 
-				shInfo = ..process.executeEx("msiexec.exe",parameters,operation : "runas",,,downBox[["hwnd"]]);
+				prcs,err = ..process.shellAs("msiexec.exe",parameters,,,downBox[["hwnd"]]);
 			}
 			else {
-				shInfo,err = ..process.executeEx(downBox.savePath ,parameters,operation : "runas",,,downBox[["hwnd"]]);
+				prcs,err = ..process.shellAs(downBox.savePath ,parameters,,,downBox[["hwnd"]]);
 			} 
 			
-			if(shInfo[["hProcess"]]){ 
+			if(prcs){ 
 				downBox.labInfo.text = "正在安装，请稍候数分钟 ……" 
 				downBox.labProgress.text = "如果安全软件阻止安装，请选择「允许全部操作」"; 
 				downBox.progress.startProgress();  
 	
-				..thread.waitOne(shInfo.hProcess);
-				..raw.closehandle( shInfo.hProcess  );
+				prcs.waitOne();
+				prcs.free();
 				
 				::Kernel32.MoveFileEx(this.savePath,null,0x4/*_MOVEFILE_DELAY_UNTIL_REBOOT*/)
 			}

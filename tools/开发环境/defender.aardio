@@ -18,17 +18,21 @@ winform.btnSave.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250';tex
 winform.btnAdd.disabled = true;
 
 thread.invoke( 
-	function(winform){
+	function(winform,idePublishDir){
 		
 		import ide;
 		import sys.mpPreference;
 		import fsys;
 		
-		var projectDir = ide.getConfig("project_default_dir");
-		if(!#projectDir) projectDir = io.fullpath("~/project");
-	 	projectDir = fsys.path.removeBackslash(projectDir); 
-	 	
-		var exclusionPaths,err = sys.mpPreference.getExclusionPaths({projectDir,ide.getProjectDir()})
+		var exclusionPaths = idePublishDir;
+		if(!exclusionPaths){
+			var projectDir = ide.getConfig("project_default_dir");
+			if(!#projectDir) projectDir = io.fullpath("~/project");
+	 		projectDir = fsys.path.removeBackslash(projectDir); 
+	 		exclusionPaths = {projectDir,ide.getProjectDir()}	
+		}
+		
+		var exclusionPaths,err = sys.mpPreference.getExclusionPaths(exclusionPaths)
 		if(exclusionPaths!==null){ 
 			winform.edit.text = string.join(exclusionPaths,'\r\n');
 			winform.btnSave.disabledText = null;
@@ -41,7 +45,7 @@ thread.invoke(
 			winform.msgWarn("系统未启用 Windows Defender")
 		}
 		 	
-	},winform
+	},winform,_IDE_PUBLISTH_PROJECT_DIR
 )
 
 winform.btnSave.oncommand = function(id,event){
