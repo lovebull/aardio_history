@@ -5,12 +5,14 @@
     <link rel="stylesheet" href="tabs.css" />
     <title>Document</title>
 </head>
-<script type="module">
+<script type="module"> 
+    import external from "aardio"
     import { h, render, Component } from "preact";
     import { useState, useEffect, useCallback } from "hooks";
     JSX = h;
 
     function Counter() {
+      let externalResult = external.func("Sciter")
       const [value, setValue] = useState(0);
       const increment = useCallback(() => {
         setValue(value + 1);
@@ -32,13 +34,14 @@
       return (
         <div>
           <h2>
-            当前时间:<span>{new Date(time).toLocaleTimeString()}</span>
+            当前时间:<span>{new Date(time).toLocaleTimeString()}</span> 
           </h2>
           当前计数: {value}
           <br />
           <button onClick={increment}>
             点这里增加计数，体验 React Hooks
-          </button>
+          </button><br />
+          调用 aardio 函数 external.func("Sciter") 的返回值：{externalResult}
           <br /><br />
 现在 Sciter JS 已经可以兼容 Preact ，<br />
 通过 Preact  Hooks 就可以 在 Sciter JS 里使用 React Hooks 写网页了。<br />

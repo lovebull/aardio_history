@@ -32,7 +32,7 @@ class popen{
 		sa.stdInput = ..process.dup( inPipeRead )
 		sa.stdOutput =  ..process.dup( outPipeWrite )
 		sa.stdError =  ..process.dup( errPipeWrite )
-		sa.creationFlag = (sa.creationFlag:0) | 0x8/*_DETACHED_PROCESS*/ 
+		
 		sa.inheritHandles = true;
 	
 		var prcs = ..process( exefile,parameters, sa);
@@ -314,14 +314,22 @@ namespace popen{
 			( type(...)==type.string ? ..process.popen( "cmd.exe","/c",cmdline,...) 
 				: ..process.popen( "cmd.exe"," /c " + cmdline ) )
 	}
+	
+	detached = function(exefile,...){
+		return ..process.popen(exefile,type.isString(...)?{...}:...,{
+			creationFlag = 8/*_DETACHED_PROCESS*/; 
+		}) 
+	}
 }
  
 /**intellisense()
 process.popen = 创建子进程,并支持管道读写
 process.popen(.(执行文件,命令行参数,STARTUPINFO) = 创建子进程,并支持管道读写\n参数与process()的参数用法一致,\n如果传入多个命令行参数，或者命令行参数是个数组，则合并为单个命令行,\n合并时遇到需要转义的参数则进行转义处理并且首尾添加双引号,\n首尾已经有引号的参数不作转义处理
 process.popen.cmd(.(命令行参数) = 按命令行方式创建子进程,并支持管道读写,\n如果传入多个命令行参数，或者命令行参数是个数组，则合并为单个命令行,\n合并时遇到需要转义的参数则进行转义处理并且首尾添加双引号,\n首尾已经有引号的参数不作转义处理
+process.popen.detached(.(执行文件,命令行参数,->->->) = 创建子进程,并支持管道读写\此函数调用 process.popen 并指定 _DETACHED_PROCESS 选项\n_DETACHED_PROCESS 会导致目标进程创建控制台子进程时弹出窗口\n但可以避免可能遇到的管道读写失败问题，这种情况极罕见一般可以不用考虑,\n命令行参数可以为不定个数字符串，字符串数组，相关转义规则与 process.popen 相同
 process.popen() = !process_popen.
 process.popen.cmd() = !process_popen.
+process.popen.detached() = !process_popen.
 !process_popen.codepage = 进程输入输出使用的代码页,默认为0
 !process_popen.read() = 从当前位置,向后读取下一行
 !process_popen.read("%s") = 从当前位置,向后读取下一行\n支持多参数

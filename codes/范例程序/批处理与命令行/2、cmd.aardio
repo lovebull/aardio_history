@@ -3,7 +3,7 @@
 import process.popen
 
 //打开命令行,隐藏命令行窗口
-var prcs = process.popen("cmd.exe")
+var prcs = process.popen.detached("cmd.exe")
 
 var cmd = /*
 CD C:\
@@ -14,10 +14,10 @@ rmdir test
 */
 
 prcs.write(cmd)
-result = prcs.peekTo(">");
-prcs.write('exit\n')
+var result = prcs.peekTo(">");
+prcs.print('exit')
 
 //显示结果
 import console;
-console.log( result )
-console.pause("pause")
+console.log( result );
+console.pause("pause");

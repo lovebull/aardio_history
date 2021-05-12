@@ -15,6 +15,12 @@ if(_STUDIO_INVOKED){
 	wbSciter.attachEventHandler( web.sciter.debug );	
 }
 
+wbSciter.external = {
+    func = function(str){ 
+        return "Hello, "+str+"!"; 
+    }
+}
+
 wbSciter.go("\layout\ui.html");
 
 //添加阴影边框

@@ -78,6 +78,8 @@ class jsonClient{
     			};
     		}
     		else {
+    			if( this.rpc.onError ) 	this.rpc.onError("接收到的数据不符合 JSON RPC 协议规则");
+    			
     			owner.sendJson( {
     				error = {
 						code = -32600;

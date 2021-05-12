@@ -187,6 +187,7 @@
 -616755425|1520|901|codes\范例程序\Python语言\3) py,aardio语法对比\9) pickle.aardio
 1278044617|3541|1732|codes\范例程序\Python语言\3) py,aardio语法对比\A) comment.aardio
 -657289567|2618|1112|codes\范例程序\Python语言\3) py,aardio语法对比\B) other.aardio
+-1230009392|909|561|codes\范例程序\Sciter.JS\0、external.aardio
 -1023599080|2507|1312|codes\范例程序\Sciter.JS\1、aardio调用js函数.aardio
 709917448|2566|1185|codes\范例程序\Sciter.JS\1、js调用aardio函数.aardio
 -2115676357|1557|896|codes\范例程序\Sciter.JS\2、aardio调用js事件.aardio
@@ -404,8 +405,8 @@
 988145281|753|445|codes\范例程序\多线程\12.PostThreadMessage.aardio
 -672907369|1471|836|codes\范例程序\多线程\13.threadCtrl.aardio
 -1215747440|747|477|codes\范例程序\多线程\14.function.aardio
-1383248796|2598|1232|codes\范例程序\批处理与命令行\1、batch.aardio
-1622612591|340|250|codes\范例程序\批处理与命令行\2、cmd.aardio
+-1059828831|2636|1262|codes\范例程序\批处理与命令行\1、batch.aardio
+1225219769|353|260|codes\范例程序\批处理与命令行\2、cmd.aardio
 -336596113|10597|3332|codes\范例程序\批处理与命令行\3、cmd2Gui.aardio
 1915448218|706|400|codes\范例程序\控制台\console.aardio
 180094559|391|276|codes\范例程序\控制台\kb.aardio
@@ -625,10 +626,10 @@
 -1248884981|710656|301626|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
-1704277786|15|34|config\SYS.CFG
+-1813341339|13|32|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
-1642471401|107723|28232|config\intellisense\kernel.txt
+-1527218397|107787|28252|config\intellisense\kernel.txt
 786007257|4753|1683|config\intellisense\unimportant.txt
 946221732|9375|1953|config\intellisense\web.layout.behavior.txt
 31814408|10949|2205|config\intellisense\web.sciter.behavior.txt
@@ -1009,10 +1010,10 @@
 1062823185|11032|10783|extensions\wizard\project2\template\web\layoutUi\layout\images\logo.png
 0|0|0|extensions\wizard\project2\template\web\layoutUi\layout\styles\images\
 0|0|0|extensions\wizard\project2\template\web\layoutUi\lib\fonts\
--9975748|1748|539|extensions\wizard\project2\template\web\sciter\default.aproj
+-701985900|1678|532|extensions\wizard\project2\template\web\sciter\default.aproj
 0|0|0|extensions\wizard\project2\template\web\sciter\layout\
 0|0|0|extensions\wizard\project2\template\web\sciter\lib\
-1279301847|556|342|extensions\wizard\project2\template\web\sciter\main.aardio
+-1937119545|655|398|extensions\wizard\project2\template\web\sciter\main.aardio
 0|0|0|extensions\wizard\project2\template\web\sciter\res\
 301844483|2641|1184|extensions\wizard\project2\template\web\sciter\layout\hooks.js
 0|0|0|extensions\wizard\project2\template\web\sciter\layout\images\
@@ -1020,7 +1021,7 @@
 0|0|0|extensions\wizard\project2\template\web\sciter\layout\styles\
 1471604459|2495|954|extensions\wizard\project2\template\web\sciter\layout\tabs.css
 -2051315645|1111|500|extensions\wizard\project2\template\web\sciter\layout\ui.css
--2029604373|3526|1592|extensions\wizard\project2\template\web\sciter\layout\ui.html
+-955103281|3709|1668|extensions\wizard\project2\template\web\sciter\layout\ui.html
 348014424|1323|965|extensions\wizard\project2\template\web\sciter\layout\images\begin.png
 1052431468|1222|860|extensions\wizard\project2\template\web\sciter\layout\images\document.png
 -1568356925|1215|857|extensions\wizard\project2\template\web\sciter\layout\images\download.png
@@ -1448,7 +1449,7 @@
 0|0|0|lib\process\job\
 1129615568|4119|1701|lib\process\mutex.aardio
 0|0|0|lib\process\php\
--1542929937|13544|4263|lib\process\popen.aardio
+-574043833|14145|4475|lib\process\popen.aardio
 -475412020|852|521|lib\process\rundll.aardio
 376553148|4344|1843|lib\process\temp.aardio
 -310246821|2744|1205|lib\process\token.aardio
@@ -1658,7 +1659,7 @@
 666218477|7637|2514|lib\web\soapClient\_.aardio
 2027437101|6082|2411|lib\web\socket\chrome.aardio
 1062519796|17104|5429|lib\web\socket\client.aardio
--339599680|10296|3699|lib\web\socket\jsonClient.aardio
+461702877|10408|3728|lib\web\socket\jsonClient.aardio
 -1704632835|10069|2768|lib\web\socket\jsonServer.aardio
 -621548269|18638|5419|lib\web\socket\server.aardio
 2087608769|7343|2216|lib\web\ui\_.aardio
