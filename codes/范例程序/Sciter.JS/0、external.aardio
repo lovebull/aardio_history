@@ -8,7 +8,8 @@ winform.add()
 
 import web.sciter;
 var wbSciter = web.sciter( winform );
-
+ 
+//下面定义的 external 对象在 JavaScript 中可直接使用
 wbSciter.external = {
     func = function(str){ 
          return "Hello, "+str+"!"; 
@@ -20,10 +21,7 @@ wbSciter.html = /**
 <button id="my-button">JavaSript 调用 aardio 函数 external.func("Sciter") </button> 
 <br> 请务必更新 web.sciter 扩展库到最新版本
 
-<script type="module">
-//注意上面 script 属性指定 type="module" 才能使用 import 语句
-
-import external from "aardio"
+<script>
 
 var button = document.getElementById("my-button");
 button.addEventListener('click', () => { 
@@ -33,6 +31,8 @@ button.addEventListener('click', () => {
 </script>
 </body>
 **/
+
+wbSciter.preloadScript(js)
 
 winform.show();	
 win.loopMessage();

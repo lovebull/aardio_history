@@ -187,7 +187,7 @@
 -616755425|1520|901|codes\范例程序\Python语言\3) py,aardio语法对比\9) pickle.aardio
 1278044617|3541|1732|codes\范例程序\Python语言\3) py,aardio语法对比\A) comment.aardio
 -657289567|2618|1112|codes\范例程序\Python语言\3) py,aardio语法对比\B) other.aardio
--1230009392|909|561|codes\范例程序\Sciter.JS\0、external.aardio
+-480585894|884|551|codes\范例程序\Sciter.JS\0、external.aardio
 -1023599080|2507|1312|codes\范例程序\Sciter.JS\1、aardio调用js函数.aardio
 709917448|2566|1185|codes\范例程序\Sciter.JS\1、js调用aardio函数.aardio
 -2115676357|1557|896|codes\范例程序\Sciter.JS\2、aardio调用js事件.aardio
@@ -604,6 +604,7 @@
 893808226|521|355|codes\范例程序\网络应用\下载文件\stream.aardio
 -246500122|1619|899|codes\范例程序\语言扩展\dynamicPointer.aardio
 -267884075|979|524|codes\范例程序\语言扩展\func.aardio
+-859941801|2197|1003|codes\范例程序\语言扩展\raw.struct.aardio
 2076909721|1137|644|codes\范例程序\语言扩展\string.builder.aardio
 -1481078199|1960|1077|codes\范例程序\调试技术\log.aardio
 -137925632|933|465|codes\范例程序\调试技术\调试钩子.aardio
@@ -626,7 +627,7 @@
 -1248884981|710656|301626|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--1813341339|13|32|config\SYS.CFG
+1683447085|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 -1527218397|107787|28252|config\intellisense\kernel.txt
@@ -1021,7 +1022,7 @@
 0|0|0|extensions\wizard\project2\template\web\sciter\layout\styles\
 1471604459|2495|954|extensions\wizard\project2\template\web\sciter\layout\tabs.css
 -2051315645|1111|500|extensions\wizard\project2\template\web\sciter\layout\ui.css
--955103281|3709|1668|extensions\wizard\project2\template\web\sciter\layout\ui.html
+149240029|3674|1657|extensions\wizard\project2\template\web\sciter\layout\ui.html
 348014424|1323|965|extensions\wizard\project2\template\web\sciter\layout\images\begin.png
 1052431468|1222|860|extensions\wizard\project2\template\web\sciter\layout\images\document.png
 -1568356925|1215|857|extensions\wizard\project2\template\web\sciter\layout\images\download.png
@@ -1292,7 +1293,7 @@
 1497699716|1095|471|lib\dotNet\interface\ICLRRuntimeInfo.aardio
 1491986198|1336|480|lib\dotNet\interface\ICorRuntimeHost.aardio
 0|0|0|lib\dotNet\ocr\.res\
--2033563478|11386|2994|lib\dotNet\ocr\_.aardio
+-1672991166|11517|3008|lib\dotNet\ocr\_.aardio
 732821783|8704|3535|lib\dotNet\ocr\.res\ocr.dll
 0|0|0|lib\electron\app\
 0|0|0|lib\electron\runtime\
@@ -1495,7 +1496,7 @@
 -1224788781|2700|1225|lib\raw\interface.aardio
 1210955659|2781|984|lib\raw\memory.aardio
 341896102|11264|3456|lib\raw\pefile.aardio
-534703685|2695|984|lib\raw\struct.aardio
+1748180598|4396|1392|lib\raw\struct.aardio
 -1164961921|3793|945|lib\raw\asm\opCode.aardio
 0|0|0|lib\raw\fasm\.res\
 944422532|4580|1781|lib\raw\fasm\_.aardio
@@ -1646,7 +1647,7 @@
 437568689|1291|774|lib\web\nativeMessaging\install.aardio
 1583466654|2861|1303|lib\web\nativeMessaging\_.aardio
 -1320507227|1383|706|lib\web\npm\_.aardio
--14763319|24094|6484|lib\web\rest\client.aardio
+1847704511|24647|6627|lib\web\rest\client.aardio
 1805740142|1435|659|lib\web\rest\github.aardio
 -256184915|703|434|lib\web\rest\htmlClient.aardio
 -1611180188|1524|702|lib\web\rest\jsonClient.aardio

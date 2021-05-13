@@ -178,6 +178,17 @@ class client{
 			}
 		}
 		else {
+			if(this.lastStatusCode==401 && this.onAuthenticate){
+				this._http.head(this.lastRequestUrl);
+				var authHeader = this._http.readHeader("WWW-Authenticate")
+				if(authHeader){
+					var req = this.lastRequestInfo;
+					if(this.onAuthenticate(authHeader)){
+						return this.requestEx(req)
+					}
+				}
+			}
+			
 			if( type(errMsg) == type.string ) {
 				if( !utf8 )errMsg = ..string.fromto( errMsg,codepage,65001); 
 				this.lastResponseData = errMsg;
@@ -468,6 +479,9 @@ web.rest.client(.("UserAgent","代理服务器","绕过代理的主机",连接�
 	}
 	
 	return result;
+}
+!web_restClient.onAuthenticate = function(authHeader){
+	__/*请求遇到401错误触发此函数,\nauthHeader为服务器响应HTT头WWW-Authenticate的值\n登录成功请返回true以重新发送上次失败的请求*/	
 }
 !web_restClient.endRequest() = 可用于afterSend事件提前结束当前请求
 !web_restClient.notify(回调函数) = @.notify(\n	function(){\n		__/*在此回调函数中所有请求在发送数据后立即关闭连接*/\n	} \n)
