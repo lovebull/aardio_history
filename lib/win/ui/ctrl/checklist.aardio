@@ -10,6 +10,10 @@ class checklist{
     		tParam.style =  tParam.style | 1/*_LVS_REPORT*/ | 0x4000 /*_LVS_NOCOLUMNHEADER*/  
     		if(tParam.edge)   
 				tParam.exstyle |= 0x200/*_WS_EX_CLIENTEDGE*/; 
+				
+			if(!tParam.msel){
+				tParam.style |= 0x4/*_LVS_SINGLESEL*/
+			}	
    		} 
     };
     onCreate = function(){  

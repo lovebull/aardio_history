@@ -23,12 +23,31 @@ namespace string{
         return a; 
     };
     matches = function(s,...){
-    	return ..table.array( ,gmatch(s,...) );
+    	return ..table.array(gmatch(s,...) );
     };
-	lines = function(s,c){
-		var t,i = splitEx(s,c),0;
+	lines = function(s,line,delims,limit){
+		var t,i = splitEx(s,line),0;
+		if(!delims) {
+			return function(){
+				i = i + 1; return t[i];
+			}
+		}
+		
 		return function(){
-			i = i + 1; return t[i];
+			i = i + 1; if(t[i]) return splitEx(t[i],delims,limit);
+		}
+	};
+	each = function(s,p,line){
+		if(!p) error("请指定参数@2",2)
+		var t,i = splitEx(s,line),0;
+		return function(){
+			var m;
+			while(!#m){
+				i = i + 1;
+				if(!t[i]) return;
+				m = { match(t[i],p) }; 
+			}
+			return ..table.unpack(m);
 		}
 	};
 	crlf = function(s,c){
@@ -155,8 +174,10 @@ splitEx(.(字符串,分隔符模式串,最大拆分次数,开始位置) = 使用
 gfind(字符串,模式串,开始位置) = @for i,j,group1  in string.gfind( __/*查找字符串*/,"(.)") { 
 	
 }
-lines( = 创建用于for in语句的迭代器按行拆分字符串,\n按行读取文件请使用 io.lines 函数,\nnull值或空字符串忽略不执行
-lines(.(字符串,分隔符  = 按行拆分参数@1传入的字符串,\n参数@2可使用模式匹配语法指定分隔符
+each( = 创建适用于 for in 语句的迭代器,\n用于分行匹配字符串,\n可将返回迭代器传入 table.array 生成数组
+each(.(字符串,模式串,行分隔符) = 必须使用参数@2指定模式串,\n查找模式串中可用圆括号创建捕获分组自定义迭代器返回值个数,\n行分隔符支持模式匹配语法,可省略
+lines( = 创建用于for in语句的迭代器按行拆分字符串\n也可将返回迭代器传入 table.array 生成数组,\n按行读取文件请使用 io.lines 函数,\nnull值或空字符串忽略不执行
+lines(.(字符串,行分隔符,列分隔符,最大列数)  = 按行拆分参数@1传入的字符串,\n可选使用参数@2指定行分隔符,支持模式匹配语法,\n如果不指定列分隔符,每次循环返回字符串,\n如果指定列分隔符,使用模式匹配二次拆分,每次循环返回数组,\n可选用参数@4指定最大列数,\n列分隔符支持模式匹配语法
 cmpMatch( __,"" ) = 忽略大小写比较两个字符串\n如果失败则使用模式语法匹配是否相同.\n如果其中一个参数不是字符串则返回false
 concatUnicode(.(str,->->->) = 将所有参数转换为Unicode字符串并连接后返回\n参数可以是数值,字符串,Unicode字符串,\n忽略null值参数
 isUtf8(__) = 快速检测字符串是否包含UTF8编码\n空字符串返回null
@@ -169,7 +190,9 @@ reduce( = 使用string.match依次匹配多个模式表达式,逐步缩减并返
 reduce(.(字符串,模式,->->->) = 参数@1指定要查找的字符串,\n参数@2开始指定一个或多个模式表达式,\n使用前面一个的匹配结果作为后面一次匹配的条件,\n逐步缩减并返回最终匹配结果,\n也可以在参数@2中使用一个数组指定多个模式表达式
 map( =  搜索并返回搜索结果数组,\n并调用映射函数转换数组中的每个匹配结果为新的值,\n\n注意如果模式串中使用括号指定了多个分组,\n映射函数会有多个对应的回调参数
 map(.(字符串,模式,映射函数) = 参数@1指定要查找的字符串,\n参数@2可以指定模式表达式,或包含多个表达式的数组,\n省略则默认为"[-\d]+",并且参数@3的默认值会被更换为tonumber\n可选用参数@3指定映射函数,\n\n返回值为匹配的字符串数组,如果有多个捕获分组则返回二维数组\n如果参数@2不是数组而是表,则返回相同结构的表,\n每个键对应的值更新为参数表中同名键指定的模式表达式的匹配结果。
-repline( = 按行替换字符串,返回替换后的字符串,\n只有一个返回值
-repline(.(源字符串,模式串,替换串,替换次数) = 模式串用于匹配所有的单行文本,\n替换次数指的也是每一行内部进行替换的次数,\n此函数仅返回替换后的新字符串,不返回替换次数
+repline( = 按行替换字符串,返回替换后的字符串,\n此函数仅返回替换后的新字符串,只有一个返回值
+repline(.(源字符串,模式串,替换串,替换次数) = 模式串用于匹配所有的单行文本,\n替换串与 string.replace 用法相同\n替换次数指的也是每一行内部进行替换的最大次数,不指定则不限制
+repline(.(源字符串,模式串,替换函数,替换次数) = 模式串用于匹配所有的单行文本,\n替换函数与 string.replace 用法相同\n,\n替换次数指的也是每一行内部进行替换的最大次数,不指定则不限制
+repline(.(源字符串,模式串,替换表,替换次数) = 模式串用于匹配所有的单行文本,\n替换表与 string.replace 用法相同\n,\n替换次数指的也是每一行内部进行替换的最大次数,不指定则不限制
 removeBom(.(字符串) = 如果字符串开始为UTF8 BOM，则返回移除该BOM的字符串。\n否则直接返回参数
 end intellisense**/

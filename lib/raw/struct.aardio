@@ -17,10 +17,10 @@ class struct {
 				this[["_structObject"]] = ..table.assign({},cls);
 			}
 			
-			this[["_arrayType"]] = ..string.match(this[["_structObject"]]._struct,"(\a+)\s+[^,\[]\[");
-			if(this[["_arrayType"]]){
-				this[["_arrayTypeSize"]] = ..raw.sizeof(this[["_arrayType"]]);
-				this[["_arrayValue"]] = eval("{"+this[["_arrayType"]]+" v}")
+			var arrType,arrName = ..string.match(this[["_structObject"]]._struct,"(\a+)\s+([^,\[\s]\s*)\[");
+			if(arrType && arrName){ 
+				var v = this[["_structObject"]][arrName][[1]]; 
+				this[["_arrayValue"]] = eval("{"+arrType+" v = " + (type(v)=="table"?..table.tostring(v):"null")+ "}")
 			}
 			
 			this[["_structPointer"]] = ptr;
@@ -29,22 +29,12 @@ class struct {
 		}
 		
 		var struct = class {
-			ctor( ... ){
-				if( tcls = "class"){
-					this[["_structObject"]] = cls( ... )
-				}
-				else {
-					this[["_structObject"]] = ..table.assign({},cls,...);
-				}
-				
-				this[["_structPointer"]] = ..raw.buffer(this[["_structObject"]])
-				
-				this[["_arrayType"]] = ..string.match(this[["_structObject"]]._struct,"(\a+)\s+[^,\[]\[");
-				if(this[["_arrayType"]]){
-					this[["_arrayTypeSize"]] = ..raw.sizeof(this[["_arrayType"]]);
-					this[["_arrayValue"]] = eval("{"+this[["_arrayType"]]+" v}")
-				}
-			};
+			ctor( ... ){{
+				var obj;
+				if( tcls = "class") obj = cls( ... );
+				else obj = ..table.assign({},cls,...); 
+				return ..raw.struct(obj,..raw.buffer(obj));
+			}};
 			@_meta;
 		}
 		struct._meta =  _meta;
@@ -72,8 +62,8 @@ namespace struct{
 		_get = function(k){ 
 			var t = type(k);
 			if( t === "number" ){
-				if(owner[["_arrayType"]]){
-					convert(owner[["_structPointer"]],owner[["_arrayValue"]],owner[["_arrayTypeSize"]]*(k-1));
+				if(owner[["_arrayValue"]]){
+					convert(owner[["_structPointer"]],owner[["_arrayValue"]],,k-1);
 					return owner[["_arrayValue"]].v;
 				} 
 				return;
@@ -93,9 +83,9 @@ namespace struct{
 		_set = function( k, v ){ 
 			var t = type(k);
 			if( t === "number" ){ 
-				if(owner[["_arrayType"]]){
+				if(owner[["_arrayValue"]]){
 					owner[["_arrayValue"]].v = v;
-					convert(owner[["_arrayValue"]],owner[["_structPointer"]],owner[["_arrayTypeSize"]]*(k-1)); 
+					convert(owner[["_arrayValue"]],owner[["_structPointer"]],,k-1); 
 				} 
 				return;
 			}

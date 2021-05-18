@@ -1,15 +1,15 @@
 ﻿?>
 @echo off 
-FOR  %%i IN (<?=owner.text?>) DO @echo %%i 
+for  %%i in (<?=owner.text?>) do @echo %%i 
 
-@echo <?= time() ?>%模板标记后的换行与空白被忽略,可用行内注释强制换行%
+rem ?>后忽略空白与换行，可改为 ?>& 强制换行
+echo <?= time() ?>&
+echo <?= owner.exepath ?>&
 
-@echo <?= owner.exepath ?>
+echo 批处理工作目录："%cd%"
 
-@echo 批处理工作目录："%cd%"
+echo 此批处理接收到的第一个参数："%1"
+echo 此批处理接收到的第二个参数："%2"
 
-@echo 此批处理接收到的第一个参数："%1"
-@echo 此批处理接收到的第二个参数："%2"
-
-@REM 下面自定义批处理进程退出代码
-EXIT /B 123
+@rem 下面自定义批处理进程退出代码
+exit /B 123

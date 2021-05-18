@@ -6,7 +6,7 @@ import win.ui;
 var winform = win.form(text="aardio - Windows Defender 开发目录设置工具";right=762;bottom=485;bgcolor=16777215)
 winform.add(
 btnAdd={cls="plus";left=599;top=397;right=639;bottom=427;color=3947580;db=1;dr=1;font=LOGFONT(h=-13);iconStyle={font=LOGFONT(h=-13;name='FontAwesome')};iconText='\uF07C';notify=1;z=5};
-btnSave={cls="plus";text="更新到 Windows Defender 排除目录";left=375;top=437;right=661;bottom=467;align="left";bgcolor=-5197169;db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=20}};iconText='\uF17A';notify=1;textPadding={left=39};z=3};
+btnSave={cls="plus";text="更新 Windows Defender 排除目录";left=375;top=437;right=661;bottom=467;align="left";bgcolor=-5197169;db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=20}};iconText='\uF17A';notify=1;textPadding={left=39};z=3};
 edit={cls="edit";left=32;top=53;right=740;bottom=392;db=1;dl=1;dr=1;dt=1;edge=1;hscroll=1;multiline=1;vscroll=1;z=1};
 static={cls="static";text="Windows Defender 排除目录(每行一个)：";left=34;top=20;right=392;bottom=47;dl=1;dr=1;dt=1;font=LOGFONT(h=-13);transparent=1;z=2};
 static2={cls="static";text="Windows Defender 实时保护功能会导致生成 EXE 时卡顿异常,请务必将工程目录添加到排除目录。";left=33;top=402;right=736;bottom=428;color=5921370;db=1;dl=1;dr=1;transparent=1;z=4}
@@ -56,18 +56,23 @@ winform.btnSave.oncommand = function(id,event){
 	
 	winform.btnSave.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250';text="正在更新 Windows Defender 配置 ……"}
 	thread.invoke( 
-		function(winform,exclusionPaths){
+		function(winform,exclusionPaths,publishDir){
 			import sys.mpPreference;
-			sys.mpPreference.setExclusionPaths(exclusionPaths)
+			var ret,err = sys.mpPreference.setExclusionPaths(exclusionPaths)
 			winform.btnSave.disabledText = null;
 			
 			if(#err){
 				winform.msgErr("系统未启用 Windows Defender")	
 			}
-			elseif(ret!==null){
-				winform.msgOk("已更新 Windows Defender 排除目录。")
+			else{
+				if(publishDir){
+					winform.close();
+				}
+				else {
+					winform.msgOk("已更新 Windows Defender 排除目录。")
+				}
 			} 
-		},winform,exclusionPaths
+		},winform,exclusionPaths,_IDE_PUBLISTH_PROJECT_DIR
 	)
 }
 

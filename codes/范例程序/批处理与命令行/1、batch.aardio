@@ -33,7 +33,7 @@ winform.plus.oncommand = function(id,event){
 
 winform.editBat.text = /*
 @echo off 
-for  %%i in (<?
+for %%i in (<?
 
 //这里可以嵌入 aardio 代码，使用 print 函数动态生成批处理代码
 import fsys;
@@ -48,18 +48,19 @@ fsys.enum( "/", "*.*",
     },false
 );
 
-?>) do @echo %%i 
+?>) do echo %%i 
 
-@echo <?= time() ?>%模板标记后的换行与空白被忽略,可用行内注释强制换行%
-@echo <?= owner.exepath ?>%强制换行%
+rem ?>后忽略空白与换行，可改为 ?>& 强制换行
+echo <?= time() ?>&
+echo <?= owner.exepath ?>&
 
-@echo 此批处理接收到的第一个参数："%1"
-@echo 此批处理接收到的第二个参数："%2"
+echo 此批处理接收到的第一个参数："%1"
+echo 此批处理接收到的第二个参数："%2"
 
-@rem 批处理延时
-@ping 127.0.0.1 -n 3 >nul
+rem 批处理延时
+ping 127.0.0.1 -n 3 >nul
 
-@rem 下面自定义批处理进程退出代码
+rem 下面自定义批处理进程退出代码
 exit /B 123
 */
  

@@ -50,16 +50,22 @@ namespace process{
 			this.beforeClose = function(){ 
 				..io.remove(tempname)
 			}
-		};
+		}}
+	}
 	
-	}}
+	batch.wow64 = function(...){
+		return ..fsys.wow64.disableRedirection(lambda(...) batch(...),...)
+	}
+	
 }
-
 /**intellisense()
 process.batch = 批处理管道进程,\n用于加载批处理代码，支持使用 aardio 模板语法嵌入 aardio 代码
 process.batch( = 创建批处理管道进程,\n用于加载批处理代码，支持使用 aardio 模板语法嵌入 aardio 代码
 process.batch(.(script,ownerArgs,workdir) = @script 参数可以是批处理脚本或批处理文件，支持资源文件,\n支持使用 aardio 模板语法嵌入 aardio 代码,\n批处理代码会使用自动生成的临时文件加载执行,对象释放时自动删除临时文件,\n可选用 @ownerArgs 参数指定aardio 模板代码可以调用的 owner 参数,\n@ownerArgs 的数组成员传递给批处理作为启动参数,可用%1 %2 ...接收,\n可选用 @workdir 指定工作目录,默认为应用程序目录
+process.batch.wow64( = 创建批处理管道进程,\n禁用64位文件与注册表重定向,\n在64位系统会返回64位进程,兼容32位系统,\n用于加载批处理代码，支持使用 aardio 模板语法嵌入 aardio 代码
+process.batch.wow64(.(script,ownerArgs,workdir) = @script 参数可以是批处理脚本或批处理文件，支持资源文件,\n支持使用 aardio 模板语法嵌入 aardio 代码,\n批处理代码会使用自动生成的临时文件加载执行,对象释放时自动删除临时文件,\n可选用 @ownerArgs 参数指定aardio 模板代码可以调用的 owner 参数,\n@ownerArgs 的数组成员传递给批处理作为启动参数,可用%1 %2 ...接收,\n可选用 @workdir 指定工作目录,默认为应用程序目录
 process.batch() = !process_popen.
+process.batch.wow64() = !process_popen.
 end intellisense**/
 
 /**details(aardio批处理模板语法)
@@ -67,6 +73,7 @@ end intellisense**/
 但是要注意与PHP的区别是，aardio规定开始标记  <? 必须独立不能紧跟英文字母，
 例如 <?xml.....  不是合法的aardio代码段开始标记(aardio会认为这是一个XML标记)。 
 另外，aardio总是忽略?>后面或文件开始的空白字符（包含空格、制表符，换行）。
+如果批处理需要在 ?> 之后换行，可以写为 ?>&
 	
 aardio将<? ..... ?> 之外的部分解析为： print("批处理代码") 以调用全局函数print输出批处理代码。
 print允许接收多个参数，并且对每个参数调用tostring()转换为字符串。

@@ -1,9 +1,11 @@
 //popen 进程管道
 import process;
+import fsys.wow64;
+
 namespace process
 
 class popen{
-	ctor( exefile,parameters="", startInfo,... ){ 
+	ctor( exefile,parameters="", startInfo,... ){{
 		if( type(startInfo) == type.string ){
    			parameters = {parameters;startInfo;...};
    			startInfo = null;
@@ -44,13 +46,17 @@ class popen{
 		..raw.closehandle(sa.stdOutput)
 		..raw.closehandle(sa.stdError)
 	
+		this.outPipeRead = outPipeRead;
+		this.errPipeRead = errPipeRead;
+		this.inPipeWrite = inPipeWrite;
+		
 		this.stdIn = ..io.open(inPipeWrite,"w+");
 		this.stdOut = ..io.open(outPipeRead,"r");
 		this.stdErr = ..io.open(errPipeRead,"r");
 		this.codepage = ::Kernel32.GetACP() = 65001? 65001 : 0;
 		
 		..table.gc(this,"close");
-	};
+	}};
 	write = function(...){ 
 		if( this.stdIn ){
 			for i,arg in ..table.eachArgs({...}){
@@ -64,8 +70,10 @@ class popen{
 	};
 	writeClose = function(...){
 		if(...) this.write(...);
-		this.stdIn.close();
-		this.stdIn = null;
+		if(this.stdIn){
+			this.stdIn.close();
+			this.stdIn = null;			
+		}
 	};
 	print = function(...){
 		if( this.stdIn ){ 
@@ -93,10 +101,19 @@ class popen{
 			return;
 		}
 		
+		if(...==-1) this.writeClose();
 		var out = {  this.stdOut.read(...) }
-		for i,v in ..table.eachArgs(out){
-			out[i] = ..string.fromto(v,this.codepage,65001);
+		if(this.codepage!==65001){
+			for i,v in ..table.eachArgs(out){
+				out[i] = ..string.fromto(v,this.codepage,65001);
+			}			
 		}
+		else {
+			if(out[1] && out[1][1] == 0xEF){
+				out[1] = ..string.removeBom(out[1]);
+			}
+		}
+
 		return ..table.unpackArgs(out);
 	};
 	readErr = function(...){
@@ -110,17 +127,19 @@ class popen{
 		return ..table.unpackArgs(out); 
 	};
 	peek = function(delay){  
+		if(!this.process) return;
+		
 		if( delay === null ) delay = 1000;
-		if( delay ? prcs.waitOne(delay) ){
+		if( delay ? this.process.waitOne(delay) ){
 			return this.read(-1),this.readErr(-1); 
 		}
 		
 		var out,err;
-		var ret,read,total,leftmsg = PeekNamedPipe(outPipeRead, ,0,0,0,0) 
+		var ret,read,total,leftmsg = PeekNamedPipe(this.outPipeRead, ,0,0,0,0) 
 		if(ret && total)
 			out = this.read(total); 
 	
-		ret,read,total,leftmsg = PeekNamedPipe(errPipeRead, ,0,0,0,0)
+		ret,read,total,leftmsg = PeekNamedPipe(this.errPipeRead, ,0,0,0,0)
 		if(ret && total && this.stdErr)
 			err = this.readErr(total);
 			
@@ -135,7 +154,8 @@ class popen{
 		if(!tag) tag = ">";
 		
 		do{ 
-			closed = prcs.waitOne(1000);
+			if(!this.process) return;
+			closed = this.process.waitOne(1000);
 			s,e = this.peek(0);
 			
 			if( s || e ){
@@ -173,8 +193,8 @@ class popen{
 					tick = tick + interval; 
 					if( tick > timeout ) return;
 				}
-			}while(prcs && !..thread.waitOne(prcs.handle,interval));
-		 	if(!prcs) return;
+			}while(this.process && !..thread.waitOne(this.process.handle,interval));
+		 	if(!this.process) return;
 		 	
 			if( this.stdOut && this.stdErr ){ 
 				o,e = this.read(-1),this.readErr(-1);
@@ -247,8 +267,8 @@ class popen{
 		}
 	};
 	wait = function(timeout){
-		if(! ( prcs ? prcs.handle ) ) return true;
-		var ret = ..thread.wait(prcs.handle,timeout)  
+		if(! ( this.process ? this.process.handle ) ) return true;
+		var ret = ..thread.wait(this.process.handle,timeout)  
 		sleep(10);
 		 
 		if( ret ){
@@ -256,8 +276,8 @@ class popen{
 		} 
 	};
 	waitOne = function(timeout){
-		if(! ( prcs ? prcs.handle ) ) return true;
-		var ret = ..thread.waitOne(prcs.handle,timeout)  
+		if(! ( this.process ? this.process.handle ) ) return true;
+		var ret = ..thread.waitOne(this.process.handle,timeout)  
 		sleep(10);
 		
 		if( ret ){
@@ -265,7 +285,7 @@ class popen{
 		} 
 	};
 	getExitCode = function(){
-		return this.process.getExitCode();
+		if(this.process) return this.process.getExitCode();
 	};
 	assignToJobObject = function(hJob){
 		if( this.process ){
@@ -275,6 +295,10 @@ class popen{
 	terminate = function(){
 		this.process.terminate();
 		this.close();
+	};
+	ctrlEvent = function(event){
+		this.stopLogResponse();
+		return this.process.ctrlEvent(event);
 	};
 	close = function(){
 		this.stopLogResponse();
@@ -291,8 +315,7 @@ class popen{
 			this.stdOut = null; 
 			this.stdErr = null; 
 			
-			prcs.free();
-			prcs = null;
+			this.process.free();
 			this.process = null;
 		}
 	}  
@@ -304,15 +327,32 @@ namespace popen{
 	PeekNamedPipe = ::Kernel32.api( "PeekNamedPipe", "bool(pointer pipe,pointer buf,INT size,INT &read,INT & total,INT & leftMsg)");
 
 	cmd = function(cmdline,...){
+		var m;
 		cmdline = ..string.trim(cmdline);
-		
+		cmdline,m = ..string.replace(cmdline,"[\r\n]+","&");
+		 
 		if(..io.exist(cmdline)){
 			return ..process.popen(cmdline,...)
 		}
 		
-		return ..process.popen(,cmdline,...) || 
-			( type(...)==type.string ? ..process.popen( "cmd.exe","/c",cmdline,...) 
+		return ( type(...)==type.string ? ..process.popen( "cmd.exe","/c",cmdline,...) 
 				: ..process.popen( "cmd.exe"," /c " + cmdline ) )
+	}
+	
+	cmd64 = function(...){
+		return ..fsys.wow64.disableRedirection(lambda(...) cmd(...),...	)
+	}
+	
+	wow64 = function(...){
+		return ..fsys.wow64.disableRedirection(lambda(...) ..process.popen(...),...)
+	}
+	
+	ps = function(cmdline,...){
+		var prcs;
+		if(type(...)==type.string ) prcs =  ..fsys.wow64.disableRedirection(lambda(cmdline,...) cmd("PowerShell",cmdline,...),cmdline,...);
+		else prcs =  ..fsys.wow64.disableRedirection(lambda() cmd("PowerShell " + cmdline));
+		prcs.codepage = 65001;
+		return prcs;
 	}
 	
 	detached = function(exefile,...){
@@ -325,16 +365,22 @@ namespace popen{
 /**intellisense()
 process.popen = 创建子进程,并支持管道读写
 process.popen(.(执行文件,命令行参数,STARTUPINFO) = 创建子进程,并支持管道读写\n参数与process()的参数用法一致,\n如果传入多个命令行参数，或者命令行参数是个数组，则合并为单个命令行,\n合并时遇到需要转义的参数则进行转义处理并且首尾添加双引号,\n首尾已经有引号的参数不作转义处理
-process.popen.cmd(.(命令行参数) = 按命令行方式创建子进程,并支持管道读写,\n如果传入多个命令行参数，或者命令行参数是个数组，则合并为单个命令行,\n合并时遇到需要转义的参数则进行转义处理并且首尾添加双引号,\n首尾已经有引号的参数不作转义处理
-process.popen.detached(.(执行文件,命令行参数,->->->) = 创建子进程,并支持管道读写\此函数调用 process.popen 并指定 _DETACHED_PROCESS 选项\n_DETACHED_PROCESS 会导致目标进程创建控制台子进程时弹出窗口\n但可以避免可能遇到的管道读写失败问题，这种情况极罕见一般可以不用考虑,\n命令行参数可以为不定个数字符串，字符串数组，相关转义规则与 process.popen 相同
+process.popen(.(执行文件,命令行参数,STARTUPINFO) = 创建子进程,并支持管道读写\n参数与process()的参数用法一致,\n如果传入多个命令行参数，或者命令行参数是个数组，则合并为单个命令行,\n合并时遇到需要转义的参数则进行转义处理并且首尾添加双引号,\n首尾已经有引号的参数不作转义处理
+process.popen.cmd(.(命令行参数,->->->) = 按命令行方式创建子进程,并支持管道读写,\n如果第一个参数包含换行,则替换为批处理命令分隔符&&,\n如果传入多个命令行参数，或者命令行参数是个数组，则合并为单个命令行,\n合并时遇到需要转义的参数则进行转义处理并且首尾添加双引号,\n首尾已经有引号的参数不作转义处理
+process.popen.cmd64(.(命令行参数,->->->) = 按命令行方式创建子进程,并支持管道读写,\n此函数禁用64位系统文件与注册表重定向,\n在64位系统会返回64位进程,兼容32位系统,\n如果第一个参数包含换行,则替换为批处理命令分隔符&&,\n如果传入多个命令行参数，或者命令行参数是个数组，则合并为单个命令行,\n合并时遇到需要转义的参数则进行转义处理并且首尾添加双引号,\n首尾已经有引号的参数不作转义处理
+process.popen.wow64(.(执行文件,命令行参数,->->->) = 创建子进程,并支持管道读写,\n此函数禁用64位系统文件与注册表重定向,\n在64位系统会返回64位进程,兼容32位系统,\n命令行参数可以为不定个数字符串，字符串数组，相关转义规则与 process.popen 相同
+process.popen.ps(.(命令行参数,->->->) = 创建进程执行PowserShell命令,并支持管道读写,\n如果第一个参数包含换行,则替换为命令行分隔符&&,\n如果传入多个命令行参数，或者命令行参数是个数组，则合并为单个命令行,\n合并时遇到需要转义的参数则进行转义处理并且首尾添加双引号,\n首尾已经有引号的参数不作转义处理
 process.popen() = !process_popen.
 process.popen.cmd() = !process_popen.
+process.popen.cmd64() = !process_popen.
+process.popen.wow64() = !process_popen.
+process.popen.ps() = !process_popen.
 process.popen.detached() = !process_popen.
 !process_popen.codepage = 进程输入输出使用的代码页,默认为0
 !process_popen.read() = 从当前位置,向后读取下一行
 !process_popen.read("%s") = 从当前位置,向后读取下一行\n支持多参数
 !process_popen.read("%d") = 从当前位置,向后读取下一个数值\n支持多参数
-!process_popen.read(-1) = 向后读取到文件尾部\n负数表示从文件尾部倒计数位置\n支持多参数
+!process_popen.read(-1) = 向后读取到文件尾部\n负数表示从文件尾部倒计数位置\n如果第一个参数为-1，则自动调用 writeClose 关闭输出流,\n支持多参数
 !process_popen.readErr(-1) = 读取所有错误输出
 !process_popen.each( 间隔时间,超时时间 ) = @for( all,out,err in ??.each() ){
     io.stdout.write( out,err );__/*读取进程输出直到进程关闭*/
@@ -342,11 +388,11 @@ process.popen.detached() = !process_popen.
 !process_popen.beforeClose = @.beforeClose = function(){
 	owner.process.terminate();__/*释放管道以前触发此事件,可强制关闭进制*/
 }
-!process_popen.logger = 指定logResponse的默认回显对象\n该对象必须有log或write成员函数用于输出回显
-!process_popen.logResponse( = 回显进程的标准输出以及错误输出\n该函数会自动同动获取进程输出,并直到进程结束
-!process_popen.logResponse(.(回显函数,间隔时间) = 所有参数可省略,\n如果不指定参数则尝试调用logger输出进程回显\n如果未指定logger对象则默认回显到控制台
-!process_popen.logResponse(.(回显文本框,间隔时间) = 在文本框定时回显进程输出,\n回显文本框必须指定edit或richedit控件,间隔时间可省略。
-!process_popen.stopLogResponse() = 清除回显文本框的定时器
+!process_popen.logger = 指定logResponse的默认回显对象\n该对象必须有log或write成员函数用于输出回显\nlogger 对象用于logResponse 时将同步获取输出并等待进程结束
+!process_popen.logResponse( = 回显进程的标准输出以及错误输出
+!process_popen.logResponse(.(回显函数,间隔时间) = 自动同动获取进程输出,并直到进程结束,所有参数可省略,\n如果之前定义了logger成员对象，则调用logger输出进程回显\n未指定logger对象则默认回显到控制台
+!process_popen.logResponse(.(异步回显文本框,间隔时间) = 不会阻塞并等待进程结束,\n而是在传入文本框控件上创建定时器异步回显进程输出,\n回显文本框必须指定edit或richedit控件,间隔时间可省略
+!process_popen.stopLogResponse() = 清除异步回显文本框的定时器\n关闭进程对象时也会自动清除此定时器
 !process_popen.peek(__) = 检测标准输出管道中可读取的数据长度\n有数据则读取数据,无数据则返回空值\n如果stdErr中有错误信息,则第二个返回值为错误信息\n此函数不会因为等待输入而阻塞\n参数可指定等待目标进程执行的延时时间
 !process_popen.peekTo(.(">",回显函数,超时) = 读取数据,直到数据以参数一指定的字符串结束\n返回标准输出,第二个返回值为错误信息\n可选使用参数@2指定回显函数,回显函数有两个参数,分别为标准输出,错误信息\n可选用参数@3指定无输出时的超时限制\n该函数在进程退出后也会返回
 !process_popen.read(0) = 检测是否读取到文件尾
@@ -363,6 +409,8 @@ process.popen.detached() = !process_popen.
 !process_popen.close() = 释放对象
 !process_popen.terminate() = 强制关闭进程并释放进程对象
 !process_popen.assignToJobObject(.(hJob) = 绑定到作业对象,成功返回true\n作业对象示例请参考标准库process.job.limitKill的源码
+!process_popen.ctrlEvent(0)=发送Ctrl+C(SIGINT信号)\n信号将传递到与目标进程控制台连接的所有非分离控制台进程\n64位目标进程会导致当前控制台暂时关闭
+!process_popen.ctrlEvent(1)=发送Ctrl+Break(SIGBREAK信号)\n信号将传递到与目标进程控制台连接的所有非分离控制台进程\n64位目标进程会导致当前控制台暂时关闭
 !process_popen.process = !process.
 !process_popen.stdErr = !file.
 !process_popen.stdOut = !file.

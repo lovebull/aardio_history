@@ -20,6 +20,9 @@ dbMysql.selectDb("aardio_mysql")
 var result = dbMysql.stepQuery("select version()");
 console.dump(result)
 
+//为避免有人乱改测试数据库表结构又没有删除，先删除旧的表
+dbMysql.exec("DROP TABLE IF EXISTS `library`");
+
 //执行SQL语句,注意mysql表名、字段名可包含于反引号内(用键盘左上角ESC下方的按键内)
 dbMysql.exec("CREATE TABLE IF NOT EXISTS `library` (
     `name` VARCHAR(100) NOT NULL, 

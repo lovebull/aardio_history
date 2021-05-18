@@ -175,6 +175,24 @@ class process {
 		this.suspend();
 		this.terminate();
 	};
+	ctrlEvent = function(event){
+		if( ..process().isWow64() && !this.isWow64() ){
+			::Kernel32.FreeConsole();
+ 			if (::Kernel32.AttachConsole(this.id)){ 
+				::Kernel32.SetConsoleCtrlHandler(null, true); 
+				::Kernel32.GenerateConsoleCtrlEvent(event, 0);
+				::Kernel32.FreeConsole();
+		 	
+				this.waitOne();  
+				::Kernel32.SetConsoleCtrlHandler(null, false);
+				return true;
+			}			
+		}
+		else {
+			var GenerateConsoleCtrlEvent = this.remoteApi("bool(INT,INT)","Kernel32.dll","GenerateConsoleCtrlEvent");
+			return GenerateConsoleCtrlEvent(event:0,0);	 
+		} 
+	}
 	getExitCode = function(){
 		var ok,code = GetExitCodeProcess( this.handle , 0);
 		if(ok){
@@ -1119,6 +1137,8 @@ process.shellAs() = !process.
 !process.getMainWindow() = 返回进程的主窗口，忽略隐藏窗口
 !process.closeMainWindow() = 关闭进程的主窗口，忽略隐藏窗口
 !process.assignToJobObject(.(hJob) = 绑定到作业对象,成功返回true\n作业对象示例请参考标准库process.job.limitKill的源码。
+!process.ctrlEvent(0)=发送Ctrl+C(SIGINT信号)\n信号将传递到与目标进程控制台连接的所有非分离控制台进程\n64位目标进程会导致当前控制台暂时关闭
+!process.ctrlEvent(1)=发送Ctrl+Break(SIGBREAK信号)\n信号将传递到与目标进程控制台连接的所有非分离控制台进程\n64位目标进程会导致当前控制台暂时关闭
 ?process = !process.
 ?process.each = !processEntry.
 end intellisense**/

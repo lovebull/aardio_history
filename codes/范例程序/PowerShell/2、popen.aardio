@@ -1,0 +1,10 @@
+﻿//管道调用PowerShell
+import console;
+import process.popen;
+
+console.showLoading(" 请稍候，正在调用 PowerShell");
+var prcs  = process.popen.ps(`-Command "& {Get-Command -Name *Process}"`);
+var result = prcs.read(-1);
+
+console.log(result);
+console.pause();

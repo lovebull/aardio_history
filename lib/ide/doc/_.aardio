@@ -217,6 +217,7 @@ namespace doc{
                 k = ..string.concat(path,".",k);
             }
             v= ..string.replace(v,"\\n",'  \r\n');
+            v= ..string.replace(v,"\&\&",'&'); 
             
             if(k[1] == '_'# && (#k > 2) ){
             	var v2 = ..string.match(v,"\@(.+)\/\*.+\*\/");
