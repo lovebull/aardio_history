@@ -637,7 +637,7 @@
 -1251330719|710656|301687|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
-2140956514|15|34|config\SYS.CFG
+-1852701106|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 -1706301797|108387|28354|config\intellisense\kernel.txt
@@ -1465,6 +1465,7 @@
 376553148|4344|1843|lib\process\temp.aardio
 -310246821|2744|1205|lib\process\token.aardio
 -1576115819|2812|1241|lib\process\usage.aardio
+523993904|2251|1029|lib\process\vswhere.aardio
 -1050612479|2254|910|lib\process\wmi.aardio
 -1120826501|52488|14032|lib\process\_.aardio
 2013837002|6858|2296|lib\process\apiHook\_.aardio
@@ -1506,7 +1507,7 @@
 -1224788781|2700|1225|lib\raw\interface.aardio
 1210955659|2781|984|lib\raw\memory.aardio
 341896102|11264|3456|lib\raw\pefile.aardio
--1238936104|4022|1424|lib\raw\struct.aardio
+-1682832115|3931|1384|lib\raw\struct.aardio
 -1164961921|3793|945|lib\raw\asm\opCode.aardio
 0|0|0|lib\raw\fasm\.res\
 944422532|4580|1781|lib\raw\fasm\_.aardio
@@ -1529,7 +1530,7 @@
 -745766250|628|371|lib\string\aasdl.aardio
 180083296|8638|2760|lib\string\builder.aardio
 1874621857|6568|2179|lib\string\chineseNumber.aardio
-209607809|2443|1149|lib\string\cmdline.aardio
+551523687|2452|1151|lib\string\cmdline.aardio
 0|0|0|lib\string\conv\
 1198441300|4653|1566|lib\string\database.aardio
 -277035125|1511|682|lib\string\encoding.aardio
