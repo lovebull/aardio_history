@@ -35,10 +35,10 @@ End Extern
 string.save("/basic.bas", basic)
 
 import console;
-import freeBasic;
+import process.freeBasic;
 
 console.open();
-freeBasic.dll("/basic.bas").wait();
+process.freeBasic.dll("/basic.bas").wait();
 
 /*
 FreeBASIC 的运行库基于 LGPLv2 开源许可证 - 并且额外允许静态链接，

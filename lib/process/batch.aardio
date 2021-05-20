@@ -1,5 +1,6 @@
 ﻿//batch 批处理
 import process.popen;
+
 namespace process{
 	
 	class batch{

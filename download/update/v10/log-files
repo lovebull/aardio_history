@@ -22,6 +22,7 @@
 0|0|0|codes\范例程序\PHP语言\
 0|0|0|codes\范例程序\PowerShell\
 0|0|0|codes\范例程序\Python语言\
+0|0|0|codes\范例程序\Rust语言\
 0|0|0|codes\范例程序\Sciter.JS\
 0|0|0|codes\范例程序\Web应用\
 0|0|0|codes\范例程序\Web窗体应用\
@@ -43,7 +44,7 @@
 0|0|0|codes\范例程序\调试技术\
 0|0|0|codes\范例程序\音频视频\
 -123077575|1645|1003|codes\范例程序\Chrome\app.aardio
-478810915|1535|857|codes\范例程序\Chrome\driver.aardio
+-1429946749|1521|856|codes\范例程序\Chrome\driver.aardio
 -894008657|1983|910|codes\范例程序\Chrome\extensions.aardio
 -1180573278|3389|1297|codes\范例程序\Chrome\remote.aardio
 -1563847535|5412|2085|codes\范例程序\COM组件\1.progId.aardio
@@ -114,7 +115,7 @@
 813031966|1901|999|codes\范例程序\Electron\6) webview.aardio
 0|0|0|codes\范例程序\Electron\res\
 -1083564121|1363|775|codes\范例程序\Electron\res\main.aardio
-2055502634|1635|985|codes\范例程序\FreeBASIC语言\dll.aardio
+-1482158456|1651|991|codes\范例程序\FreeBASIC语言\dll.aardio
 -1575141793|545|429|codes\范例程序\FreeBASIC语言\dllCall.aardio
 1778262523|1502|986|codes\范例程序\Go语言\1、dll.aardio
 818879136|1480|831|codes\范例程序\Go语言\2、rpc-server.aardio
@@ -190,6 +191,7 @@
 -616755425|1520|901|codes\范例程序\Python语言\3) py,aardio语法对比\9) pickle.aardio
 1278044617|3541|1732|codes\范例程序\Python语言\3) py,aardio语法对比\A) comment.aardio
 -657289567|2618|1112|codes\范例程序\Python语言\3) py,aardio语法对比\B) other.aardio
+1618431302|1203|708|codes\范例程序\Rust语言\dll.aardio
 -480585894|884|551|codes\范例程序\Sciter.JS\0、external.aardio
 1491145509|2581|1431|codes\范例程序\Sciter.JS\0、template.aardio
 -1023599080|2507|1312|codes\范例程序\Sciter.JS\1、aardio调用js函数.aardio
@@ -614,7 +616,7 @@
 893808226|521|355|codes\范例程序\网络应用\下载文件\stream.aardio
 -246500122|1619|899|codes\范例程序\语言扩展\dynamicPointer.aardio
 -267884075|979|524|codes\范例程序\语言扩展\func.aardio
--859941801|2197|1003|codes\范例程序\语言扩展\raw.struct.aardio
+-1066715389|2031|971|codes\范例程序\语言扩展\raw.struct.aardio
 2076909721|1137|644|codes\范例程序\语言扩展\string.builder.aardio
 -1481078199|1960|1077|codes\范例程序\调试技术\log.aardio
 -137925632|933|465|codes\范例程序\调试技术\调试钩子.aardio
@@ -637,10 +639,10 @@
 -1251330719|710656|301687|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--1852701106|15|34|config\SYS.CFG
+2058820898|15|33|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
--1706301797|108387|28354|config\intellisense\kernel.txt
+-1140544858|108468|28363|config\intellisense\kernel.txt
 786007257|4753|1683|config\intellisense\unimportant.txt
 946221732|9375|1953|config\intellisense\web.layout.behavior.txt
 31814408|10949|2205|config\intellisense\web.sciter.behavior.txt
@@ -1156,7 +1158,7 @@
 -1407847800|12468|4146|help\关于aardio.txt
 0|0|0|help\用户许可协议\
 -911159679|1976|1010|help\用户许可协议\aardio开源代码许可证.txt
-1319010440|1929|1117|help\用户许可协议\aardio用户许可协议.txt
+-527488453|2084|1199|help\用户许可协议\aardio用户许可协议.txt
 0|0|0|lib\access\
 0|0|0|lib\bencoding\
 0|0|0|lib\chrome\
@@ -1414,7 +1416,7 @@
 -1210786547|41833|10956|lib\inet\http.aardio
 369658921|10104|2948|lib\inet\httpFile.aardio
 -505015331|4833|1832|lib\inet\httpStatusCode.aardio
-1705772696|3407|1316|lib\inet\installer.aardio
+-1505203855|3438|1325|lib\inet\installer.aardio
 1457490372|1547|803|lib\inet\mac.aardio
 41976202|17232|4864|lib\inet\ras.aardio
 -620403935|2437|983|lib\inet\stat.aardio
@@ -1445,13 +1447,12 @@
 -1931878713|6069|1900|lib\preload\struct.aardio
 743869699|18646|5743|lib\preload\table.aardio
 -794133190|11340|3971|lib\preload\thread.aardio
--2116959537|11647|4204|lib\preload\_.aardio
+-1844229329|11765|4248|lib\preload\_.aardio
 25183219|5007|1983|lib\process\admin.aardio
 0|0|0|lib\process\apiHook\
 1685550576|1158|628|lib\process\atom.aardio
--1879458284|4227|1714|lib\process\batch.aardio
+-7908031|4229|1714|lib\process\batch.aardio
 169341518|2580|1098|lib\process\cache.aardio
-0|0|0|lib\process\chrome\
 2063848142|3035|1181|lib\process\code.aardio
 -91496726|6854|2337|lib\process\command.aardio
 -512617283|997|607|lib\process\control.aardio
@@ -1462,17 +1463,18 @@
 0|0|0|lib\process\php\
 -2146161118|17374|4976|lib\process\popen.aardio
 -475412020|852|521|lib\process\rundll.aardio
+0|0|0|lib\process\rust\
 376553148|4344|1843|lib\process\temp.aardio
 -310246821|2744|1205|lib\process\token.aardio
--1576115819|2812|1241|lib\process\usage.aardio
-523993904|2251|1029|lib\process\vswhere.aardio
+-321055124|2810|1239|lib\process\usage.aardio
+-1099924714|2296|1066|lib\process\vswhere.aardio
 -1050612479|2254|910|lib\process\wmi.aardio
--1120826501|52488|14032|lib\process\_.aardio
+402453665|52579|14064|lib\process\_.aardio
 2013837002|6858|2296|lib\process\apiHook\_.aardio
--36241775|71|74|lib\process\chrome\app.aardio
 1404097761|2825|1098|lib\process\job\limitKill.aardio
 478511758|1928|933|lib\process\php\cgi.aardio
 114772249|2320|1088|lib\process\php\simpleHttpServer.aardio
+252259131|3846|1588|lib\process\rust\_.aardio
 -1539521430|7720|2045|lib\protobuf\message.aardio
 0|0|0|lib\protobuf\parser\
 0|0|0|lib\protobuf\reader\
@@ -1507,7 +1509,7 @@
 -1224788781|2700|1225|lib\raw\interface.aardio
 1210955659|2781|984|lib\raw\memory.aardio
 341896102|11264|3456|lib\raw\pefile.aardio
--1682832115|3931|1384|lib\raw\struct.aardio
+-457854911|3836|1379|lib\raw\struct.aardio
 -1164961921|3793|945|lib\raw\asm\opCode.aardio
 0|0|0|lib\raw\fasm\.res\
 944422532|4580|1781|lib\raw\fasm\_.aardio
@@ -1568,7 +1570,7 @@
 -193603692|3125|1269|lib\sys\runAsTask.aardio
 -986346657|1880|797|lib\sys\soundDevice.aardio
 1031716355|5236|1805|lib\sys\storage.aardio
--459981891|2376|942|lib\sys\vc14.aardio
+-1065435452|2439|988|lib\sys\vc14.aardio
 84729105|5444|2007|lib\sys\volume.aardio
 -1224990289|2072|918|lib\sys\_.aardio
 -928803953|1904|727|lib\table\product.aardio
@@ -1591,7 +1593,7 @@
 -1789619947|3244|1365|lib\util\metaProperty.aardio
 417956980|1112|584|lib\util\registry.aardio
 -1894151576|3296|1356|lib\util\table.aardio
--139139510|5631|1582|lib\util\_.aardio
+-1462775041|5484|1513|lib\util\_.aardio
 -393628693|322|217|lib\web\asynServer.aardio
 0|0|0|lib\web\form\
 943217487|14484|5217|lib\web\json.aardio

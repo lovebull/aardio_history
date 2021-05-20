@@ -9,21 +9,10 @@ aardio 中的结构体默认为动态结构体，
 import console; 
 import raw.struct;
 
-//创建静态结构体类型
-var rawStruct = raw.struct({
-	float v[500] = {123}
-})
-
-//创建静态结构体
-var floatArray = rawStruct();
-	
-/*
-//也可以自内存指针直接创建静态结构体,例如：
+//创建静态结构体类型,也可以在第 2 个参数中指定内存指针
 var floatArray = raw.struct({
-	float v[500] = {123}
-},内存指针）
-*/
-
+	float v[500] 
+})
 
 /*
 静态结构体可直接传入其他线程使用，传入其他线程后指针地址也不会变动。

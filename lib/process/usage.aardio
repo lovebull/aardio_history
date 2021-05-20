@@ -51,7 +51,7 @@ class usage{
 		if(counter)return size64(counter.WorkingSetSize).format(),size64(counter.PrivateUsage:counter.PagefileUsage).format()
 	};
 	cpuString = function(){
-		return ..string.format("%d%%",this.cpu()))
+		return ..string.format("%d%%",this.cpu());
 	}; 
 }
 

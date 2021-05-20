@@ -140,13 +140,9 @@ after = function(targetOwner,targetMethod,adviceOwner,advice){
 	return f;
 }
 
-isCallable = function(f){
-	var t = type(f);
-	return t=="function" || t = "class" || ( f@ ? f@._call );	
-} 
+isCallable = type.callable
 
 /**intellisense(util)
-isCallable(.(对象) = 检测对象是否可作为函数调用
 apply(.(函数,owner,参数表) = 用法类似call\n调用函数并显示指定owner参数\n参数三为参数表(table数组)\n该函数在遇到错误时抛出异常
 after(.(目标对象,成员函数,钩子函数) = 创建并返回一个函数对象,\n在调用目标函数之后调用钩子函数\n钩子函数如果首个返回值非空则替换目标函数的全部返回值\n如果目标函数或钩子函数为空,返回非空函数 .\n\n参数一省略则默认为global对象
 after(.(目标对象,成员函数名,钩子函数) = 创建并返回一个函数对象,\n在调用目标函数之后调用钩子函数\n\n如果参数二为字符串,则直接更新原函数

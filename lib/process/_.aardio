@@ -1156,7 +1156,7 @@ execute(.("__", parameters="",operation="open",showCmd,workdir,hwnd) = 参数@1�
 executeWait(.("__", parameters="",operation="open",showCmd,workdir=",hwnd=0) = 运行exe应用程序\n并等待应用程序关闭\n除参数@1以外所有参数可选
 executeWaitInput(.("__", parameters="",operation="open",showCmd,workdir=",hwnd=0) = 运行exe应用程序\n并等待进程初始化完成并接受输入\n除参数@1以外所有参数可选
 executeInvoke(.(path, parameters,operation,showCmd,workdir,hwnd) = 创建临时的后台线程运行应用程序\n在打开网址前退出主线程可能无法执行操作,\n参数与process.execute函数用法一样,除指定参数@1或参数@2,其他所有参数可选
-openUrl(__) = 调用默认浏览器打开网址,用于窗口程序,\n如果不用这个方法创建线程去打开网址,可能会出现界面卡顿不流畅的现象,\n在打开网址前退出主线程可能无法执行操作
+openUrl(__) = 调用默认浏览器打开网址,用于窗口程序,\n如果不用这个方法创建线程去打开网址,可能会出现界面卡顿不流畅的现象,\n在打开网址前退出主线程可能无法执行操作\n控制台程序应调用 process.execute 以避免后台线程不能阻止控制台关闭
 exploreSelect("__/*文件路径*/") = 打开资源管理器,选定该文件
 explore("__/*目录路径*/") = 使用资源管理器打开目录\n打开WIN10应用这样写:process.explore("shell:appsFolder\appPath")\n使用 com.shell.eachApp 可列出WIN10所有appPath
 regAs(`__/*命令参数*/`) = 以管理权限执行 reg 命令

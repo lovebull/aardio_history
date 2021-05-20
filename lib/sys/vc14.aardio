@@ -52,7 +52,7 @@ require = function(minorVersion,buildNumber){
 }
 
 /**intellisense(sys.vc14)
-isInstalled( = 是否安装 VC++14 运行时\n注意VC2015、2017、2019都是使用同一运行库\
+isInstalled( = 是否安装 VC++14 运行时\n注意VC2015、2017、2019都是使用同一运行库\n检测 VS 开发环境安装信息请使用库 process.vswhere
 isInstalled(.(minorVersion,buildNumber)  =  可选在参数中指定最低 minorVersion 或 buildNumber,\n也可以直接在minorVersion中用字符串指定"2019","2017","2015"
 isInstalled(.() = 是否安装 VC2015 运行时
 isInstalled(.("2017") = 是否安装 VC2015 运行时

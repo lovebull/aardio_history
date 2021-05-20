@@ -30,10 +30,10 @@ class installer{
 			var prcs,err; 
 			if(..string.endWith(downBox.savePath,".msi",true)){
 				parameters = `/i "` + downBox.savePath + `" ` + (parameters : "/quiet /qn /passive /norestart") ; 
-				prcs,err = ..process.shellAs("msiexec.exe",parameters,,,downBox[["hwnd"]]);
+				prcs,err = ..process.shell("msiexec.exe",parameters,operation:"runas",,,downBox[["hwnd"]]);
 			}
 			else {
-				prcs,err = ..process.shellAs(downBox.savePath ,parameters,,,downBox[["hwnd"]]);
+				prcs,err = ..process.shell(downBox.savePath,parameters,operation:"runas",,,downBox[["hwnd"]]);
 			} 
 			
 			if(prcs){ 

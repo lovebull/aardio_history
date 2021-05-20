@@ -192,6 +192,11 @@ _IMPORTURL = {};
 if(::Kernel32.GetACP()==65001){
 	io.utf8 = true;
 }
+
+type.callable = function(v){
+	var t = type(v);
+	return t == "function" || t == "class" || !!( v@ ? v@._call )
+}
 /**intellisense(::)
 ::Ntdll = 默认已加载的系统DLL组件ntdll.dll\n!dllmodule.
 ::Kernel32 = 默认已加载的Kernel32.dll模块对象\nKernel32.dll是Windows内核库,提供很多常用API

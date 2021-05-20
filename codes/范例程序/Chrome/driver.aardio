@@ -7,10 +7,7 @@ var driver = chrome.driver();
  
 //创建会话，打开chrome浏览器，调用参数仅用于演示( 可以省略 )。
 var browser = driver.startBrowser( {
-    loggingPrefs  = {
-    	browser = 'ALL',
-    	performance = 'ALL',
-	};
+    loggingPrefs  = { browser = 'ALL', performance = 'ALL', };
 	perfLoggingPrefs = {
     	enableNetwork = true,
     	enablePage= false,
