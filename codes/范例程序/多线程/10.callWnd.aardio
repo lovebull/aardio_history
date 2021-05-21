@@ -1,4 +1,4 @@
-//10、跨线程操作窗口控件
+//10.1、跨线程操作窗口控件
 import win.ui;
 /*DSG{{*/
 var winform = win.form(text="aardio form";right=600;bottom=400;parent=...)

@@ -191,7 +191,7 @@
 -616755425|1520|901|codes\范例程序\Python语言\3) py,aardio语法对比\9) pickle.aardio
 1278044617|3541|1732|codes\范例程序\Python语言\3) py,aardio语法对比\A) comment.aardio
 -657289567|2618|1112|codes\范例程序\Python语言\3) py,aardio语法对比\B) other.aardio
-1618431302|1203|708|codes\范例程序\Rust语言\dll.aardio
+-696852235|1478|861|codes\范例程序\Rust语言\dll.aardio
 -480585894|884|551|codes\范例程序\Sciter.JS\0、external.aardio
 1491145509|2581|1431|codes\范例程序\Sciter.JS\0、template.aardio
 -1023599080|2507|1312|codes\范例程序\Sciter.JS\1、aardio调用js函数.aardio
@@ -405,7 +405,7 @@
 1419956959|1045|524|codes\范例程序\多线程\07.event.aardio
 978513072|758|424|codes\范例程序\多线程\08.semaphore.aardio
 -1273772301|1708|812|codes\范例程序\多线程\09.timer.aardio
--2137696326|2691|1373|codes\范例程序\多线程\10.callWnd.aardio
+768195727|2693|1375|codes\范例程序\多线程\10.callWnd.aardio
 -1607109149|1760|956|codes\范例程序\多线程\10.callWnd2.aardio
 -1880885136|1225|689|codes\范例程序\多线程\11.threadCallback.aardio
 988145281|753|445|codes\范例程序\多线程\12.PostThreadMessage.aardio
@@ -639,7 +639,7 @@
 -1251330719|710656|301687|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
-2058820898|15|33|config\SYS.CFG
+-1799783410|15|33|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 -1140544858|108468|28363|config\intellisense\kernel.txt
@@ -1435,7 +1435,7 @@
 -67895191|6776|2200|lib\mouse\draw.aardio
 -543039773|2307|1134|lib\mouse\hook.aardio
 -1802899828|8346|2366|lib\mouse\_.aardio
--222487070|18019|3720|lib\nodeJs\_.aardio
+-368895697|18180|3800|lib\nodeJs\_.aardio
 0|0|0|lib\preg\.res\
 248544567|14432|4037|lib\preg\_.aardio
 1855787250|145920|63851|lib\preg\.res\pcre.dll
@@ -1474,7 +1474,7 @@
 1404097761|2825|1098|lib\process\job\limitKill.aardio
 478511758|1928|933|lib\process\php\cgi.aardio
 114772249|2320|1088|lib\process\php\simpleHttpServer.aardio
-252259131|3846|1588|lib\process\rust\_.aardio
+-2061309101|4657|2018|lib\process\rust\_.aardio
 -1539521430|7720|2045|lib\protobuf\message.aardio
 0|0|0|lib\protobuf\parser\
 0|0|0|lib\protobuf\reader\

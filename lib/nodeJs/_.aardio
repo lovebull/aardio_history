@@ -56,7 +56,7 @@ install = function(portable){
     else { 
 		var nodeDownloadDir = "~\lib\nodeJs\.node\";
 		if( _WIN7_LATER ){
-			version = "14.16.0";
+			version = _WIN10_LATER ? "14.17.0" : "13.6.0"
 			if(type(portable)==type.string){
 				version = portable;//可以自定义版本
 			}
@@ -125,7 +125,7 @@ install = function(portable){
 		..win.addenv("PATH",nodeDir );  
 		..win.setenv("NODE_EXE",nodeExePath);
 		..win.setenv("NPM_CLI_JS",npmCliJsPath);
-		
+		..win.setenv("NODE_SKIP_PLATFORM_CHECK","1");
 		
 		var path = ..fsys.shortpath( ..io.joinpath(prefix(),"node_modules") );
 		if(path){
@@ -428,7 +428,7 @@ freePort();
 
 /**intellisense(nodeJs)
 workDir = 设置node.js的应用程序工作目录\n默认已设置为 io.fullpath("/")
-install(.(portable) = 检测并安装node环境\n如果portable为true或指定node版本号，则忽略系统安装的node.exe\n否则优先使用系统安装的node.exe\n也可以在调用此函数以前在环境变量中使用NODE_EXE设置node.exe的路径\n此函数会在执行其他node命令前自动调用
+install(.(portable) = 检测并安装node环境\n如果portable为true或指定node版本号，则忽略系统安装的node.exe\n否则优先使用系统安装的node.exe\n也可以在调用此函数以前在环境变量中使用NODE_EXE设置node.exe的路径\n此函数会在执行其他node命令前自动调用,\n在WIN10 上默认安装 Node.js  v14.17.0,WIN7上默认安装 v13.6.0,XP上安装 v5.12
 exec(__/*JS代码*/) = 运行JS代码，返回process.popen对象,\n如果参数@1不为空,则返回进程对象会关闭目标进程的输入流
 execFile(.(JS代码文件,其他命令行参数->->->) = 运行JS代码文件,默认工作目录为 nodeJs.workDir\n此函数会打开控制台,\n\n第一个参数指定JS代码文件,可选自第二个参数开始指定命令行参数\n命令行参数支持两种写法:\n1、使用多个函数参数写多个命令行参数,aardio会检查每个参数并在必\n要的时候进行转义处理,例如包含空格的参数如果不是包含在引号中就自动添加引号\n2、如果只提供了一个参数，并且参数使用了空格分隔多个参数，\n而且也没有包含在一对引号内,aardio按普通命令行程序处理参数的\n规则进行拆分,也即按空格拆分为多个参数
 eval(js) = @.eval(`\n(function(){\n	return process.config;__/*执行JS表达式并返回结果,\n返回值如果是字符串,必须放到对象或数组中返回*/\n})()\n`) 

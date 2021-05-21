@@ -1,4 +1,5 @@
 ﻿//调用内存DLL
+import fsys;
 import process.rust;
 import process.vswhere;
 import console;
@@ -15,33 +16,46 @@ if(!#vswhere){
 process.rust.workdir = "/"
 
 console.open()
-if(!io.exist("/rust_aardio_dll")){
-	process.rust.createDllProject("rust_aardio_dll")
+if(!io.exist("/rust_dll")){
+	process.rust.createDllProject("rust_dll")
 	
 	/*
 	import process.code;
 	process.code.install();
 	process.code("/rust_aardio_dll");
 	*/
-}
+} 
 
-process.rust.workdir = "/rust_aardio_dll"
+process.rust.workdir = "/rust_dll"
 if(process.rust.build()){
-    console.pause(,"按任意键用 aardio 调用 Rust 生成的 DLL组件")
-    
-    //DLL已经配置为不依赖VC++运行库
-    //注意默认为cdecl调用约定,在DLL路径前加上$符号就是加载为内存DLL（不再需要DLL文件）
-	var dll = raw.loadDll("\rust_aardio_dll\target\i686-pc-windows-msvc\release\aardio_rust.dll",,"cdecl"); 
+	console.pause(,"按任意键用 aardio 调用 Rust 生成的 DLL组件")
 	
+	//DLL 已经配置为不依赖 VC++ 运行库
+	//注意默认为cdecl调用约定,在DLL路径前加上$符号就是加载为内存DLL（不再需要DLL文件）
+	var dll = raw.loadDll("\rust_dll\target\i686-pc-windows-msvc\release\rust_dll.dll",,"cdecl"); 
+	
+	//aardio 中整型大写表示无符号数
 	var info ={
-		int n;
-		double f;
+		byte i8,
+		word i16,
+		int i32,
+		long i64,
+		BYTE u8,
+		WORD u16,
+		INT u32,
+		LONG u64,
+		double f64;
+		int arr[4] = {1,2,3,4};
 	}
 	
-	dll.hello_rust("Hello,Rust!",info);
+	var buf = raw.buffer(100);
+	var ret = dll.hello_rust("Hello,Rust!",buf,info);
 	
 	console.dumpJson(info)
+	console.log( info.arr[4] ) // -> 19 
+	console.log( "buf:",buf)
+	console.log("ret:",ret)
 	console.pause()	
 }
-
+	
 console.pause() 
