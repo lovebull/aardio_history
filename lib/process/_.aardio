@@ -1057,14 +1057,14 @@ namespace process{
 }
 
 /**intellisense()
-process.joinArguments(.(参数表) = 参数可以是一个数组或多个非null参数,\n调用tostring转换参数项为字符串,合并为单个命令行参数并返回,\n合并时遇到需要转义的参数则进行转义处理并且首尾添加双引号,\n首尾已经有引号的参数不作转义处理
+process.joinArguments(.(参数表) = 参数可以是一个数组或多个非null参数,\n调用tostring转换参数项为字符串,合并为单个命令行参数并返回,\n不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号
 process.escapeArgument(.("命令行参数") = 转义命令行参数\n关于命令行转义规则,请参考 string.cmdline 的说明
 process.STARTUPINFO() = 创建进程启动参数\n!startinfo. 
 process( = 运行执行文件或关联文档。\n如果省略所有参数则打开当前进程\n失败则返回 null,错误信息,错误代码\n成功返回进程对象
 process(.(进程ID,权限) =  打开指定ID的进程,\n参数@2可选用一个数值指定请求的权限，\n不指定权限时默认尝试 _PROCESS_ALL_ACCESS 权限,\n如果失败则尝试以 _SYNCHRONIZE 权限打开进程,\n_SYNCHRONIZE权限打开时只能使用 wait,waitOne函数,\n非管理权限进程创建管理权限进程时只能以_SYNCHRONIZE权限打开进程
 process(.(进程句柄,负责释放进程句柄) =  使用指定的进程句柄创建进程对象,\n参数@2为可选参数,默认为true
 process(.( ,系统命令行) = 如果省略第一个参数,并仅指定命令行,则作为系统命令行启动运行
-process(.(执行文件,命令行参数,更多命令行参数,->->->) = 命令行参数可以是一个数组或多个字符串参数\n如果命令行参数有多个,则以空格分隔自动合并,\n合并时遇到需要转义的参数则进行转义处理并且首尾添加双引号\n首尾已经有引号的参数不作转义处理,\n命令参数最大长度为8191/0x1FFFF个字符
+process(.(执行文件,命令行参数,更多命令行参数,->->->) = 命令行参数可以是一个数组、一个或多个字符串参数,\n\n数组或多个命令行参数调用 process.joinArguments 合并,\n不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号,\n命令参数最大长度为8191/0x1FFFF个字符
 process(.(执行文件,参数,STARTUPINFO) = STARTUPINFO参数为process.STARTUPINFO()结构体,可选参数\n如果该参数是普通table对象.将自动创建为STARTUPINFO结构体
 process() = !process.
 ?process.find = !process.

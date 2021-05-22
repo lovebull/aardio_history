@@ -1,7 +1,7 @@
 import fonts.painttest;
 import win.ui;
 /*DSG{{*/
-winform = win.form(text="简单画板";right=1270;bottom=784;bgcolor=16777215;border="none")
+winform = win.form(text="简单画板";right=1270;bottom=784;bgcolor=16777215;border="none";clipch=1)
 winform.add(
 bk={cls="bk";left=-10;top=0;right=1273;bottom=743;db=1;dl=1;dr=1;dt=1;forecolor=10592673;z=1};
 btnEllipse={cls="plus";text='\uE644 圆形';left=873;top=743;right=965;bottom=779;bgcolor=4802979;color=3145728;db=1;dr=1;font=LOGFONT(h=-14;name='painttest';charset=0);notify=1;z=8};
@@ -12,7 +12,7 @@ btnRadiant={cls="plus";text='\uE600 射线';left=691;top=743;right=783;bottom=77
 btnRect={cls="plus";text='\uE625 矩形';left=782;top=743;right=874;bottom=779;bgcolor=4802979;color=3145728;db=1;dr=1;font=LOGFONT(h=-14;name='painttest';charset=0);notify=1;z=5};
 btnSave={cls="plus";text='\uE684 保存';left=1165;top=743;right=1236;bottom=779;db=1;dr=1;font=LOGFONT(h=-14;name='painttest';charset=0);notify=1;z=10};
 btnUndo={cls="plus";text='\uE606 撤消';left=1086;top=743;right=1157;bottom=779;db=1;dr=1;font=LOGFONT(h=-14;name='painttest';charset=0);notify=1;z=11};
-plus={cls="plus";left=10;top=29;right=1259;bottom=734;bgcolor=16777215;clipBk=false;color=255;db=1;dl=1;dr=1;dt=1;notify=1;z=2};
+plus={cls="plus";left=10;top=29;right=1259;bottom=734;bgcolor=16777215;clipBk=false;color=255;db=1;dl=1;dr=1;dt=1;foreRepeat="stretch";notify=1;z=2};
 plusPenColor={cls="plus";left=52;top=748;right=109;bottom=777;bgcolor=10582829;db=1;dr=1;edge=1;font=LOGFONT(h=-16;name='FontAwesome';charset=0);notify=1;z=9};
 tbPenWidth={cls="plus";left=138;top=755;right=480;bottom=770;bgcolor=-13791839;color=4999093;db=1;dr=1;foreRight=17;forecolor=-6194387;paddingBottom=6;paddingTop=6;z=12}
 )

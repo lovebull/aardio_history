@@ -194,16 +194,16 @@ namespace metaProperty {
 			msgboxErr = function(str,title){
 				return ..win.msgboxErr(str,title,owner[["hwnd"]]  )
 			};
-			close = function(){ 
-				if(owner._closed or ( !..win.isWindow(owner.hwnd) ) ){
-					owner._closed = true; 
-					return;
-				}
-				var p = owner[["_parentForm"]];
+			close = function(){
+				if( owner._closed ) return;
+				owner._closed = true; 
+				
+				var p = owner[["_parentForm"]]; 
 				if( p  ){
 					p._ctrlHwnd[owner.hwnd]=null;
 					p._ctrlId[owner.id]=null;
 					p._ctrlAutoResize[owner.hwnd]=null;
+					
 					if( ! owner.isForm ){
 						owner._closed = true;//控件窗口不考虑阻止 WM_CLOSE
 						
@@ -223,7 +223,10 @@ namespace metaProperty {
 						}
 					}  
 				}
-				::PostMessage(owner[["hwnd"]],0x10/*_WM_CLOSE*/,0,0);
+				
+				if( ..win.isWindow(owner.hwnd)  ){
+					::PostMessage(owner[["hwnd"]],0x10/*_WM_CLOSE*/,0,0);
+				}
 			};
 			autoResize = { 
 				_get = function(){
@@ -760,16 +763,18 @@ namespace metaProperty {
 			};
 			enableDpiScaling = function(scaleX,scaleY){
 				if( scaleX === false ){
-					if( owner.isForm ){ 
-						owner.enableDpiScaling(1,1);
-						owner.onDpiChanged = null;
-						owner.disableDpiScaling = true;	
-					} 
-					
+					owner.enableDpiScaling(1,1);
+					owner.onDpiChanged = null;
+					owner.disableDpiScaling = true;	
 					return;
 				}
 				owner.disableDpiScaling = null;
 	
+				if(! ::User32.IsWindow(owner.hwnd) ){
+					owner.close();
+					return;
+				}
+				
 				if(!( scaleX && scaleY ) ) {
 					scaleX,scaleY = ..gdi.getDpiScale(,owner.hwnd);
 				}  
@@ -791,13 +796,13 @@ namespace metaProperty {
 					if( ( origScaleX == scaleX) && (origScaleY == scaleY ) ) {
 						 
 						owner.enumControl(function(ctrl){
-							if(ctrl.enableDpiScaling)ctrl.enableDpiScaling(scaleX,scaleY);
+							if(ctrl.enableDpiScaling && !ctrl.disableDpiScaling)ctrl.enableDpiScaling(scaleX,scaleY);
 						});
 						
 							
    						if(#owner._onlyDirectDrawBackground){
    							for(k,ctrl in owner._onlyDirectDrawBackground){
-   								if(ctrl.enableDpiScaling)ctrl.enableDpiScaling(scaleX,scaleY);
+   								if(ctrl.enableDpiScaling && !ctrl.disableDpiScaling)ctrl.enableDpiScaling(scaleX,scaleY);
    							} 
    						} 
 						return;
@@ -813,13 +818,13 @@ namespace metaProperty {
 				
 				if( owner.isForm ){
 					owner.enumControl(function(ctrl){
-						if(ctrl.enableDpiScaling)ctrl.enableDpiScaling(scaleX,scaleY);
+						if(ctrl.enableDpiScaling && !ctrl.disableDpiScaling)ctrl.enableDpiScaling(scaleX,scaleY);
 					});
 					
 						
    					if(#owner._onlyDirectDrawBackground){
    						for(k,ctrl in owner._onlyDirectDrawBackground){
-   							if(ctrl.enableDpiScaling)ctrl.enableDpiScaling(scaleX,scaleY);
+   							if(ctrl.enableDpiScaling && !ctrl.disableDpiScaling)ctrl.enableDpiScaling(scaleX,scaleY);
    						} 
    					}
 					

@@ -119,6 +119,7 @@ static._metaProperty = metaProperty( )
 !static.postMessage(.(msg,wParam,lParam) = 投递窗口消息到消息队列中\n此函数用法请参考 ::User32.PostMessage
 !static.publish("__/*发布消息名*/",) = 在窗口所在界面线程发布消息,\n运行界面线程所有所有调用subscribe函数订阅此消息的函数,\n可添加任意个触发参数
 !static.reduce(array,callback,debounce) = @.reduce(\n	{__/*在这里指定要遍历处理每个元素的数组或表,\n并在回调函数中返回每次需要间隔的延时,以毫秒为单位,返回0或空值中断处理,\n回调参数为下一个元素的值和索引,处理完后回调参数为null,\n如果此时未返回null或0退出处理函数,将返回第一个元素继续遍历*/},\n	function(value,index){\n		if(value){\n			return 50\n		}\n	} \n)
+!static.enableDpiScaling(false) = 禁用DPI自动缩放,\n不指定参数启用DPI自动缩放,默认已启用
 ?win.ui.ctrl.static  =!static.
 win.ui.ctrl.static() = 静态文本控件\n!static.
 win.ui.ctrl.static = 静态文本控件支持库

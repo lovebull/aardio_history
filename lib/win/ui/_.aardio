@@ -620,24 +620,32 @@ namespace win.form{
    				this.enumControl( adjustCtrl );
    				::EndDeferWindowPos(hPosInfo);
    				
-   				for(hwnd,ctrl in this._ctrlAutoResize ){ 
+   				for(hwnd,ctrl in this._ctrlAutoResize){ 
    					if( ctrl.cacheOrphanWindowRect__ ){
    						var rc = ctrl.cacheOrphanWindowRect__;
    						var l,t = ..win.toScreen(this.hwnd,rc.left,rc.top);
 						..win.setPos( ctrl.hwnd,l,t,rc.width() ,rc.height() ,,0x14/*_SWP_NOACTIVATE | _SWP_NOZORDER*/);	
    					}
-   					elseif( ctrl.parent != this ){
-						var l,t,r,b = ..table.unpack(ctrlSize[hwnd]);
-						..win.setPos( hwnd,..math.floor(l),t, r - l, b - t ,,0x1C/*_SWP_NOACTIVATE | _SWP_NOZORDER | _SWP_NOREDRAW*/ ); 
+   					else {
+   						var size = ctrlSize[hwnd];
+   						if(size){ 
+     						if( ctrl.parent != this ){
+								var l,t,r,b = ..table.unpack(size);
+								..win.setPos( hwnd,..math.floor(l),t, r - l, b - t ,,0x1C/*_SWP_NOACTIVATE | _SWP_NOZORDER | _SWP_NOREDRAW*/ ); 
+   							}
+   							
+   							if( ctrl.preadjust ){
+								ctrl.preadjust( size.cx, size.cy,wParam );
+							}
+							
+   							if( ctrl._preadjust ){
+								ctrl._preadjust( size.cx, size.cy,wParam );
+							}
+						} 		
+						else {
+							ctrl.close();
+						}			
    					}
-   					
-   					if( ctrl.preadjust ){
-						ctrl.preadjust( ctrlSize[hwnd].cx, ctrlSize[hwnd].cy,wParam );
-					}
-					
-   					if( ctrl._preadjust ){
-						ctrl._preadjust( ctrlSize[hwnd].cx, ctrlSize[hwnd].cy,wParam );
-					}
 				}
    				this.redraw();//Z Orderd Draw
    				
@@ -1410,7 +1418,12 @@ namespace win.form{
 				enumControl(this.hwnd);
 				
 				for(hwnd,ctrl in this._ctrlHwnd){ 
-					if( !..win.getStyle(hwnd,0x40000000/*_WS_CHILD*/) ) {
+					if( !..win.getStyle(hwnd,0x40000000/*_WS_CHILD*/)  ) {
+						if(!..win.isWindow(hwnd)) {
+							ctrl.close();
+							continue;
+						}
+						
 						if(!cls || cls == ctrl.cls) proc(ctrl);
 						enumControl(hwnd);
 					}

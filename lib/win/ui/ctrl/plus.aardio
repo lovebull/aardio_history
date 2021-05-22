@@ -1976,6 +1976,7 @@ iconStyle = @.iconStyle = {
     font=LOGFONT(h=-38;name='FontAwesome'); 
     align="left";valign="top";padding={bottom=50}__/*用于指定iconText显示样式*/
 }
+enableDpiScaling(false) = 禁用DPI自动缩放,\n不指定参数启用DPI自动缩放,默认已启用
 end intellisense***/
 
 /**intellisense()

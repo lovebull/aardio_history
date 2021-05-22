@@ -171,7 +171,8 @@ eachChild =  function(parent,cls) {
         if( map[hwnd] ) return;
         map[hwnd] = true;
         
-        if(hwnd) return hwnd;
+        //已销毁的窗口会移到最后
+        if(hwnd ? isWindow(hwnd)) return hwnd;
     }; 
 }
 

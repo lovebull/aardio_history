@@ -639,7 +639,7 @@
 -1251330719|710656|301687|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--1799783410|15|33|config\SYS.CFG
+-455899007|15|33|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 -1140544858|108468|28363|config\intellisense\kernel.txt
@@ -806,7 +806,7 @@
 681828354|601|367|extensions\wizard\project2\template\paint\default.aproj
 0|0|0|extensions\wizard\project2\template\paint\dlg\
 0|0|0|extensions\wizard\project2\template\paint\lib\
-1466660877|4791|1504|extensions\wizard\project2\template\paint\main.aardio
+1107708147|4802|1522|extensions\wizard\project2\template\paint\main.aardio
 0|0|0|extensions\wizard\project2\template\paint\res\
 -1417429732|795|504|extensions\wizard\project2\template\paint\lib\config.aardio
 0|0|0|extensions\wizard\project2\template\paint\lib\fonts\
@@ -1435,7 +1435,7 @@
 -67895191|6776|2200|lib\mouse\draw.aardio
 -543039773|2307|1134|lib\mouse\hook.aardio
 -1802899828|8346|2366|lib\mouse\_.aardio
--368895697|18180|3800|lib\nodeJs\_.aardio
+-46254103|16562|3750|lib\nodeJs\_.aardio
 0|0|0|lib\preg\.res\
 248544567|14432|4037|lib\preg\_.aardio
 1855787250|145920|63851|lib\preg\.res\pcre.dll
@@ -1461,7 +1461,7 @@
 0|0|0|lib\process\job\
 1129615568|4119|1701|lib\process\mutex.aardio
 0|0|0|lib\process\php\
--2146161118|17374|4976|lib\process\popen.aardio
+-1588938291|17040|4966|lib\process\popen.aardio
 -475412020|852|521|lib\process\rundll.aardio
 0|0|0|lib\process\rust\
 376553148|4344|1843|lib\process\temp.aardio
@@ -1469,7 +1469,7 @@
 -321055124|2810|1239|lib\process\usage.aardio
 -1099924714|2296|1066|lib\process\vswhere.aardio
 -1050612479|2254|910|lib\process\wmi.aardio
-402453665|52579|14064|lib\process\_.aardio
+-1541154239|52518|14055|lib\process\_.aardio
 2013837002|6858|2296|lib\process\apiHook\_.aardio
 1404097761|2825|1098|lib\process\job\limitKill.aardio
 478511758|1928|933|lib\process\php\cgi.aardio
@@ -1707,7 +1707,7 @@
 1734071080|5397|1518|lib\win\version.aardio
 -1472046271|2026|935|lib\win\versionEx.aardio
 0|0|0|lib\win\wizard\
-447702774|47155|13726|lib\win\_.aardio
+1645490293|47217|13755|lib\win\_.aardio
 -803629268|2526|1008|lib\win\clip\file.aardio
 1845514487|5154|1539|lib\win\clip\html.aardio
 523635146|1685|735|lib\win\clip\viewer.aardio
@@ -1759,7 +1759,7 @@
 499386293|10052|2964|lib\win\ui\toolbar.aardio
 -617068702|10681|3284|lib\win\ui\tooltip.aardio
 -1766920331|10172|2781|lib\win\ui\tracker.aardio
-1762062783|57977|13389|lib\win\ui\_.aardio
+-1113179470|58185|13430|lib\win\ui\_.aardio
 -2026287405|6524|2650|lib\win\ui\ctrl\atlax.aardio
 -689946269|4825|1700|lib\win\ui\ctrl\bk.aardio
 -751364781|9955|3305|lib\win\ui\ctrl\bkplus.aardio
@@ -1778,20 +1778,20 @@
 0|0|0|lib\win\ui\ctrl\metaProperty\
 0|0|0|lib\win\ui\ctrl\pick\
 423571103|7643|2694|lib\win\ui\ctrl\picturebox.aardio
-404008354|81006|18936|lib\win\ui\ctrl\plus.aardio
+1558426952|81110|18971|lib\win\ui\ctrl\plus.aardio
 53463247|5818|2105|lib\win\ui\ctrl\progress.aardio
 1945919977|36712|10676|lib\win\ui\ctrl\richedit.aardio
 1154239158|5807|2206|lib\win\ui\ctrl\scrollbar.aardio
 1700347530|7406|2879|lib\win\ui\ctrl\spin.aardio
 -1127563964|9016|2921|lib\win\ui\ctrl\splitter.aardio
--1927231195|10493|3968|lib\win\ui\ctrl\static.aardio
+-987426678|10605|4010|lib\win\ui\ctrl\static.aardio
 -611590027|5184|2189|lib\win\ui\ctrl\syslink.aardio
 1424871534|11959|4135|lib\win\ui\ctrl\tab.aardio
 -152081446|2077|907|lib\win\ui\ctrl\thread.aardio
 -1155664699|8543|2711|lib\win\ui\ctrl\trackbar.aardio
 1536428719|37705|10272|lib\win\ui\ctrl\treeview.aardio
 2012308056|5997|2014|lib\win\ui\ctrl\_.aardio
-1188022437|31792|7598|lib\win\ui\ctrl\metaProperty\_.aardio
+1881333238|31963|7610|lib\win\ui\ctrl\metaProperty\_.aardio
 0|0|0|lib\win\ui\ctrl\pick\.res\
 348477561|35485|8073|lib\win\ui\ctrl\pick\_.aardio
 1888989482|4286|973|lib\win\ui\ctrl\pick\.res\color.cur
