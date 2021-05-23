@@ -25,16 +25,13 @@ class app{
 				winform = null;
 			}
 			else {
-				..win.modifyStyle(winform.hwnd,,0x2000000/*_WS_CLIPCHILDREN*/);
-			
-				//调整主窗体时自动调整electron窗口
-				winform._adjust = function( cx,cy,wParam ) {	 
-					if( this.hwndChrome ){
-						var rect = winform.getClientRect();
-       					..win.setPos(this.hwndChrome,rect.left,rect.top,rect.width(),rect.height());
-					} 
-				};	
-			} 
+				if(!..win.getStyle(winform.hwnd,0x40000000/*_WS_CHILD*/)){
+					var ctrls = winform.add( {
+						{cls="static";text="";left=0;top=0;marginRight=0;marginBottom=0;db=1;dl=1;dr=1;dt=1;}
+					})
+					winform = ctrls[1]
+				}
+			}
 		}
 				
 		if( !electronPath ){
@@ -242,6 +239,9 @@ class app{
 		this.start(startEnviron);
 		return ..win.loopMessage();
 	};
+	getRootHwnd = function(){
+		return winform ? winform.getRoot() : this.hwndChrome;
+	};
 	start = function(startEnviron){ 
 		if( this.process ) error("start函数不能重复调用",2);
 		
@@ -262,8 +262,10 @@ class app{
 		if( this._form ){
 			var screenWidth,screenHeight = ..win.getScreen();
 			startEnviron.browserWindow = ..table.assign(startEnviron.browserWindow,{
-				frame = false;
+				//frame = false;
         		resizable = false;
+        		frame = true;
+        		maximizable = true;
         		center = false;
         		width = 0;
         		height = 0; 
@@ -271,6 +273,8 @@ class app{
         		minHeight = 0; 
         		x = 0;
         		y = screenHeight*2;
+        		skipTaskbar = true;
+        		hasShadow = false; 
 			}); 	
 		}
 		else {
@@ -317,29 +321,28 @@ class app{
 				if(this.onUrlReady){ this.onUrlReady($,url); }
 			};
 			quit = function(){
-				var hwnd = ..win.getRoot(this.hwndChrome);
+				var hwnd = this.getRootHwnd();
 				if(hwnd) ::PostMessage(hwnd,0x10/*_WM_CLOSE*/,0,0);	
 				this.onQuit();
 			};
 			hitClose = function(){
-				var hwnd = ..win.getRoot(this.hwndChrome);
+				var hwnd = this.getRootHwnd();
 				if(hwnd) ::PostMessage(hwnd,0x10/*_WM_CLOSE*/,0,0);
 			};
 			hitCaption = function(){
-				if(!this.hwndChrome)return;
-				var hwnd = ..win.getRoot(this.hwndChrome);
-				if(  ..win.isZoomed(hwnd) ) return; 
+				var hwnd = this.getRootHwnd();
+				if( (!hwnd)|| ..win.isZoomed(hwnd) ) return; 
 				
 				..win.releaseCapture();
 				::PostMessage(hwnd,0x112/*_WM_SYSCOMMAND*/,0xF010/*_SC_MOVE*/ | 2/*_HTCAPTION*/,0)
 			};
 			isZoomed = function(){
-				var hwnd = ..win.getRoot(this.hwndChrome);
+				var hwnd = this.getRootHwnd();
 				return ..win.isZoomed(hwnd);
 			};
 			hitMax = function(){
 				if(!this.hwndChrome)return;
-				var hwnd = ..win.getRoot(this.hwndChrome);
+				var hwnd = this.getRootHwnd();
 				var zoomed = ..win.isZoomed(hwnd);
 				
     			if(zoomed)
@@ -351,7 +354,7 @@ class app{
 			};
 			hitMin = function(){
 				if(!this.hwndChrome)return;
-				var hwnd = ..win.getRoot(this.hwndChrome);
+				var hwnd = this.getRootHwnd();
     			::PostMessage(hwnd,0x112/*_WM_SYSCOMMAND*/,0xF020/*_SC_MINIMIZE*/, 0);
 			}; 
 			hitmin = function(){ return owner.hitMin(); };
@@ -362,21 +365,14 @@ class app{
 			onReady = function(hwndChrome){
 				if( this.hwndChrome ) return;
 				
-				if(winform){ 
-					..win.setParent(hwndChrome,this._form.hwnd);  
-					..win.modifyStyle(hwndChrome,0xC00000/*_WS_CAPTION*/|0x80000/*_WS_SYSMENU*/|0x20000/*_WS_MINIMIZEBOX*/,0x40000000/*_WS_CHILD*/);  
-	    			
-	    			var rect = winform.getClientRect();
-       				..win.setPos(hwndChrome,0,0,rect.width(),rect.height());	  
-       				
-       				::User32.SendMessage(hwndChrome, 0x0128/*_WM_UPDATEUISTATE*/,3/*_UIS_INITIALIZE*/,0);
-       				::User32.SetForegroundWindow(hwndChrome);
-       				::User32.UpdateWindow(hwndChrome);
+				if(winform){   
+					..win.modifyStyle(hwndChrome,0xC00000/*_WS_CAPTION*/|0x80000/*_WS_SYSMENU*/|0x20000/*_WS_MINIMIZEBOX*/);  
+	    			winform.orphanWindow(,hwndChrome);
 				} 
 				
 				this.hwndChrome = hwndChrome; 
 				this.hwndElectron = hwndChrome;
-				::User32.AttachThreadInput( ..thread.getId(),this.process.tid,true);  
+				::User32.AttachThreadInput( this.process.tid,..thread.getId(),true);  
 				if( this.onReady ) this.onReady(hwndChrome);
 				
 				var $readyCallbacks = this.$readyCallbacks;
@@ -619,7 +615,7 @@ app.on('window-all-closed', () => {
 /**intellisense()
 electron = electron扩展库
 electron.app( = 创建electron嵌入进程,\n注意主进程的控制台输出需要在aardio中调用console.open打开控制台才能查看，并且必须开启控制台的UTF-8模式,\n可选在参数@4中指定true，以通知aardio在开发环境下自动打开控制台
-electron.app(.(winform,electronPath,showConsole) = 创建electron嵌入进程,所有参数可选\n参数@1指定一个win.form窗体对象,electron将其作为父窗口,\n参数@electronPath指定electron.exe的路径,\n不指定则自动下载安装electron运行时
+electron.app(.(winform,electronPath,showConsole) = 创建electron嵌入进程,所有参数可选\n参数@1必须为 null,\n参数@electronPath指定electron.exe的路径,\n不指定则自动下载安装electron运行时
 electron.app(.(title) = 创建electron嵌入进程,所有参数可选\n参数@1指定窗口标题
 electron.app() = !stdElectronApp.
 electron.lastRemoteDebuggingPort = electron最近启用的远程调试端口

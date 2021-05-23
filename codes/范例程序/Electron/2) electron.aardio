@@ -4,7 +4,6 @@ import win.ui;
 var winform = win.form(text="在aardio中嵌入electron";right=1276;bottom=767;bgcolor=16777215;border="none";clipch=1)
 winform.add(
 custom={cls="custom";text="custom";left=80;top=8;right=1262;bottom=763;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;z=1};
-lbWb={cls="custom";text="web.form";left=893;top=308;right=1374;bottom=822;z=2}
 )
 /*}}*/
 
@@ -29,9 +28,9 @@ theApp.jsMain =/**
      * 可叠加注册多个回调
      */
 	aardio.ready( win=> { 
-		if( !aardio.studioInvoke ){
+		//if( !aardio.studioInvoke  ){
 			win.removeMenu()
-		} 
+		//} 
 		
        /*
         * 不建议用下面的代码打开调试工具,
@@ -170,13 +169,6 @@ theApp.onReady = function(){
 //来点窗口阴影
 import win.ui.shadow;
 win.ui.shadow(winform);
-
-//这东西反正系统自带，用用也不增加体积
-import web.form;
-var wb = web.form( winform.lbWb );
-wb.noScriptErr = true;
-wb.go("http://bbs.aardio.com/forum.php?mod=viewthread&tid=12574&from=portal")
-winform.lbWb.orphanWindow(); 
 
 winform.show() 
 win.loopMessage();

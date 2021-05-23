@@ -3,7 +3,7 @@ import win.ui;
 /*DSG{{*/
 var winform = win.form(text="在aardio中嵌入electron";right=1276;bottom=767;clipch=1)
 winform.add(
-txtMessage={cls="richedit";left=893;top=308;right=1374;bottom=822;bgcolor=16777215;db=1;dr=1;edge=1;link=1;multiline=1;vscroll=1;z=1}
+txtMessage={cls="richedit";left=1277;top=285;right=1758;bottom=799;bgcolor=16777215;db=1;dr=1;edge=1;link=1;multiline=1;vscroll=1;z=1}
 )
 /*}}*/
 

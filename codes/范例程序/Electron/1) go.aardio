@@ -18,9 +18,7 @@ theApp.jsMain =/**
     const app = require('electron').app 
     
 	aardio.ready( win=> { 
-		if( !aardio.studioInvoke ){
-			win.removeMenu()
-		} 
+		win.removeMenu()
 		
 		win.on('closed', () => {  
 			

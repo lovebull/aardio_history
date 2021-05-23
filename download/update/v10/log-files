@@ -107,11 +107,11 @@
 -416765659|919|527|codes\范例程序\Edge\4.waitEle.aardio
 -1161925021|963|667|codes\范例程序\Edge\5.transparent.aardio
 454340252|1603|916|codes\范例程序\Edge\6.Cesium.aardio
-953246472|1669|955|codes\范例程序\Electron\1) go.aardio
--882186171|5489|2637|codes\范例程序\Electron\2) electron.aardio
--1360063861|4170|1903|codes\范例程序\Electron\3) remoteDebugging.aardio
--1454932256|4310|2213|codes\范例程序\Electron\4) main.js.aardio
--224159288|1306|623|codes\范例程序\Electron\5) multiWindow.aardio
+-2093979169|1631|930|codes\范例程序\Electron\1) go.aardio
+310860010|5166|2472|codes\范例程序\Electron\2) electron.aardio
+-2050948046|4171|1901|codes\范例程序\Electron\3) remoteDebugging.aardio
+-975858956|4314|2213|codes\范例程序\Electron\4) main.js.aardio
+-1786913875|1491|685|codes\范例程序\Electron\5) multiWindow.aardio
 813031966|1901|999|codes\范例程序\Electron\6) webview.aardio
 0|0|0|codes\范例程序\Electron\res\
 -1083564121|1363|775|codes\范例程序\Electron\res\main.aardio
@@ -293,7 +293,7 @@
 1606341650|1645|794|codes\范例程序\Windows窗口应用\edit,richedit\richedit_change.aardio
 1761210934|2104|1097|codes\范例程序\Windows窗口应用\edit,richedit\richedit_menu.aardio
 -1785042208|2579|1382|codes\范例程序\Windows窗口应用\GDI绘图\桌面歌词效果.aardio
-1954220051|1161|739|codes\范例程序\Windows窗口应用\orphanWindow\listbox.aardio
+-1379716016|2386|1327|codes\范例程序\Windows窗口应用\orphanWindow\listbox.aardio
 -917721098|1228|626|codes\范例程序\Windows窗口应用\plus控件\animation.aardio
 -513614018|1233|617|codes\范例程序\Windows窗口应用\plus控件\border.aardio
 1695850464|1548|620|codes\范例程序\Windows窗口应用\plus控件\checkbox.aardio
@@ -639,14 +639,14 @@
 -1251330719|710656|301687|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--455899007|15|33|config\SYS.CFG
+-495180113|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 -1140544858|108468|28363|config\intellisense\kernel.txt
 786007257|4753|1683|config\intellisense\unimportant.txt
 946221732|9375|1953|config\intellisense\web.layout.behavior.txt
 31814408|10949|2205|config\intellisense\web.sciter.behavior.txt
--963846365|27015|8804|config\intellisense\winform.txt
+278605670|27526|8997|config\intellisense\winform.txt
 -471734550|3566|1707|config\lang\lib.txt
 -1685533732|3516|761|config\themes\dark.xml
 -451630076|3540|748|config\themes\light.xml
@@ -1210,7 +1210,7 @@
 162527712|1570|612|lib\bencoding\encoder.aardio
 151425416|723|419|lib\bencoding\magnet.aardio
 -1895578078|54|49|lib\bencoding\_.aardio
-408589258|21754|6665|lib\chrome\app.aardio
+1987934892|21754|6663|lib\chrome\app.aardio
 814582489|3559|1728|lib\chrome\dev.aardio
 991338471|31375|7714|lib\chrome\driver.aardio
 1141455353|1023|497|lib\chrome\edge.aardio
@@ -1310,13 +1310,13 @@
 0|0|0|lib\electron\app\
 0|0|0|lib\electron\runtime\
 0|0|0|lib\electron\app\.build\
--1597523125|28875|8086|lib\electron\app\_.aardio
+-838976144|28445|7999|lib\electron\app\_.aardio
 0|0|0|lib\electron\app\.build\aardio\
 -706361506|9168|3018|lib\electron\app\.build\main.aardio
 1277351621|115071|24902|lib\electron\app\.build\ws.asar
 2045140387|5902|1899|lib\electron\app\.build\aardio\index.d.ts
 2032084703|17272|4102|lib\electron\app\.build\aardio\index.js
--80872998|1523|840|lib\electron\runtime\_.aardio
+1091368792|1523|836|lib\electron\runtime\_.aardio
 0|0|0|lib\fastcgi\client\
 2115999491|3941|1338|lib\fastcgi\iisInstall.aardio
 -737056152|2249|847|lib\fastcgi\nameValuePairs.aardio
@@ -1671,9 +1671,9 @@
 812597022|7260|2326|lib\web\rpc\jsonServer.aardio
 -2014910930|2909|917|lib\web\soapClient\parameters.aardio
 666218477|7637|2514|lib\web\soapClient\_.aardio
-2027437101|6082|2411|lib\web\socket\chrome.aardio
+190130042|6355|2518|lib\web\socket\chrome.aardio
 1062519796|17104|5429|lib\web\socket\client.aardio
-461702877|10408|3728|lib\web\socket\jsonClient.aardio
+-1805828197|11049|3877|lib\web\socket\jsonClient.aardio
 -1704632835|10069|2768|lib\web\socket\jsonServer.aardio
 -621548269|18638|5419|lib\web\socket\server.aardio
 2087608769|7343|2216|lib\web\ui\_.aardio
@@ -1759,41 +1759,41 @@
 499386293|10052|2964|lib\win\ui\toolbar.aardio
 -617068702|10681|3284|lib\win\ui\tooltip.aardio
 -1766920331|10172|2781|lib\win\ui\tracker.aardio
--1113179470|58185|13430|lib\win\ui\_.aardio
--2026287405|6524|2650|lib\win\ui\ctrl\atlax.aardio
+1712579704|58570|13468|lib\win\ui\_.aardio
+1620929574|6551|2659|lib\win\ui\ctrl\atlax.aardio
 -689946269|4825|1700|lib\win\ui\ctrl\bk.aardio
 -751364781|9955|3305|lib\win\ui\ctrl\bkplus.aardio
-280732179|15382|3756|lib\win\ui\ctrl\button.aardio
+429294224|15409|3763|lib\win\ui\ctrl\button.aardio
 491238288|5298|2089|lib\win\ui\ctrl\calendar.aardio
 1375395286|936|519|lib\win\ui\ctrl\checklist.aardio
 412679167|1701|840|lib\win\ui\ctrl\close.aardio
-279140099|12704|4565|lib\win\ui\ctrl\combobox.aardio
+1624620549|12731|4578|lib\win\ui\ctrl\combobox.aardio
 488148247|3737|1280|lib\win\ui\ctrl\custom.aardio
 1467959672|6943|2581|lib\win\ui\ctrl\datetimepick.aardio
-1080022474|26375|8246|lib\win\ui\ctrl\edit.aardio
+870196121|26498|8291|lib\win\ui\ctrl\edit.aardio
 915790895|4343|1799|lib\win\ui\ctrl\hotkey.aardio
 -1843827469|5177|2200|lib\win\ui\ctrl\ipaddress.aardio
-1778503603|12914|4282|lib\win\ui\ctrl\listbox.aardio
--2074336750|54296|13550|lib\win\ui\ctrl\listview.aardio
+-1819767461|12941|4288|lib\win\ui\ctrl\listbox.aardio
+600851893|54323|13568|lib\win\ui\ctrl\listview.aardio
 0|0|0|lib\win\ui\ctrl\metaProperty\
 0|0|0|lib\win\ui\ctrl\pick\
-423571103|7643|2694|lib\win\ui\ctrl\picturebox.aardio
-1558426952|81110|18971|lib\win\ui\ctrl\plus.aardio
+-304732565|7669|2694|lib\win\ui\ctrl\picturebox.aardio
+105048161|81520|19128|lib\win\ui\ctrl\plus.aardio
 53463247|5818|2105|lib\win\ui\ctrl\progress.aardio
-1945919977|36712|10676|lib\win\ui\ctrl\richedit.aardio
+-460399831|36840|10717|lib\win\ui\ctrl\richedit.aardio
 1154239158|5807|2206|lib\win\ui\ctrl\scrollbar.aardio
 1700347530|7406|2879|lib\win\ui\ctrl\spin.aardio
 -1127563964|9016|2921|lib\win\ui\ctrl\splitter.aardio
--987426678|10605|4010|lib\win\ui\ctrl\static.aardio
+1107204248|11076|4214|lib\win\ui\ctrl\static.aardio
 -611590027|5184|2189|lib\win\ui\ctrl\syslink.aardio
 1424871534|11959|4135|lib\win\ui\ctrl\tab.aardio
 -152081446|2077|907|lib\win\ui\ctrl\thread.aardio
 -1155664699|8543|2711|lib\win\ui\ctrl\trackbar.aardio
-1536428719|37705|10272|lib\win\ui\ctrl\treeview.aardio
+-1125456067|37732|10282|lib\win\ui\ctrl\treeview.aardio
 2012308056|5997|2014|lib\win\ui\ctrl\_.aardio
-1881333238|31963|7610|lib\win\ui\ctrl\metaProperty\_.aardio
+1059143512|32467|7697|lib\win\ui\ctrl\metaProperty\_.aardio
 0|0|0|lib\win\ui\ctrl\pick\.res\
-348477561|35485|8073|lib\win\ui\ctrl\pick\_.aardio
+-1383136007|35662|8144|lib\win\ui\ctrl\pick\_.aardio
 1888989482|4286|973|lib\win\ui\ctrl\pick\.res\color.cur
 -885086586|2561|2236|lib\win\ui\ctrl\pick\.res\color.png
 -238397553|1332|609|lib\win\util\autoComplete.aardio

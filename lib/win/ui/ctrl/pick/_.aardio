@@ -967,7 +967,7 @@ top = 顶部坐标
 bottom = 底部坐标
 height = 高度
 width = 宽度
-orphanWindow() = 如果当前是子窗口,\n移除窗口的WS_CHILD样式，使窗口孤立出来,\n参数为true则转换为分层透明窗口,\n孤立窗口仍然显示在原来的位置
+orphanWindow(.(transparent,hwndBuddy) = 创建悬浮窗口,\n悬浮窗口仍然显示在原来的位置,\n可选参数 @transparent 如果为 true 则转换为分层透明窗口,\n可选利用 @buddy 参数将只有句柄的窗口托管在悬浮窗口之上实现相同的效果,\n伙伴窗口总是会保持在悬浮窗口前面，并保持相同的大小、位置
 setPos(.(x坐标,y坐标,宽,高,插入位置,参数) = 调整窗口位置或排序,所有参数可选\n同时指定x,y坐标则移动位置\n同时指定宽高则改变大小\n指定插入位置(句柄或_HWND前缀常量)则调整Z序
 getPos() = 返回相对父窗口客户区的坐标,宽,高,\n参数为true返回屏幕坐标,宽,高,\nx,y,cx,cy=win.getPos(hwnd)
 wndproc = @.wndproc = function(hwnd,message,wParam,lParam){ \n	__/*添加消息回调函数*/\n}

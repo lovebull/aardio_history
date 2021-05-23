@@ -81,7 +81,8 @@
 !winform.width = 宽度
 !winform._defClientRect = 获取窗口设计时大小\n!rect.
 !winform.isForm = 是否窗体对象,\n窗体：使用 win.form 类创建的对象 \n窗口：泛指所有窗体或控件创建的窗口
-!winform.orphanWindow() = 如果当前是子窗口,\n移除窗口的WS_CHILD样式，使窗口孤立出来,\n参数为true则转换为分层透明窗口,\n孤立窗口仍然显示在原来的位置
+!winform.orphanWindow( = 如果当前是子窗口,\n移除窗口的WS_CHILD样式，使窗口孤立出来悬浮于原位置,\n悬浮窗口如影随形的跟随父窗口移动或改变大小,控件原来的固定边距等参数仍然有效
+!winform.orphanWindow(.(transparent,hwndBuddy) = 创建悬浮窗口,\n悬浮窗口仍然显示在原来的位置,\n可选参数 @transparent 如果为 true 则转换为分层透明窗口,\n可选利用 @buddy 参数将只有句柄的窗口托管在悬浮窗口之上实现相同的效果,\n伙伴窗口总是会保持在悬浮窗口前面，并保持相同的大小、位置
 !winform.setPos(.(x坐标,y坐标,宽,高,插入位置,参数) = 调整窗口位置或排序,所有参数可选\n同时指定x,y坐标则移动位置\n同时指定宽高则改变大小\n指定插入位置(句柄或_HWND前缀常量)则调整Z序
 !winform.getPos() = 返回相对父窗口客户区的坐标,宽,高,\n参数为true返回屏幕坐标,宽,高,\nx,y,cx,cy=win.getPos(hwnd)
 !winform.msgbox("__") = 弹出对话框\n参数@1指定显示的数据,如果是表对象先序列化为文本,\n其他对象调用tostring转换为文本\n\n可选在参数@2中指定标题,\n可选在参数@3中用_MB_前缀的常量自定义样式,设为0去掉图标以及提示音,\n\n此函数调用win.msgbox,但设定父窗口为当前窗体
@@ -185,6 +186,7 @@
 !winform.onDirectDrawBackground = @.onDirectDrawBackground = function(hdc,graphics){\n    __/*作为子窗口使用时,可在此回调函数内直接在父窗口背景上绘图,\nhdc为父窗口绘图设备句柄,如果父窗口使用GDI+绘图则graphics为父窗口画布*/\n}
 !winform.reduce(array,callback,debounce) = @.reduce(\n	{__/*在这里指定要遍历处理每个元素的数组或表,\n并在回调函数中返回每次需要间隔的延时,以毫秒为单位,返回0或空值中断处理,\n回调参数为下一个元素的值和索引,处理完后回调参数为null,\n如果此时未返回null或0退出处理函数,将返回第一个元素继续遍历*/},\n	function(value,index){\n		if(value){\n			return 50\n		}\n	} \n)
 !winform.trackerGroup("__/*分组名*/") = 获取plus控件、或任何其他应用win.ui.tracker的控件创建的单选分组当前选定控件\n如果未创建任何分组,此函数不可使用
+!winform.getRoot() = 获取顶层父窗口，这个函数会查找 orphanWindow 的父窗口
 !nmdr.hwndFrom = 来源句柄
 !nmdr.idFrom = 来源ID
 !nmdr.code = 通知码

@@ -613,7 +613,7 @@ win.ui.ctrl.richedit() = 多功能文本框控件\n!richedit.
 !richedit.streamIn(RTF文本) = 加载RTF文本，\n格式参数可省略，默认为RTF,\n调用此函数加载RTF文档会自动禁用DPI自动缩放字体。
 !richedit.streamOut(格式,输出函数) = @.streamOut( ,function(format,buf,len){  \n	var ok,bytes = file.writeBuffer(buf,len);__/*保存RTF文档*/ \n	return 0,bytes;\n} )
 !richedit.saveScale(.(scaleX,scaleY,dpiScaleX,dpiScaleY) = 根据控件当前的运行时位置更新设计时大小\如果控件允许自动缩放，窗口缩放时依据设计时大小按比例缩放\n所有参数可省略,并且不建议写参数
-!richedit.orphanWindow() = 使控件脱离原来的窗口,可显示在父窗口外面,\n但保持原来的相对位置,继续如影随形的跟随父窗口移动或改变大小,\n控件原来的固定边距等参数仍然有效
+!richedit.orphanWindow(.(transparent,hwndBuddy) = 创建悬浮窗口,\n悬浮窗口仍然显示在原来的位置,\n悬浮窗口如影随形的跟随父窗口移动或改变大小,控件原来的固定边距等参数仍然有效\n此控件不建议指定参数
 !richedit.getTextObjectModel() = 返回COM对象\n!TextDocument.
 !richedit.threadCallable() = 开启此控件的跨线程调用功能
 !richedit.lines(忽略空白) = @for line in ??.lines(true){ 
@@ -659,6 +659,7 @@ win.ui.ctrl.richedit() = 多功能文本框控件\n!richedit.
 !richedit.showInfoTip(.(title,text,large) = 在输入光标处显示汽泡提示,使用提示信息图标,\n@title参数指定标题,\n@text参数指定文本,\nlarge指定是否使用大图标，可省略，\n此函数仅支持edit控件，不支持richedit控件
 !richedit.showWarningTip(.(title,text,large) = 在输入光标处显示汽泡提示,使用警告图标,\n@title参数指定标题,\n@text参数指定文本,\nlarge指定是否使用大图标，可省略，\n此函数仅支持edit控件，不支持richedit控件
 !richedit.showErrorTip(.(title,text,large) = 在输入光标处显示汽泡提示,使用错误图标,\n@title参数指定标题,\n@text参数指定文本,\nlarge指定是否使用大图标，可省略，\n此函数仅支持edit控件，不支持richedit控件
+!richedit.getRoot() = 获取顶层父窗口，这个函数会查找 orphanWindow 的父窗口
 !TextDocument.tomTrue = 真值
 !TextDocument.tomFalse = 假值
 !TextDocument.tomToggle = 切换原来的值

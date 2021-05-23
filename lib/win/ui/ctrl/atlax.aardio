@@ -116,7 +116,7 @@ namespace atlax {
 !atlAxWin.msgbox("__") = 弹出对话框,可选用参数@2指定标题
 !atlAxWin.msgboxErr("__") = 弹出错误对话框,可选用参数@2指定标题
 !atlAxWin.msgboxTest("__") = 弹出询问对话框,可选用参数@2指定标题
-!atlAxWin.orphanWindow() = 使控件脱离原来的窗口,可以显示在父窗口外面,\n但仍然显示在原来的位置,继续如影随形的跟随父窗口移动或改变大小,\n控件原来的固定边距等参数仍然有效
+!atlAxWin.orphanWindow(.(transparent,hwndBuddy) = 创建悬浮窗口,\n悬浮窗口仍然显示在原来的位置,\n悬浮窗口如影随形的跟随父窗口移动或改变大小,控件原来的固定边距等参数仍然有效\n此控件不建议指定参数
 !atlAxWin.getControl() = 返回com控件对象\naardio默认会尝试将atlax创建控件自身注册为默认事件接口
 !atlAxWin.getControlTypeName() = 返回COM接口名
 !atlAxWin.getControlClsId() = 返回COM对象类名

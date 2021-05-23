@@ -451,6 +451,7 @@ namespace win.form{
 							if( ..win.isVisible(ctrl.hwnd) ){
 								ctrl.show(false);
 								ctrl.orphanRestorePending = true;
+								if( ctrl.onSetOrphanWindowPos ) ctrl.onSetOrphanWindowPos(,,,,0x80/*_SWP_HIDEWINDOW*/)
 							}
 							continue;
 						} 
@@ -460,10 +461,11 @@ namespace win.form{
 						var swp =  0x1C/*_SWP_NOACTIVATE | _SWP_NOZORDER | _SWP_NOREDRAW*/;
 						if( ctrl.orphanRestorePending ) {
 							swp = 0x40/*_SWP_SHOWWINDOW*/ | swp;
-							ctrl.orphanRestorePending = null;
+							ctrl.orphanRestorePending = null; 
 						}
 						
 						..win.setPos( hwnd,l,t,rc.width() ,rc.height() ,,swp);
+						if( ctrl.onSetOrphanWindowPos ) ctrl.onSetOrphanWindowPos(l,t,rc.width() ,rc.height(),swp)
 						ctrl.redraw();
 					}
 				}
@@ -624,7 +626,8 @@ namespace win.form{
    					if( ctrl.cacheOrphanWindowRect__ ){
    						var rc = ctrl.cacheOrphanWindowRect__;
    						var l,t = ..win.toScreen(this.hwnd,rc.left,rc.top);
-						..win.setPos( ctrl.hwnd,l,t,rc.width() ,rc.height() ,,0x14/*_SWP_NOACTIVATE | _SWP_NOZORDER*/);	
+						..win.setPos( ctrl.hwnd,l,t,rc.width() ,rc.height(),,0x14/*_SWP_NOACTIVATE | _SWP_NOZORDER*/);	
+						if( ctrl.onSetOrphanWindowPos ) ctrl.onSetOrphanWindowPos(l,t,rc.width() ,rc.height())
    					}
    					else {
    						var size = ctrlSize[hwnd];
@@ -1602,8 +1605,10 @@ namespace win.form{
 						var rc = ctrl.cacheOrphanWindowRect__; 
 						var l,t = ..win.toScreen(owner.hwnd,rc.left,rc.top); 
 						..win.setPos( hwnd,l,t,rc.width() ,rc.height() ,,0x14/*_SWP_NOACTIVATE | _SWP_NOZORDER*/ );
+						if( ctrl.onSetOrphanWindowPos ) ctrl.onSetOrphanWindowPos(l,t,rc.width() ,rc.height())
 					}
-					elseif(ctrl.isForm){
+					
+					if(ctrl.isForm){
 						ctrl.onMoveForm();
 					}
 				} 

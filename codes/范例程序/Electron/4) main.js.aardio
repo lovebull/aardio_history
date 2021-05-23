@@ -31,9 +31,9 @@ app.jsMain =/**
 		console.log("abc已创建窗口");
 		
 		// 参数win是BrowserWindow对象
-		if( !aardio.studioInvoke ){
+		//if( !aardio.studioInvoke ){
 			win.setMenu( null ) 
-		} 
+		//} 
 		
 		win.on('closed', () => {  
 			

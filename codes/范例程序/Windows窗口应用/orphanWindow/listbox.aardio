@@ -3,7 +3,8 @@ import win.ui;
 /*DSG{{*/
 var winform = win.form(text="智能提示";right=600;bottom=400)
 winform.add(
-edit={cls="edit";left=190;top=301;right=525;bottom=327;db=1;dl=1;dr=1;edge=1;multiline=1;z=1}
+edit={cls="edit";left=190;top=301;right=525;bottom=327;db=1;dl=1;dr=1;edge=1;multiline=1;z=1};
+richedit={cls="richedit";text="RichEdit";left=473;top=20;right=968;bottom=145;edge=1;multiline=1;z=2}
 )
 /*}}*/
 
@@ -13,10 +14,10 @@ var suggestion = http.api("http://suggestion.baidu.com/su?cb=&wd={0}");
 //{0}会替换为请求关键字并以UTF8编码,这个API返回数据是GBK编码
 
 /*
-listbox以orphanWindow模式显示时不能再响应事件,
-这时候我们把listbox放在一个custom控件里，再把custom控件显示为orphanWindow，
-因为custom是一个win.form对象,所以listbox可以响应事件了。
-细节请查看win.ui.listPopup源码,
+listbox 以 orphanWindow 模式显示时不能再响应事件,
+这时候我们把 listbox 放在一个 custom 控件里，再把custom控件显示为 orphanWindow，
+因为 custom 是一个 win.form 对象,所以 listbox 可以响应事件了。
+细节请查看 win.ui.listPopup 源码,
 */
 import win.ui.listPopup;
 var listPopup = win.ui.listPopup(winform.edit);
@@ -33,6 +34,23 @@ listPopup.onGetItems = function(){
 	return items,selIndex;
 }
 
-winform.show(true)
- 
+winform.richedit.orphanWindow();
+/*
+orphanWindow 是 aardio 实现的一种新的窗口模式，
+orphanWindow 即悬浮窗口，指的是普通的控件窗口孤立出来成为独立窗口，
+但是仍然可以显示在原来的位置，如影随形的跟随父窗口移动、显示、隐藏。
+在外观上用户仍然以为这是父窗口上的子窗口，感觉不到这是一个独立的窗口。
+
+但 orphanWindow 与子窗口不同的是可以显示在父窗口的显式区域之外，
+不再受到子窗口的限制，而且 orphanWindow 还可以托管一个外部进程的窗口句柄，
+使外部进程的窗口也成为 aardio 中的 orphanWindow，成为吸附在 aardio 窗口上的伪子窗口。
+
+这可以用来解决一些比较复杂的问题，实现一些难以实现的效果。
+例如 Electron 创建的窗口嵌入为子窗口时会出现一些诡异的问题，例如输入突然不能用。
+但如果使用 orphanWindow 的功能将 Eectron 窗口托管给悬浮窗口，就可以解决这些问题。
+具体请参考标准库中 electron.app 的源代码。
+*/
+
+
+winform.show(true);
 win.loopMessage(); 

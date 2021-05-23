@@ -407,7 +407,7 @@ class app {
 							} 
 						}
 						 
-						::User32.AttachThreadInput( ..thread.getId(),threadId,true);
+						::User32.AttachThreadInput( threadId,..thread.getId(),true);
 						this.hwndChrome = hwnd;
 						this.chromeProcessId = processId;
 						this.chromeThreadId = threadId;

@@ -956,7 +956,7 @@ namespace metaProperty {
 					return lvcd;
 				} 
 			};
-			orphanWindow = function(trans){
+			orphanWindow = function(trans,hwndBuddy){
 				if( owner._parentForm ){ 
 					if( ! ..win.getStyle(owner.hwnd,0x40000000/*_WS_CHILD*/) ){ 
 						return true;
@@ -978,8 +978,23 @@ namespace metaProperty {
 					if( visible) { swp = 0x40/*_SWP_SHOWWINDOW*/ | swp; }
 					..win.setPos(owner.hwnd,x,y, , ,,swp);
 					if( visible){ owner.redraw(); }
+					
+					if(hwndBuddy){
+						..win.setOwner(hwndBuddy,owner.hwnd);
+						owner.onSetOrphanWindowPos = function(x,y,cx,cy,flags){
+							..win.setPos(hwndBuddy,x,y,cx,cy,,flags:(0x14/*_SWP_NOACTIVATE | _SWP_NOZORDER*/));
+						}
+						var x,y,cx,cy = ..win.getPos(owner.hwnd);
+						owner.onSetOrphanWindowPos(x,y,cx,cy,,swp);
+					}
 					return true;
 				}
+			};
+			getRoot = function(){
+				if(owner._parentForm){
+					return owner._parentForm.getRoot();	
+				}
+				return ..win.getRoot(owner.hwnd)
 			};
 			onDirectDrawBackground = {
 				_set = function(v){

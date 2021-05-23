@@ -1930,7 +1930,8 @@ getPos() = 返回相对父窗口客户区的坐标,宽,高,\n参数为true返回
 messageOnly() = 将窗口转换为message-only window\n该窗口不可见,仅用于消息分发
 setInterval(回调函数,延时毫秒数,->->->) = @.setInterval( \n	function(){\n		__/*参数@1指定执行函数,参数@2指定执行间隔，\n可选指定一个或多个回调参数，不指定回调参数则默认为:\n hwnd,message,timerId,tick,\n\n如果在定时器中执行了win.delay等继续消息循环的代码，\n在定时器退出前不会再触发同一定时器（重入）。\n\n定时器回调函数返回数值可修改时间间隔,\n返回false取消该定时器*/\n	},1000 \n)
 changeInterval(.(定时器ID,间隔时间,回调函数) = 重新设置间隔时间或回调函数
-orphanWindow(true) = 使控件脱离原来的窗口,可以显示在父窗口外面,\n但仍然显示在原来的位置,继续如影随形的跟随父窗口移动或改变大小,\n控件原来的固定边距等参数仍然有效\n\n如果要保持透明参数必须为true
+orphanWindow( = 如果当前是子窗口,\n移除窗口的WS_CHILD样式，使窗口孤立出来悬浮于原位置,\n悬浮窗口如影随形的跟随父窗口移动或改变大小,控件原来的固定边距等参数仍然有效
+orphanWindow(.(transparent,hwndBuddy) = 创建悬浮窗口,\n悬浮窗口仍然显示在原来的位置,\n可选参数 @transparent 如果为 true 则转换为分层透明窗口,\n可选利用 @buddy 参数将只有句柄的窗口托管在悬浮窗口之上实现相同的效果,\n伙伴窗口总是会保持在悬浮窗口前面，并保持相同的大小、位置
 clearInterval(__/*定时器ID*/) = 删除定时器
 animationState =  此属性表示动画当前状态值,值null或false表示动画已停止
 onAnimation(state,begining,change,timestamp) = @.onAnimation = function(state,begining,change,timestamp){
@@ -1977,6 +1978,7 @@ iconStyle = @.iconStyle = {
     align="left";valign="top";padding={bottom=50}__/*用于指定iconText显示样式*/
 }
 enableDpiScaling(false) = 禁用DPI自动缩放,\n不指定参数启用DPI自动缩放,默认已启用
+getRoot() = 获取顶层父窗口，这个函数会查找 orphanWindow 的父窗口
 end intellisense***/
 
 /**intellisense()

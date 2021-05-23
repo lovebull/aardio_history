@@ -585,7 +585,7 @@ edit._metaProperty =  metaProperty(
 !edit.saveScale() = 根据控件当前位置、缩放比例，更新控件的设计时位置参数。\n以避免下次窗口缩放自适应调整控件当前位置更改被清除，\n控件所有调整位置的属性或成员函数已自动调用此函数。
 !edit.reloadScale() = 按设计时位置参数、重新调整控件位置以适应窗口当前缩放比例。\n父窗口缩放时会自动执行此操作。\n默认在启动窗口消息循环时会自适应调整所有控件。\n所以在启动消息循环前添加控件不必调用此函数。
 !edit.threadCallable() = 开启此控件的跨线程调用功能
-!edit.orphanWindow() = 使控件脱离原来的窗口,可显示在父窗口外面,\n但保持原来的相对位置,继续如影随形的跟随父窗口移动或改变大小,\n控件原来的固定边距等参数仍然有效	
+!edit.orphanWindow(.(transparent,hwndBuddy) = 创建悬浮窗口,\n悬浮窗口仍然显示在原来的位置,\n悬浮窗口如影随形的跟随父窗口移动或改变大小,控件原来的固定边距等参数仍然有效\n此控件不建议指定参数
 !edit.lines(忽略空白) = @for line in ??.lines(true){ 
 	__/*遍历所有文本行,\n如果迭代器参数为true则清除每行首尾空格,并忽略空行*/
 }
@@ -626,6 +626,7 @@ edit._metaProperty =  metaProperty(
 !edit.showWarningTip(.(title,text,large) = 在输入光标处显示汽泡提示,使用警告图标,\n@title参数指定标题,\n@text参数指定文本,\nlarge指定是否使用大图标，可省略
 !edit.showErrorTip( = 在输入光标处显示汽泡提示,使用错误图标
 !edit.showErrorTip(.(title,text,large) = 在输入光标处显示汽泡提示,使用错误图标,\n@title参数指定标题,\n@text参数指定文本,\nlarge指定是否使用大图标，可省略
+!edit.getRoot() = 获取顶层父窗口，这个函数会查找 orphanWindow 的父窗口
 ?win.ui.ctrl.edit  =!edit.
 win.ui.ctrl.edit() = 文本框控件\n!edit.
 win.ui.ctrl.edit = 文本框控件支持库

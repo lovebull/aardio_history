@@ -992,7 +992,7 @@ namespace listview{
 !listview.getHeader() = 返回列标题窗口句柄
 !listview.fillParent(.(列序号) = 使指定列自适应父窗口宽度,\n如果不指定列默认调整最后一列,\n用户调整窗口大小时会自动调用此函数调整自适应列
 !listview.threadCallable() = 开启此控件的跨线程调用功能
-!listview.orphanWindow() = 使控件脱离原来的窗口,可以显示在父窗口外面,\n但仍然显示在原来的位置,继续如影随形的跟随父窗口移动或改变大小,\n控件原来的固定边距等参数仍然有效
+!listview.orphanWindow(.(transparent,hwndBuddy) = 创建悬浮窗口,\n悬浮窗口仍然显示在原来的位置,\n悬浮窗口如影随形的跟随父窗口移动或改变大小,控件原来的固定边距等参数仍然有效\n此控件不建议指定参数
 !listview.each(起始索引,选项) = @for itemIndex in ??.each(){
 	__/*遍历所有项*/
 }

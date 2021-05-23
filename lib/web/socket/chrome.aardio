@@ -101,7 +101,7 @@ end intellisense**/
 
 /**intellisense(!stdwebsocketchromeClient)
 rpc = WebSocket客户端对象\n此对象的成员谨慎改动\n!stdwebsocketjsonClientrpc.
-? = 远程对象名或远程方法名字,\n!stdwebsocketjsonClient.
+? = 远程对象名或远程方法名字,\n作为函数调用时返回一个调用对象,\n通过指定返回调用对象的 end 属性定义调用结束回调函数,例如:\nret.end=function(result,err){\n	\n}\n回调参数 result 为调用返回值,err 为错误信息,\n如果调和成功,err参数为null\n!stdWebSocketJsonClientObject.
 on(method,proc) = @.on("__/*需要监听的Rpc通知事件名字*/",function(param){\n    \n})
 on("open",proc) = @.on("open",function(){\n	__/*已打开连接*/		\n}
 on("close",proc) = @.on("close",function(e){\n	__/*连接被关闭\ne.code为错误代码e.reason为错误原因*/\n})
