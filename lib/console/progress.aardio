@@ -26,8 +26,9 @@ class console.progress{
 			..console.setPos(0,y-1); 
 			if(this.message){ ..console.setPos(0,y-2); }
 		}
-		
-		var width = ..console.getSize() - 2;
+		 
+		var width = this.width;
+		if(!width) width = ..console.getSize() - 2;
 		
 		if( percent > 100 ) percent = 100;
 		if( percent < 0 ) percent = 0;
@@ -68,15 +69,25 @@ class console.progress{
 		}
 		
 		var x,y = ..console.getPos();
-		..console.setPos(0,y+1);
-		if(msg){
-			this.message = msg;
-			..console.writeText(msg);
-			..console.eraseToEndOfLine(); 
+		if(this.singleLine){
+			if(msg){
+				this.message = msg;
+				..console.writeText(" ",msg);
+				..console.eraseToEndOfLine(); 
+			}
+			..console.setPos(0,y+1);	
 		}
-			
-		if(this.message) {
-			..console.setPos(0,y+2);
+		else { 
+			..console.setPos(0,y+1);
+			if(msg){
+				this.message = msg;
+				..console.writeText(msg);
+				..console.eraseToEndOfLine(); 
+			}
+				
+			if(this.message) {
+				..console.setPos(0,y+2);
+			}
 		}
 		this.running = true;
 		
@@ -90,10 +101,21 @@ class console.progress{
 	}
 }
 
+console.progress.singleLine = function(width,backText,foreText){
+	var bar = console.progress("█","█");
+	bar.width = width : 30;
+	bar.singleLine = true;
+	return bar;
+}
+
+
 /**intellisense()
 console.progress = 控制台简单进度条
 console.progress( = 创建控制台简单进度条
 console.progress(.(背景字符,前景字符) = 所有参数可选，默认值都设为"─"字符
+console.progress.singleLine( = 创建控制台简单进度条,\n进度条与文本显示在同一行
+console.progress.singleLine(.(宽度,背景字符,前景字符) = 所有参数可选，默认值都设为"─"字符
+console.progress.singleLine(） = !stdConsoleProgress.
 console.progress() = !stdConsoleProgress.
 end intellisense**/
 

@@ -49,9 +49,19 @@ clear = function(profile="Default"){
 		} 	
 	}
 }
-	
+
+readOnly = function(readOnly,profile="Default"){
+   
+	var historyPath = ..io.appData("\Google\Chrome\User Data\" + profile + "\History");
+	if(..io.exist(historyPath)){
+		if(readOnly){  clear(); }
+		..fsys.attrib(historyPath,!readOnly?1:null,readOnly?1/*_FILE_ATTRIBUTE_READONLY*/:null)	
+	}	
+}
+
 /**intellisense()
 chrome.history.open() = 打开数据库,可选在参数中指定配置名\n!sqliteConn.
 chrome.history.get() = 返回数据表,可选在参数中指定配置名
 chrome.history.clear() = 清空数据,可选在参数中指定配置名,\n需要事先关闭chrome
+chrome.history.readOnly(true) = 参数@1设置是否只读,\n参数为 true 会同时清空数据,\n可选在参数@2中指定配置名
 end intellisense**/

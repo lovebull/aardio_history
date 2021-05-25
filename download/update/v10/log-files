@@ -632,6 +632,7 @@
 -1491464207|2348|923|codes\范例程序\音频视频\音频\audio.aardio
 328839245|1590|865|codes\范例程序\音频视频\音频\baidu.speech.aardio
 -1659069308|8969|3480|codes\范例程序\音频视频\音频\bass.aardio
+-1525223800|329|206|codes\范例程序\音频视频\音频\ID3.aardio
 -1338104818|4389|2321|codes\范例程序\音频视频\音频\lrc.aardio
 -98924744|1173|697|codes\范例程序\音频视频\音频\soundDevice.aardio
 -1198887051|2904|1386|codes\范例程序\音频视频\音频\tts.aardio
@@ -639,7 +640,7 @@
 -1251330719|710656|301687|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--495180113|15|34|config\SYS.CFG
+-1787095495|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 -1140544858|108468|28363|config\intellisense\kernel.txt
@@ -1215,7 +1216,7 @@
 991338471|31375|7714|lib\chrome\driver.aardio
 1141455353|1023|497|lib\chrome\edge.aardio
 -1783794303|916|505|lib\chrome\extensions.aardio
-1112304771|1680|726|lib\chrome\history.aardio
+782443774|2119|866|lib\chrome\history.aardio
 -213382285|3774|1515|lib\chrome\path.aardio
 546858058|2228|945|lib\chrome\remote.aardio
 -2025937096|692|469|lib\chrome\time.aardio
@@ -1267,7 +1268,7 @@
 -1061629694|496|310|lib\com\interface\IUniformResourceLocator.aardio
 1603389760|1412|585|lib\com\interface\IViewObject2.aardio
 -695820537|7807|2751|lib\com\interface\_.aardio
-649607061|3745|1198|lib\console\progress.aardio
+416784709|4437|1333|lib\console\progress.aardio
 1244987244|7801|2555|lib\console\wine.aardio
 -23468810|27064|8306|lib\console\_.aardio
 1216052277|1046|568|lib\coroutine\_.aardio
@@ -1445,7 +1446,7 @@
 404185541|2509|1304|lib\preload\raw.aardio
 -1477368079|9880|3491|lib\preload\string.aardio
 -1931878713|6069|1900|lib\preload\struct.aardio
-743869699|18646|5743|lib\preload\table.aardio
+970834022|18704|5749|lib\preload\table.aardio
 -794133190|11340|3971|lib\preload\thread.aardio
 -1844229329|11765|4248|lib\preload\_.aardio
 25183219|5007|1983|lib\process\admin.aardio
@@ -1791,7 +1792,7 @@
 -1155664699|8543|2711|lib\win\ui\ctrl\trackbar.aardio
 -1125456067|37732|10282|lib\win\ui\ctrl\treeview.aardio
 2012308056|5997|2014|lib\win\ui\ctrl\_.aardio
-1059143512|32467|7697|lib\win\ui\ctrl\metaProperty\_.aardio
+1687345219|32556|7714|lib\win\ui\ctrl\metaProperty\_.aardio
 0|0|0|lib\win\ui\ctrl\pick\.res\
 -1383136007|35662|8144|lib\win\ui\ctrl\pick\_.aardio
 1888989482|4286|973|lib\win\ui\ctrl\pick\.res\color.cur

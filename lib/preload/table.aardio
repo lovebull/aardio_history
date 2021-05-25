@@ -202,9 +202,9 @@ namespace table{
     	} 
 	};
 	len = function(a){
-		var lm,lf,la = a@[["length"]],a.length,#a;
+		var lm,lf,la = a@[["length"]],a.length,#a; 
 		if( type(lm) == "function") lm = invoke(lm,a);
-		if( lm !== null ) la = ..math.max(lm,la);
+		if( type(lm) == "number") la = ..math.max(lm,la);
 		if( ( lf !== null ) && (type(lf)=="number")) la = ..math.max(lf,la);  
 		return la;
 	};
@@ -277,6 +277,7 @@ namespace table{
 		var t = v@[["_type"]];
 		if( t == "object" ) return "object";
 		if( t == "array" ) return "array";
+		if( v@[["_keys"]] !== null ) return "object";
 		if( v@[["length"]] !== null ) return "array";
 		if( type(v.length) == "number" ) return "array";
 		if( #v ) return "array";

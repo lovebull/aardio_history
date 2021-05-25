@@ -195,7 +195,10 @@ namespace metaProperty {
 				return ..win.msgboxErr(str,title,owner[["hwnd"]]  )
 			};
 			close = function(){
-				if( owner._closed ) return;
+				if( owner._closed ) {
+					if(..win.isWindow(owner.hwnd)) ::User32.DestroyWindow(owner.hwnd); 
+					return;
+				}
 				owner._closed = true; 
 				
 				var p = owner[["_parentForm"]]; 
