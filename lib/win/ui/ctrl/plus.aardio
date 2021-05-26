@@ -1492,6 +1492,8 @@ namespace plus {
 			}
 			else {
 				owner.onMouseDrag = function(wParam,lParam){
+					var dpiScaleX,dpiScaleY = (owner.dpiScaleX : 1) ,(owner.dpiScaleY : 1);
+					
 					var x,y = ..win.getMessagePos(lParam);
 					var rc = owner.getClientRect(); 
 					var min = owner[["(progress-min)"]];

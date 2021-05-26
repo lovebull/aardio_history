@@ -36,10 +36,11 @@ repair = function(){
 
 workdir = ..io.fullpath("/");
 
-rustup = function(cmdline){
+rustup = function(cmdline,...){
 	var rustupPath,cargoPath = install();
 	if(!rustupPath) return;
 		
+	if(...) cmdline = ..process.joinArguments(cmdline,...);
 	var prcs,err = ..process(  ,'rustup ' + cmdline,{ workdir = workdir; } ) 
 	if(!prcs){
 		return null,err;
@@ -56,6 +57,7 @@ cargo = function(cmdline,...){
 	var rustupPath,cargoPath = install();
 	if(!cargoPath) return;
 	
+	if(...) cmdline = ..process.joinArguments(cmdline,...);
 	var prcs,err =  ..process(  ,'cargo ' + cmdline,{ workdir = workdir; } ) 
 	if(!prcs){
 		return null,err;

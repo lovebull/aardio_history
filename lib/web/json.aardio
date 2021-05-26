@@ -296,10 +296,22 @@ stringify = function(tab,prettyPrint,unicodeEscaped,objreferences) {
 	}
 	
 	var map = {}
+	var tmap = {};
 	for k,v in ..table.eachName(tab){ 
-   		push( map
-   			, concat( curIndent, encode( k,prettyPrint,unicodeEscaped,objreferences  ), ":", encode( v,prettyPrint,unicodeEscaped,objreferences  ) )
-   			); 
+		var v = encode( v,prettyPrint,unicodeEscaped,objreferences  );
+		if(v[1]!='{'#){
+			push( map, concat( curIndent, encode( k,prettyPrint,unicodeEscaped,objreferences  ), ":",v)); 
+		}
+   		else {
+   			push( tmap, concat( curIndent, encode( k,prettyPrint,unicodeEscaped,objreferences  ), ":",v)); 
+   		}
+	}
+	
+	if(#tmap && #map){
+		..table.append(map,tmap)
+	}
+	elseif(#tmap){
+		map = tmap;
 	}
 	
 	if(prettyPrint){

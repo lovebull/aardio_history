@@ -192,6 +192,7 @@
 1278044617|3541|1732|codes\范例程序\Python语言\3) py,aardio语法对比\A) comment.aardio
 -657289567|2618|1112|codes\范例程序\Python语言\3) py,aardio语法对比\B) other.aardio
 -696852235|1478|861|codes\范例程序\Rust语言\dll.aardio
+699218290|224|169|codes\范例程序\Rust语言\toml.aardio
 -480585894|884|551|codes\范例程序\Sciter.JS\0、external.aardio
 1491145509|2581|1431|codes\范例程序\Sciter.JS\0、template.aardio
 -1023599080|2507|1312|codes\范例程序\Sciter.JS\1、aardio调用js函数.aardio
@@ -640,7 +641,7 @@
 -1251330719|710656|301687|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--1787095495|15|34|config\SYS.CFG
+186614682|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 -1140544858|108468|28363|config\intellisense\kernel.txt
@@ -1340,7 +1341,7 @@
 -1416910744|7287|2418|lib\fsys\dlg.aardio
 -1971860846|1039|558|lib\fsys\dlg.dir.aardio
 281411303|2154|930|lib\fsys\environment.aardio
-1085243096|19319|5488|lib\fsys\file.aardio
+-961182490|19526|5531|lib\fsys\file.aardio
 587056913|2132|1039|lib\fsys\fileInfo.aardio
 1594660017|797|464|lib\fsys\hardlink.aardio
 116515129|2117|1017|lib\fsys\hosts.aardio
@@ -1475,7 +1476,7 @@
 1404097761|2825|1098|lib\process\job\limitKill.aardio
 478511758|1928|933|lib\process\php\cgi.aardio
 114772249|2320|1088|lib\process\php\simpleHttpServer.aardio
--2061309101|4657|2018|lib\process\rust\_.aardio
+688288442|4777|2039|lib\process\rust\_.aardio
 -1539521430|7720|2045|lib\protobuf\message.aardio
 0|0|0|lib\protobuf\parser\
 0|0|0|lib\protobuf\reader\
@@ -1597,7 +1598,7 @@
 -1462775041|5484|1513|lib\util\_.aardio
 -393628693|322|217|lib\web\asynServer.aardio
 0|0|0|lib\web\form\
-943217487|14484|5217|lib\web\json.aardio
+1309507663|14735|5283|lib\web\json.aardio
 0|0|0|lib\web\layout\
 1730741985|4202|1679|lib\web\mshtml.aardio
 -857112126|6890|2366|lib\web\msxml.aardio
@@ -1779,7 +1780,7 @@
 0|0|0|lib\win\ui\ctrl\metaProperty\
 0|0|0|lib\win\ui\ctrl\pick\
 -304732565|7669|2694|lib\win\ui\ctrl\picturebox.aardio
-105048161|81520|19128|lib\win\ui\ctrl\plus.aardio
+-44557578|81605|19132|lib\win\ui\ctrl\plus.aardio
 53463247|5818|2105|lib\win\ui\ctrl\progress.aardio
 -460399831|36840|10717|lib\win\ui\ctrl\richedit.aardio
 1154239158|5807|2206|lib\win\ui\ctrl\scrollbar.aardio

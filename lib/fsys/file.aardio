@@ -90,17 +90,18 @@ var push = ..table.push;
 namespace file{	 
     
 	_metaProperty = ..util.metaProperty(
+		close = function(){
+			if(owner.hfile) ..raw.closehandle(owner.hfile)
+			owner.hfile = null;
+		}
 		delete = function(){
-			owner.close();
+			if(owner.hfile) ..raw.closehandle(owner.hfile)
+			owner.hfile = null;
+			
 			if(owner.path){
 				return ..io.remove(owner.path)	
 			}
 		} 
-		close = function(){
-			if(owner.hfile)
-				..raw.closehandle(owner.hfile)
-			owner.hfile = null;
-		}
 		seteof = function(){
 			if(owner.hfile)
 				return SetEndOfFile(owner.hfile)
@@ -358,12 +359,12 @@ namespace file{
 			var ext = path : "";
 			var buf = ..raw.buffer(0x208/*_MAX_WPATH_BYTES*/);
 			if( ::Kernel32.GetTempPathW(0x104,buf) ){
-				var dir = ..string.fromUnicode(buf);
-				var tk = ..time.tick()
+				var dir = ..string.fromUnicode(buf); 
+				var tk = "$" + ..thread.getId() + "$" + ..time.tick() + "$" 
 				
 				var i = 0;
 				do{
-					path= ..io.joinpath(dir,"$" + tk + "$" + i ++ ext)
+					path= ..io.joinpath(dir, tk ++ i ++ ext)
 					i++;
 				}while(..io.exist(path))
 			}
@@ -372,7 +373,7 @@ namespace file{
 			}
 		}
 		
-		return ..fsys.file(path,"w+b",3,,
+		return ..fsys.file(path,"w+b",7/*_FILE_SHARE_READ | _FILE_SHARE_WRIT | _FILE_SHARE_DELETE*/,,
 			0x100/*_FILE_ATTRIBUTE_TEMPORARY*/ | 0x2/*_FILE_ATTRIBUTE_HIDDEN*/ | (!dontDelete ? 0x4000000/*_FILE_FLAG_DELETE_ON_CLOSE*/ : 0)
 		);
 	}
@@ -400,7 +401,7 @@ namespace file{
 
 /**intellisense() 
 fsys.file = 文件读写函数库
-fsys.file.temp(.(pathOrExt,dontDeleteOnClose) = 创建临时文件,\n可选用 @pathOrExt 参数指定临时文件路径或后缀名,\n指定临时文件后缀名时第一个字符必须是 . 号,\n可选指定 @dontDeleteOnClose 参数值为 true 以禁止关闭文件时自动删除文件\n可通过返回文件对象的 path 属性获取临时文件路径
+fsys.file.temp(.(pathOrExt,dontDeleteOnClose) = 创建临时文件,\n可选用 @pathOrExt 参数指定临时文件路径或后缀名,\n指定临时文件后缀名时第一个字符必须是 . 号,\n可选指定 @dontDeleteOnClose 参数值为 true 禁止关闭对象自动删除文件,\n@dontDeleteOnClose 为 true 时文件才会有共享读写权限,\n可通过返回文件对象的 path 属性获取临时文件路径
 fsys.file.temp() = !fsysfile.
 fsys.file.lastModified(__) = 参数指定文件路径,\n返回最后修改时间,返回值是time.gmt对象,\n即RFC1123格式时间,HTTP协议使用该对象\n!time.
 fsys.file(__/*文件句柄*/) = 可以指定文件、管道等句柄
