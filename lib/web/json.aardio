@@ -462,7 +462,7 @@ end details**/
 /**intellisense()
 web.json = JSON 解析器,\n字符串化时完全符合 JSON 官方标准。\n解析使用 aardio-json 扩展语法，兼容JSON，JSONP，JSON5，部分类YAML语法,\n存取大容量数据请改用数据库组件
 web.json.stringify( = 转换为参数@1为json文本\n\n表对象可在元表_defined字段中预定义可能为null值的键,\n也可以在_json元方法中返回一个自定义的对象用于转换为json,\n\n时间对象与JS语言相同转换为ISO8601格式字符串,\nbuffer类与node.js中的Buffer类相同,转换结果示例：\n{"data":[230,181,139],"type":"Buffer"}\n其中type指明类型,data为buffer字节数组的值,\nbuffer,time对象与js一样只负责字符串化,不负责解析JSON时自动还原,\n应使用 time.iso8601函数解析iso8601格式的时间,\n在raw.buffer的参数中使用结构体还原字节数组
-web.json.stringify(.(对象,是否格式化,是否使用UNICODE编码) =  参数@2,@3可选,默认不格式化,启用UNICODE编码\n如果指定格式化,参数@3则默认为false\n\n注意即使选择了不启用UNICODE编码，单引号，\n以及一些可能无法直接显示的Unicode字符仍然会进行转义
+web.json.stringify(.(对象,是否格式化,是否使用UNICODE编码) =  参数@2,@3可选,默认不格式化,启用UNICODE编码\n如果指定格式化,参数@3则默认为false\n\n注意即使选择了不启用UNICODE编码，单引号，\n以及一些可能无法直接显示的Unicode字符仍然会进行转义,\n表对象中值不是表对象的成员先列出
 web.json.stringifyArray(.(表,是否格式化,是否使用UNICODE编码,是否清除null值) = 如果参数@1未声明数组类型，则添加类型声明,\n空数组会返回[]而不是{},其他参数与web.json.stringify相同
 web.json.parse( = 使用宽松的JSON语法解析并返回表对象,\n支持自动检测输入字符串的Unicode BOM,\n除完全支持JSON标准之外，并可兼容 jsonp，json5，支持 aardio-json 扩展标准。
 web.json.tryParse(.(输入文本,是否解析转义符,输入代码页) = 解析JSON并返回aardio对象\n作用与参数用法与parse函数一样,\n请参考该函数说明\n\n唯一的区别是：\nparse函数遇到JSON语法错误时抛出异常\n而tryParse遇到错误时返回 null,错误信息

@@ -266,11 +266,11 @@ namespace file{
 			
 			if( type(tm) != type.table ) 
 				error("参数必须是一个表对象",2); 
-				
+			
 			owner.setFileTime(
-				creation = fsys.time().fromSystemTime(tm.creation);
-				access = fsys.time().fromSystemTime(tm.access);
-				write = fsys.time().fromSystemTime(tm.write);
+				creation = fsys.time().fromSystemTime(tm.creation).utc();
+				access = fsys.time().fromSystemTime(tm.access).utc();
+				write = fsys.time().fromSystemTime(tm.write).utc();
 			)
 		};
 		getTime = function(){

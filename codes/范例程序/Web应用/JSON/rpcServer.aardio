@@ -1,4 +1,4 @@
-//JSON-RPC服务端
+//HTTP-JSON-RPC服务端
 import console;
 import process;
 import wsock.tcp.simpleHttpServer;

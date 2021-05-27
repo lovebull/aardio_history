@@ -97,16 +97,16 @@ function each( mcls,mtitle,parent ) {
 	return function(hwnd) {
         do{	
         	if( hwnd ) hwnd = getWindow( hwnd  ,0x2/*_GW_HWNDNEXT*/ );
-        	else hwnd = getWindow( parent ,0x5/*_GW_CHILD*/ ) 
+        	else hwnd = getWindow( parent ,0x5/*_GW_CHILD*/ )
+        	 
         	if(!hwnd) return null;
+        	if(!::User32.IsWindow(hwnd))  return null; 
         	
-        	if( hwnds[hwnd] ) return;
+			if( hwnds[hwnd] ) return;
 			hwnds[hwnd] = true;
-        	
-        	if( ! match(hwnd,mtitle,mcls ) )
-				continue; 
-			 
-			return hwnd,getText(hwnd),  ..win.getThreadProcessId(hwnd);  
+		
+			if( ! match(hwnd,mtitle,mcls ) ) continue; 
+			return hwnd,getText(hwnd), ..win.getThreadProcessId(hwnd);  	 
         }while(1)  
 	}; 
 } 

@@ -239,10 +239,10 @@ split = function(url){
 	}
 }
 
-getFileName = function(url,d = "index.html"){
+getFileName = function(url,d){
 	var turl = split(url)
-	var tpath = ..io.splitpath(turl.path) //拆分路径
-	return #tpath.file ? tpath.file : "index.html";
+	var tpath = ..io.splitpath(turl.path)
+	return #tpath.file ? tpath.file : d : "index.html";
 }
 
 /**intellisense(inet.url)

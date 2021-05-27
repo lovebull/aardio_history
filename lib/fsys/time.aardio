@@ -43,8 +43,19 @@ namespace time{
 			};
 
 			if( DosDateTimeToFileTime(fatDate,fatTime,owner) ) return owner;
-		} 
+		};  
+		copy = function(){
+			var tm = ..fsys.time(owner.format);
+			tm.dwLowDateTime = owner.dwLowDateTime;
+			tm.dwHighDateTime = owner.dwHighDateTime;
+			return tm;
+		};
 		local = function(copy){
+			if(owner.format[1]!='!'#){
+				if(!copy) return owner;
+				return owner.copy();
+			}
+			
 			var tm = ..fsys.time("%c");
 			FileTimeToLocalFileTime(owner,tm);
 			if( copy ){
@@ -56,8 +67,13 @@ namespace time{
 				owner.format = "%c";
 				return owner;
 			} 
-		}; 
+		};
 		utc = function(copy){
+			if(owner.format[1]=='!'#){
+				if(!copy) return owner;
+				return owner.copy();
+			}
+			
 			var tm = ..fsys.time("!%c");
 			LocalFileTimeToFileTime(owner,tm);
 			if( copy ){
@@ -91,6 +107,7 @@ fsys.time = FILETIME结构
 fsys.time() = 创建FILETIME结构\n!fsys_time.  
 !fsys_time.dwLowDateTime = 时间值低位
 !fsys_time.dwHighDateTime = 时间值高位
+!fsys_time.copy() = 复制对象
 !fsys_time.local() = UTC时间转换为本地时间,返回自身
 !fsys_time.local(true) = UTC时间转换为本地时间,\n不修改自身,返回本地时间副本
 !fsys_time.utc() = 本地时间转换为UTC时间,返回自身

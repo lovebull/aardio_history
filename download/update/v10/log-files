@@ -209,6 +209,7 @@
 0|0|0|codes\范例程序\Web应用\HTTP服务器\
 0|0|0|codes\范例程序\Web应用\JSON\
 0|0|0|codes\范例程序\Web应用\REST\
+0|0|0|codes\范例程序\Web应用\RPC\
 0|0|0|codes\范例程序\Web应用\WebSocket\
 0|0|0|codes\范例程序\Web应用\XML\
 -26332850|2778|1046|codes\范例程序\Web应用\FastCGI\wizard.aardio
@@ -218,18 +219,19 @@
 -1821717067|11980|4202|codes\范例程序\Web应用\HTTP服务器\asynHttpServer.aardio
 1612957708|1401|874|codes\范例程序\Web应用\HTTP服务器\simpleHttpServer.aardio
 -890633421|1689|896|codes\范例程序\Web应用\JSON\JSON.aardio
-1997637105|511|348|codes\范例程序\Web应用\JSON\rpcClient.aardio
-1717199165|1723|873|codes\范例程序\Web应用\JSON\rpcServer.aardio
+1660446796|516|352|codes\范例程序\Web应用\JSON\rpcClient.aardio
+-1458183140|1728|877|codes\范例程序\Web应用\JSON\rpcServer.aardio
 1423301370|1412|798|codes\范例程序\Web应用\REST\headers.aardio
 1316183959|3443|1585|codes\范例程序\Web应用\REST\html.aardio
 -930672692|261|184|codes\范例程序\Web应用\REST\ip.aardio
 -1328745513|1376|633|codes\范例程序\Web应用\REST\jsonClient.aardio
 -1352086808|815|556|codes\范例程序\Web应用\REST\jsonLiteClient.aardio
 -1516212240|714|449|codes\范例程序\Web应用\REST\yuque.aardio
+2030651584|1694|882|codes\范例程序\Web应用\RPC\externalServer.aardio
 -1076086495|1539|635|codes\范例程序\Web应用\WebSocket\client.aardio
 -123752706|2064|951|codes\范例程序\Web应用\WebSocket\server.aardio
--13859698|1567|798|codes\范例程序\Web应用\WebSocket\_jsonClient.aardio
-1572847770|3516|1522|codes\范例程序\Web应用\WebSocket\_jsonServer.aardio
+1859265692|1570|802|codes\范例程序\Web应用\WebSocket\_jsonClient.aardio
+-1090605790|3519|1526|codes\范例程序\Web应用\WebSocket\_jsonServer.aardio
 -577820950|2109|934|codes\范例程序\Web应用\XML\msxml.aardio
 1368770124|423|330|codes\范例程序\Web应用\XML\SOAP.aardio
 1901782767|2747|1377|codes\范例程序\Web应用\XML\xml.aardio
@@ -641,7 +643,7 @@
 -1251330719|710656|301687|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
-186614682|15|34|config\SYS.CFG
+2117755280|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 -1140544858|108468|28363|config\intellisense\kernel.txt
@@ -1312,12 +1314,12 @@
 0|0|0|lib\electron\app\
 0|0|0|lib\electron\runtime\
 0|0|0|lib\electron\app\.build\
--838976144|28445|7999|lib\electron\app\_.aardio
+1199969952|28457|8005|lib\electron\app\_.aardio
 0|0|0|lib\electron\app\.build\aardio\
 -706361506|9168|3018|lib\electron\app\.build\main.aardio
 1277351621|115071|24902|lib\electron\app\.build\ws.asar
 2045140387|5902|1899|lib\electron\app\.build\aardio\index.d.ts
-2032084703|17272|4102|lib\electron\app\.build\aardio\index.js
+-1874740021|17272|4106|lib\electron\app\.build\aardio\index.js
 1091368792|1523|836|lib\electron\runtime\_.aardio
 0|0|0|lib\fastcgi\client\
 2115999491|3941|1338|lib\fastcgi\iisInstall.aardio
@@ -1341,7 +1343,7 @@
 -1416910744|7287|2418|lib\fsys\dlg.aardio
 -1971860846|1039|558|lib\fsys\dlg.dir.aardio
 281411303|2154|930|lib\fsys\environment.aardio
--961182490|19526|5531|lib\fsys\file.aardio
+-815906170|19543|5540|lib\fsys\file.aardio
 587056913|2132|1039|lib\fsys\fileInfo.aardio
 1594660017|797|464|lib\fsys\hardlink.aardio
 116515129|2117|1017|lib\fsys\hosts.aardio
@@ -1363,7 +1365,7 @@
 -1757901514|9701|3152|lib\fsys\stream.aardio
 92356029|2871|1234|lib\fsys\table.aardio
 1973548645|5255|1737|lib\fsys\tar.aardio
-117351868|3865|1197|lib\fsys\time.aardio
+299770892|4267|1269|lib\fsys\time.aardio
 -282766162|5242|1970|lib\fsys\untar.aardio
 0|0|0|lib\fsys\update\
 -1622807975|3305|1400|lib\fsys\url.aardio
@@ -1423,7 +1425,7 @@
 41976202|17232|4864|lib\inet\ras.aardio
 -620403935|2437|983|lib\inet\stat.aardio
 -1245861626|514|420|lib\inet\tls.aardio
--1643773291|12468|4194|lib\inet\url.aardio
+-596045096|12442|4186|lib\inet\url.aardio
 1195024956|1355|571|lib\inet\urlpart.aardio
 2111567453|1235|647|lib\inet\util.aardio
 1838696205|49176|12068|lib\inet\whttp.aardio
@@ -1598,7 +1600,7 @@
 -1462775041|5484|1513|lib\util\_.aardio
 -393628693|322|217|lib\web\asynServer.aardio
 0|0|0|lib\web\form\
-1309507663|14735|5283|lib\web\json.aardio
+-1108753514|14786|5306|lib\web\json.aardio
 0|0|0|lib\web\layout\
 1730741985|4202|1679|lib\web\mshtml.aardio
 -857112126|6890|2366|lib\web\msxml.aardio
@@ -1669,6 +1671,7 @@
 987796269|2040|943|lib\web\rest\jsonLiteClient.aardio
 -1371514947|1802|821|lib\web\rest\qywx.aardio
 -1065509177|680|424|lib\web\rest\xmlClient.aardio
+1869284757|9449|3304|lib\web\rpc\externalServer.aardio
 2007378535|8001|2821|lib\web\rpc\jsonClient.aardio
 812597022|7260|2326|lib\web\rpc\jsonServer.aardio
 -2014910930|2909|917|lib\web\soapClient\parameters.aardio
@@ -1784,7 +1787,7 @@
 53463247|5818|2105|lib\win\ui\ctrl\progress.aardio
 -460399831|36840|10717|lib\win\ui\ctrl\richedit.aardio
 1154239158|5807|2206|lib\win\ui\ctrl\scrollbar.aardio
-1700347530|7406|2879|lib\win\ui\ctrl\spin.aardio
+-968203203|7416|2876|lib\win\ui\ctrl\spin.aardio
 -1127563964|9016|2921|lib\win\ui\ctrl\splitter.aardio
 1107204248|11076|4214|lib\win\ui\ctrl\static.aardio
 -611590027|5184|2189|lib\win\ui\ctrl\syslink.aardio
@@ -1813,7 +1816,7 @@
 -1069300197|680|367|lib\winex\desktop.aardio
 1514836294|2825|1140|lib\winex\key.aardio
 1649057094|4456|1032|lib\winex\mouse.aardio
-136927628|24625|6064|lib\winex\_.aardio
+663593921|24661|6069|lib\winex\_.aardio
 -5254621|4764|1297|lib\winex\accObject\element.aardio
 -866080167|7557|2594|lib\winex\accObject\_.aardio
 97442501|10530|2811|lib\winex\ctrl\listview.aardio

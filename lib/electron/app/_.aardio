@@ -85,10 +85,10 @@ class app{
 		};
 		
 		this.ws.onUpgradeToWebsocket = function(hSocket,request,response,protocol,origin){    
-    		if( request.path == "/rpc" ){
+    		if( request.path == "/rpc/ws" ){
         		return this.rpc.start(hSocket);
     		} 
-    		elseif( request.path == "/rpc/main" ){
+    		elseif( request.path == "/rpc/main/ws" ){
     			this.hRpcMainSocket = hSocket;
         		return this.rpc.start(hSocket);
     		} 
@@ -542,8 +542,8 @@ class app{
 		var ip,port = this.http.getLocalIp();
 		startEnviron.rpcPort = port;
 		startEnviron.rpchttpServerUrl  = this.http.getUrl("rpc/http"); 
-		startEnviron.rpcServerUrl  = this.ws.getUrl("rpc"); 
-		startEnviron.rpcMainServerUrl  = this.ws.getUrl("rpc/main");  
+		startEnviron.rpcServerUrl  = this.ws.getUrl("rpc/ws"); 
+		startEnviron.rpcMainServerUrl  = this.ws.getUrl("rpc/main/ws");  
 		startEnviron.name = this.name;
 		
 		if( this.remoteDebuggingPort !== null  ){

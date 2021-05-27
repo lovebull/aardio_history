@@ -18,8 +18,9 @@ class spin{
 			//当鼠标移到该控件时,使该控件作出可视反应  
 			tParam.style |=  0x100/*_UDS_HOTTRACK*/
 	 		
-	 		//自动更新伙伴控件中显示的数值
-	 		tParam.style |= 2/*_UDS_SETBUDDYINT*/
+	 		if(tParam.buddyInt===null || tParam.buddyInt){
+	 			tParam.style |= 2/*_UDS_SETBUDDYINT*/
+	 		}
 	 		
 	 		//水平样式
 	 		if(tParam.horz) tParam.style |= 0x40/*_UDS_HORZ*/;
