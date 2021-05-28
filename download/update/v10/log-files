@@ -267,13 +267,13 @@
 -197349121|2323|1155|codes\范例程序\Web窗体应用\浏览器\frameBrowser.aardio
 884589607|2114|1007|codes\范例程序\Web窗体应用\脚本应用\array.aardio
 -2050821759|1181|692|codes\范例程序\Web窗体应用\脚本应用\script.aardio
-353081882|7157|2538|codes\范例程序\Windows窗口应用\addCtrl.aardio
-1849873981|7826|1929|codes\范例程序\Windows窗口应用\calc.aardio
+-1286772261|1777|975|codes\范例程序\Windows窗口应用\1、winform.aardio
+353081882|7157|2538|codes\范例程序\Windows窗口应用\2、winform.add.aardio
+-1752992576|7810|1924|codes\范例程序\Windows窗口应用\3、calc.aardio
 0|0|0|codes\范例程序\Windows窗口应用\edit,richedit\
 0|0|0|codes\范例程序\Windows窗口应用\GDI绘图\
 0|0|0|codes\范例程序\Windows窗口应用\orphanWindow\
 0|0|0|codes\范例程序\Windows窗口应用\plus控件\
-988032232|1491|824|codes\范例程序\Windows窗口应用\winform.aardio
 0|0|0|codes\范例程序\Windows窗口应用\下拉框控件\
 0|0|0|codes\范例程序\Windows窗口应用\列表框控件\
 0|0|0|codes\范例程序\Windows窗口应用\列表视图控件\
@@ -643,7 +643,7 @@
 -1251330719|710656|301687|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
-2117755280|15|34|config\SYS.CFG
+-416075734|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 -1140544858|108468|28363|config\intellisense\kernel.txt
@@ -1671,7 +1671,7 @@
 987796269|2040|943|lib\web\rest\jsonLiteClient.aardio
 -1371514947|1802|821|lib\web\rest\qywx.aardio
 -1065509177|680|424|lib\web\rest\xmlClient.aardio
-1869284757|9449|3304|lib\web\rpc\externalServer.aardio
+-1402147830|9505|3305|lib\web\rpc\externalServer.aardio
 2007378535|8001|2821|lib\web\rpc\jsonClient.aardio
 812597022|7260|2326|lib\web\rpc\jsonServer.aardio
 -2014910930|2909|917|lib\web\soapClient\parameters.aardio
