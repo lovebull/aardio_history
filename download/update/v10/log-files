@@ -643,7 +643,7 @@
 -1251330719|710656|301687|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--416075734|15|34|config\SYS.CFG
+-1317960563|13|32|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 -1140544858|108468|28363|config\intellisense\kernel.txt
@@ -976,7 +976,7 @@
 306899895|732|485|extensions\wizard\project2\template\web\chrome-app\lib\config.aardio
 -1675040979|436|339|extensions\wizard\project2\template\web\chrome-app\web\index.html
 -973410410|433|231|extensions\wizard\project2\template\web\chrome-app\web.src\.yarnrc
--1524093597|1193|538|extensions\wizard\project2\template\web\chrome-app\web.src\package.json
+537665540|1194|539|extensions\wizard\project2\template\web\chrome-app\web.src\package.json
 0|0|0|extensions\wizard\project2\template\web\chrome-app\web.src\public\
 0|0|0|extensions\wizard\project2\template\web\chrome-app\web.src\src\
 -240888946|561|302|extensions\wizard\project2\template\web\chrome-app\web.src\tsconfig.json
@@ -1318,8 +1318,8 @@
 0|0|0|lib\electron\app\.build\aardio\
 -706361506|9168|3018|lib\electron\app\.build\main.aardio
 1277351621|115071|24902|lib\electron\app\.build\ws.asar
-2045140387|5902|1899|lib\electron\app\.build\aardio\index.d.ts
--1874740021|17272|4106|lib\electron\app\.build\aardio\index.js
+753434268|6295|2037|lib\electron\app\.build\aardio\index.d.ts
+-789951715|17470|4181|lib\electron\app\.build\aardio\index.js
 1091368792|1523|836|lib\electron\runtime\_.aardio
 0|0|0|lib\fastcgi\client\
 2115999491|3941|1338|lib\fastcgi\iisInstall.aardio
