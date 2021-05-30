@@ -463,8 +463,16 @@ startEnviron = function(environ){
     
     if( type(environ)!= type.table ) error("参数必须指定一个表对象",2);
     environ.port = freePort();
-	..win.setenv("aarStartEnviron",..web.json.stringify(environ)); 
-	
+    
+    var aarStartEnviron = ..win.getenv("aarStartEnviron");
+    if(aarStartEnviron){
+    	aarStartEnviron = ..web.json.tryParse(aarStartEnviron);
+    	if(aarStartEnviron){
+    		environ = ..table.assign(aarStartEnviron,environ);
+    	}
+    } 
+    
+	..win.setenv("aarStartEnviron",..web.json.stringify(environ));
 	var path = ..io.joinpath(nodeModulesPath,"\startEnviron.js");
 	..string.save(path,`module.exports = JSON.parse(process.env.aarStartEnviron)` )
 } 
@@ -494,7 +502,7 @@ exec() = !process_popen.
 execFile() = !process_popen.
 popen() = !process_popen.
 pcmd() = !process_popen.
-startEnviron(环境变量表) = @.startEnviron(\n	appPath = io.fullpath("/");\n	__/*在这里设置的启动参数对象，在node.js中使用 require('startEnviron')导入/\n)
+startEnviron(环境变量表) = @.startEnviron(\n	appPath = io.fullpath("/");\n	__/*在这里设置的启动参数对象，在node.js中使用 require('startEnviron')导入*/\n)
 version = node.js 运行时版本
 config(.(key,value) = npm config set设置值
 config(.(key) = npm config get获取值

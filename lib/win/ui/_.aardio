@@ -870,6 +870,8 @@ namespace win.form{
 				if(this!==..mainForm)return; 
 			}
 			
+			if(this._messageOnly) return;
+			
 			for(k,f in _forms){
 				 if( ! f._messageOnly ){
 					if( f == ..mainForm ) return;

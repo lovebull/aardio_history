@@ -128,7 +128,19 @@ namespace web.rpc{
 			})
 			
 			this.rpc.external = this.external;
+			
+			if(..nodeJs){
+				var ip,port = this.http.getLocalIp();
+				..nodeJs.startEnviron( {
+					rpcPort = port;
+					rpchttpServerUrl  = this.http.getUrl("rpc/http"); 
+					rpcServerUrl  = this.ws.getUrl("rpc/ws"); 
+					rpcMainServerUrl  = this.ws.getUrl("rpc/ws");   
+				} );
+			}
+			
 			var ret,err = this.ws.start(serverIp:"127.0.0.1",serverPort);
+			
 			this.http.run( 
 				function(response,request){
 					response.headers["Access-Control-Allow-Origin"] = "*";

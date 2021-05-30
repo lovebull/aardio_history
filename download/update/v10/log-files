@@ -643,10 +643,10 @@
 -1251330719|710656|301687|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--1317960563|13|32|config\SYS.CFG
+-420390371|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
--1140544858|108468|28363|config\intellisense\kernel.txt
+1953259944|108766|28472|config\intellisense\kernel.txt
 786007257|4753|1683|config\intellisense\unimportant.txt
 946221732|9375|1953|config\intellisense\web.layout.behavior.txt
 31814408|10949|2205|config\intellisense\web.sciter.behavior.txt
@@ -976,7 +976,7 @@
 306899895|732|485|extensions\wizard\project2\template\web\chrome-app\lib\config.aardio
 -1675040979|436|339|extensions\wizard\project2\template\web\chrome-app\web\index.html
 -973410410|433|231|extensions\wizard\project2\template\web\chrome-app\web.src\.yarnrc
-537665540|1194|539|extensions\wizard\project2\template\web\chrome-app\web.src\package.json
+644833509|1194|539|extensions\wizard\project2\template\web\chrome-app\web.src\package.json
 0|0|0|extensions\wizard\project2\template\web\chrome-app\web.src\public\
 0|0|0|extensions\wizard\project2\template\web\chrome-app\web.src\src\
 -240888946|561|302|extensions\wizard\project2\template\web\chrome-app\web.src\tsconfig.json
@@ -1318,8 +1318,8 @@
 0|0|0|lib\electron\app\.build\aardio\
 -706361506|9168|3018|lib\electron\app\.build\main.aardio
 1277351621|115071|24902|lib\electron\app\.build\ws.asar
-753434268|6295|2037|lib\electron\app\.build\aardio\index.d.ts
--789951715|17470|4181|lib\electron\app\.build\aardio\index.js
+-247903023|6404|2086|lib\electron\app\.build\aardio\index.d.ts
+-1272974494|17538|4120|lib\electron\app\.build\aardio\index.js
 1091368792|1523|836|lib\electron\runtime\_.aardio
 0|0|0|lib\fastcgi\client\
 2115999491|3941|1338|lib\fastcgi\iisInstall.aardio
@@ -1439,7 +1439,7 @@
 -67895191|6776|2200|lib\mouse\draw.aardio
 -543039773|2307|1134|lib\mouse\hook.aardio
 -1802899828|8346|2366|lib\mouse\_.aardio
--46254103|16562|3750|lib\nodeJs\_.aardio
+565242336|16820|3798|lib\nodeJs\_.aardio
 0|0|0|lib\preg\.res\
 248544567|14432|4037|lib\preg\_.aardio
 1855787250|145920|63851|lib\preg\.res\pcre.dll
@@ -1671,7 +1671,7 @@
 987796269|2040|943|lib\web\rest\jsonLiteClient.aardio
 -1371514947|1802|821|lib\web\rest\qywx.aardio
 -1065509177|680|424|lib\web\rest\xmlClient.aardio
--1402147830|9505|3305|lib\web\rpc\externalServer.aardio
+-971946688|9810|3378|lib\web\rpc\externalServer.aardio
 2007378535|8001|2821|lib\web\rpc\jsonClient.aardio
 812597022|7260|2326|lib\web\rpc\jsonServer.aardio
 -2014910930|2909|917|lib\web\soapClient\parameters.aardio
@@ -1764,7 +1764,7 @@
 499386293|10052|2964|lib\win\ui\toolbar.aardio
 -617068702|10681|3284|lib\win\ui\tooltip.aardio
 -1766920331|10172|2781|lib\win\ui\tracker.aardio
-1712579704|58570|13468|lib\win\ui\_.aardio
+1583713033|58609|13478|lib\win\ui\_.aardio
 1620929574|6551|2659|lib\win\ui\ctrl\atlax.aardio
 -689946269|4825|1700|lib\win\ui\ctrl\bk.aardio
 -751364781|9955|3305|lib\win\ui\ctrl\bkplus.aardio

@@ -13,8 +13,8 @@ declare namespace aardio {
 
     interface External {
 
-        /** 重新连接 RPC 服务端, 如果已连接则忽略不执行任何操作 */
-        open() : void;
+        /** 连接 RPC 服务端, 如果已连接则重用当前连接 */
+        open(rpcPort?:number) : Promise<void>;
 
         /** 当前是否已连接 RPC 服务端 */
         isConnected() : boolean
@@ -33,7 +33,7 @@ declare namespace aardio {
 
         /** 
          * 在 aardio 模块以及RPC函数服务端已准备就绪后（如果当前是浏览器渲染进程则DOM已准备就绪），
-         * 执行此回调(如果当前已经准备就绪就直接执行) 
+         * 执行此回调(如果当前已经准备就绪就直接执行),这里注册的函数保证只会执行一次，重新连接后必须重新调用此函数注册。 
          */
         ready(listener: (win?: Electron.BrowserWindow) => void): ExternalEx; 
         /** 退出进程 */
