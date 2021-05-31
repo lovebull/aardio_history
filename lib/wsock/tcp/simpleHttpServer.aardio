@@ -416,24 +416,17 @@ class simpleHttpServer{
 						customErrors = _SIMPLEHTTPSRV_CUSTOM_ERRORS : {};
 						errorStatus = function(status){
 							var handler = response.customErrors[status];
-							if( handler )  {
-								if(owner["errorStatusHandled"] === handler ){
-									response.error("Handle already running!");
-									return;
-								}
-								owner["errorStatusHandled"] = handler;
+							if( handler && !response["errorStatusHandled"] )  { 
+								response["errorStatusHandled"] = true;
 								
-								if(type.isString(handler)){
-									response.loadcode(handler);
-								}
-								else {
-									handler(response,request);
-								} 
+								if(type.isString(handler)) response.loadcode(handler); 
+								else handler(response,request,session);
 							}
 							else{
 								response.status = ..inet.httpStatusCode.format(status);
 								response.write(response.status);
 							}
+							
 							response.close();
 						};
 						loadcode = function(path,...){

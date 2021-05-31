@@ -940,8 +940,8 @@ namespace form {
 }
  
 /******intellisense( ) 
-web.form = web窗体,\n基于系统自带IE内核WebBrowser浏览器控件.\n\n导入此库时已默认设为启用IE最高兼容版本,\n可调用web.form.emulation函数修改,或在网页HTML中设置,例如:\n<meta http-equiv="X-UA-Compatible" content="IE=edge" />\n可自动启用IE最高版本
-web.form( = 创建web窗体,基于系统自带IE内核WebBrowser浏览器控件
+web.form = web窗体,\n基于系统自带IE内核WebBrowser浏览器控件.\n注意新版系统虽移除IE，但 WebBrowser 属于系统组件仍可正常使用.\n\n导入此库时已默认设为启用IE最高兼容版本,\n可调用web.form.emulation函数修改,或在网页HTML中设置,例如:\n<meta http-equiv="X-UA-Compatible" content="IE=edge" />\n可自动启用IE最高版本
+web.form( = 创建web窗体,基于系统自带IE内核WebBrowser浏览器控件.\n注意新版系统虽移除IE，但 WebBrowser 属于系统组件仍可正常使用.\n\n自IE11开始会默认阻止 ajax 请求本地文件,\n改用 wsock.tcp.simpleHttpServer/asynHttpServer 访问本地文件即可
 web.form(.(winform,hostFlags,dlControl,userAgent,securityTrusted) = 创建Web窗体,可调用IE内核浏览器控件加载网页,\n\n参数说明：\n@winform 可使用窗体或窗体上的控件对象\n@hostFlags 可使用一个或多个_UIFLAG_ 前缀的常量自定义外观,多个常量用位或操作符( | ) 连接\n@dlControl 可使用_DLCTL_前缀的常量以控制下载行为,多个常量用位或操作符( | ) 连接\n@userAgent 设置浏览器User Agent,\n@securityTrusted 是否信任打开的网页（服务器上避免弹出警告），默认值为true\n\n关于创建参数的更多说明,请参考《aardio使用手册->Web程序设计->创建Web窗体》
 web.form.emulation(11001) = 允许启用IE11渲染模式,\n11001为IE11,9999为IE9,8888为IE8,7000为IE7\n应在进程创建第一个web窗体创建以前设置\n也可以在网页HTML中设置IE兼容版本,例如启用IE最高版本:\n<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 web.form.featureControl(.("FEATURE_BROWSER_EMULATION",11001 ,false) = 改变注册表设置,\n参数(注册表键名,值,是否刷新)
@@ -1355,7 +1355,7 @@ document.compatMode = "BackCompat" 对应 quirks mode(无DTD声明)\n"CSS1Compat
 !wb.head = !ele.
 !wb.loadScript("js地址","框架名字") = 动态加载js文件
 !wb.loadScript("js地址","框架名字","utf-8") = 动态加载js文件\N可选用第三个参数指定文件编码
-!wb.jQuery("__") = jQuery选择器,并可自动载入jQuery库\nn首次调用按需加载jQuery v1.10:\n "/res/js/jQuery/jQuery.min.js"\n失败则通过网络CDN服务器下载jquery-1.9.0.min.js
+!wb.jQuery("__") = jQuery选择器,并可自动载入jQuery库\nn首次调用按需加载jQuery v1.10:\n "/res/js/jQuery/jQuery.min.js"\n失败则通过网络CDN服务器下载jquery-1.9.0.min.js\n\n注意 jQuery v1.6.3 以上 ajax 函数才会支持 res 协议访问 EXE 资源文件\nIE11 内核默认已阻止 ajax 访问本地文件,\n改用 wsock.tcp.simpleHttpServer/asynHttpServer 访问本地文件即可
 !wb.jQuery() = 无参数时返回jQuery类对象\n首次调用按需加载 jQuery v1.9:\n "/res/js/jQuery/jQuery.min.js"\n失败则通过网络CDN服务器下载jquery-1.9.0.min.js\n!jQuery.
 !jQuery.val() = 取值
 !jQuery.val("__") = 赋值

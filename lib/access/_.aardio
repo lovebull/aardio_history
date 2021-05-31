@@ -453,6 +453,15 @@ class access {
     setPassword = function(pwd,oldPwd){
     	return this.exec("ALTER DATABASE PASSWORD %s %s",pwd,oldPwd : "``");
     }; 
+	beginTrans = function(){
+		return this.connection.BeginTrans();
+	};
+	commitTrans = function(){
+		return this.connection.CommitTrans();
+	};
+	rollbackTrans = function () {
+		return this.connection.RollbackTrans();
+	};
 	close = function(){
 		if(this.connection){
 			this.connection.close();
@@ -548,6 +557,9 @@ eachTableObject = @for(tbName,tbType,tbObj in ??.eachTableObject() ){
 }
 eachTableObject() = !ADOX_Catalog_tbl.
 setPassword(.("新密码","旧密码") = 修改数据库密码,\n如果没有旧密码第二个参数可以不写
+beginTrans() = 启动事务,返回嵌套层数\n注意如果未调用此函数开启事务，默认每条独立SQL语句仍然会自动创建独立事务
+commitTrans() = 提交事务
+rollbackTrans() = 回滚事务
 end intellisense**/
 
 /**intellisense(!access_rs)

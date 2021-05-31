@@ -23,8 +23,9 @@ class font {
 	}
 	chooseFont = function(){ 
 		if( this.sizeMax ) this.flags = this.flags | 0x2000/*_CF_LIMITSIZE*/ 
-		if( type(this.logFont ) != type.buffer ){
-			this.logFont = ..raw.buffer( this.logFont[["_struct"]]?this.logFont : 60 );  
+		if( type(this.logFont) != type.buffer ){
+			var logfont = this.logFont; 
+			this.logFont = ..raw.buffer( logfont[["_struct"]] ?logfont.stripPoint() : 92/*..raw.sizeof(::LOGFONT())*/ );  
 		} 
 		
 		if(  ::Comdlg32.ChooseFont(this) ){
@@ -40,7 +41,8 @@ class font {
 /**intellisense()
 win.dlg.font = 通用字体对话框
 win.dlg.font(winform__/*父窗体*/) = 创建通用字体对话框 
-win.dlg.font() = !windlgfont.
-!windlgfont.logFont = 字体对象\n!logfont.
-!windlgfont.chooseFont() = 弹出选择字体对话框,成功返回::LOGFONT结构体的字体\n!logfont.
+win.dlg.font() = !winDlgFont.
+!winDlgFont.logFont = 用于初始化默认字体并返回选择后的字体,\nLOGFONT 对象\n!logfont.
+!winDlgFont.pointSize = 选择的字体大小，以十分之一点为单位
+!winDlgFont.chooseFont() = 弹出选择字体对话框,成功返回::LOGFONT结构体的字体\n!logfont.
 end intellisense**/ 

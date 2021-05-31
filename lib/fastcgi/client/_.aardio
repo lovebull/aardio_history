@@ -594,19 +594,18 @@ class client{
 				};
 				customErrors = this.customErrors : {};
 				errorStatus = function(status){
-					if( response.customErrors[status] )  {
-						if(owner["errorStatusHandled"] === response.customErrors[status] ){
-							response.error("Handle already running!");
-							return;
-						}
-						owner["errorStatusHandled"] = response.customErrors[status];
+					var handler = response.customErrors[status];
+					if( handler && !response["errorStatusHandled"] )  { 
+						response["errorStatusHandled"] = true;
 						
-						response.customErrors[status](response);
+						if(type.isString(handler)) response.loadcode(handler); 
+						else handler(response,request,session);
 					}
 					else{
 						response.status = ..inet.httpStatusCode.format(status);
 						response.write(response.status);
 					}
+					
 					response.close();
 				};
 				defalutDocument = "main.aardio";
@@ -767,9 +766,9 @@ keepAlive = 服务端是否保持连接\n此属性为标准库为HTTP服务器�
 transferChunked = 是否使用分块传输协议\n此属性为标准库为HTTP服务器所保留\nHTTP服务器可以忽略该值\n或者由HTTP服务器自动维护该值\n用户不应修改此属性
 loadcode( = 加载并执行aardio模板文件
 loadcode(.("文件路径",->->->) = 加载并执行aardio模板文件,参数可省略,\n参数@1省略时默认赋值为 request.path\n其他参数作为模板参数传给被调用的文件,\n在被调用文件的函数外部可使用owner参数获取首个模板参数,\n也可以使用...获取多个模板参数
-customErrors[404] = @.customErrors[404] = function(response){
+customErrors[404] = @.customErrors[404] = function(response,request,session){
 	response.status = "404 Not Found";
-	response.write("404 Not Found"); __/*自定义错误页*/
+	response.write("404 Not Found"); __/*自定义错误处理函数,\n每次请求仅第一个自定义错误处理函数会被调用*/
 } 									
 end intellisense**/
 

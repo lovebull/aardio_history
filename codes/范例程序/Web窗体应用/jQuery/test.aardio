@@ -7,8 +7,12 @@ winform.add()
 
 //创建web窗体
 import web.form;
-var wb = web.form( winform , , , ,true)
+var wb = web.form(winform)
 
+/*
+注意 jQuery v1.6.3 以上 ajax 函数才会支持 res 协议访问 EXE 资源文件
+IE11 内核默认已阻止 ajax 访问本地文件,改用 wsock.tcp.simpleHttpServer/asynHttpServer 访问本地文件即可
+*/
 wb.html = /**
 <!doctype html>
 <html>

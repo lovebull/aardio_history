@@ -246,6 +246,14 @@ require = function(module){
 	}	
 }
 
+prequire = function(echo,module){ 
+    if(!install())return;
+    
+	if( !..io.exist( ..io.joinpath(prefix(),"node_modules",module ) ) ){
+		pcnpm(echo,"install","-g",module);
+	}	
+}
+
 exist = function(module){ 
     if(!install())return;
     
@@ -338,6 +346,7 @@ pcnpm = function(echo,param,...){
 	if(prcs){  
 		prcs.codepage = 65001;
 		prcs.logResponse(echo);
+		prcs.waitOne();
 		return true; 
 	}
 		
@@ -493,7 +502,8 @@ npmget(__) = 执行npm命令并获取输出字符串,\n默认工作目录为 nod
 cmd(.("命令文件名",其他命令行参数->->->) = 运行node命令,\n此函数会打开控制台,\n\n第一个参数指定cmd命令,可选自第二个参数开始指定命令行参数\n多个命令行参数则调用 process.joinArguments 合并,\n不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号
 pcmd(.("命令文件名",其他命令行参数->->->) = 创建进程管道运行node命令,返回 process.popen 对象,\n默认工作目录为 nodeJs.workDir\n此函数会打开控制台,\n\n第一个参数指定cmd命令,可选自第二个参数开始指定命令行参数\n多个命令行参数则调用 process.joinArguments 合并,\n不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号
 cmdget(.("命令文件名",其他命令行参数->->->) = 运行node命令并获取输出字符串,n此函数不会打开控制台,\n\n第一个参数指定cmd命令,可选自第二个参数开始指定命令行参数\n多个命令行参数则调用 process.joinArguments 合并,\n不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号
-require(__) = 如果参数指定的模块不存在，全局安装该模块\n如果系统已安装了node，可能会 安装到系统目录\n使用nodeJs.prefix函数全局模块安装路径
+require(__) = 如果参数指定的模块不存在，全局安装该模块\n如果系统已安装了node，可能会安装到系统目录\n使用nodeJs.prefix函数获取全局模块安装路径
+prequire(.(echo,"module") = 如果参数指定的模块不存在，全局安装该模块\n如果系统已安装了node，可能会安装到系统目录\n使用nodeJs.prefix函数获取全局模块安装路径
 freePort() = 分配新的服务端可用端口\n在node.js中可使用process.env.PORT获取分配的端口号
 popen(__) = 以管道方式打开node进程,\n支持不定个数启动参数,也可以在一个字符串参数中写多个参数
 pget(__) = 以管道方式打开node进程,并返回输出值,\n支持不定个数启动参数,也可以在一个字符串参数中写多个参数
@@ -517,5 +527,5 @@ version = null;
 end intellisense**/
 
 /**intellisense()
-nodeJs=注意aardio中的nodeJs是独立便携版,即使用npm安装全局模块,也不会影响其他已安装的nodeJs环境
+nodeJs = Node.js 支持库,\n可选使用 nodeJs.install 函数安装独立便携的 Node.js 环境,\n默认优先使用系统安装的 Node.js 环境\n\n此支持库可支持 web.rpc.externalServer 创建的 RPC 服务端
 end intellisense**/

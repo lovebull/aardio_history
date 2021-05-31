@@ -83,14 +83,14 @@ class sqlServer {
 	}; 
 	exec = function(sql,...){ 
 		if( ... )sql = formatSqlParameters(sql,...); 
-		var ret,err = call(conn.Execute,conn,sql ); 
+		var ret,err = call(this.connection.Execute,this.connection,sql ); 
 		if(!ret) error(err,2);
 		return ret;
 	}; 
 	openRecordSet = function(sql,cursorType,lockType,...){
 		var rs = ..com.CreateObject("ADODB.RecordSet"); 
 		if( ... )sql = formatSqlParameters(sql,...);
-		var ok,err = call(rs.Open,rs,sql,conn,cursorType,lockType);
+		var ok,err = call(rs.Open,rs,sql,this.connection,cursorType,lockType);
 		if(!ok) return null,err;
 		
 		return rs;
@@ -385,11 +385,18 @@ class sqlServer {
     	
 		return cmd;
 	}; 
-	
+	beginTrans = function(){
+		return this.connection.BeginTrans();
+	};
+	commitTrans = function(){
+		return this.connection.CommitTrans();
+	};
+	rollbackTrans = function () {
+		return this.connection.RollbackTrans();
+	};
 	close = function(){
-		if(conn){
-			conn.close();
-			conn = null;
+		if(this.connection){
+			this.connection.close(); 
 			this.connection = null;
 		}
 	};
@@ -482,6 +489,9 @@ eachTableObject = @for(tbName,tbType,tbObj in ??.eachTableObject() ){
 	
 }
 eachTableObject() = !ADOX_Catalog_tbl.
+beginTrans() = 启动事务,返回嵌套层数\n注意如果未调用此函数开启事务，默认每条独立SQL语句仍然会自动创建独立事务
+commitTrans() = 提交事务
+rollbackTrans() = 回滚事务
 end intellisense**/
 
 /**intellisense(!sqlServer_rs)

@@ -1,0 +1,56 @@
+﻿//aardio,nodeJs互调函数
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="RPC 服务端 - 支持任意本地网页调用 aardio 函数";right=759;bottom=469)
+winform.add(
+button={cls="button";text="调用 Node.js 函数";left=480;top=410;right=630;bottom=449;db=1;dr=1;z=2};
+edit={cls="richedit";left=23;top=24;right=730;bottom=380;db=1;dl=1;dr=1;dt=1;edge=1;hscroll=1;multiline=1;vscroll=1;z=1}
+)
+/*}}*/
+
+winform.show();
+winform.edit.print("正在启动 Node.js");
+
+import web.rpc.externalServer;
+var externalServer = web.rpc.externalServer();
+
+//定义允许 Node.js 调用的 aardio 函数
+externalServer.external = {
+	test = function(...){
+		winform.edit.print("external.test 被调用",...)
+		return "aardio 函数返回的值"
+	}
+	log = function(...){
+		winform.edit.print("external.log 被调用",...)
+	}
+}
+
+//启动 aardio-rpc 服务端
+externalServer.start();
+
+winform.button.oncommand = function(id,event){
+	externalServer.publish("testJs",1,2,3);
+}
+
+import nodeJs;
+nodeJs.prequire(winform.edit,'ws');
+nodeJs.prequire(winform.edit,'aardio');
+
+//运行 Node.js 代码
+var node = nodeJs.exec(`
+var aardio = require('aardio') 
+aardio.test(123).then( v=>{ aardio.log(v) } );
+
+aardio.on("testJs",function(...values){
+	aardio.log("Node.js 函数 testJs 被调用",...values) 
+})`); 
+
+//窗体退出时结束 nodeJs 进程
+winform.onDestroy = function(){
+	node.ctrlEvent(0)
+}
+
+//将 Node.js 进程输出显示到文本框，不会阻塞进程
+node.logResponse(winform.edit);
+
+win.loopMessage();

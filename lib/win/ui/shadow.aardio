@@ -83,6 +83,8 @@ class shadow{
 			)
 		}
 		frmShadow._adjust = function( cx,cy ) {
+			if(! ::User32.IsWindow(frmShadow.hwnd) ) return;
+			
 			var rc =  winform.getRect(); 
 			rc.inflate( shadowSize, shadowSize ); 
 			rc.offset(0,1);

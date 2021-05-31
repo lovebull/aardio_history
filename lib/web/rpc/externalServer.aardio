@@ -1,6 +1,7 @@
 ﻿//externalServer 服务端
 import web.rpc.jsonServer;
 import web.socket.jsonServer;
+import string.aasdl;
 
 namespace web.rpc{
 	
@@ -128,18 +129,22 @@ namespace web.rpc{
 			})
 			
 			this.rpc.external = this.external;
+			var ret,err = this.ws.start(serverIp:"127.0.0.1",serverPort);
+			if(!ret) return null,err;
 			
-			if(..nodeJs){
+			{
 				var ip,port = this.http.getLocalIp();
-				..nodeJs.startEnviron( {
+				
+				::Kernel32.SetEnvironmentVariable("aarStartEnviron",..web.json.stringify( {
 					rpcPort = port;
 					rpchttpServerUrl  = this.http.getUrl("rpc/http"); 
 					rpcServerUrl  = this.ws.getUrl("rpc/ws"); 
 					rpcMainServerUrl  = this.ws.getUrl("rpc/ws");   
-				} );
+					appPath = ..io.fullpath("/");
+					nodePath =  ..io.fullpath("/node_modules/");
+					aasdl = ..string.aasdl.strip(this.external);
+				} ) );
 			}
-			
-			var ret,err = this.ws.start(serverIp:"127.0.0.1",serverPort);
 			
 			this.http.run( 
 				function(response,request){
@@ -185,7 +190,7 @@ end details**/
 
 /**intellisense()
 web.rpc.externalServer = 创建可在普通网页浏览器引入与 aardio 本地软件交互的 RPC 服务端\n建议服务端IP保持默认值 127.0.0.1，\n即可在任意网页中调用 aardio.js 并导入 aardio 对象,\n可嵌入 HTTPS 网页
-web.rpc.externalServer() = 创建可在普通网页浏览器引入与 aardio 本地软件交互的 RPC 服务端\n!webRpcExternalServer.
+web.rpc.externalServer() = 创建可在普通网页浏览器引入与 aardio 本地软件交互的 RPC 服务端,\n可自动支持标准库 nodeJs\n!webRpcExternalServer.
 end intellisense**/
 
 /**intellisense(!webRpcExternalServer)
