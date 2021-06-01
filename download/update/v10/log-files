@@ -644,10 +644,10 @@
 -1251330719|710656|301687|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--457710524|15|34|config\SYS.CFG
+2060677607|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
-1162068427|109058|28545|config\intellisense\kernel.txt
+1935420926|109748|28788|config\intellisense\kernel.txt
 786007257|4753|1683|config\intellisense\unimportant.txt
 946221732|9375|1953|config\intellisense\web.layout.behavior.txt
 31814408|10949|2205|config\intellisense\web.sciter.behavior.txt
@@ -1383,7 +1383,7 @@
 -1896562742|14254|3972|lib\fsys\update\dlMgr.aardio
 668458872|5205|1704|lib\fsys\update\maker.aardio
 720972140|10233|2904|lib\fsys\update\simpleMain.aardio
--427525522|29891|8749|lib\gdi\_.aardio
+999816562|30138|8828|lib\gdi\_.aardio
 0|0|0|lib\gdip\.res\
 1498371515|22505|6809|lib\gdip\bitmap.aardio
 23892503|3665|1431|lib\gdip\core.aardio
@@ -1721,7 +1721,7 @@
 1592236764|853|510|lib\win\dlg\color.aardio
 -1934845315|1528|754|lib\win\dlg\ctrlColor.aardio
 -1487440215|5117|1630|lib\win\dlg\findReplace.aardio
-1628438506|1637|846|lib\win\dlg\font.aardio
+-171602080|1962|969|lib\win\dlg\font.aardio
 1920176375|12228|3802|lib\win\dlg\message.aardio
 -365998634|3303|1195|lib\win\dlg\print.aardio
 -1067518556|216|144|lib\win\dlg\_.aardio

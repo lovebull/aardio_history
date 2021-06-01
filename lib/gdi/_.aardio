@@ -67,7 +67,7 @@ namespace ..LOGFONT {
 		if(owner.bold !== null ) owner.weight = owner.bold ? 700 : 400;
 		
 		if( owner.point ){
-				owner.stripPoint(hdcIn,hwnd);
+			owner.stripPoint(hdcIn,hwnd);
 		}
 		else { 
 			owner.h = -(..math.abs(owner.h)); 
@@ -83,7 +83,7 @@ namespace ..LOGFONT {
 			var hdc = hdcIn or ::GetDC(hwnd:0);  
 			var pt = ::POINT();  
 				
-			pt.y = ..math.mulDiv( ::GetDeviceCaps(hdc, 0x5A/*_LOGPIXELSY*/),owner.point,72) 
+			pt.y = ..math.mulDiv( ::GetDeviceCaps(hdc, 0x5A/*_LOGPIXELSY*/),owner.point*10,720)
 			::Gdi32.DPtoLP(hdc,pt,1);
 			
 			var ptOrg = ::POINT();
@@ -96,6 +96,11 @@ namespace ..LOGFONT {
 		return owner;
 	};
 	
+	setPointSize = function(pt,hdcIn,hwnd){
+		owner.point = pt;
+		if(hdcIn || hwnd) owner.stripPoint(hdcIn,hwnd);
+	};
+	
 	getPointSize = function(hdcIn,hwnd){
 		if( owner.point ) return owner.point;
 		var hdc = hdcIn or ::GetDC(hwnd:0);  
@@ -104,10 +109,18 @@ namespace ..LOGFONT {
 		::Gdi32.DPtoLP(hdc, ptOrg, 1);
 		var pt = ::POINT();  
 		pt.y = ..math.abs(owner.h) + ptOrg.y;
-		::Gdi32.LPtoDP(hdc,pt,1); 
-		var size = ..math.mulDiv(pt.y, 72, ::GetDeviceCaps(hdc, 0x5A/*_LOGPIXELSY*/));
+		::Gdi32.LPtoDP(hdc,pt,1);
+		
+		var size = ..math.mulDiv(..math.abs(pt.y), 720, ::GetDeviceCaps(hdc, 0x5A/*_LOGPIXELSY*/))/10;
 		if(!hdcIn) ::ReleaseDC(hwnd:0,hdc); 
-		return size;
+		
+		var pt,f = ..math.modf(size);
+		if(f>0.2){
+			if(f>0.7) pt=pt+1;
+			else pt = pt+0.5;
+		} 
+		
+		return pt;
 	};
 	
 	deleteIndirect = function(){
