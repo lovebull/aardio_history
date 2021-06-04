@@ -154,9 +154,7 @@ class plus {
 		 this[["(iconFontOrig)"]] = null;
 	}
 	updateBitmapCache = function(erase){
-		if( owner._closed ) return;
 		if( this.$bitmapCacheUpdating ) return;
-		
 		if( this.cacheBitmap ) { 
 			..gdip.DeleteCachedBitmap(this.cacheBitmap);
 			this.cacheBitmap = null; 

@@ -130,7 +130,7 @@
 !winform.transparent(false) = 取消窗口透明
 !winform.transparent(true) = 启用分层窗口,不设置透明度
 !winform.transparent(128,225) = 启用分层窗口,设置窗口透明度，\n参数(透明度,透明颜色)\n如果指定了透明颜色，透明度参数将被忽略
-!winform.close() = 关闭窗口 
+!winform.close() = 关闭窗口\n注意不能在 onClose 事件内调用此函数
 !winform.loadForm("__/*请输入aardio文件路径*/") = 加载外部窗体文件\n可选增加其他参数传入加载的aardio文件
 !winform.doModal(__/*请指定所有者窗口\n可省略此参数*/) = 此函数弹出模态对话框,\n可使用 endModal() 函数关闭模态对话框，\n调用endModal()函数的参数会被设置为 doModal() 函数的返回值。\n\n模态对话框显示在所有者窗口前面，\n并暂时禁用所有者窗口 - 直到此模态对话框被关闭。\n\n模态对话框会自己创建自己的消息循环，\n并阻止调用模态对话框的代码继续向后运行 - 直到此模态对话框被关闭。\n\n注意：\n最后一个win.form创建的非模态窗体被关闭时会主动调用 win.quitMessage()\n如果是使用 winform.doModal()函数弹出的模态对话框关闭时不会调用 win.quitMessage()\n也就是说模态对话框关闭时永远不会导致 win.loopMessage() 退出运行()创建的消息循环
 !winform.dialogResult = 模态对话框返回值

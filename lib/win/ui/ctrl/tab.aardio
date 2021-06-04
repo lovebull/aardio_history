@@ -151,10 +151,9 @@ namespace tab{
     				owner.selIndex = #owner._forms 
     	} 
     	removeAll = function(){
-			for(i=#owner._forms;1;-1){ 
-				owner._forms[i]._closed = true;
+			for(i=#owner._forms;1;-1){
 				::SendMessage(owner._forms[i][["hwnd"]],0x10/*_WM_CLOSE*/);
-				..table.remove(owner._forms ,i );
+				..table.remove(owner._forms,i );
 			}  
 			owner.form = null; 
 			..table.pop(owner._history,#owner._history)

@@ -73,7 +73,25 @@ class asynHttpServer{
 			this.start();
 			url = this.getUrl();
 		}
-		if(app) this.httpHandle = app;
+		if(app) {
+			if( type(app) = "table" ){
+				this.httpHandle = function(response,request){
+					response.headers["Access-Control-Allow-Origin"] = "*";
+					response.headers["Access-Control-Allow-Headers"] = "*" 
+					if(request.method != "OPTIONS"){
+						var handler = app[request.path];
+						if( handler ) {
+							if(type.isString(handler)) return response.write(handler) 
+							return handler(response,request);
+						}
+						response.loadcode( request.path);
+					}
+				}  
+			}
+			else {
+				this.httpHandle = app;
+			}
+		}
 		return url;
 	};
 	onHttpRead = function(socketClient){
@@ -759,7 +777,7 @@ client() = !stdtcpaclient.
 clients = 这是一个包含所有客户端套接字的表对象\n其中键为套接字句柄,值为 wsock.tcp.asynClient对象
 clients.? = !stdtcpaclient.
 start(.(IP,端口,请求队列大小) = 启动单线程异步TCP服务端,成功返回true,失败返回null,\n\n如果不写IP，则默认设为"0.0.0.0"也即监听本机所有IP,访问此服务端也不限制IP\n限制仅本机可以访问建议写127.0.0.1\n\n端口为0或省略则自动查找1025以后的空闲端口\n注意0-1023为系统通用服务保留端口,\n1024-49151为用户服务端口,其中大约%9已由IANA注册分配\n49152-65535为私有或临时端口
-run(httpProc) = @.run( \n    function(response,request,session){ \n         response.loadcode(request.path);\n    }__/*启动HTTP服务并在此回调函数中处理请求\n省略回调函数则默认调用response.loadcode*/\n);
+run(httpProc) = @.run( \n    function(response,request,session){ \n         response.loadcode(request.path);\n    }__/*启动HTTP服务并在此回调函数中处理请求\n也可以传入一个表参数,键为页面相对路径,值为响应数据或回调函数,\n省略回调函数则默认调用response.loadcode*/\n);
 bind(.(IP,端口) = 绑定IP端口
 listen(.(请求队列大小) = 监听指定的IP端口
 shutdown() =  断开TCP服务端

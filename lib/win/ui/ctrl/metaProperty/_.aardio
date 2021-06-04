@@ -195,21 +195,16 @@ namespace metaProperty {
 				return ..win.msgboxErr(str,title,owner[["hwnd"]]  )
 			};
 			close = function(){
-				if( owner._closed ) {
-					if(..win.isWindow(owner.hwnd)) ::User32.DestroyWindow(owner.hwnd); 
-					return;
-				}
-				owner._closed = true; 
-				
-				var p = owner[["_parentForm"]]; 
-				if( p  ){
-					p._ctrlHwnd[owner.hwnd]=null;
-					p._ctrlId[owner.id]=null;
-					p._ctrlAutoResize[owner.hwnd]=null;
+				if( ! owner.isForm ){
 					
-					if( ! owner.isForm ){
-						owner._closed = true;//控件窗口不考虑阻止 WM_CLOSE
+					var p = owner[["_parentForm"]]; 
+					if( p && p._ctrlHwnd[owner.hwnd] ){
 						
+						p._ctrlHwnd[owner.hwnd]=null;
+						p._ctrlId[owner.id]=null;
+						p._ctrlAutoResize[owner.hwnd]=null;
+						
+				
 						if( owner._onDestroy ) owner._onDestroy();
 						if( owner.onDestroy ) {
 							owner.onDestroy();
@@ -224,8 +219,8 @@ namespace metaProperty {
 							::DeleteObject( owner[["(ownFontHandle)"]]  );
 							owner[["(ownFontHandle)"]] = null;
 						}
-					}  
-				}
+					}
+				}  
 				
 				if( ..win.isWindow(owner.hwnd)  ){
 					::PostMessage(owner[["hwnd"]],0x10/*_WM_CLOSE*/,0,0);

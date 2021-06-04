@@ -28,9 +28,29 @@ namespace com {
 		if( !... ) return null,obj;
 		return TryGetObject(...); 
 	}; 
+	GetOrCreateObject = function(...){
+		return TryGetObject(...) || TryCreateObject(...)
+	};
 	isEnumerator = function(v){
 		var t,t2 = type(v);
 		return t=="table" && t2=="com._ENUMERATOR_COM_TYPE" && v.Next;
+	};
+	eachRunning = function(name){
+    	var r = {}
+		enumRunning( 
+			function(_,o){
+				try{
+					var n = GetTypeInfo(o).GetDocumentation().name;
+					if( !name || name == n ) ..table.push(r,{o,n});
+				}
+			}
+		)
+		
+		var k,v;
+		return function(){
+			k,v = ..table.next(r,k);
+			if(v) return v[1],v[2],k
+		}
 	};
 	each = function(obj) {
 		if (type(obj) == type.function) obj = obj();
@@ -65,7 +85,6 @@ end intellisense**/
 
 /**intellisense(com)
 each = @for index,obj in com.each(__) {\n\n} //迭代遍历com集合对象，参数可以直接传入COM迭代器
-enumRunning(回调函数) = @.enumRunning( \n	function(name,object){  \n		__/*枚举ROT（运行对象表）并获取COM对象,\n此回调函数返回true中止枚举*/\n	}\n)
 DoObjectVerb(.(OLE对象,-1) = 执行OLE对象的动词,\n参数2可使用_OLEIVERB_前缀常量
 SafeArrayV(.(数组,类型) = 转换为SAFEARRAY数组,\n参数@1可以是数组,字符串,buffer,也可以指定null值并转换为空数组,\n类型不指定时默认为VT_VARIANT,VT_VARIANT数组兼容VBS数组
 SafeArray(_VT__/*元素类型*/) = 创建COM安全数组,可增加一个或多个参数指定数组成员\n返回的数组是普通数组类型,但 数组@._safearray_type 指定了COM类型\nCOM函数自动支持此类数组，并在获取安全数组时自动转换为相同格式\n\n也可以使用 { _safearray = "字符串、缓冲区、或数组" } 创建COM安全数组
@@ -73,8 +92,9 @@ CreateEmbed(.(控制对象,窗体对象,progId) = 创建COM控件对象并嵌入
 CreateEmbed(.(控制对象,窗体对象,COM对象) = 将已存在的com.IDispatch控件对象嵌入窗口\n控制对象应当是一个table对象\n创建成功在控制对象中添加成员_host,_object,_form
 CreateObject("__") = 创建并返回com.IDispatch对象,参数@1可指定CLSID或ProgID,\n创建失败会抛出异常,使用com.TryCreateObject代替不会抛异常
 GetObject("__") = 从已运行的实例获取并返回com.IDispatch对象,\n参数@1可指定CLSID或ProgID,也可指定打开的文件路径,如doc文件,\n创建失败会抛出异常,使用com.TryGetObject代替不会抛异常
-TryCreateObject(.(cls,->->->) = 参数可指定一个名多个CLSID/ProgID,逐个测试直到创建成功,\n成功返回com.IDispatch对象,\n创建失败返回null,错误信息,不会抛出异常,\n参数@1可指定CLSID或ProgID
-TryGetObject("__") = 从已运行的实例获取并返回com.IDispatch对象,\n参数@1可指定一个或多个CLSID/ProgID,也可指定要打开的文件路径,如doc文件,\n\n创建失败返回null,错误信息,不会抛出异常
+TryCreateObject(.(cls,->->->) = 参数可指定一个或多个CLSID/ProgID,逐个测试直到创建成功,\n成功返回com.IDispatch对象,\n创建失败返回null,错误信息,不会抛出异常,\n参数@1可指定CLSID或ProgID
+TryGetObject("__") = 从已运行的实例获取并返回com.IDispatch对象,\n参数可指定一个或多个CLSID/ProgID,也可指定要打开的文件路径,如doc文件,\n\n创建失败返回null,错误信息,不会抛出异常
+GetOrCreateObject("__")  = 参数可指定一个或多个CLSID/ProgID,\n首先调用 com.TryGetObject 尝试获取并返回已运行的实例,\n如果失败则调用 com.TryCreateObject 函数尝试创建并返回对象,\n\n创建失败返回null,错误信息,不会抛出异
 QueryObject(__/*IUnknown指针*/ )  = 查询IDispatch接口、并创建com.IDispatch对象
 IsObject(__/*IDispatch对象*/) = 检测参数是否一个动态接口对象 
 GetPointer(.(com对象) = 获取IDispatch指针\n该指针返回前已调用AddRef增加COM引用计数,\n不再使用时必须及时调用com.Release释放
@@ -110,6 +130,10 @@ LoadTypeLibrary(.("->tlb") = 加载类型库\n参数可以是CLSID、类型库�
 LoadTypeLibrary() = !comTypeLib.
 GetTypeInfo() = !comTypeInfo.
 CreateEmbed() = !embedObject.
+enumRunning(回调函数) = @.enumRunning( \n	function(displayName,object){  \n		__/*枚举ROT（运行对象表）并获取COM对象,\n此回调函数返回true中止枚举*/\n	}\n)
+eachRunning(interfaceName) = @for object,interfaceName,index in com.eachRunning("IAcadApplication") {
+	__/*遍历ROT（运行对象表）\nobject为 COM 对象,name 为接口名称,index 为序号\n可选在参数中限定返回的接口名称*/
+} 
 end intellisense**/
 
 /**intellisense(!embedObject)

@@ -811,10 +811,8 @@ namespace win.form{
 				this[["_tTimeTicks"]][id] = null;  
 			} 
 			
-			//遍历控件 
 			for(hwnd,ctrl in this._ctrlHwnd){ 
 				if(  ! ctrl.isForm ){ 
-					ctrl._closed = true;//控件窗口不考虑阻止 WM_CLOSE
 					
 					if( ctrl._onDestroy )ctrl._onDestroy ();
 					if( ctrl.onDestroy){
@@ -865,6 +863,14 @@ namespace win.form{
 			this[["(__continueModal)"]] = null;//退出模态循环 
 			
 			_forms[hwnd] = null;  
+			
+			var parent = this[["_parentForm"]]; 
+			if( parent ){
+ 	        	parent._ctrlHwnd[this.hwnd]=null;
+				parent._ctrlId[this.id]=null;
+				parent._ctrlAutoResize[this.hwnd]=null;
+			}
+			
 			if( ..win.getStyle(hwnd,0x80/*_DS_MODALFRAME*/) ) return; 
 			if( ..win.getStyle(hwnd,0x40000000/*_WS_CHILD*/) ) {
 				if(this!==..mainForm)return; 
@@ -1742,7 +1748,6 @@ namespace win.form{
 					opt.marginTop = null;
 					opt.marginBottom = null;
 						
-			 		//创建控件
 					if(!opt.id) {
 						opt.id = owner._ctrlId.freeId;
 						owner._ctrlId.freeId = owner._ctrlId.freeId + 1;
@@ -1755,10 +1760,8 @@ namespace win.form{
 					
 					if( type(name) == type.string ){
 						var conflict = parent[name];
-						if( conflict[["hwnd"]] ){
-							if( ( ! conflict._closed ) && conflict.close ){
-								conflict.close();
-							}
+						if( conflict[["hwnd"]] && conflict.close ){
+							conflict.close();
 						}
 						parent[name] = ctrl;
 					} 
