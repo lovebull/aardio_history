@@ -43,7 +43,7 @@
 !winform.fullscreen(.(true) = 参数true切换到全屏,参数false取消全屏,\n不指定参数则切换全屏,\n返回值为当前是否全屏
 !winform.onCancel = @.onCancel = function(){\n    __/*按下ESC键触发此事件,\n如果全屏窗口定义了此事件,应在此自行退出全屏*/\n}
 !winform.onOk = @.onOk = function(){\n    __/*按下回车键触发此事件*/\n}
-!winform.onMinimized = @.onMinimized = function(){\n	__/*窗口最小化时回调此函数*/	\n}
+!winform.onMinimized = @.onMinimized = function(){\n	__/*窗口最小化时回调此函数\n可在此调用 process.emptyWorkingSet() 降低内存占用*/	\n}
 !winform.restoreFullScreen = 当前是否全屏状态
 !winform.getCtrlById(__/*输入控件ID*/) = 根据ID返回窗体控件
 !winform.getCtrl(__/*输入控件句柄*/) = 根据句柄返回窗体控件对象,\n参数可以是控件句柄，或控件的子窗口句柄

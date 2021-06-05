@@ -154,6 +154,7 @@ class plus {
 		 this[["(iconFontOrig)"]] = null;
 	}
 	updateBitmapCache = function(erase){
+		if( owner._closed ) return;
 		if( this.$bitmapCacheUpdating ) return;
 		if( this.cacheBitmap ) { 
 			..gdip.DeleteCachedBitmap(this.cacheBitmap);
@@ -177,7 +178,7 @@ class plus {
 		var winform = owner[["_parentForm"]];
 		var clipBk = erase && !this.transparent && winform && this.clipBk && (!this.cacheOrphanWindowRect__ );
 		var clipBkRect;
-		if( clipBk ){ 
+		if( clipBk && winform.background ){ 
 			var hdc = graphics.getDc();
 			clipBkRect = ..win.getRect(owner.hwnd);
 			if( this.parent != winform) ..win.mapRect(this.parent.hwnd,winform.hwnd,clipBkRect);

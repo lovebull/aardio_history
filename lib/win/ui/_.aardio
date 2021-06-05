@@ -828,6 +828,8 @@ namespace win.form{
 						::DeleteObject( ctrl[["(ownFontHandle)"]]  );
 						ctrl[["(ownFontHandle)"]] = null;
 					}
+					
+					ctrl._closed = true;
 				}
 			}
 			
@@ -836,9 +838,6 @@ namespace win.form{
 				this[["(ownFontHandle)"]] = null;
 			}
    				
-			this.background.delete();
-			this.background = null;
-				
 			for(k,ctrl in this._onlyDirectDrawBackground){
    				if( ctrl._onDestroy )ctrl._onDestroy ();
    				if( ctrl.onDestroy){
@@ -863,6 +862,9 @@ namespace win.form{
 			this[["(__continueModal)"]] = null;//退出模态循环 
 			
 			_forms[hwnd] = null;  
+			
+			this.background.delete();
+			this.background = null;
 			
 			var parent = this[["_parentForm"]]; 
 			if( parent ){

@@ -534,6 +534,9 @@ class process {
 	asmThiscall = function( proto,... ){ 
 		return this.asm( {...} ,proto,"thiscall")  
 	};
+	emptyWorkingSet = function(){
+		if(this.handle) return !!::Psapi.EmptyWorkingSet(this.handle)
+	}
 	@{_topointer = lambda() this.handle}  
 }
 
@@ -657,6 +660,10 @@ namespace process{
 
 	getId  = Kernel32.api("GetCurrentProcessId","INT()") 
 	getHandle  = Kernel32.api("GetCurrentProcess","pointer()") 
+	emptyWorkingSet = function(){
+		collectgarbage("collect");
+		return !!::Psapi.EmptyWorkingSet(getHandle())
+	}
 	
 	getInfo = function(handle){
  		var info = {  
@@ -1139,6 +1146,7 @@ process.shellAs() = !process.
 !process.assignToJobObject(.(hJob) = 绑定到作业对象,成功返回true\n作业对象示例请参考标准库process.job.limitKill的源码。
 !process.ctrlEvent(0)=发送Ctrl+C(SIGINT信号)\n信号将传递到与目标进程控制台连接的所有非分离控制台进程\n64位目标进程会导致当前控制台暂时关闭
 !process.ctrlEvent(1)=发送Ctrl+Break(SIGBREAK信号)\n信号将传递到与目标进程控制台连接的所有非分离控制台进程\n64位目标进程会导致当前控制台暂时关闭
+!process.emptyWorkingSet() = 将工作集中的内存尽可能移动到页面文件中,\n应发在最小化或程序空闲内存确实暂不需要使用时调用,\n不应频繁调用此函数
 ?process = !process.
 ?process.each = !processEntry.
 end intellisense**/
@@ -1176,6 +1184,7 @@ dup(.(句柄,源进程句柄,目标进程句柄) = 进程句柄参数省略则�
 dup(.(句柄,源进程句柄) = 从指定进程复制句柄到当前进程
 dup(.(句柄,,目标进程句柄) = 复制句柄到目标进程句柄
 environment() = 返回当前进程的所有环境变量组成的字符串\n键与值之间使用等号分隔,每个键值对中间以'\0'分隔\n尾部没有'\0'
+emptyWorkingSet() = 将工作集中的内存尽可能移动到页面文件中,\n应发在最小化或程序空闲内存确实暂不需要使用时调用,\n不应频繁调用此函数
 end intellisense**/
  
 /**intellisense(!startinfo)

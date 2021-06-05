@@ -219,6 +219,8 @@ namespace metaProperty {
 							::DeleteObject( owner[["(ownFontHandle)"]]  );
 							owner[["(ownFontHandle)"]] = null;
 						}
+						
+						owner._closed = true;
 					}
 				}  
 				
@@ -916,7 +918,11 @@ namespace metaProperty {
     			var k = 0;
 				owner[["lastReduceId"]] = owner.setInterval(function(){
 						k = (k + 1);
-						if( k > #a ) k = 1; 
+						if( k > #a) {
+							k = 0; 
+							return proc() : 0
+						}
+						
 						return proc(a[k],k) : 0;
 					},1 
 				)
