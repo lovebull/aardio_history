@@ -1,12 +1,5 @@
-//嵌入electron
-import win.ui;
-/*DSG{{*/
-var winform = win.form(text="在aardio中嵌入electron";right=1276;bottom=767;bgcolor=16777215;border="none";clipch=1)
-winform.add(
-custom={cls="custom";text="custom";left=80;top=8;right=1262;bottom=763;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;z=1};
-)
-/*}}*/
-
+//创建应用
+ 
 //如果希望自动安装electron到系统目录,请先导入electron.runtime 
 import electron.runtime;
 import electron.app;//导入electron扩展库
@@ -15,7 +8,7 @@ import electron.app;//导入electron扩展库
 这句的作用是把electron嵌入aardio窗口,
 用主窗口或子窗口放electron都可以,子窗口的四边固定边距属性都设为true，以支持自动缩放
 */
-var theApp = electron.app(winform.custom);
+var theApp = electron.app();
 
 //这是启动electron主进程的main.js
 theApp.jsMain =/**  
@@ -107,17 +100,14 @@ theApp.external = {
     
     ex = {
         hello = function(...){
-        	winform.msgbox( {...} ,"electron调用了aardio函数 hello " )
+        	win.msgbox( {...} ,"electron调用了aardio函数 hello " )
         	return "electron,我是aardio.ex.hello，一起玩怎么样！？"
         } 
     }
-    
-    hitCaption = function(){
-    	winform.hitCaption();//拖动主窗口，模拟标题栏
-    } 
+     
     
     exit = function(){
-    	winform.close();//关闭主窗口，退出程序
+    	theApp.close();//关闭主窗口，退出程序
     }
     
     //如果函数名第一个字符是$，则第一个回调参数$用于表示当前客户端,可作为xcall的参数使用
@@ -158,17 +148,12 @@ theApp.start(
 
 //调查任务结束，JS代码汇报结果到这里
 theApp.callback("getUrl",function(hSocket,result,err){
-	winform.msgbox(result,"打开了页面")
+	win.msgbox(result,"打开了页面")
 })
 
 theApp.onReady = function(){
 	//对所有页面发起调查任务,
 	theApp.survey("getUrl");
 } 
-
-//来点窗口阴影
-import win.ui.shadow;
-win.ui.shadow(winform);
-
-winform.show() 
+ 
 win.loopMessage();

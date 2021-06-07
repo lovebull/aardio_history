@@ -1,17 +1,10 @@
 //主进程通信
-import win.ui;
-/*DSG{{*/
-var winform = win.form(text="在aardio中嵌入electron";right=1276;bottom=767;bgcolor=16777215;border="none";clipch=1)
-winform.add(
-custom={cls="custom";text="custom";left=80;top=8;right=1262;bottom=763;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;z=1}
-)
-/*}}*/
-
+ 
 import electron.runtime;//自动安装electron到系统目录
 import electron.app;//导入electron扩展库
 
 // 如果第3个参数为true，可以查看js主进程里的console.log输出
-var app = electron.app(winform.custom,,true);//子窗口的四边固定边距属性都设为true，以支持自动缩放
+var app = electron.app( ,,true);//子窗口的四边固定边距属性都设为true，以支持自动缩放
 
 /*
 electron是多进程运行环境，
@@ -97,7 +90,7 @@ app.external = {
 这样可以避免创建大量重复的回调函数，客户端我们把方便放第一位，而服务端要稍加考虑性能的问题。
 */
 app.callback("main.hello",function(hSocket,result,err){
-	winform.msgbox(result : err,"调用electron主进程的main.add函数以后返回值了");
+	win.msgbox(result : err,"调用electron主进程的main.add函数以后返回值了");
 })
 
 //electron窗口准备就绪会触发这个函数
@@ -113,13 +106,5 @@ app.ws.onError = function(hSocket,err){
 //正式的启动electron进程，并打开主页
 app.start("/res/main.aardio");
 
-//来点窗口阴影
-import win.ui.shadow;
-win.ui.shadow(winform);
 
-//再来个可拖动缩放的窗口边框
-import win.ui.resizeBorder;
-win.ui.resizeBorder(winform);
-
-winform.show() 
 win.loopMessage();

@@ -9,7 +9,8 @@ namespace web.rpc{
 		ctor(){
 			this.ws = ..web.socket.server(); 
 			this.rpc = ..web.socket.jsonServer(this.ws);
-			this.http = this.ws.httpServer;
+			this.http = this.ws.httpServer; 
+			
 			this.httpHandler = {
 				["/aardio.js" ] = function(response,request){
 					var ip,port = this.ws.getLocalIp();
@@ -148,9 +149,19 @@ namespace web.rpc{
 			
 			this.http.run( 
 				function(response,request){
-					response.headers["Access-Control-Allow-Origin"] = "*";
 					response.headers["Access-Control-Allow-Headers"] = "Content-Type, Rpc-Client-Id, *"
-	
+					
+					if(!this.accessControlAllowOrigin){
+						response.headers["Access-Control-Allow-Origin"] = "*";
+					}
+					else{
+						var origin = request.headers["origin"]
+						if( origin && this.accessControlAllowOrigin[[ origin ]]){
+							response.headers["Access-Control-Allow-Origin"] = origin
+							response.headers["Vary"] = "Origin";
+						}
+					}
+					 
 					if(request.method != "OPTIONS"){
 						var handler = this.httpHandler[request.path];
 						if( handler ) return handler(response,request);
@@ -186,6 +197,12 @@ declare global {
 export {};
 ```
 
+4、如果要限制调用 aardio 函数的域名，可以这样写
+
+rpcServer.accessControlAllowOrigin = {
+	["http://example.com"] = true
+}
+
 end details**/
 
 /**intellisense()
@@ -199,6 +216,7 @@ getUrl("/aardio->js__") = 参数指定资源文件路径,\n转换并返回为可
 ws = aardio创建的WebSocket服务器\n!stdwebsocketserver.
 rpc = aardio创建的JSON-RPC服务端\n!stdwebsocketjsonserver.
 http = aardio创建的HTTP服务器\n!stdasynHttpServer.
+accessControlAllowOrigin = 指定允许写入 Access-Control-Allow-Headers 响应头的站点地址\n此属性必须为 null 或者指定为一个表对象,\n表的键为允许跨域调用的站点地址,值必须为 true
 publish(.(method,->->->) = 主动向所有客户端发送通知\nmethod指定网页客户端方法名,\n可添加任意个调用参数
 survey(.(method,->->->) = 发起调查任务,\n调用所有网页客户端的同名函数,\nmethod指定客户端方法名,\n可添加任意个调用参数\n\n请使用callback函数指定调查结束后客户端回调的函数
 notify(.($,"method",->->->) = 调用指定chrome函数,但不需要客户端回调反馈,\n\n参数@1指定客户端套接字句柄,\nRPC服务端远程回调函数名首字符为$时,\n第一个回调$参数即为当前客户端套接字句柄,\n除非熟悉getActiveSocket函数导致的潜在问题,请不要省略$参数

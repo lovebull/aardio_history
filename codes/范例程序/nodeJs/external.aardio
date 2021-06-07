@@ -1,4 +1,4 @@
-﻿//aardio,nodeJs互调函数
+//aardio,nodeJs互调函数
 import win.ui;
 /*DSG{{*/
 var winform = win.form(text="RPC 服务端 - 支持任意本地网页调用 aardio 函数";right=759;bottom=469)
@@ -20,8 +20,14 @@ externalServer.external = {
 		winform.edit.print("external.test 被调用",...)
 		return "aardio 函数返回的值"
 	}
-	log = function(...){
-		winform.edit.print("external.log 被调用",...)
+	tag = function(strs,...){
+		var args = {...}
+		for(i=#args;1;-1){
+			table.insert(strs,args[i],i+1);
+		}
+		
+		strs = string.join(strs);
+		return strs;
 	}
 }
 
@@ -36,14 +42,20 @@ import nodeJs;
 nodeJs.prequire(winform.edit,'ws');
 nodeJs.prequire(winform.edit,'aardio');
 
-//运行 Node.js 代码
-var node = nodeJs.exec(`
+var js  =/*
 var aardio = require('aardio') 
-aardio.test(123).then( v=>{ aardio.log(v) } );
+aardio.test(123).then( v=>{ console.log(v) } );
 
 aardio.on("testJs",function(...values){
-	aardio.log("Node.js 函数 testJs 被调用",...values) 
-})`); 
+	console.log("Node.js 函数 testJs 被调用",...values) 
+})
+
+//用 aardio 解析模板字符串
+const $ = aardio.tag;
+$`abc${123}ddd${456}`.then( v=> console.log("模板字符串:",v)  )
+*/
+//运行 Node.js 代码
+var node = nodeJs.exec(js); 
 
 //窗体退出时结束 nodeJs 进程
 winform.onDestroy = function(){

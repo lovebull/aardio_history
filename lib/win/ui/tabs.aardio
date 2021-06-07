@@ -152,10 +152,6 @@ class tabs{
 			menu.popup(rect.right,rect.bottom);
 		}
 		
-		this.dropButton.preadjust = function(){
-			this.adjustLayout();
-		} 
-		
 		this.margin = this.dropButton.width;
 		this.margin = this.margin + ..math.max(this.itemMargin,10 )
 		this.dropButtonMargin = ..math.max(this.itemMargin,10 )
@@ -264,6 +260,10 @@ class tabs{
 				
 				return this.onFocusLost(hFocusGot);
 			}
+		}
+		
+		this.dropButton.preadjust = function(){
+			this.adjustLayout();
 		}
 
 		for(i=1;#this.strips;1){ 

@@ -1,14 +1,9 @@
 //模拟自动化
-import win.ui;
-/*DSG{{*/
-var winform = win.form(text="electron模拟自动化";right=1117;bottom=790)
-winform.add()
-/*}}*/
-
+ 
 import electron.runtime;
 import electron.app;
 
-var app = electron.app(winform);
+var app = electron.app();
 
 //这是启动electron主进程的main.js
 app.jsMain =/**  
@@ -75,6 +70,5 @@ app.external = {
 
 
 app.start( "/res/main.aardio" );
-
-winform.show();
+ 
 win.loopMessage();

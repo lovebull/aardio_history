@@ -393,13 +393,16 @@ class app{
 		
 		this.ws.start(this.serverIp,this.serverPort);
 		this.http.run( 
-    		function(response,request){
+    		function(response,request,session){
     			response.headers["Access-Control-Allow-Origin"] = "*";
     			response.headers["Access-Control-Allow-Headers"] = "Content-Type, Rpc-Client-Id, *"
 
     			if(request.method != "OPTIONS"){
     				var handler = this.httpHandler[request.path];
-    				if( handler ) return handler(response,request);
+    				if( handler ) {
+						if(type.isString(handler)) return response.write(handler) 
+						return handler(response,request,session);
+					}
         			response.loadcode( request.path);
         		}
     		} 	
@@ -675,7 +678,7 @@ onUrlReady = @.onUrlReady = function(hSocket,url){
     __/*页面加载完成并且页面上的DOM内容、aardio模块都已准备就绪*/
 }
 httpHandler = @.httpHandler["/test.js" ] = function(response,request){
-	__/*自定义HTTP处理程序\n键为请求的路径,值为处理函数*/
+	__/*自定义HTTP处理程序\n键为请求的路径,值为处理函数或者HTML代码*/
 }
 getUrl("/res/__") = 将资源文件路径转换为HTTP服务端网址
 onQuit = @.onQuit = function(){

@@ -43,7 +43,7 @@
 0|0|0|codes\范例程序\语言扩展\
 0|0|0|codes\范例程序\调试技术\
 0|0|0|codes\范例程序\音频视频\
--123077575|1645|1003|codes\范例程序\Chrome\app.aardio
+474349133|1948|1189|codes\范例程序\Chrome\app.aardio
 -1429946749|1521|856|codes\范例程序\Chrome\driver.aardio
 -894008657|1983|910|codes\范例程序\Chrome\extensions.aardio
 -1180573278|3389|1297|codes\范例程序\Chrome\remote.aardio
@@ -107,12 +107,12 @@
 -416765659|919|527|codes\范例程序\Edge\4.waitEle.aardio
 -1161925021|963|667|codes\范例程序\Edge\5.transparent.aardio
 454340252|1603|916|codes\范例程序\Edge\6.Cesium.aardio
--2093979169|1631|930|codes\范例程序\Electron\1) go.aardio
-310860010|5166|2472|codes\范例程序\Electron\2) electron.aardio
+640574177|1299|773|codes\范例程序\Electron\1) go.aardio
+-112117244|4666|2262|codes\范例程序\Electron\2) electron.aardio
 -2050948046|4171|1901|codes\范例程序\Electron\3) remoteDebugging.aardio
--975858956|4314|2213|codes\范例程序\Electron\4) main.js.aardio
+2006630094|3819|1989|codes\范例程序\Electron\4) main.js.aardio
 -1786913875|1491|685|codes\范例程序\Electron\5) multiWindow.aardio
-813031966|1901|999|codes\范例程序\Electron\6) webview.aardio
+-544786884|1751|925|codes\范例程序\Electron\6) webview.aardio
 0|0|0|codes\范例程序\Electron\res\
 -1083564121|1363|775|codes\范例程序\Electron\res\main.aardio
 -1482158456|1651|991|codes\范例程序\FreeBASIC语言\dll.aardio
@@ -146,7 +146,7 @@
 -1752855267|1004|601|codes\范例程序\Java语言\java\aardio\sample\HelloworldApp.class
 1427592867|1147|690|codes\范例程序\Java语言\java\aardio\sample\HelloworldApp.java
 685856506|1328|642|codes\范例程序\nodeJs\asar.aardio
-1605779940|1563|808|codes\范例程序\nodeJs\external.aardio
+-1338338433|1795|959|codes\范例程序\nodeJs\external.aardio
 680248643|1101|639|codes\范例程序\nodeJs\jsonRpc.aardio
 632758955|1970|1085|codes\范例程序\nodeJs\WebSocketRpc.aardio
 -525894719|292|192|codes\范例程序\PHP语言\begin.end.aardio
@@ -228,7 +228,7 @@
 -1328745513|1376|633|codes\范例程序\Web应用\REST\jsonClient.aardio
 -1352086808|815|556|codes\范例程序\Web应用\REST\jsonLiteClient.aardio
 -1516212240|714|449|codes\范例程序\Web应用\REST\yuque.aardio
-2030651584|1694|882|codes\范例程序\Web应用\RPC\externalServer.aardio
+-1842430229|2987|1507|codes\范例程序\Web应用\RPC\externalServer.aardio
 -1076086495|1539|635|codes\范例程序\Web应用\WebSocket\client.aardio
 -123752706|2064|951|codes\范例程序\Web应用\WebSocket\server.aardio
 1859265692|1570|802|codes\范例程序\Web应用\WebSocket\_jsonClient.aardio
@@ -236,6 +236,7 @@
 -577820950|2109|934|codes\范例程序\Web应用\XML\msxml.aardio
 1368770124|423|330|codes\范例程序\Web应用\XML\SOAP.aardio
 1901782767|2747|1377|codes\范例程序\Web应用\XML\xml.aardio
+-826294862|2257|1158|codes\范例程序\Web窗体应用\httpServer.aardio
 1402073285|529|404|codes\范例程序\Web窗体应用\ie8Later.aardio
 0|0|0|codes\范例程序\Web窗体应用\jQuery\
 0|0|0|codes\范例程序\Web窗体应用\queryEles\
@@ -645,7 +646,7 @@
 -1251330719|710656|301687|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
-2064718800|15|34|config\SYS.CFG
+1923569659|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 1935420926|109748|28788|config\intellisense\kernel.txt
@@ -1216,7 +1217,7 @@
 162527712|1570|612|lib\bencoding\encoder.aardio
 151425416|723|419|lib\bencoding\magnet.aardio
 -1895578078|54|49|lib\bencoding\_.aardio
-1987934892|21754|6663|lib\chrome\app.aardio
+123373902|21869|6708|lib\chrome\app.aardio
 814582489|3559|1728|lib\chrome\dev.aardio
 991338471|31375|7714|lib\chrome\driver.aardio
 1141455353|1023|497|lib\chrome\edge.aardio
@@ -1316,7 +1317,7 @@
 0|0|0|lib\electron\app\
 0|0|0|lib\electron\runtime\
 0|0|0|lib\electron\app\.build\
-1199969952|28457|8005|lib\electron\app\_.aardio
+1825097884|28570|8053|lib\electron\app\_.aardio
 0|0|0|lib\electron\app\.build\aardio\
 -706361506|9168|3018|lib\electron\app\.build\main.aardio
 1277351621|115071|24902|lib\electron\app\.build\ws.asar
@@ -1441,7 +1442,7 @@
 -67895191|6776|2200|lib\mouse\draw.aardio
 -543039773|2307|1134|lib\mouse\hook.aardio
 -1802899828|8346|2366|lib\mouse\_.aardio
--1631685081|17338|3855|lib\nodeJs\_.aardio
+980722794|17197|3868|lib\nodeJs\_.aardio
 0|0|0|lib\preg\.res\
 248544567|14432|4037|lib\preg\_.aardio
 1855787250|145920|63851|lib\preg\.res\pcre.dll
@@ -1673,7 +1674,7 @@
 987796269|2040|943|lib\web\rest\jsonLiteClient.aardio
 -1371514947|1802|821|lib\web\rest\qywx.aardio
 -1065509177|680|424|lib\web\rest\xmlClient.aardio
--1106646968|10076|3493|lib\web\rpc\externalServer.aardio
+1107617982|10765|3701|lib\web\rpc\externalServer.aardio
 2007378535|8001|2821|lib\web\rpc\jsonClient.aardio
 812597022|7260|2326|lib\web\rpc\jsonServer.aardio
 -2014910930|2909|917|lib\web\soapClient\parameters.aardio
@@ -1762,7 +1763,7 @@
 32216182|3600|1436|lib\win\ui\simpleWindow2.aardio
 2092266129|3015|1269|lib\win\ui\simpleWindow3.aardio
 -1098848637|3596|1316|lib\win\ui\statusbar.aardio
--852368677|43711|10961|lib\win\ui\tabs.aardio
+-296597406|43710|10959|lib\win\ui\tabs.aardio
 499386293|10052|2964|lib\win\ui\toolbar.aardio
 -617068702|10681|3284|lib\win\ui\tooltip.aardio
 -1766920331|10172|2781|lib\win\ui\tracker.aardio
