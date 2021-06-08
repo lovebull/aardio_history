@@ -219,11 +219,12 @@ exec = function(code,param,...){
 self.eval = function(js){
     if(!install())return;
     
-    var prcs,err = ..process.popen(nodeExePath,{"-p";js},{workdir=..io.fullpath(self.workDir)});
+    var prcs,err = ..process.popen(nodeExePath,{"-p";"JSON.stringify("+js+")"},{workdir=..io.fullpath(self.workDir)});
     
 	if(prcs){ 
 		prcs.codepage = 65001; 
-		var ret =  ..web.json.tryParse( prcs.read(-1) );
+		var str  = prcs.read(-1) 
+		var ret =  ..web.json.tryParse( str );
 		
 		var err = prcs.readErr(-1);
 		prcs.close();
@@ -238,14 +239,25 @@ self.eval = function(js){
 	return null,err;
 }
 
+requireResolve =  function(module){
+	return self.eval(`require.resolve("`+module+`")`)
+}
+
+
 require = function(module){ 
     if(!install())return;  
-	cnpm("install","-g",module);	
+     
+    if(!requireResolve(module) ){
+		cnpm("install","-g",module);	
+	}
 }
 
 prequire = function(echo,module){ 
     if(!install())return; 
-	pcnpm(echo,"install","-g",module);
+     
+    if(!requireResolve(module) ){
+    	pcnpm(echo,"install","-g",module); 
+    } 
 }
 
 exist = function(module){ 
@@ -288,7 +300,7 @@ prefix = function(){
 cnpm = function(param,...){ 
     if(!install())return;
 
-	if( !..io.exist( ..io.joinpath(prefix(),"\node_modules\cnpm" )) ){
+	if( !requireResolve("cnpm") ){
 		npm("install",,"--force","-g","cnpm","--registry=https://registry.npm.taobao.org");
 	}
 	
@@ -496,6 +508,7 @@ npmget(__) = 执行npm命令并获取输出字符串,\n默认工作目录为 nod
 cmd(.("命令文件名",其他命令行参数->->->) = 运行node命令,\n此函数会打开控制台,\n\n第一个参数指定cmd命令,可选自第二个参数开始指定命令行参数\n多个命令行参数则调用 process.joinArguments 合并,\n不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号
 pcmd(.("命令文件名",其他命令行参数->->->) = 创建进程管道运行node命令,返回 process.popen 对象,\n默认工作目录为 nodeJs.workDir\n此函数会打开控制台,\n\n第一个参数指定cmd命令,可选自第二个参数开始指定命令行参数\n多个命令行参数则调用 process.joinArguments 合并,\n不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号
 cmdget(.("命令文件名",其他命令行参数->->->) = 运行node命令并获取输出字符串,n此函数不会打开控制台,\n\n第一个参数指定cmd命令,可选自第二个参数开始指定命令行参数\n多个命令行参数则调用 process.joinArguments 合并,\n不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号
+requireResolve(__) = 参数输入 Node.js 模块名,\n查找并返回该模块安装路径
 require(__) = 如果参数指定的模块不存在，全局安装该模块\n如果系统已安装了node，可能会安装到系统目录\n使用nodeJs.prefix函数获取全局模块安装路径
 prequire(.(echo,"module") = 如果参数指定的模块不存在，全局安装该模块\n如果系统已安装了node，可能会安装到系统目录\n使用nodeJs.prefix函数获取全局模块安装路径
 freePort() = 分配新的服务端可用端口\n在node.js中可使用process.env.PORT获取分配的端口号

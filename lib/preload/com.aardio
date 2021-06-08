@@ -23,7 +23,7 @@ namespace com {
 		return TryCreateObject(...); 
 	};
 	TryGetObject = function(cls,...){
-		var ok,obj = call(GetObject,self,cls)
+		var ok,obj = call(self.GetObject,self,cls)
 		if( ok ) return obj;
 		if( !... ) return null,obj;
 		return TryGetObject(...); 

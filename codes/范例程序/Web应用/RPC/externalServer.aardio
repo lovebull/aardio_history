@@ -49,7 +49,7 @@ externalServer.httpHandler["/test.html"] = function(response,request){
         <script>
         /*
         也可以在前端源码中用 npm i aardio 安装 aardio.js ,
-        然后市调用 aardio.open( RPC端口号 ) 打开 RPC 服务器，
+        然后再调用 aardio.open( RPC端口号 ) 打开 RPC 服务器，
         这种方式必须事先知道端口号，不能自动分配动态的空闲端口。
         而且在 RPC 连接成功以前，只能使用 aardio.xcall 调用 aardio 函数。
         但直接引用 RPC 服务器提供的 aardio.js 可以自动连接，并在连接成功以前事先建立创建函数。

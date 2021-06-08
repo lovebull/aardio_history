@@ -262,9 +262,8 @@ class app{
 		if( this._form ){
 			var screenWidth,screenHeight = ..win.getScreen();
 			startEnviron.browserWindow = ..table.assign(startEnviron.browserWindow,{
-				//frame = false;
-        		resizable = false;
-        		frame = true;
+				frame = false;
+        		resizable = false; 
         		maximizable = true;
         		center = false;
         		width = 0;

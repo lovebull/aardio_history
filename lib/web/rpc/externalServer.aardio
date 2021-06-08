@@ -102,29 +102,9 @@ namespace web.rpc{
 		getUrl = function(path){
 			return this.http.getUrl(path);
 		};
-		ready = function(proc){
-			if(this.hwndChrome){proc(this.hwndChrome);}
-			else {..table.push(this.$readyCallbacks,proc);} 
-		};
-		indexReady = function(proc){
-			if(this.$indexReady){proc();}
-			else {..table.push(this.$indexReadyCallbacks,proc);} 
-		};
 		start = function(serverPort,serverIp){
 			this.external = ..table.assign( this.external,{ 
 				$onUrlReady = function($,url){
-					if(!this.$indexReady){
-						this.$indexReady = true;
-						if( this.onIndexReady ) this.onIndexReady();
-						
-						var $indexReadyCallbacks = this.$indexReadyCallbacks;
-						for(i=1;#$indexReadyCallbacks;1){
-							var p = $indexReadyCallbacks[i]
-							p();
-						}
-						this.$indexReadyCallbacks = {};					
-					} 
-					
 					if(this.onUrlReady){ this.onUrlReady($,url); }
 				};
 			})
@@ -227,10 +207,6 @@ external = @.external = {
 	__/*可以在这里指定允许chrome访问的对象和函数\n在chrome里引用虚拟的"/aardio.js"导入aardio对象即可访问这里的成员函数,\n请在调用start函数以前设置此对象*/
 }
 getActiveSocket() = 获取RPC服务端当前活动套接字句柄\n,任何触发消息处理、异步套接字处理程序的代码都有可能改变这个函数的返回值\n任何时候都不推荐使用此函数\n\n更好的替代方案是在RPC函数名前添加$字符,用于通知aardio在回调参数中添加$参数\n回调$参数可以稳定可靠的获取当前套接字
-indexReady = @.indexReady(\n	function(){\n		__/*如果加载首页已完成,\n并且页面上的DOM内容、aardio模块都已准备就绪,\n将立即执行在此注册的回调函数,\n可重复添加回调，并保证按添加的前后顺序调用且仅调用一次*/\n	} \n)
-onIndexReady = @.onIndexReady = function(){
-	__/*主窗口首次加载完成startEnviron.indexUrl指定的首页,\n并且页面上的DOM内容、aardio模块都已准备就绪*/
-}
 onUrlReady = @.onUrlReady = function(hSocket,url){
 	__/*页面加载完成并且页面上的DOM内容、aardio模块都已准备就绪*/
 }

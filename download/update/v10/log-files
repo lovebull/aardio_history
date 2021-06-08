@@ -228,7 +228,7 @@
 -1328745513|1376|633|codes\范例程序\Web应用\REST\jsonClient.aardio
 -1352086808|815|556|codes\范例程序\Web应用\REST\jsonLiteClient.aardio
 -1516212240|714|449|codes\范例程序\Web应用\REST\yuque.aardio
--1842430229|2987|1507|codes\范例程序\Web应用\RPC\externalServer.aardio
+-773702800|2987|1507|codes\范例程序\Web应用\RPC\externalServer.aardio
 -1076086495|1539|635|codes\范例程序\Web应用\WebSocket\client.aardio
 -123752706|2064|951|codes\范例程序\Web应用\WebSocket\server.aardio
 1859265692|1570|802|codes\范例程序\Web应用\WebSocket\_jsonClient.aardio
@@ -646,7 +646,7 @@
 -1251330719|710656|301687|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
-1923569659|15|34|config\SYS.CFG
+-809437136|13|32|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 1935420926|109748|28788|config\intellisense\kernel.txt
@@ -1317,12 +1317,12 @@
 0|0|0|lib\electron\app\
 0|0|0|lib\electron\runtime\
 0|0|0|lib\electron\app\.build\
-1825097884|28570|8053|lib\electron\app\_.aardio
+-694609702|28544|8047|lib\electron\app\_.aardio
 0|0|0|lib\electron\app\.build\aardio\
 -706361506|9168|3018|lib\electron\app\.build\main.aardio
 1277351621|115071|24902|lib\electron\app\.build\ws.asar
 112961119|7531|2390|lib\electron\app\.build\aardio\index.d.ts
--71165174|17606|4131|lib\electron\app\.build\aardio\index.js
+-492560641|17808|4177|lib\electron\app\.build\aardio\index.js
 1091368792|1523|836|lib\electron\runtime\_.aardio
 0|0|0|lib\fastcgi\client\
 2115999491|3941|1338|lib\fastcgi\iisInstall.aardio
@@ -1442,11 +1442,11 @@
 -67895191|6776|2200|lib\mouse\draw.aardio
 -543039773|2307|1134|lib\mouse\hook.aardio
 -1802899828|8346|2366|lib\mouse\_.aardio
-980722794|17197|3868|lib\nodeJs\_.aardio
+-1526823615|17492|3962|lib\nodeJs\_.aardio
 0|0|0|lib\preg\.res\
 248544567|14432|4037|lib\preg\_.aardio
 1855787250|145920|63851|lib\preg\.res\pcre.dll
-1106217743|14711|5017|lib\preload\com.aardio
+-223805424|14716|5022|lib\preload\com.aardio
 -950188223|2710|1504|lib\preload\io.aardio
 5595517|3378|1416|lib\preload\math.aardio
 404185541|2509|1304|lib\preload\raw.aardio
@@ -1674,7 +1674,7 @@
 987796269|2040|943|lib\web\rest\jsonLiteClient.aardio
 -1371514947|1802|821|lib\web\rest\qywx.aardio
 -1065509177|680|424|lib\web\rest\xmlClient.aardio
-1107617982|10765|3701|lib\web\rpc\externalServer.aardio
+1254248470|9694|3416|lib\web\rpc\externalServer.aardio
 2007378535|8001|2821|lib\web\rpc\jsonClient.aardio
 812597022|7260|2326|lib\web\rpc\jsonServer.aardio
 -2014910930|2909|917|lib\web\soapClient\parameters.aardio
