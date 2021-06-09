@@ -2,10 +2,8 @@
 import process;
 namespace sys.mem;
 
-GlobalMemoryStatusEx = ::Kernel32.api("GlobalMemoryStatusEx","void(struct& lpBuffer)");
-
 class MEMORYSTATUSEX{
-	INT length;
+	INT cbSize;
 	INT memoryLoad; 
 	struct totalPhys =  {
     	INT size;
@@ -39,9 +37,9 @@ class MEMORYSTATUSEX{
 
 function getInfo(){ 
 	var info = MEMORYSTATUSEX();
-	info.length = ..raw.sizeof(info);
+	info.cbSize = ..raw.sizeof(info);
 	
-	var ok = GlobalMemoryStatusEx( info ) ;
+	var ok = ::Kernel32.GlobalMemoryStatusEx( info ) ;
 	for(k,v in info){ 
 		if( v[["size"]] !== null ){   
 			v.formatSize = ..math.size64(v.size,v.sizeHighPart).format(); 

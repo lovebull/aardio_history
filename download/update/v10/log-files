@@ -646,7 +646,7 @@
 -1251330719|710656|301687|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--809437136|13|32|config\SYS.CFG
+1998625012|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 1935420926|109748|28788|config\intellisense\kernel.txt
@@ -1452,7 +1452,7 @@
 404185541|2509|1304|lib\preload\raw.aardio
 -1477368079|9880|3491|lib\preload\string.aardio
 -1931878713|6069|1900|lib\preload\struct.aardio
-970834022|18704|5749|lib\preload\table.aardio
+-773177975|18728|5761|lib\preload\table.aardio
 -794133190|11340|3971|lib\preload\thread.aardio
 -1844229329|11765|4248|lib\preload\_.aardio
 25183219|5007|1983|lib\process\admin.aardio
@@ -1569,7 +1569,7 @@
 -2019551144|1690|805|lib\sys\display.aardio
 697079004|4720|1669|lib\sys\hd.aardio
 58785228|1466|692|lib\sys\info.aardio
--1265500989|1812|698|lib\sys\mem.aardio
+1083785741|1732|662|lib\sys\mem.aardio
 -1545231223|5137|1893|lib\sys\monitor.aardio
 -1918970753|2402|812|lib\sys\mpPreference.aardio
 904970038|5064|1722|lib\sys\networkIsolation.aardio
@@ -1788,7 +1788,7 @@
 -304732565|7669|2694|lib\win\ui\ctrl\picturebox.aardio
 1462837102|81623|19129|lib\win\ui\ctrl\plus.aardio
 53463247|5818|2105|lib\win\ui\ctrl\progress.aardio
--460399831|36840|10717|lib\win\ui\ctrl\richedit.aardio
+-1249727273|37327|10887|lib\win\ui\ctrl\richedit.aardio
 1154239158|5807|2206|lib\win\ui\ctrl\scrollbar.aardio
 -968203203|7416|2876|lib\win\ui\ctrl\spin.aardio
 -1127563964|9016|2921|lib\win\ui\ctrl\splitter.aardio

@@ -16,7 +16,7 @@ class richedit{
 			} 
 				
 			if( tParam.multiline ){
-				tParam.style |= 0x4/*_ES_MULTILINE*/
+				tParam.style |= 4/*_ES_MULTILINE*/
 				tParam.style |= 0x1000/*_ES_WANTRETURN*/;
 			}
 				
@@ -265,7 +265,7 @@ richedit._metaProperty =  metaProperty(
 			}
 			return 0;
 		}
-		_set = function(v){ 
+		_set = function(v){
 			if(v){
 				if(owner[["dpiScaleY"]]){
 					v = v * owner[["dpiScaleY"]];
@@ -284,6 +284,12 @@ richedit._metaProperty =  metaProperty(
 		}	
 	};
 	onDpiFontChange = function(f,scale){ 
+		var style = ..win.getStyle(owner.hwnd);
+		if(style & 3/*_ES_CENTER | _ES_RIGHT*/ ){
+			//Richedit BUG：如果不是左对齐,只要设置缩放 —— 包含中文就会偏移错乱
+			return owner.setFont(f)
+		}
+		
 		var zoom = 1;
 		var numerator ={int v};
 		var denominator ={int v};
@@ -294,7 +300,7 @@ richedit._metaProperty =  metaProperty(
 			
 		var v = zoom * scale;
 		v = v!=1?v:0;
-		
+		  
 		if(v){
 			::User32.SendMessage(owner.hwnd,0x4E1/*_EM_SETZOOM*/,v * 100,100)
 		}  
@@ -507,7 +513,7 @@ richedit._metaProperty =  metaProperty(
 win.ui.ctrl.richedit = 多功能文本框控件支持库
 win.ui.ctrl.richedit() = 多功能文本框控件\n!richedit.
 ?win.ui.ctrl.richedit  =!richedit.
-!richedit.zoom = 缩放比例，必须大于 1/32 并小于 32
+!richedit.zoom = 缩放比例，必须大于 1/32 并小于 32\nRichedit 存在一个 BUG：如果不是左对齐,只要设置缩放 —— 包含中文就会偏移错乱,\n所以右对齐或居中对齐后，自动 DPI 缩放将会更改为设置文本框默认字体,\n这会导致局部字体样式被重置为默认字体
 !richedit.color = 取或修改字体颜色、数值
 !richedit.bgcolor= 获取或修改背景颜色、数值
 !richedit.cls = 设计时类名
