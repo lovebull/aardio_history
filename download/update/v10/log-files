@@ -646,7 +646,7 @@
 -1251330719|710656|301687|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
-1998625012|15|34|config\SYS.CFG
+-299251378|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 1935420926|109748|28788|config\intellisense\kernel.txt
@@ -1366,7 +1366,7 @@
 1500167395|2545|934|lib\fsys\shortcut.aardio
 2003504272|1032|563|lib\fsys\size.aardio
 -1757901514|9701|3152|lib\fsys\stream.aardio
-92356029|2871|1234|lib\fsys\table.aardio
+1489268009|3135|1301|lib\fsys\table.aardio
 1973548645|5255|1737|lib\fsys\tar.aardio
 299770892|4267|1269|lib\fsys\time.aardio
 -282766162|5242|1970|lib\fsys\untar.aardio

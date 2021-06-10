@@ -28,6 +28,7 @@ class table{
 					if( type(this.afterLoad) == type.function ) this.afterLoad();
 					return this;
 				};
+				afterLoad = function(){};
 				save  = function(){
 					if( type( this.beforeSave ) == "function"  ){
 						this.beforeSave();
@@ -42,6 +43,7 @@ class table{
 					
 					return this;
 				};
+				beforeSave = function(){};
 				mixin = function(...){
 					..table.assign(this,...);
 					this.save();
@@ -75,8 +77,8 @@ fsys.table(.("/config/setting->table",默认配置表 ) = 创建可持久化tabl
 fsys.table() = !fsys_table.
 !fsys_table.load() = 从文件载入\n加载成功返回对象,加载失败返回null空值\n!fsys_table.
 !fsys_table.save() = 存储到文件\n在线程退出时也会自动调用该函数\n!fsys_table.
-!fsys_table.afterLoad = 指定一个函数,在下次重新加载配置文件时调用
-!fsys_table.beforeSave = 指定一个函数,在保存配置以前自动调用 
+!fsys_table.afterLoad = 指定一个函数,在下次重新加载配置文件时调用\n此函数默认为空函数,在调用 winform.bindConfig 后会被自动赋值用于写入控件值
+!fsys_table.beforeSave = 指定一个函数,在保存配置以前自动调用\n此函数默认为空函数,在调用 winform.bindConfig 后会被自动赋值用于读取控件值
 !fsys_table.assign(混入表) = @.mixin(\n   键名 = 值__;\n   键名2 = 值;\n);//该数会自动调用save函数保存配置到文件
 !fsys_table.mix(混入默认值表) = @.mix(\n   键名 = 默认值__;\n   键名2 = 默认值;\n);//该函数用于设定默认值,但不会修改已存在的值
 !fsys_table.assign() = !fsys_table.
