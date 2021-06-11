@@ -78,6 +78,12 @@ class simpleHttpServer{
 						
 					with environ{ 
 						PATH_INFO = ..inet.url.decode((..string.replace( PATH_INFO,"\\","/")));
+						if(!PATH_INFO){
+							socketClient.write(environ.SERVER_PROTOCOL + ' 400 Bad Request');
+							socketClient.close();	
+							return; 
+						}
+						
 						PATH_TRANSLATED = ..io.fullpath(PATH_INFO);
 						if( ..string.endWith(PATH_INFO,".aardio",true) ){
 							SCRIPT_NAME =  PATH_INFO;

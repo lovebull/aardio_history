@@ -135,10 +135,10 @@ http://www.iana.org/assignments/service-names-port-numbers/service-names-port-nu
 
 /**intellisense()
 wsock.tcp.server = TCP服务端
-wsock.tcp.server(.(IP,端口,请求队列大小) = 创建TCP服务端,所有参数可选,\n\n如果不写IP，则默认设为"0.0.0.0"也即监听本机所有IP,访问此服务端也不限制IP\n限制仅本机可以访问建议写127.0.0.1\n\n端口为0或省略则自动查找1025以后的空闲端口\n注意0-1023为系统通用服务保留端口,\n1024-49151为用户服务端口,其中大约%9已由IANA注册分配\n49152-65535为私有或临时端口
+wsock.tcp.server(.(IP,端口,请求队列大小) = 创建TCP服务端,所有参数可选,\n\n如果不写IP，则默认设为"0.0.0.0"也即监听本机所有IP,访问此服务端也不限制IP\n限制仅本机可以访问建议写127.0.0.1\n\n端口为0或省略则自动查找1025以后的空闲端口\n注意0-1023为系统通用服务保留端口,\n1024-49151为用户服务端口,其中大约%9已由IANA注册分配\n49152-65535为私有或动态分配的临时端口
 wsock.tcp.server() = !stdWsockTcpServer.
 wsock.tcp.server.closeById(.(serverId) = 参数指定wsock.tcp.server对象的ID属性\n关闭指定ID的服务器
-wsock.tcp.server.getFreePort(.(ip,->->->) =  获取空闲TCP服务端口，\nIP参数需要与实际创建服务器使用的IP参数完全一致，\n可选在参数中使用数值数组或任意个数值参数指定优先测试的端口号，\n如果没有找到参数指定的空闲凋口,则自动分配空闲端口，\n自动空闲端口为49152到65535之间的值，\nXP系统则为 1025到5000之间的值
+wsock.tcp.server.getFreePort(.(ip,->->->) =  获取空闲TCP服务端口，\nIP参数需要与实际创建服务器使用的IP参数完全一致，\n可选在参数中使用数值数组或任意个数值参数指定优先测试的端口号，\n如果没有找到参数指定的空闲凋口,则自动分配空闲端口，\n动态分配空闲端口为49152到65535之间的值，\nXP系统则为 1025到5000之间的值，\n命令行输入 netsh int ipv4 show dynamicport tcp 看动态端口范围，\n安装 Hyper-V 会导致动态起始端口变为 1024 导致常用端口冲突
 wsock.tcp.server.isFreePort(__) = 检查参数指定的端口号是否空闲
 !stdWsockTcpServer.id = 服务器唯一ID,字符串
 !stdWsockTcpServer.bind(.(IP,端口) = 绑定IP端口

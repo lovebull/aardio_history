@@ -55,6 +55,7 @@
 -1460638336|308|221|codes\范例程序\COM组件\6.COM 迭代器.aardio
 -1884030038|626|368|codes\范例程序\COM组件\7.collection.aardio
 -1078745224|1143|649|codes\范例程序\COM组件\8.MapWinGIS.aardio
+0|0|0|codes\范例程序\COM组件\AutoCAD\
 -656278167|680|467|codes\范例程序\COM组件\excel.aardio
 607782389|415|261|codes\范例程序\COM组件\fso.aardio
 1687957261|724|449|codes\范例程序\COM组件\shell.aardio
@@ -67,6 +68,8 @@
 0|0|0|codes\范例程序\COM组件\嵌入 ActiveX 控件\
 -884875525|1249|805|codes\范例程序\COM组件\模拟按键.aardio
 374147781|530|376|codes\范例程序\COM组件\调用迅雷下载.aardio
+-1340031295|679|469|codes\范例程序\COM组件\AutoCAD\command.aardio
+1927117420|1399|849|codes\范例程序\COM组件\AutoCAD\introduction.aardio
 -319430652|1260|494|codes\范例程序\COM组件\创建 ActiveX EXE\default.aproj
 0|0|0|codes\范例程序\COM组件\创建 ActiveX EXE\lib\
 -449607639|967|555|codes\范例程序\COM组件\创建 ActiveX EXE\main.aardio
@@ -599,6 +602,7 @@
 0|0|0|codes\范例程序\网络应用\protobuf\res\
 961943914|63|77|codes\范例程序\网络应用\protobuf\res\test.pb
 -1886079085|412|238|codes\范例程序\网络应用\protobuf\res\test.proto
+1204392419|627|395|codes\范例程序\网络应用\wsock\stat.aardio
 0|0|0|codes\范例程序\网络应用\wsock\tcp\
 0|0|0|codes\范例程序\网络应用\wsock\udp\
 223179672|1679|749|codes\范例程序\网络应用\wsock\抓包.aardio
@@ -646,7 +650,7 @@
 -1251330719|710656|301687|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--299251378|15|34|config\SYS.CFG
+122317947|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 1935420926|109748|28788|config\intellisense\kernel.txt
@@ -803,7 +807,7 @@
 0|0|0|extensions\wizard\project2\template\fastcgi\.build\
 1256167816|544|374|extensions\wizard\project2\template\fastcgi\default.aproj
 0|0|0|extensions\wizard\project2\template\fastcgi\lib\
-494302616|3248|1593|extensions\wizard\project2\template\fastcgi\main.aardio
+1589869903|3392|1676|extensions\wizard\project2\template\fastcgi\main.aardio
 0|0|0|extensions\wizard\project2\template\fastcgi\Publish\
 0|0|0|extensions\wizard\project2\template\fastcgi\res\
 -1752606768|101|96|extensions\wizard\project2\template\fastcgi\.build\default.init.aardio
@@ -1450,7 +1454,7 @@
 -950188223|2710|1504|lib\preload\io.aardio
 5595517|3378|1416|lib\preload\math.aardio
 404185541|2509|1304|lib\preload\raw.aardio
--1477368079|9880|3491|lib\preload\string.aardio
+-768064715|10192|3620|lib\preload\string.aardio
 -1931878713|6069|1900|lib\preload\struct.aardio
 -773177975|18728|5761|lib\preload\table.aardio
 -794133190|11340|3971|lib\preload\thread.aardio
@@ -1825,18 +1829,18 @@
 97442501|10530|2811|lib\winex\ctrl\listview.aardio
 1533256072|50|59|lib\winex\ctrl\_.aardio
 -470413922|1732|812|lib\wsock\addrInfo.aardio
-1370407740|3275|1345|lib\wsock\err.aardio
+-1743901989|4094|1624|lib\wsock\err.aardio
 -1386296312|9246|3174|lib\wsock\sniff.aardio
 0|0|0|lib\wsock\tcp\
 0|0|0|lib\wsock\udp\
--1256019419|27091|7582|lib\wsock\_.aardio
+1006724467|27258|7670|lib\wsock\_.aardio
 944740427|15954|4846|lib\wsock\tcp\asynClient.aardio
-1131324933|29496|8228|lib\wsock\tcp\asynHttpServer.aardio
+-732020217|29642|8258|lib\wsock\tcp\asynHttpServer.aardio
 439346883|10910|3318|lib\wsock\tcp\asynServer.aardio
 867069460|24893|6879|lib\wsock\tcp\client.aardio
 -653866149|8279|2898|lib\wsock\tcp\jsonClient.aardio
--527904862|5179|2020|lib\wsock\tcp\server.aardio
-2119253539|33174|8443|lib\wsock\tcp\simpleHttpServer.aardio
+-2070030988|5361|2128|lib\wsock\tcp\server.aardio
+-1254771462|33336|8464|lib\wsock\tcp\simpleHttpServer.aardio
 1984733421|3202|1265|lib\wsock\tcp\socks5Client.aardio
 -2097737651|3669|1554|lib\wsock\udp\asynClient.aardio
 -438556444|8703|2667|lib\wsock\udp\client.aardio

@@ -144,7 +144,7 @@ class asynHttpServer{
 				if(environ.PATH_INFO[#environ.PATH_INFO]!=='/'#){
 					socketClient.write(environ.SERVER_PROTOCOL 
 						+ ' 301 Moved Permanently\r\nLocation: '+environ.PATH_INFO+'/\r\n\r\n');
-					socketClient.shutdown(0);
+					socketClient.shutdown();
 					return;
 				}
 							
@@ -154,6 +154,12 @@ class asynHttpServer{
 			
 		with environ{ 
 			PATH_INFO = ..inet.url.decode((..string.replace( PATH_INFO,"\\","/")));
+			if(!PATH_INFO){
+				socketClient.write(environ.SERVER_PROTOCOL + ' 400 Bad Request');
+				socketClient.shutdown();	
+				return; 
+			}
+			
 			PATH_TRANSLATED = ..io.fullpath(PATH_INFO);
 			if( ..string.endWith(PATH_INFO,".aardio",true) ){
 				SCRIPT_NAME =  PATH_INFO;

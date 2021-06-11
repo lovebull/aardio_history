@@ -327,7 +327,7 @@ getLocalIp = function(){
 /**intellisense(wsock)
 open() = 使用wsock库其他函数以前必须调用此函数
 close() = 与wsock.open()配对使用,\n使用wsock库以后必须调用此函数释放资源,\n如果忘记配对调用此函数,在线程结束时将自动调用
-getFreePort(.(ip,套接字类型,协议类型)  =  获取空闲服务端口，\n可选在参数中指定IP地址,其他参数不必指定\n\n分配的端口即使没有马上使用，\n系统下次分配的空闲端口仍然是递增分配下一个端口号，\n自动空闲端口为49152到65535之间的值，\nXP系统则为 1025到5000之间的值
+getFreePort(.(ip,套接字类型,协议类型)  =  获取空闲服务端口，\n可选在参数中指定IP地址,其他参数不必指定\n\n分配的端口即使没有马上使用，\n系统下次分配的空闲端口仍然是递增分配下一个端口号，\n动态分配空闲端口为49152到65535之间的值，\nXP系统则为 1025到5000之间的值，\n命令行输入 netsh int ipv4 show dynamicport tcp 看动态端口范围，\n安装 Hyper-V 会导致动态起始端口变为 1024 导致常用端口冲突
 versionRequired = 支持的版本,\n用于在open函数中WSAStartup的第一个参数
 _wsadata.version = 版本
 _wsadata.highVersion = 支持的最高版本

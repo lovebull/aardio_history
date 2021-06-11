@@ -1,0 +1,18 @@
+﻿//执行命令或LISP表达式
+import com;
+var cad = com.GetOrCreateObject("AUTOCAD.Application");
+cad.Visible = true; //是否显示 AutoCAD 窗口
+
+//可以执行 AutoCAD 里所有命令以及 AutoLISP 表达式，跟在 AutoCAD 里敲命令效果一样。
+//注意最后一定要有一个回车('\r')或空格，AutoCAD里空格跟回车一样可以结束命令
+cad.ActiveDocument.SendCommand(`
+(defun c:hello(/ name)
+(set 'name (getstring "What's your name? "))
+(set 'msg (strcat "Hello, " name))
+(write-line msg))
+hello `)
+
+/*
+cad.ActiveDocument.SendCommand 是同步执行命令，
+如果要异步执行命令请使用 cad.ActiveDocument.PostCommand 
+*/

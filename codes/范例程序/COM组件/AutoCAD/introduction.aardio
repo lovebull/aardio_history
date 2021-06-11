@@ -1,0 +1,43 @@
+//入门
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="调用 AutoCAD 入门";right=759;bottom=469)
+winform.add(
+edit={cls="edit";left=13;top=12;right=746;bottom=453;edge=1;multiline=1;z=1}
+)
+/*}}*/
+
+//AutoCAD 接口文档: https://help.autodesk.com/view/OARX/2020/PLK/?guid=GUID-A809CD71-4655-44E2-B674-1FE200B9FE30
+import com;
+var cad = com.GetOrCreateObject("AUTOCAD.Application");
+if(!cad){
+	return winform.msgboxErr("未安装AutoCAD")
+}
+
+//是否显示 AutoCAD 窗口
+cad.Visible = true
+
+//如果要遍历所有打开的 AutoCAD 进程对象，可以用下面的代码查询ROT对象
+for cad in com.eachRunning("IAcadApplication") {
+	//这里的 cad 就是找到的 AUTOCAD.Application 对象
+}
+
+if(cad.GetAcadState().IsQuiescent){
+	winform.edit.print("AutoCAD 当前是静止状态。")
+}
+
+winform.edit.printf("AutoCAD 主窗口句柄",cad.HWND)
+
+if( cad.Documents.Count > 0 ){
+	winform.edit.printf("AutoCAD 当前打开文档数：%d", cad.Documents.Count);
+	winform.edit.printf("AutoCAD 活动文档窗口句柄：0x%x",cad.HWND);
+	
+	cad.ActiveDocument.ModelSpace.AddText("测试文本",{10;20;30},5);
+}
+
+var pt1 = cad.ActiveDocument.Utility.GetPoint(,'\r\n请选择第一点: ')
+var pt2 = cad.ActiveDocument.Utility.GetPoint(,'\r\n请选择第二点: ')
+cad.ActiveDocument.ModelSpace.AddLine(pt1,pt2);
+
+winform.show();
+win.loopMessage();
