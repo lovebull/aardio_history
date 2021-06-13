@@ -81,7 +81,10 @@ class asynHttpServer{
 					if(request.method != "OPTIONS"){
 						var handler = app[request.path];
 						if( handler ) {
-							if(type.isString(handler)) return response.write(handler) 
+							if(type.isString(handler)){ 
+								response.contentType = ..fsys.mime.fromData(handler,request.url,"text/html");
+								return response.write(handler) 
+							}
 							return handler(response,request);
 						}
 						response.loadcode( request.path);

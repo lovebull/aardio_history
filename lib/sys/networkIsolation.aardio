@@ -65,6 +65,7 @@ getAppContainerConfig = function(){
 	var publicAppSids = {ptr ptr}
 	if( 0 == ::FirewallApi.NetworkIsolationGetAppContainerConfig(numPublicAppCs,publicAppSids) ){
 		var configs = ..raw.convertArray(publicAppSids.ptr,numPublicAppCs.count,{ ptr sid;INT attributes;})
+		if(!configs) return {};
 		
 		var heap = ::Kernel32.GetProcessHeapP();
 	 	for(i=1;#configs;1){
@@ -113,7 +114,7 @@ enableLoopback = function(sids){
 		configs[i].sid = sidFromString(configs[i].sid);
 	}
 	
-	var e = ::FirewallApi.NetworkIsolationSetAppContainerConfig(#configs,{ struct configs[] = configs });
+	var e = ::FirewallApi.NetworkIsolationSetAppContainerConfig(#configs,#configs?{ struct configs[] = configs }:null);
 	if(e){ return false,..lasterr(e); }
 	return true;
 }

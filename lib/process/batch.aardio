@@ -1,4 +1,5 @@
 ﻿//batch 批处理
+import fsys.file;
 import process.popen;
 
 namespace process{
@@ -24,32 +25,20 @@ namespace process{
 			}
 			
 			if(!script) error(err,2);
-			var tempname;
-			var tempdir = ..raw.buffer(0x208/*_MAX_WPATH_BYTES*/);
-			if( ::Kernel32.GetTempPathW(0x104,tempdir) ){
-				tempdir = ..string.fromUnicode(tempdir);
-				var tk = ..time.tick() ++ ..thread.getId();
-
-				var i = 0;
-				do{
-					tempname= ..io.joinpath(tempdir,"$" + tk + "$" + i ++ ".bat")
-					i++;
-				}while(..io.exist(tempname)) 
-
-				if(..string.isUtf8(script)){
-					script = ..string.fromto(script,65001,0);
-				}
-				
-				script = ..string.crlf(script); //必须用 \r\n 换行
-				..string.save(tempname,script)
-			} 
 			
-			this = ..process.popen("cmd.exe",..table.append({"/c",tempname},ownerArgs),{
+			if(..string.isUtf8(script)) script = ..string.fromto(script,65001,0);
+			script = ..string.crlf(script); //必须用 \r\n 换行
+			
+			var tempFile = ..fsys.file.temp(".bat",true);
+			tempFile.write(script);
+			tempFile.close();
+		  
+			this = ..process.popen("cmd.exe",..table.append({"/c",tempFile.path},ownerArgs),{
 				workdir = workdir : "/";
 			})
-			
+	
 			this.beforeClose = function(){ 
-				..io.remove(tempname)
+				tempFile.delete();
 			}
 		}}
 	}
