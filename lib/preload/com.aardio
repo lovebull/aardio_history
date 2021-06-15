@@ -131,7 +131,7 @@ LoadTypeLibrary() = !comTypeLib.
 GetTypeInfo() = !comTypeInfo.
 CreateEmbed() = !embedObject.
 enumRunning(回调函数) = @.enumRunning( \n	function(displayName,object){  \n		__/*枚举ROT（运行对象表）并获取COM对象,\n此回调函数返回true中止枚举*/\n	}\n)
-eachRunning(interfaceName) = @for object,interfaceName,index in com.eachRunning("IAcadApplication") {
+eachRunning(interfaceName) = @for object,interfaceName,index in com.eachRunning("ITest") {
 	__/*遍历ROT（运行对象表）\nobject为 COM 对象,name 为接口名称,index 为序号\n可选在参数中限定返回的接口名称*/
 } 
 end intellisense**/

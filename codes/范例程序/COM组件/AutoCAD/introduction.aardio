@@ -8,19 +8,12 @@ edit={cls="edit";left=13;top=12;right=746;bottom=453;edge=1;multiline=1;z=1}
 /*}}*/
 
 //AutoCAD 接口文档: https://help.autodesk.com/view/OARX/2020/PLK/?guid=GUID-A809CD71-4655-44E2-B674-1FE200B9FE30
-import com;
-var cad = com.GetOrCreateObject("AUTOCAD.Application");
-if(!cad){
-	return winform.msgboxErr("未安装AutoCAD")
-}
+import com.cad;
+var cad = com.cad();
+if(!cad) return winform.msgboxErr("未安装AutoCAD"); 
 
 //是否显示 AutoCAD 窗口
 cad.Visible = true
-
-//如果要遍历所有打开的 AutoCAD 进程对象，可以用下面的代码查询ROT对象
-for cad in com.eachRunning("IAcadApplication") {
-	//这里的 cad 就是找到的 AUTOCAD.Application 对象
-}
 
 if(cad.GetAcadState().IsQuiescent){
 	winform.edit.print("AutoCAD 当前是静止状态。")

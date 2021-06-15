@@ -50,9 +50,8 @@ fsys.enum( "/", "*.*",
 
 ?>) do echo %%i 
 
-rem ?>后忽略空白与换行，可改为 ?>& 强制换行
-echo <?= time() ?>&
-echo <?= owner.exepath ?>&
+echo <?= time() ?>
+echo <?= owner.exepath ?>
 
 echo 此批处理接收到的第一个参数："%1"
 echo 此批处理接收到的第二个参数："%2"

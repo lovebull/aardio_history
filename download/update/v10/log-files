@@ -1,4 +1,4 @@
-810316779|6403072|2350153|aardio.exe
+-601248365|6404096|2350721|aardio.exe
 0|0|0|codes\
 0|0|0|config\
 0|0|0|download\
@@ -48,7 +48,7 @@
 -894008657|1983|910|codes\范例程序\Chrome\extensions.aardio
 -1180573278|3389|1297|codes\范例程序\Chrome\remote.aardio
 -1563847535|5412|2085|codes\范例程序\COM组件\1.progId.aardio
-258509614|467|317|codes\范例程序\COM组件\2.ROT.aardio
+1351498053|452|310|codes\范例程序\COM组件\2.ROT.aardio
 2066618010|544|349|codes\范例程序\COM组件\3.输出COM对象成员.aardio
 -1404617031|1381|719|codes\范例程序\COM组件\4.用连接点注册事件.aardio
 -1792056895|399|296|codes\范例程序\COM组件\5.自动导入常量定义.aardio
@@ -68,8 +68,8 @@
 0|0|0|codes\范例程序\COM组件\嵌入 ActiveX 控件\
 -884875525|1249|805|codes\范例程序\COM组件\模拟按键.aardio
 374147781|530|376|codes\范例程序\COM组件\调用迅雷下载.aardio
--1340031295|679|469|codes\范例程序\COM组件\AutoCAD\command.aardio
-1927117420|1399|849|codes\范例程序\COM组件\AutoCAD\introduction.aardio
+294768366|554|403|codes\范例程序\COM组件\AutoCAD\command.aardio
+1976819191|1151|693|codes\范例程序\COM组件\AutoCAD\introduction.aardio
 -319430652|1260|494|codes\范例程序\COM组件\创建 ActiveX EXE\default.aproj
 0|0|0|codes\范例程序\COM组件\创建 ActiveX EXE\lib\
 -449607639|967|555|codes\范例程序\COM组件\创建 ActiveX EXE\main.aardio
@@ -420,7 +420,7 @@
 988145281|753|445|codes\范例程序\多线程\12.PostThreadMessage.aardio
 -672907369|1471|836|codes\范例程序\多线程\13.threadCtrl.aardio
 -1215747440|747|477|codes\范例程序\多线程\14.function.aardio
-1903627353|2601|1246|codes\范例程序\批处理与命令行\1、batch.aardio
+1370958080|2538|1203|codes\范例程序\批处理与命令行\1、batch.aardio
 1224185748|241|202|codes\范例程序\批处理与命令行\2、cmd.aardio
 -336596113|10597|3332|codes\范例程序\批处理与命令行\3、cmd2Gui.aardio
 245046144|559|392|codes\范例程序\批处理与命令行\4、popen.aardio
@@ -440,6 +440,7 @@
 -1140064589|818|321|codes\范例程序\控制台\转义序列.aardio
 -918092987|574|352|codes\范例程序\操作系统\device.aardio
 1353429851|1214|492|codes\范例程序\操作系统\deviceNotification.aardio
+-1515826640|2009|1086|codes\范例程序\操作系统\fixUpdate.aardio
 933078256|2945|1226|codes\范例程序\操作系统\print.aardio
 -114226480|291|231|codes\范例程序\操作系统\restart-explorer.aardio
 -493670537|485|315|codes\范例程序\操作系统\settings.aardio
@@ -647,13 +648,13 @@
 -98924744|1173|697|codes\范例程序\音频视频\音频\soundDevice.aardio
 -1198887051|2904|1386|codes\范例程序\音频视频\音频\tts.aardio
 1023829753|2440|1077|codes\范例程序\音频视频\音频\volume.aardio
--1251330719|710656|301687|config\AAU.BIN
+994006710|711168|301816|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
-1884118253|15|34|config\SYS.CFG
+-1194866522|13|32|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
-1935420926|109748|28788|config\intellisense\kernel.txt
+-640949132|109878|28850|config\intellisense\kernel.txt
 786007257|4753|1683|config\intellisense\unimportant.txt
 946221732|9375|1953|config\intellisense\web.layout.behavior.txt
 31814408|10949|2205|config\intellisense\web.sciter.behavior.txt
@@ -1140,7 +1141,7 @@
 0|0|0|extensions\wizard\project2\template\website\Publish\
 0|0|0|extensions\wizard\project2\template\website\res\
 -933754380|270|219|extensions\wizard\project2\template\website\.build\default.main.aardio
--728543436|2281|1288|extensions\wizard\project2\template\website\help\main.aardio
+1022307386|2267|1277|extensions\wizard\project2\template\website\help\main.aardio
 -1417429732|795|504|extensions\wizard\project2\template\website\lib\config.aardio
 -438031563|1478|529|extensions\wizard\project2\template\winform\default.aproj
 0|0|0|extensions\wizard\project2\template\winform\dlg\
@@ -1165,7 +1166,7 @@
 0|0|0|extensions\wizard\project2\template\winform-blank\res\
 -1417429732|795|504|extensions\wizard\project2\template\winform-blank\lib\config.aardio
 0|0|0|extensions\wizard\project2\template\winform-blank\lib\fonts\
-691228566|776638|771610|help\AARDIO.CHM
+778049537|778708|773725|help\AARDIO.CHM
 -1407847800|12468|4146|help\关于aardio.txt
 0|0|0|help\用户许可协议\
 -911159679|1976|1010|help\用户许可协议\aardio开源代码许可证.txt
@@ -1235,6 +1236,7 @@
 -947308670|11740|2787|lib\color\viewForm.aardio
 -730739005|7548|2534|lib\color\_.aardio
 -1259769217|8042|2620|lib\com\activeX.aardio
+0|0|0|lib\com\cad\
 1652199913|96802|21789|lib\com\excel.aardio
 0|0|0|lib\com\flash\
 0|0|0|lib\com\interface\
@@ -1243,6 +1245,7 @@
 1995436980|1511|793|lib\com\shell.aardio
 591271544|9201|2789|lib\com\smtp.aardio
 -425798451|3326|1025|lib\com\tlbDoc.aardio
+1068324408|4320|1545|lib\com\cad\_.aardio
 1457169566|2283|853|lib\com\flash\xml.aardio
 -1832071784|14508|4660|lib\com\flash\_.aardio
 1640386841|1704|798|lib\com\interface\IApplicationActivationManager.aardio
@@ -1450,7 +1453,7 @@
 0|0|0|lib\preg\.res\
 248544567|14432|4037|lib\preg\_.aardio
 1855787250|145920|63851|lib\preg\.res\pcre.dll
--223805424|14716|5022|lib\preload\com.aardio
+575738245|14705|5011|lib\preload\com.aardio
 -950188223|2710|1504|lib\preload\io.aardio
 5595517|3378|1416|lib\preload\math.aardio
 404185541|2509|1304|lib\preload\raw.aardio
@@ -1462,7 +1465,7 @@
 25183219|5007|1983|lib\process\admin.aardio
 0|0|0|lib\process\apiHook\
 1685550576|1158|628|lib\process\atom.aardio
--479258350|3929|1584|lib\process\batch.aardio
+59210415|3856|1542|lib\process\batch.aardio
 169341518|2580|1098|lib\process\cache.aardio
 2063848142|3035|1181|lib\process\code.aardio
 -91496726|6854|2337|lib\process\command.aardio

@@ -16,7 +16,7 @@
 
 一、一个aardio文件，即可以是纯aardio代码，也可以是纯HTML，也可以是HTML、aardio相互混合的模板代码，aardio都能自动识别并解析。
 
-二、aardio源代码文件里可以直接书写HTML代码，在HTML代码中aardio代码必须置于 &lt;? ..... ?&gt; 内部，，类似PHP的模板语法, 但是要注意与PHP的区别是，aardio规定开始标记  &lt;? 必须独立不能紧跟英文字母，例如 &lt;?xml.....  不是合法的aardio代码段开始标记(aardio会认为这是一个XML标记)。 另外，aardio总是忽略?&gt;后面或文件开始的空白字符（包含空格、制表符，换行）。
+二、aardio源代码文件里可以直接书写HTML代码，在HTML代码中aardio代码必须置于 &lt;? ..... ?&gt; 内部，，类似PHP的模板语法, 但是要注意与PHP的区别是，aardio规定开始标记  &lt;? 必须独立不能紧跟英文字母，例如 &lt;?xml.....  不是合法的aardio代码段开始标记(aardio会认为这是一个XML标记)。 另外，aardio总是忽略文件开始的空白字符（包含空格、制表符，换行）。
 
 三、在一个aardio文件中如果混合了HTML代码，aardio将&lt;? ..... ?&gt; 之外的部份解析为： print("HTML代码") 以调用全局函数print输出HTML。
 关于print函数的规则：

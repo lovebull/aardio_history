@@ -1,0 +1,53 @@
+﻿//RUNAS//修复更新
+import fsys; 
+import service;
+import console;
+
+if(!console.askYesNo("本工具尝试修复系统自动更新失败的问题，
+本工具不作任何保证，一切后果自负，按 Y 键继续,按 N 键取消")) return;
+
+console.showLoading(" 正在停止自动更新服务");
+var ret = service.stop("wuauserv");
+console.log(ret);
+sleep(3000);
+
+var path = io.getSpecial(0x24 /*_CSIDL_WINDOWS*/,"SoftwareDistribution/Download");
+fsys.enum( path, "*.*",
+	function(dir,filename,fullpath,findData){ 
+		fsys.delete(fullpath)
+		console.log("正在删除",filename:dir)
+	},false
+);
+
+var path = io.getSpecial(0x24 /*_CSIDL_WINDOWS*/,"SoftwareDistribution/DataStore");
+fsys.enum( path, "*.*",
+	function(dir,filename,fullpath,findData){ 
+		fsys.delete(fullpath)
+		console.log("正在删除",filename:dir)
+	},false
+);
+
+console.showLoading(" 正在启动自动更新服务");
+service.start("wuauserv")
+sleep(3000);
+
+if( console.askYesNo("是否调用 DISM 修复系统文件") ) {
+	
+	/*
+	/Online 选项指的是修复当前正在运行的 Windows 系统。
+	也可以修复其他分区未加载的 Windows ，例如加上用C:\Windows去修复 D:\ 盘的 Windows 
+	process("DISM.exe /Image:D:\ /Cleanup-image /Restorehealth /Source:C:\Windows")
+	*/
+	import process;
+	process("DISM.exe /Online /Cleanup-image /Restorehealth").wait()
+	
+	//sfc /scannow 命令将扫描所有受保护的系统文件，并用位于 %WinDir%\System32\dllcache 的压缩文件夹中的缓存副本替换损坏的文件。
+	//process("sfc /scannow").wait();
+}
+
+console.log("全部操作已完成");
+console.log("友情提示：系统更新失败导致反复重启撤消可能导致系统无法启动，）
+Windows10 又不支持用启动盘以升级方式重装（保留已安装的应用和数据）。
+建议做好系统备份，打开系统还原，重要文件不要放桌面。
+遇到自动更新、系统崩溃等问题应尽早修复。");
+console.pause(true);

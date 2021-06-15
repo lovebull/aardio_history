@@ -1,0 +1,119 @@
+﻿import fsys.file;
+import com;
+
+namespace com;
+
+class cad{
+	ctor(...){
+		this = ... ? ..com.GetOrCreateObject(...) 
+				: ..com.GetOrCreateObject("AutoCAD.Application","GStarCAD.Application");
+				
+		if ( ! this.Documents.Count ) {this.Documents.Add();}
+	}; 
+	LoadLisp = function(lisp,args,doc){
+		if(!doc) doc = this.ActiveDocument;
+		if( (#lisp<0x410/*_MAX_PATH_U8*/) && ..io.localpath(lisp) || ..io.exist(lisp) ){
+			lisp = ..string.load(lisp);			
+		}
+		
+		var lisp,err = self.loadcode("?>"+lisp,args); 
+		if(!lisp) error(err,2)
+
+		var tempFile = ..fsys.file.temp(".lsp",true);
+		tempFile.write(lisp);
+		tempFile.close();
+
+		var path = ..string.replace(tempFile.path,"\\","\\\\");
+		doc.SendCommand('(setvar "SECURELOAD" 0)(load "'+path+'")(setvar "SECURELOAD" 1)(princ)\r'); 
+		tempFile.delete();
+	};
+	SendCommand = function(cmd,args,doc){
+		if(!doc) doc = this.ActiveDocument;
+		if( (#cmd<0x410/*_MAX_PATH_U8*/) && ..io.localpath(cmd) || ..io.exist(cmd) ){
+			cmd = ..string.load(cmd);			
+		}
+		
+		var cmd,err = self.loadcode("?>"+cmd,args); 
+		if(!cmd) error(err,2)
+		
+		return doc.SendCommand(..string.crlf(cmd,'\r')+'\r');  
+	};
+	PostCommand = function(cmd,args,doc){
+		if(!doc) doc = this.ActiveDocument;
+		if( (#cmd<0x410/*_MAX_PATH_U8*/) && ..io.localpath(cmd) || ..io.exist(cmd) ){
+			cmd = ..string.load(cmd);			
+		}
+		
+		var cmd,err = self.loadcode("?>"+cmd,args); 
+		if(!cmd) error(err,2)
+		
+		return doc.PostCommand(..string.crlf(cmd,'\r')+'\r');  
+	};
+}
+
+cad.loadcode = function(c,...){
+	var f,e = loadcode(c,"=(com.cad.loadcode)");
+	if(!f) return null,e;
+	
+	var p = ..print;
+	var t = {};
+	..print = function(args,...){
+		if(...){
+			args = {args,...}
+		}
+	
+		if( type(args) == type.table && #args ){  
+			
+			for(i=1;#args;1){
+				var v =  args[i];
+				var t  = type(v);
+				if( t = "number" ){
+					v = tostring(v);
+				}
+				elseif( t = "boolean" ){
+					v = tostring(v?1:0);
+				} 	
+				else {
+					v = tostring(v);
+					v = ..string.replace(v,'[\"\e\n\r\t\\\\]',{
+						['\e']=`\e`;
+						['\"']=`\"`;
+						['\n']=`\n`;
+						['\r']=`\r`;
+						['\t']=`\t`;
+						['\"']=`\"`;
+					})
+					v = ..string.concat('"', v, '"');
+				} 
+				
+				args[i] = v;
+			} 
+			args = ..string.join(args," ");
+		}
+		elseif(args!==null) {
+			args = tostring(args)
+		} 
+		
+		if(args!==null) ..table.push(t,args);
+	}
+	
+	var r,e = callex(,f,...,...);
+	..print = p;
+	
+	if(!r) return null,e;
+	return ..string.join(t);
+};
+
+/**intellisense()
+com.cad() = 获取已存在的 AutoCAD 实例，或创建新的 AutoCAD 实例\n!stdComCad.
+end intellisense**/
+
+/**intellisense(!stdComCad)
+Visible = 是否显示 AutoCAD 窗口
+LoadLisp(.(lisp,args,doc) = 加载 LISP 代码，\n参数@1可以是文件、资源文件、或 LISP代码\n已加载的 lisp 代码无法卸载，\n可通过LIST赋值删除定义的函数，例如 (setq c:hello nil)\n\n注意 aardio 模板中非数值、布尔值一律转字符串,\n一次输出多个模板参数时,字符串自动加引号,多参数自动以空格分开,\n可选用 @args 参数指定模板 owner 参数，\n可选用参数 @3 自定义执行此函数的文档对象
+SendCommand(.(cmd,args,doc) = 同步发送 AutoCAD 命令，\n参数@1可以是文件、资源文件、LISP 表达式、命令，\n每句命令应以空格或回车结束,\n尾部的回车可省略\n\n注意 aardio 模板中非数值、布尔值一律转字符串,\n一次输出多个模板参数时,字符串自动加引号,多参数自动以空格分开,\n可选用 @args 参数指定模板 owner 参数，\n可选用参数 @3 自定义执行此函数的文档对象
+PostCommand(.(cmd,args,doc) = 异步发送 AutoCAD 命令，\n参数@1可以是文件、资源文件、LISP 表达式、命令，\n每句命令应以空格或回车结束,\n尾部的回车可省略\n\n注意 aardio 模板中非数值、布尔值一律转字符串,\n一次输出多个模板参数时,字符串自动加引号,多参数自动以空格分开,\n可选用 @args 参数指定模板 owner 参数，\n可选用参数 @3 自定义执行此函数的文档对象
+GetAcadState().IsQuiescent = AutoCAD 当前是静止状态
+Documents.Count = 打开文档总数
+ActiveDocument = 当前活动文档
+end intellisense**/
