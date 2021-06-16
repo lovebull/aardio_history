@@ -1,5 +1,10 @@
 import com;
 
+/*
+下载也可以使用扩展库：process.aria2
+简单下载可以使用标准库：inet.downBox, inet.httpFile
+多线程多任何断点续传下载可使用标准库：thread.dlManager
+*/
 try{
 	var thunder = com.CreateObject("ThunderAgent.Agent")  
 	thunder.AddTask(

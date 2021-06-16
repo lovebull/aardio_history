@@ -302,6 +302,8 @@ namespace layout {
 	
 	var delay = ..win.delay;
 	_metaProperty = ..util.metaProperty(
+		_serialize = ..thread._callableSerialize;
+		
 		go = function (filename,charset) {
 			if ( ..io.localpath(filename) ) {
 				owner.localBaseDir = ..io.splitpath(filename).dir;

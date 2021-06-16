@@ -1,44 +1,52 @@
 //注册事件
 import win.ui;
 /*DSG{{*/
-var winform = win.form(text="flash - 用连接点注册事件";right=626;bottom=482)
+var winform = win.form(text="用连接点注册事件";right=972;bottom=494)
 winform.add(
-edit={cls="edit";left=31;top=401;right=606;bottom=461;edge=1;multiline=1;vscroll=1;z=2};
-static={cls="static";left=32;top=16;right=608;bottom=392;db=1;dl=1;dr=1;dt=1;edge=1;z=1}
+edit={cls="edit";left=31;top=410;right=946;bottom=470;edge=1;multiline=1;vscroll=1;z=2};
+static={cls="static";left=32;top=26;right=946;bottom=402;db=1;dl=1;dr=1;dt=1;edge=1;z=1}
 )
 /*}}*/
 
-import com.flash.portable;
-var flash = com.flash(winform.static);    
+var embed = winform.static.createEmbed("Shell.Explorer.2"); 
+var browser = embed._object;
 
-ShockwaveFlashEvents = {
-    OnReadyStateChange = function( newState ){
-          winform.edit.print("OnReadyStateChange")
-    }
-    OnProgress = function( percentDone ){
-          winform.edit.print( "OnProgress",percentDone)
-    }
-    FSCommand = function( command ,args ){
-          winform.edit.print( "FSCommand", command , args );
-    }
+//定义事件对象
+DWebBrowserEvents2 = {
+	BeforeNavigate2 = function( pDisp, url, flags, targetFrame, postData, headers, cancel ) { 
+		winform.edit.print("BeforeNavigate2",url);
+		return url, flags, targetFrame, postData, headers, cancel;
+	}
+	StatusTextChange = function(text) { 
+		winform.text = text;
+	}
 }
 
 /*
 //注册事件
-ShockwaveFlashEvents =   com.ImplInterface( ShockwaveFlashEvents ,"ShockwaveFlash.ShockwaveFlash","_IShockwaveFlashEvents")
-var cookie = com.AddConnection( flash._object,ShockwaveFlashEvents );
+DWebBrowserEvents2 =  com.ImplInterface( DWebBrowserEvents2,"Shell.Explorer.2","DWebBrowserEvents2")
+var cookie = com.AddConnection( browser,DWebBrowserEvents2 );
 
 //释放事件
-com.ReleaseConnection(ie, DWebBrowserEvents2Handler, cookie) 
+//com.ReleaseConnection(ie, DWebBrowserEvents2Handler, cookie)  
 */
 
 //可以用上面的方法，也可以下面这样写简单一点
-var cookie = com.Connect(flash._object, ShockwaveFlashEvents);
+//var cookie = com.Connect(browser, DWebBrowserEvents2);
 
-//打开flash
-flash._object.movie = io.fullpath("~\codes\范例程序\COM组件\嵌入 ActiveX 控件\Flash\testCall.swf");
+//winform.static.createEmbed() 实际已经自动执行了 com.Connect(embed._object, embed);
+//所以更简单的方法如下：
 
-winform.show(true) 
+embed.BeforeNavigate2 = function( pDisp, url, flags, targetFrame, postData, headers, cancel ) { 
+	winform.edit.print("BeforeNavigate2",url);
+	return url, flags, targetFrame, postData, headers, cancel;
+}
+
+embed.StatusTextChange = function(text) { 
+	winform.text = text;
+}
+
+browser.Navigate("https://www.aardio.com");
+	
+winform.show(true); 
 win.loopMessage();
-
-    

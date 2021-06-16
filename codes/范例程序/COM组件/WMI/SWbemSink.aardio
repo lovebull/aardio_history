@@ -8,6 +8,13 @@ edit={cls="edit";left=16;top=16;right=744;bottom=448;edge=1;multiline=1;z=1}
 /*}}*/
 
 var creationEvent = com.CreateObject( "WbemScripting.SWbemSink")
+/*
+ * 其他可用 com.CreateObject() 创建的WMI对象：
+ * WbemScripting.SWbemDateTime";"WbemScripting.SWbemLocator";
+ * WbemScripting.SWbemObjectPath";"WbemScripting.SWbemNamedValueSet";
+ * WbemScripting.SWbemRefresher";"WbemScripting.SWbemLastError"
+ */
+
 com.Connect (creationEvent,{ 
 	OnObjectReady = function(objObject, objAsyncContext) {
 		var target = objObject.TargetInstance ();

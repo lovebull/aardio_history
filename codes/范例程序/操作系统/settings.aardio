@@ -9,15 +9,24 @@ if(_WIN10_LATER){
 	process.control("ms-settings:personalization-background")
 }
 else {
-	process.control("desk.cpl",,2)
+	//打开自定义桌面图标
+	process.control("desk.cpl",,0)
 }
 
+/*
+//打开系统用户管理（高级）
+process.control("userpasswords2")
+
+//打开 WIN10 设置
 process.control("ms-settings:")
 
-/*
 //打开系统用户管理
 process.control("nusrmgr.cpl")
 
 //打开系统用户管理（高级）
 process.control("userpasswords2")
+
+//打开控制面板高级模式
+import process;
+process.explore("shell:::{ED7BA470-8E54-465E-825C-99712043E01C}")
 */

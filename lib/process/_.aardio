@@ -109,10 +109,6 @@ class process {
    				, pf)
 			}
 			else {
-				if(sa.useShellExecute){
-					return ..process.shell(file,parameters,sa.operation,sa.showCmd,..io.fullpath(sa.workdir),sa.hwnd);
-				}
-				
 				if( sa.logonFlags == null ) sa.logonFlags = 1/*_LOGON_WITH_PROFILE*/; 
 				
 				ret = CreateProcessWithLogonW(  ..string.toUnicode(sa.username) 
@@ -1216,7 +1212,6 @@ password = 登录密码
 domain = 域名
 logonFlags = 登录选项,默认为 _LOGON_WITH_PROFILE
 createNoWindow = 不为应用程序创建控制台窗口
-useShellExecute = 使用API函数 ShellExecuteEx 创建进程，
 end intellisense**/
 
 /*intellisense(!processEntry) 

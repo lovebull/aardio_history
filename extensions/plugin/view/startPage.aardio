@@ -1,4 +1,4 @@
-import win.ui;
+﻿import win.ui;
 /*DSG{{*/
 mainForm = win.form(text="开始页.....";left=0;top=0;right=599;bottom=399;border="none";exmode="none";mode="child";parent=...;scroll=1)
 mainForm.add()
@@ -7,9 +7,11 @@ mainForm.add()
 import ide;
 import web.layout;
 global.onError = function( err,over ){ 
-    ide.setConfig("startpage","off");
-    mainForm.msgboxErr('抱歉！\n开始页遇到错误，\n已自动禁用开始页。',"aardio")
-    mainForm.close();
+	ide.setConfig("startpage","off");
+	mainForm.msgboxErr('抱歉！\n开始页遇到错误，\n已自动禁用开始页。',"aardio")
+	ide.pluginViewShow(mainForm);
+	win.close(win.getParent(win.getParent(mainForm.hwnd)));
+
 }
 
 if( _WINE ){
