@@ -14,39 +14,48 @@ static2={cls="static";text="Windows Defender 实时保护功能会导致生成 E
 /*}}*/
 
 winform.show(); 
-winform.btnSave.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250';text ="正在查询信任目录配置 ……"}
-winform.btnAdd.disabled = true;
 
-thread.invoke( 
-	function(winform,idePublishDir){
-		
-		import ide;
-		import sys.mpPreference;
-		import fsys;
-		
-		var exclusionPaths = idePublishDir;
-		if(!exclusionPaths){
-			var projectDir = ide.getConfig("project_default_dir");
-			if(!#projectDir) projectDir = io.fullpath("~/project");
-	 		projectDir = fsys.path.removeBackslash(projectDir); 
-	 		exclusionPaths = {projectDir,ide.getProjectDir()}	
-		}
-		
-		var exclusionPaths,err = sys.mpPreference.getExclusionPaths(exclusionPaths)
-		if(exclusionPaths!==null){ 
-			winform.edit.text = string.join(exclusionPaths,'\r\n');
-			winform.btnSave.disabledText = null;
-			winform.btnAdd.disabled = false;
-		}
-		elseif(err) {
+import service;
+if( service.isRunning("Windefend") ){
+	winform.btnSave.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250';text ="正在查询信任目录配置 ……"}
+	winform.btnAdd.disabled = true;
+	
+	thread.invoke( 
+		function(winform,idePublishDir){
 			
-			winform.btnSave.disabledText = null;
-			winform.btnSave.disabled = true;
-			winform.msgWarn("系统未启用 Windows Defender")
-		}
-		 	
-	},winform,_IDE_PUBLISTH_PROJECT_DIR
-)
+			import ide;
+			import sys.mpPreference;
+			import fsys;
+			
+			var exclusionPaths = idePublishDir;
+			if(!exclusionPaths){
+				var projectDir = ide.getConfig("project_default_dir");
+				if(!#projectDir) projectDir = io.fullpath("~/project");
+	 			projectDir = fsys.path.removeBackslash(projectDir); 
+	 			exclusionPaths = {projectDir,ide.getProjectDir()}	
+			}
+			
+			var exclusionPaths,err = sys.mpPreference.getExclusionPaths(exclusionPaths)
+			if(exclusionPaths!==null){ 
+				winform.edit.text = string.join(exclusionPaths,'\r\n');
+				winform.btnSave.disabledText = null;
+				winform.btnAdd.disabled = false;
+			}
+			elseif(err) {
+				
+				winform.btnSave.disabledText = null;
+				winform.btnSave.disabled = true;
+				winform.msgWarn("系统未启用 Windows Defender")
+			}
+		 		
+		},winform,_IDE_PUBLISTH_PROJECT_DIR
+	)
+}
+else {
+	winform.msgWarn("系统未启用 Windows Defender")
+	winform.btnSave.disabled = true;
+	winform.btnAdd.disabled = true;
+}
 
 winform.btnSave.oncommand = function(id,event){
     var exclusionPaths = {}

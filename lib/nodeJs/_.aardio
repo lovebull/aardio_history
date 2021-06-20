@@ -160,7 +160,7 @@ cmd = function(filename,param,...){
 	if(param){
 		param = argumentsToArray(param,...);
 	}
-	else {
+	elseif(filename) {
 		var cmdline = ..string.cmdline(filename);
 		if(cmdline[0]){
 			filename = cmdline[0];
@@ -172,8 +172,11 @@ cmd = function(filename,param,...){
 			error("参数错误",2)
 		}
 	}
-	
-	var cmd =  ..io.exist( ..io.joinpath(nodePath,filename + ".cmd" )) : ..fsys.shortpath( filename + ".cmd" ) :  cmd;
+	else {
+		error("参数错误",2)
+	}
+		
+	var cmd =  ..io.exist( ..io.joinpath(nodePath,filename + ".cmd" )) : ..fsys.shortpath( filename + ".cmd" ) :  filename;
 	var prcs,err = ..process( cmd ,param,{workdir=..io.fullpath(self.workDir)});
 	if(prcs){
 		prcs.wait();
@@ -388,7 +391,7 @@ pcmd = function(filename,param,...){
 	if(param){
 		param = argumentsToArray(param,...);
 	}
-	else {
+	elseif(filename)  {
 		var cmdline = ..string.cmdline(filename);
 		if(cmdline[0]){
 			filename = cmdline[0];
@@ -400,8 +403,11 @@ pcmd = function(filename,param,...){
 			error("参数错误",2)
 		}
 	}
-	
-	var cmd =  ..io.exist( ..io.joinpath(nodePath,filename + ".cmd" )) : ..fsys.shortpath( filename + ".cmd" ) :  cmd;
+	else {
+		error("参数错误",2)
+	}
+		
+	var cmd =  ..io.exist( ..io.joinpath(nodePath,filename + ".cmd" )) : ..fsys.shortpath( filename + ".cmd" ) :  filename;
 	var prcs,err = ..process.popen( cmd ,param,{workdir=..io.fullpath(self.workDir)});
  
 	if(prcs){

@@ -537,22 +537,21 @@ updateStatus = function(status,serviceName){
 	return ::Advapi32.SetServiceStatusW( status.hServiceStatus,status);
 }
 
-::Wtsapi32 = ..raw.loadDll("wtsapi32.dll");
+::Wtsapi32 := ..raw.loadDll("Wtsapi32.dll");
 sessions = function(){
-	var info = {ptr ptr}
-	var count = {INT size}
-	if(!::Wtsapi32.WTSEnumerateSessions(null,null,1,info,count)) return;
-	
-	return ..raw.convert(info.ptr,{ 
-    	struct infos[] = {
-    		length = count.size;
-			{
-				INT id;
-				ustring station;
-				int state;
-			}
-		} 
-	} )	[["infos"]]
+    
+ 	var infos = {ptr p}
+	var count = {INT v}
+	if (::Wtsapi32.WTSEnumerateSessions(serverHandle,,1,infos,count)){
+		var ret = ..raw.convertArray(infos.p,count.v,{ 
+				INT sessionId;
+				ustring stationName;
+				int state; 
+		})
+		
+		::Wtsapi32.WTSFreeMemory(infos.p); 
+		return ret;
+	}
 }
 
 eachSession = function(){
@@ -564,11 +563,7 @@ eachSession = function(){
 	}
 }
 
-activeSessionId = function(){
-	for id,station,state in eachSession(){
-		if( state == 0 ) return id;
-	}
-}
+activeSessionId = lambda() ::Kernel32.WTSGetActiveConsoleSessionId();
 
 msgbox = function(str,title,timeout,style,sid){
     if( sid === null ) sid = activeSessionId();
@@ -669,11 +664,11 @@ service.each() = !ntsrvsta2.
 !ntsrvconfig.dependencies = dependencies
 !ntsrvconfig.serviceStartName = serviceStartName
 !ntsrvconfig.displayName = displayName
-service.sessions() = 返回操作系统所有登录用户会话
+service.sessions() = 返回操作系统所有登录用户会话,\n更多会话控制请参考标准库 win.ts
 service.eachSession（） = @for id,station,state in service.eachSession(){
 	if( state == 0 ) return id;__/*遍历操作系统所有登录用户会话，\nid为会话ID，station为会话名,state为会话状态\nstate为0为登录激活状态,1为已连接,4为断开状态*/
 } 
-service.activeSessionId（) = 返回操作系统活动用户会话ID
+service.activeSessionId（) = 返回操作系统活动用户会话ID,\n更多会话控制请参考标准库 win.ts
 service.msgboxErr(.("文本","标题") = 弹出错误对话框\n所有者窗口参数可选\n如果参数@1是表对象,自动调用table.tostring序列化为文本\n其他类型调用tostring转为字符串
 service.msgbox(.("文本","标题",等待超时值,样式) = 弹出对话框\n返回用户操作ID,如果不指定超时值返回IDASYNC 32001\n超时值以毫秒为单位,超时为0表示一直等待,不指定超时则不等待用户操作,\n除参数一以外,其他所有参数可选\n如果参数@1是表对象,自动调用table.tostring序列化为文本\n其他类型调用tostring转为字符串
 service.msgboxTest(.("文本","标题")  = 返回布尔值表示用户是否按了“确定”按钮。\n标题,所有者窗口参数可选

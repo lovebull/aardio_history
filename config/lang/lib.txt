@@ -12,6 +12,7 @@ gdip = gdip GDI+绘图
 inet = inet 网络
 key = key 键盘模拟
 key\hotkey = hotkey 超级热键 
+win\ts = ts 远程桌面
 mouse = mouse 鼠标模拟
 preload = preload 预处理
 process = process 进程操作

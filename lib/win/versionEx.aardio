@@ -10,17 +10,20 @@ namespace win.versionEx{
 	editionId = reg.queryValue("EditionID");
 	updateBuildRevision = reg.queryValue("UBR")
 	
+	//https://docs.microsoft.com/en-us/windows/release-health/release-information
 	var win10ReleaseId = {
 		[10240] = "1507";
 		[10586] = "1511";
-		[14393] = "1607";
+		[14393] = "1607";//SERVER 2016
 		[15063] = "1703";
 		[16299] = "1709";
 		[17134] = "1803";
-		[17763] = "1809";
+		[17763] = "1809";//SERVER 2019
 		[18362] = "1903";
 		[18363] = "1909";
 		[19041] = "2004";//20H1
+		[19042] = "2009";//20H2
+		[19043] = "2104";//21H1
 	}	
 	if(isWin10Later){
 		releaseId = win10ReleaseId[buildNumber]

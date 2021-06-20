@@ -9,6 +9,7 @@ winform.add()
 Edge 内核稳定可靠，但 WebView2 还在起步期，更新也非常活跃，
 如果 运行范例（或发布EXE）遇到问题，请首先到控制面板找到 WebView2 并卸载。
 然后重新运行代码创建 web.view 对象时即可自动安装最新版 WebView2 组件。 
+更新：Windows 11 已自带 WebView2。
 */
 import web.view;
 var wb = web.view(winform);

@@ -347,14 +347,20 @@ namespace popen{
 		return ..fsys.wow64.disableRedirection(lambda(...) ..process.popen(...),...)
 	}
 	
-	ps = function(cmdline,...){
-		var prcs;
-		if(type(...)==type.string ) prcs =  ..fsys.wow64.disableRedirection(lambda(cmdline,...) cmd("PowerShell",cmdline,...),cmdline,...);
-		else prcs =  ..fsys.wow64.disableRedirection(lambda() cmd("PowerShell " + cmdline));
-		prcs.codepage = 65001;
-		return prcs;
+	bind64 = function(fileName,codepage){
+		return function(cmdline,...){
+			var prcs;
+			if(type(...)==type.string ) prcs =  ..fsys.wow64.disableRedirection(lambda(cmdline,...) cmd(fileName,cmdline,...),cmdline,...);
+			else prcs =  ..fsys.wow64.disableRedirection(lambda() cmd(fileName + " " + cmdline));
+			prcs.codepage = codepage;
+			return prcs;
+		}
 	}
 	
+	ps = bind64("PowerShell",65001);
+
+	wsl = bind64("wsl",65001);
+		
 	detached = function(exefile,...){
 		return ..process.popen(exefile,type.isString(...)?{...}:...,{
 			creationFlag = 8/*_DETACHED_PROCESS*/; 
@@ -364,11 +370,14 @@ namespace popen{
  
 /**intellisense()
 process.popen = 创建子进程,并支持管道读写
-process.popen(.(执行文件,命令行参数,STARTUPINFO) = 创建子进程,并支持管道读写\n命令行参数可以是一个数组、一个或多个字符串参数,\n\n数组或多个命令行参数调用 process.joinArguments 合并,\n不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号
+process.popen(.(执行文件,命令行参数,STARTUPINFO) = 创建子进程,并支持管道读写\n命令行参数可以是一个数组、一个或多个字符串参数,\n\n数组或多个命令行参数调用 process.joinArguments 合并,\n不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号\n\n要特别注意某些跨平台程序需要将首参数指定为应用程序自身路径,\n否则会启动失败
 process.popen.cmd(.(命令行参数,->->->) = 按命令行方式创建子进程,并支持管道读写,\n如果第一个参数包含换行,则替换为批处理命令分隔符&&,\n如果传入多个命令行参数，或者命令行参数是个数组，则合并为单个命令行,\n合并时不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号
 process.popen.cmd64(.(命令行参数,->->->) = 按命令行方式创建子进程,并支持管道读写,\n此函数禁用64位系统文件与注册表重定向,\n在64位系统会返回64位进程,兼容32位系统,\n如果第一个命令行参数包含换行,则替换为批处理命令分隔符&&,\n如果传入多个命令行参数，或者命令行参数是个数组，则合并为单个命令行,\n合并时不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号
 process.popen.wow64(.(执行文件,命令行参数,->->->) = 创建子进程,并支持管道读写,\n此函数禁用64位系统文件与注册表重定向,\n在64位系统会返回64位进程,兼容32位系统,\n命令行参数可以是一个数组、一个或多个字符串参数,\n\n数组或多个命令行参数调用 process.joinArguments 合并,\n不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号
 process.popen.ps(.(命令行参数,->->->) = 创建进程执行PowserShell命令,并支持管道读写,\n命令行参数可以是一个数组、一个或多个字符串参数,\n如果第一个命令行参数包含换行,则替换为命令行分隔符&&,\n数组或多个命令行参数调用 process.joinArguments 合并,\n不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号
+process.popen.wsl(.(命令行参数,->->->) = 创建进程执行 WSL 命令,并支持管道读写,\n命令行参数可以是一个数组、一个或多个字符串参数,\n如果第一个命令行参数包含换行,则替换为命令行分隔符&&,\n数组或多个命令行参数调用 process.joinArguments 合并,\n不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号
+process.popen.bind64( = 禁用 64 位重定向绑定并返回执行命令行的函数,\n该函数的命令行参数可以是一个数组、一个或多个字符串参数,\n如果第一个命令行参数包含换行,则替换为命令行分隔符&&,\n数组或多个命令行参数调用 process.joinArguments 合并,\n不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号
+process.popen.bind64(fileName,codepage) = fileName 指定要执行的命令文件名,codepage 指定代码页
 process.popen() = !process_popen.
 process.popen.cmd() = !process_popen.
 process.popen.cmd64() = !process_popen.
@@ -403,7 +412,7 @@ process.popen.detached() = !process_popen.
 !process_popen.write(__) = 写数据,支持一个或多个参数
 !process_popen.writeClose(__) = 写数据并关闭进程输入流,可选指定一个或多个参数\n不指定参数则直接关闭输入流\n注意:有些进程会一直等待输入流关闭再继续下一下操作
 !process_popen.waitOne() = 等待进程关闭,不阻塞UI消息循环,可选使用一个毫秒值参数设定超时\n超时或失败返回 null,\n进程已退出则返回值1为true,返回值2为标准输出,返回值3为错误输出,返回值4为退出代码
-!process_popen.wait() = 等待进程关闭,可选使用一个毫秒值参数设定超时\n超时或失败返回 null,\n进程已退出则返回值1为true,返回值2为标准输出,返回值3为错误输出,返回值4为退出代码
+!process_popen.wait() = 等待进程关闭,可选使用一个毫秒值参数设定超时\n超时或失败返回 null,\n进程退出则返回值1为true,返回值2为标准输出,返回值3为错误输出,返回值4为退出代码
 !process_popen.getExitCode() = 该函数调用成功有两个返回值:进程退出代码,进程是否已退出
 !process_popen.close() = 释放对象
 !process_popen.terminate() = 强制关闭进程并释放进程对象

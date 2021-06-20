@@ -18,6 +18,10 @@ var code = /*
 */
 string.save("/test.php",code);
 
+/*
+改用 process.php.simpleHttpServer 可支持任意版本 PHP。
+php.simpleHttpServer 也只是简单调用了 process.php.simpleHttpServer。
+*/
 import php.simpleHttpServer;
 var url = php.simpleHttpServer.startUrl("/test.php");
 ////如果要自行指定php_cgi.exe路径，请改用 process.php.simpleHttpServer.startUrl() 

@@ -802,7 +802,7 @@ namespace simpleHttpServer{
 			serverMain.onThreadCreated = self.onThreadCreated;
 			serverMain.threadGlobal = self.threadGlobal;
 			serverMain.threadNum = self.threadNum;
-			serverMain.start("127.0.0.1",startPort);	
+			serverMain.start(self.startIp : "127.0.0.1",self.startPort);	
 		}
 		return serverMain.getUrl(path,false); 
 	}

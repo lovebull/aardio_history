@@ -1,7 +1,8 @@
 ﻿import ide;
 import fsys;
+import service;
 
-if(_WIN10_LATER){
+if(_WIN10_LATER && service.isRunning("Windefend") ){
 	var projectDir = ide.getProjectDir()
 	var path = ..io.joinpath(projectDir,".build/mp.lock")
 	if(string.load(path)!=string.crc32(path)){

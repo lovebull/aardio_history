@@ -286,7 +286,7 @@ var openConsole = function(utf8){
 }
 
 open = function(utf8){
-	if( utf8!== null ) self.utf8 = true;
+    if( utf8!== null ) self.utf8 = utf8;
 	if(self.utf8!==null) ..io.utf8 = self.utf8;
 	
 	showLoading(false);
@@ -752,8 +752,8 @@ color =  {
 }
 
 /**intellisense(console)
-open() = 打开控制台窗口,\n如果控制台窗口已打开,该函数不进行任何操作\n如果参数为true，则将console.utf8设为true,具体请参考console.utf8的说明
-utf8 = 控制台是否启用UTF-8编码,\n启用这个选项在win10以下系统可能出现显示不正常的问题\n但有一些程序，例如electron主进程输出默认需要打开此选项\n一般建议关闭,aardio会自动将UTF8转换为ANSI并输出到控制台
+open() = 打开控制台窗口,\n如果控制台窗口已打开,该函数不进行任何操作,\n如果参数为 true 则将console.utf8设为true,\n请参考console.utf8的说明
+utf8 = 控制台是否启用UTF-8编码,\n如果操作系统为英文环境,控制台启用 UTF-8 可正常显示中文,\n此值为 null（默认值） 时由 aardio 自动选择编码（WIN10 以上系统默认开启 UTF-8）,\n启用这个选项在 WIN10 以下系统可能出现显示不正常的问题,\n但有一些程序，例如 Electron 主进程输出默认需要打开此选项
 setLoadingDots(.(动画字符数组,是否显示在尾部,动画间隔毫秒数) = 指定showLoading函数使用的默认动画字符数组\n除参数@1必须指定之外，其他参数可选
 showLoading( = 显示进度动画
 showLoading(.(状态文本,动画颜色) = n所有参数都可以省略,状态文本为false关闭动画,\n调用console.open,console.log等函数都能自动关闭动画\n参数@2只能使用 console.color 的成员值

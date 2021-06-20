@@ -39,6 +39,12 @@ startUrl = function(path,documentRoot,cgiPath,iniPath){
  		error("请先指定process.php.simpleHttpServer.cgiPath")
  	}
  	
+ 	..wsock.tcp.simpleHttpServer.customErrors = self.customErrors;
+ 	..wsock.tcp.simpleHttpServer.threadNum = self.threadNum;
+ 	..wsock.tcp.simpleHttpServer.startPort = self.startPort;
+ 	..wsock.tcp.simpleHttpServer.startIp = self.startIp;
+ 	..wsock.tcp.simpleHttpServer.defalutDocument = "index.php";
+ 	
  	..wsock.tcp.simpleHttpServer.threadGlobal = {
  		phpCgiPath = cgiPath;
  		phpIniPath = iniPath;
@@ -62,4 +68,8 @@ startUrl( =  查找可用端口创建PHP/CGI服务器，返回返回完整URL\n�
 startUrl(.(path,documentRoot) = 查找可用端口创建PHP/CGI服务器，返回返回完整URL\n如果PHP/CGI服务器已启动则直接返回URL而不是重复启动服务器,\n省略参数返回首页URL,尾部不包含斜杠\n可选用@path参数指定请求目标文件的相对路径\n可选使用参数@documentRoot指定网站根目录,默认为"/"
 cgiPath = 可选指定php-cgi.exe路径,\n不指定则自动搜索
 iniPath = 可选指定php.ini路径,\n不指定则在php-cgi.exe目录下查找
+threadNum = 设置服务器线程数，默认为2个线程
+startPort = 设置服务器端口,默认自动分配空闲端口
+startIp = 设置服务器端IP,\n默认为"127.0.0.1"
+customErrors = @.customErrors = {\n    [404] = function(response){\n		response.status = "404 Not Found";\n		response.write("404 Not Found"); __/*自定义错误页*/\n	} \n}
 end intellisense**/

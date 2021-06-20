@@ -1,8 +1,7 @@
-//changeNotification 监控资源管理器
+//changeNotification 监听资源管理器
 import fsys;
 namespace win.util; 
 
-//可以把下面的类放到库里面
 class changeNotification {
 
     ctor( winform ){ 
@@ -115,33 +114,33 @@ namespace changeNotification{
 
 
  /**intellisense()
-win.util.changeNotification = 监控用户对资源管理器的操作
-win.util.changeNotification(.(窗口对象) = 注册文件监控窗口\监控用户对资源管理器的操作,\n省略参数则创建 message only window
-win.util.changeNotification() = !changeNotification.
-!changeNotification._form = !winform.
-!changeNotification.watch(.(监视路径,是否监视子目录) = 添加监视路径,路径可以使用_CSIDL_开头的常量表示\n参数2为可选参数
-!changeNotification.register(.(自定义消息,选项) = 注册并启用文件监视功能,\n所有参数都可以省略,默认使用  _WM_USERDEF_FILECHANGED 消息\n调用此函数以前,必须指定所有需要启用的事件回调函数
-!changeNotification.deregister() = 注销并关闭文件监控
-!changeNotification.onAttributes = @.onAttributes = function(srcPath,dstPath){\n	__/*文件属性被改变*/\n}
-!changeNotification.onRenameItem = @.onRenameItem = function(srcPath,dstPath){\n	__/*非文件外壳对象名称被改变*/\n}
-!changeNotification.onCreate = @.onCreate = function(srcPath,dstPath){\n	__/*文件夹的外壳成员创建了*/\n}
-!changeNotification.onDelete = @.onDelete = function(srcPath,dstPath){\n	__/*非文件夹的外壳成员删除了*/\n}
-!changeNotification.onMakeDir = @.onMakeDir = function(srcPath,dstPath){\n	__/*目录被创建*/\n}
-!changeNotification.onRemoveDir = @.onRemoveDir = function(srcPath,dstPath){\n	__/*文件夹中的内容被改变*/\n}
-!changeNotification.onMediaInserted = @.onMediaInserted = function(srcPath,dstPath){\n	__/*存储介质被插入*/\n}
-!changeNotification.onMediaRemoved = @.onMediaRemoved = function(srcPath,dstPath){\n	__/*存储介质被删除*/\n}
-!changeNotification.onDriveRemoved = @.onDriveRemoved = function(srcPath,dstPath){\n	__/*驱动器被删除了*/\n}
-!changeNotification.onDriveAdd = @.onDriveAdd = function(srcPath,dstPath){\n	__/*添加了驱动器*/\n}
-!changeNotification.onNetShare = @.onNetShare = function(srcPath,dstPath){\n	__/*本地的目录被共享*/\n}
-!changeNotification.onNetUnShare = @.onNetShare = function(srcPath,dstPath){\n	__/*本地的目录取消共享*/\n}
-!changeNotification.onUpdateDir = @.onUpdateDir = function(srcPath,dstPath){\n	__/*文件夹中的内容被改变\n此目录下的较多文件变更可能被合并为此事件*/\n}
-!changeNotification.onUpdateItem = @.onUpdateItem = function(srcPath,dstPath){\n	__/*非文件夹外壳对象的名称被改变*/\n}
-!changeNotification.onSeverDisconnect = @.onSeverDisconnect = function(srcPath,dstPath){\n	__/*计算机被服务器断开*/\n}
-!changeNotification.onUpdateImage = @.onUpdateImage = function(srcPath,dstPath){\n	__/*系统图像列表中的图像被改变*/\n}
-!changeNotification.onDriveAddGui = @.onDriveAddGui = function(srcPath,dstPath){\n	__/*通过外壳添加的驱动器*/\n}
-!changeNotification.onRenameFolder = @.onRenameFolder = function(srcPath,dstPath){\n	__/*文件夹名称被改变*/\n}
-!changeNotification.onFreeSpace = @.onFreeSpace = function(srcPath,dstPath){\n	__/*驱动器剩余空间数变化*/\n}
-!changeNotification.onAssocChanged = @.onAssocChanged = function(srcPath,dstPath){\n	_/*文件关联被改变了*/\n}
+win.util.changeNotification = 监听用户对资源管理器的操作
+win.util.changeNotification(.(窗口对象) = 注册文件监听窗口\监听用户对资源管理器的操作,\n省略参数则创建 message only window
+win.util.changeNotification() = !wuChangeNotification.
+!wuChangeNotification._form = !winform.
+!wuChangeNotification.watch(.(监视路径,是否监视子目录) = 添加监视路径,路径可以使用_CSIDL_开头的常量表示\n参数2为可选参数
+!wuChangeNotification.register(.(自定义消息,选项) = 注册并启用文件监视功能,\n所有参数都可以省略,默认使用  _WM_USERDEF_FILECHANGED 消息\n调用此函数以前,必须指定所有需要启用的事件回调函数
+!wuChangeNotification.deregister() = 注销并关闭文件监听
+!wuChangeNotification.onAttributes = @.onAttributes = function(srcPath,dstPath){\n	__/*文件属性被改变*/\n}
+!wuChangeNotification.onRenameItem = @.onRenameItem = function(srcPath,dstPath){\n	__/*非文件外壳对象名称被改变*/\n}
+!wuChangeNotification.onCreate = @.onCreate = function(srcPath,dstPath){\n	__/*文件夹的外壳成员创建了*/\n}
+!wuChangeNotification.onDelete = @.onDelete = function(srcPath,dstPath){\n	__/*非文件夹的外壳成员删除了*/\n}
+!wuChangeNotification.onMakeDir = @.onMakeDir = function(srcPath,dstPath){\n	__/*目录被创建*/\n}
+!wuChangeNotification.onRemoveDir = @.onRemoveDir = function(srcPath,dstPath){\n	__/*文件夹中的内容被改变*/\n}
+!wuChangeNotification.onMediaInserted = @.onMediaInserted = function(srcPath,dstPath){\n	__/*存储介质被插入*/\n}
+!wuChangeNotification.onMediaRemoved = @.onMediaRemoved = function(srcPath,dstPath){\n	__/*存储介质被删除*/\n}
+!wuChangeNotification.onDriveRemoved = @.onDriveRemoved = function(srcPath,dstPath){\n	__/*驱动器被删除了*/\n}
+!wuChangeNotification.onDriveAdd = @.onDriveAdd = function(srcPath,dstPath){\n	__/*添加了驱动器*/\n}
+!wuChangeNotification.onNetShare = @.onNetShare = function(srcPath,dstPath){\n	__/*本地的目录被共享*/\n}
+!wuChangeNotification.onNetUnShare = @.onNetShare = function(srcPath,dstPath){\n	__/*本地的目录取消共享*/\n}
+!wuChangeNotification.onUpdateDir = @.onUpdateDir = function(srcPath,dstPath){\n	__/*文件夹中的内容被改变\n此目录下的较多文件变更可能被合并为此事件*/\n}
+!wuChangeNotification.onUpdateItem = @.onUpdateItem = function(srcPath,dstPath){\n	__/*非文件夹外壳对象的名称被改变*/\n}
+!wuChangeNotification.onSeverDisconnect = @.onSeverDisconnect = function(srcPath,dstPath){\n	__/*计算机被服务器断开*/\n}
+!wuChangeNotification.onUpdateImage = @.onUpdateImage = function(srcPath,dstPath){\n	__/*系统图像列表中的图像被改变*/\n}
+!wuChangeNotification.onDriveAddGui = @.onDriveAddGui = function(srcPath,dstPath){\n	__/*通过外壳添加的驱动器*/\n}
+!wuChangeNotification.onRenameFolder = @.onRenameFolder = function(srcPath,dstPath){\n	__/*文件夹名称被改变*/\n}
+!wuChangeNotification.onFreeSpace = @.onFreeSpace = function(srcPath,dstPath){\n	__/*驱动器剩余空间数变化*/\n}
+!wuChangeNotification.onAssocChanged = @.onAssocChanged = function(srcPath,dstPath){\n	_/*文件关联被改变了*/\n}
 
  _WM_USERDEF_FILECHANGED = @0x8F00/* _WM_USERDEF_FILECHANGED */
 _SHCNRF_InterruptLevel=@1/*_SHCNRF_InterruptLevel*/

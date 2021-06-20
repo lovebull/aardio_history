@@ -106,7 +106,14 @@ namespace version{
         			isWin7Later = true;
         			isWin8Later = true;
         			isWin10Later = true;
-        			name = "Windows 10";
+        			if( !isServer){
+        				name = "Windows 10";
+        			}
+        			else {
+        				if(buildNumber<17763) name = "Windows Server 2016";
+        				elseif(buildNumber<=14393) name = "Windows Server 2019";
+        				else name = "Windows Server";
+        			}
         		}
         	} 
         } 

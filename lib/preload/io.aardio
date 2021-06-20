@@ -27,6 +27,8 @@ appData = function(p,d){
 	return p;
 }
 
+if(_WIN10_LATER) self.utf8 = true;
+
 /**intellisense(io)
 getSpecial(_CSIDL__) = 获取指定目录,参数@1指定_CSIDL开头的常量\n可选增加任意个拼接到目录后的子路径参数\n这个函数与fsys.getSpecial函数用法接近,\n但支持不定个数子路径参数, 不支持返回PIDL
 appData(.(path,data) = 将@path指定的相对路径转换为系统AppData目录下的绝对路径,\n可选使用@data指定需要存入的数据,\n只有在存入字节与目标文件内容长度不同时才会更新文件,\n最后返回转换所得的完整路径

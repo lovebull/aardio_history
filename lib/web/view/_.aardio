@@ -353,7 +353,7 @@ namespace view{
 }
 
 /**intellisense()
-web.view = WebView2（Edge/Chromium内核）控件，\n需要安装 WebView2 Runtime，支持自动安装，\n支持WIN7,WIN8,WIN10，\nWINXP不支持，XP已经在市场接近消失，可以忽略
+web.view = WebView2（Edge/Chromium内核）控件，\n需要安装 WebView2 Runtime，支持自动安装，\n支持WIN7,WIN8,WIN10，\nWindows 11 已自带 WebView20，\nWINXP不支持，XP已经在市场接近消失，可以忽略
 web.view(.(winform,userDataDir,browserArguments) = 创建 Edge 浏览器控件，\nwinform指定嵌入窗口，可选使用 @userDataDir 参数自定义用户数据目录，\n@browserArguments 为可选参数，可用文本指定启动参数，也可用数值指定调试端口，\n调试端口为0则自动分配空闲端口
 web.view() = !stdWebView2.
 web.view.getRuntimeInfo() = 获取 WebView2 Runtime 安装信息\n未安装返回 null
