@@ -124,7 +124,7 @@ enum = @.enum(\n	function(sessionId,stationName,connectState){\n		console.log(se
 isRemote() =  当前是否通过远程桌面登录
 currentId() = 获取当前会话 ID
 activeConsoleId() = 获取活动桌面会话 ID
-connect( = 连接并切换会话,此函数需要管理权限,\n这个函数可用于源登录会话重新连接到其他会话拥有的激活的控制桌面,\n例如将当前远程桌面会话重新连接到本机控制桌面,\n以避免远程桌面关闭而退出会话
+connect( = 连接并切换会话,此函数需要管理权限,\n这个函数可用于源登录会话重新连接到其他会话拥有的激活的控制桌面,\n例如将当前远程桌面会话重新连接到本机控制桌面,\n以避免远程桌面关闭而退出会话\n\n此函数需要调用 tscon.exe,但家庭版缺少 tscon.exe,\n建议改用不依赖 tscon.exe 的 win.ts.session().connect() 函数
 connect(.(logonId,targetName,logonPassword) = 所有参数都是可选参数,\n@logonId 指定源会话ID，@logonId 默认为当前会话,\n@logonId指定源会话的登录用户必须拥有连接目标会话的权限,\n连接到 @targetName 指定目标会话名的桌面,@targetName 默认为本机控制会话（"console"）,\n@logonPassword 指定 @logonId 参数指定会话的密码,\n返回值1为标准输出,返回值2为错误输出,返回值3为退出代码\n\n如果切换远程桌面与本地桌面会话,\n@targetId 指定的控制会话桌面将被@logonId 指定的会话接管,\n@targetId指定的会话断开,\n\n如果用于切换本地登录用户,\n@targetId指定的控制会话桌面断开,@logonId 指定的会话将被激活
 end intellisense**/
 

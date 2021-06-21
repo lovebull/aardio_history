@@ -656,7 +656,7 @@
 994006710|711168|301816|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--958240208|15|34|config\SYS.CFG
+1609251722|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 53206250|109394|28765|config\intellisense\kernel.txt
@@ -1295,6 +1295,7 @@
 -884887948|4399|1733|lib\crypt\hash.aardio
 -330008860|1848|687|lib\crypt\hmac.aardio
 -34059323|2505|967|lib\crypt\jwt.aardio
+-263492981|1979|866|lib\crypt\protectData.aardio
 1726796049|1537|820|lib\crypt\rc4.aardio
 -183222427|13743|3271|lib\crypt\rsa.aardio
 1356631998|37971|8934|lib\crypt\_.aardio
@@ -1756,7 +1757,7 @@
 -2077446882|949|509|lib\win\region\png\.res\build.aardio
 -673249726|2048|546|lib\win\region\png\.res\c.dll
 -1287274659|2007|872|lib\win\ts\changeNotification.aardio
--337984299|7231|2642|lib\win\ts\_.aardio
+914194601|7367|2703|lib\win\ts\_.aardio
 -1905724311|2829|1233|lib\win\ui\accelerator.aardio
 -41202246|1487|701|lib\win\ui\atom.aardio
 -138249488|5889|1856|lib\win\ui\background.aardio
