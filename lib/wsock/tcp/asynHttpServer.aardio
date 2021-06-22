@@ -706,8 +706,8 @@ class asynHttpServer{
 			}
 		}
 		
-		if( ..string.cmp( request.headers["connection"],"Upgrade") == 0 ){
-			 
+		if( ..string.find( request.headers["connection"],"!\wUpgrade!\W")  ){
+			
 			if( this.onUpgradeProtocol ){
 				var saverequest,saveresponse,savesession = ..request,..response,..session;
 				..request,..response = request,response;

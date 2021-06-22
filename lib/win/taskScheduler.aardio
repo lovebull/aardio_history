@@ -17,6 +17,11 @@ class taskScheduler {
 	start = function( interval = 1000 ){  
 		if(timerId) winform.clearInterval(timerId);
 		
+		for(name,task in namedTask){ 
+			if( task.time ) task.lastRunTime = null; 
+			else task.lastRunTime = ..time(); 
+		} 
+		
 		timerId = winform.setInterval(
 			function(hwnd,msg,id,tick){ 
 				this.trigger();
@@ -107,6 +112,26 @@ class taskScheduler {
 			for(k,v in task.time ){  
 				if( now[k] != v ){  task.pending = true; continue 2; } 
 			}  
+			
+			if(task.time && task.lastRunTime ){
+				var same = true;
+				for(k,v in task.time){
+					if( ( task.lastRunTime[k] !== v )  ){
+    					same = false;
+					}
+				}
+
+				if(same){
+					for i,v in ..table.eachIndex({"year";"month";"day";"hour";"minute";"second"}){
+						if( task.time[v] !== null ) {
+							continue 2; 
+						} 
+						elseif(now[v]!==task.lastRunTime[v]){ 
+							break; 
+						} 
+					}
+				}
+			}
 			 
 			for(k,v in task.interval  ){  
 				now.diff = now[ "diff" + k ];
@@ -142,7 +167,7 @@ win.taskScheduler() = !win_taskScheduler.
 !win_taskScheduler.create() = !win_taskSchedulerTask.
 !win_taskSchedulerTask.enabled = 是否允许执行
 !win_taskSchedulerTask.time = @.time = { 
-	second =  秒 __/*请指定准时执行的时间字段值*/;
+	second =  秒 __/*请指定准时启动任务的时间字段值\n不作为条件匹配的时间字段不用指定\n即使任务在启动时间内完成也不会重新启动任务*/;
 	minute = 分钟 ; 
 	hour = 小时 ;
 	day = 日 ;

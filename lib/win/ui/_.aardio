@@ -608,14 +608,23 @@ namespace win.form{
    						}
    					}
    				}
-   				
+
+				var hasBackground = this.hasBackground;
    				if(#this._onlyDirectDrawBackground){
+					hasBackground = true;
    					for(k,ctrl in this._onlyDirectDrawBackground){
    						adjustCtrl( ctrl,true );
    					}
-   					this.background.update();
    				}
-   				elseif( this.hasBackground ){ 
+
+				if(#this._directDrawBackground){
+					hasBackground = true;
+   					for(k,ctrl in this._directDrawBackground){
+   						adjustCtrl( ctrl,true );
+   					} 
+   				}
+
+   				if( hasBackground ){ 
 					this.background.update(); 
 				}  
    				

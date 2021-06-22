@@ -451,7 +451,7 @@
 580823624|737|424|codes\范例程序\操作系统\settings.aardio
 -871940370|1876|911|codes\范例程序\操作系统\shellFolder.aardio
 -786755768|1946|937|codes\范例程序\操作系统\sysColor.aardio
--2024314034|1008|545|codes\范例程序\操作系统\sysInfo.aardio
+-1082817949|1474|780|codes\范例程序\操作系统\sysInfo.aardio
 -1229088317|1039|546|codes\范例程序\操作系统\virDesktop.aardio
 285483356|689|469|codes\范例程序\操作系统\关闭显示器.aardio
 2075772280|996|553|codes\范例程序\操作系统\取硬盘序列号.aardio
@@ -656,7 +656,7 @@
 994006710|711168|301816|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
-1609251722|15|34|config\SYS.CFG
+1497666980|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 53206250|109394|28765|config\intellisense\kernel.txt
@@ -1226,7 +1226,7 @@
 162527712|1570|612|lib\bencoding\encoder.aardio
 151425416|723|419|lib\bencoding\magnet.aardio
 -1895578078|54|49|lib\bencoding\_.aardio
-123373902|21869|6708|lib\chrome\app.aardio
+-1095537913|22393|6847|lib\chrome\app.aardio
 814582489|3559|1728|lib\chrome\dev.aardio
 991338471|31375|7714|lib\chrome\driver.aardio
 1141455353|1023|497|lib\chrome\edge.aardio
@@ -1329,7 +1329,7 @@
 0|0|0|lib\electron\app\
 0|0|0|lib\electron\runtime\
 0|0|0|lib\electron\app\.build\
--694609702|28544|8047|lib\electron\app\_.aardio
+-944070263|29066|8177|lib\electron\app\_.aardio
 0|0|0|lib\electron\app\.build\aardio\
 -706361506|9168|3018|lib\electron\app\.build\main.aardio
 1277351621|115071|24902|lib\electron\app\.build\ws.asar
@@ -1486,6 +1486,7 @@
 -321055124|2810|1239|lib\process\usage.aardio
 -1099924714|2296|1066|lib\process\vswhere.aardio
 -1050612479|2254|910|lib\process\wmi.aardio
+-1455618052|2250|1040|lib\process\wow64.aardio
 -137668550|53357|14214|lib\process\_.aardio
 2013837002|6858|2296|lib\process\apiHook\_.aardio
 1404097761|2825|1098|lib\process\job\limitKill.aardio
@@ -1722,7 +1723,7 @@
 -1955374457|19053|4872|lib\win\reg.aardio
 0|0|0|lib\win\region\
 561284042|1449|741|lib\win\subclass.aardio
--697779787|5510|1874|lib\win\taskScheduler.aardio
+338866765|6200|2087|lib\win\taskScheduler.aardio
 -1293543738|2432|1013|lib\win\timer.aardio
 0|0|0|lib\win\ts\
 0|0|0|lib\win\ui\
@@ -1784,7 +1785,7 @@
 499386293|10052|2964|lib\win\ui\toolbar.aardio
 -617068702|10681|3284|lib\win\ui\tooltip.aardio
 -1766920331|10172|2781|lib\win\ui\tracker.aardio
--1410898290|58687|13460|lib\win\ui\_.aardio
+-2067874064|58888|13486|lib\win\ui\_.aardio
 1620929574|6551|2659|lib\win\ui\ctrl\atlax.aardio
 -689946269|4825|1700|lib\win\ui\ctrl\bk.aardio
 -751364781|9955|3305|lib\win\ui\ctrl\bkplus.aardio
@@ -1795,7 +1796,7 @@
 1624620549|12731|4578|lib\win\ui\ctrl\combobox.aardio
 488148247|3737|1280|lib\win\ui\ctrl\custom.aardio
 1467959672|6943|2581|lib\win\ui\ctrl\datetimepick.aardio
-870196121|26498|8291|lib\win\ui\ctrl\edit.aardio
+1546820733|26736|8374|lib\win\ui\ctrl\edit.aardio
 915790895|4343|1799|lib\win\ui\ctrl\hotkey.aardio
 -1843827469|5177|2200|lib\win\ui\ctrl\ipaddress.aardio
 -1819767461|12941|4288|lib\win\ui\ctrl\listbox.aardio
@@ -1805,7 +1806,7 @@
 -304732565|7669|2694|lib\win\ui\ctrl\picturebox.aardio
 1462837102|81623|19129|lib\win\ui\ctrl\plus.aardio
 53463247|5818|2105|lib\win\ui\ctrl\progress.aardio
--1249727273|37327|10887|lib\win\ui\ctrl\richedit.aardio
+1847468545|37574|10973|lib\win\ui\ctrl\richedit.aardio
 1154239158|5807|2206|lib\win\ui\ctrl\scrollbar.aardio
 -968203203|7416|2876|lib\win\ui\ctrl\spin.aardio
 -1127563964|9016|2921|lib\win\ui\ctrl\splitter.aardio
@@ -1848,7 +1849,7 @@
 0|0|0|lib\wsock\udp\
 1006724467|27258|7670|lib\wsock\_.aardio
 944740427|15954|4846|lib\wsock\tcp\asynClient.aardio
--395346003|29750|8278|lib\wsock\tcp\asynHttpServer.aardio
+920335151|29752|8287|lib\wsock\tcp\asynHttpServer.aardio
 439346883|10910|3318|lib\wsock\tcp\asynServer.aardio
 867069460|24893|6879|lib\wsock\tcp\client.aardio
 -653866149|8279|2898|lib\wsock\tcp\jsonClient.aardio

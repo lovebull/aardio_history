@@ -99,8 +99,19 @@ class app {
 		}
 		this.http.run( 
     		function(response,request,session){
-    			response.headers["Access-Control-Allow-Origin"] = "*";
-    			response.headers["Access-Control-Allow-Headers"] = "Content-Type, Rpc-Client-Id, *";
+    			response.headers["Access-Control-Allow-Headers"] = "Content-Type, Rpc-Client-Id, *"
+				
+				if(!this.accessControlAllowOrigin){
+					response.headers["Access-Control-Allow-Origin"] = "*";
+				}
+				else{
+					var origin = request.headers["origin"]
+					if( origin && this.accessControlAllowOrigin[[ origin ]]){
+						response.headers["Access-Control-Allow-Origin"] = origin
+						response.headers["Vary"] = "Origin";
+					}
+				}
+					
     			if(request.method != "OPTIONS"){
 					var handler = this.httpHandler[request.path];
     				if( handler ) {
@@ -470,6 +481,7 @@ end intellisense**/
 _form = 创建chrome.app时指定的父窗口\n!static.
 ws = aardio创建的WebSocket服务器\n!stdwebsocketserver.
 rpc = aardio创建的JSON-RPC服务端\n!stdwebsocketjsonserver.
+accessControlAllowOrigin = 指定允许写入 Access-Control-Allow-Headers 响应头的站点地址\n此属性必须为 null 或者指定为一个表对象,\n表的键为允许跨域调用的站点地址,值必须为 true
 http = aardio创建的HTTP服务器\n!stdasynHttpServer.
 serverIp = 指定嵌入服务器的监听IP\n默认值为 "127.0.0.1",仅限本机可以访问\n如果希望外网可以访问,可以赋值为null即可\n在调用start函数以前指定此属性才有效
 serverPort = 指定嵌入服务器的监听端口\n建议保持默认值null\n不指定端口可以随机分配空闲端口，不会出现端口冲突的问题\n在调用start函数以前指定此属性才有效

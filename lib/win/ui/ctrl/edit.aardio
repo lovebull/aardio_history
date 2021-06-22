@@ -499,7 +499,7 @@ edit._metaProperty =  metaProperty(
 !edit.selLine = 获取或设置当前行,\n光标移动到该行开始处,并且滚动到该行,\n设为-1跳转到最后一行
 !edit.getLength() = 获取文本长度\n注意是按字符计数，而不是按字节计数
 !edit.modified = 文本内容是否已修改 
-!edit.text = 编辑控件文本属性
+!edit.text = 编辑控件文本属性\n注意 edit 控件使用'\x0D\x0A'表示换行,而richedit控件则使用'\x0A'表示换行，\n用多行注释作为字符串赋值时换行会自动格式化换行为'\x0D\x0A'，\n例如 winform.edit.txt = /*文本\n第二行文本*/
 !edit.disabledText = 指定文本时,禁用此控件,并显示指定文本,\n指定为null时,启用此控件,并恢复控件之前的正常文本
 !edit.hwnd = 控件句柄
 !edit.id = 控件ID

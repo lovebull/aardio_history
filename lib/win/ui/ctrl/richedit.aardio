@@ -528,7 +528,7 @@ win.ui.ctrl.richedit() = 多功能文本框控件\n!richedit.
 !richedit.modified = 文本内容是否已修改
 !richedit.getLength() = 获取文本长度\n注意是按字符计数，而不是按字节计数
 !richedit.rangeText(.(起始位置,结束位置) = 返回指定位置文本\n1表示首字符
-!richedit.text = 获取或写入编辑控件文本属性\n可写入UTF8或UTF16字符串，其他类型转为字符串写入
+!richedit.text = 获取或写入编辑控件文本属性,\n可写入UTF8或UTF16字符串，其他类型转为字符串写入,\n注意 edit 控件使用'\x0D\x0A'表示换行,而richedit控件则使用'\x0A'表示换行，\n用双引号或反引号包含字符串赋值时换行会自动格式化换行为'\x0A'，\n例如 winform.richedit.txt = "文本\n第二行文本"
 !richedit.disabledText = 指定文本时,禁用此控件,并显示指定文本,\n指定为null时,启用此控件,并恢复控件之前的正常文本
 !richedit.log( __,'\r\n' ) = 追加字符串到文本框,可输入多个参数\n如果超出limit属性设定的字符数限制则移除头部多余的字符\n为提升性能,limit不可过大
 !richedit.dump(__/*变量*/) = 显示变量的值,支持多参数\n注意仅显示普通table,string,number等类型的值,不显示函数等

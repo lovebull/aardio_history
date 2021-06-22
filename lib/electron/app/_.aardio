@@ -393,9 +393,19 @@ class app{
 		this.ws.start(this.serverIp,this.serverPort);
 		this.http.run( 
     		function(response,request,session){
-    			response.headers["Access-Control-Allow-Origin"] = "*";
     			response.headers["Access-Control-Allow-Headers"] = "Content-Type, Rpc-Client-Id, *"
-
+				
+				if(!this.accessControlAllowOrigin){
+					response.headers["Access-Control-Allow-Origin"] = "*";
+				}
+				else{
+					var origin = request.headers["origin"]
+					if( origin && this.accessControlAllowOrigin[[ origin ]]){
+						response.headers["Access-Control-Allow-Origin"] = origin
+						response.headers["Vary"] = "Origin";
+					}
+				}
+				
     			if(request.method != "OPTIONS"){
     				var handler = this.httpHandler[request.path];
     				if( handler ) {
@@ -631,6 +641,7 @@ windowTitle = 窗口默认标题
 ws = aardio创建的WebSocket服务器\n!stdwebsocketserver.
 rpc = aardio创建的JSON-RPC服务端\n!stdwebsocketjsonserver.
 http = aardio创建的HTTP服务器\n!stdasynHttpServer.
+accessControlAllowOrigin = 指定允许写入 Access-Control-Allow-Headers 响应头的站点地址\n此属性必须为 null 或者指定为一个表对象,\n表的键为允许跨域调用的站点地址,值必须为 true
 html = 可选使用些属性直接指定启动页面的代码\n代码会被自动存于indexUrl指定的文件地址
 jsMain = @.jsMain = /**\n    const aardio = require('aardio'); \n    const app = require('electron').app; \n    \n    /* aardio-electron 主进程已准备就绪,win是已创建的主窗口(BrowserWindow对象) */\n	aardio.ready( win => { \n		if( !aardio.studioInvoke ){\n			win.setMenu( null ) \n		} \n		\n		win.on('closed', () => {  \n			\n		})  	\n	} )\n   \n    /* 全部窗口已关闭, 退出electron进程 */\n    app.on('window-all-closed', () => {\n        app.quit(); \n    }) \n**/
 electronDir = electron.exe 所在的目录
