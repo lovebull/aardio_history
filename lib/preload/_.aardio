@@ -67,14 +67,14 @@ _WIN10_LATER = !!::Kernel32.api("GetSystemCpuSetInformation");
 ::HIBYTE = function(l) {return   (l   >> 8) & 0xff  }
 ::MAKEWORD = function (a,b){ return ( ( ( b & 0xFF) << 8) | ( a & 0xFF) ) & 0xFFFF  } 
 /*end intellisense*/ 
- 
+
+import preload.struct;
 import preload.string;
 import preload.table;
 import preload.raw;
 import preload.math;
 import preload.thread;
 import preload.io;
-import preload.struct;
 
 gcdata = function(t){
 	var d = ..raw.buffer(1);d@ = t;

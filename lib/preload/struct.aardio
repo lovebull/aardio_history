@@ -1,7 +1,7 @@
 ﻿namespace preload.struct{}
 
 /*intellisense()*/
-::POINT = class  {
+class ::POINT {
    ctor(x=0,y=0){
       this.x = x;
       this.y = y;
@@ -10,7 +10,7 @@
    int y ;
 }
 
-::SIZE = class {
+class ::SIZE {
 	ctor(cx=0,cy=0){
       this.cx = cx;
       this.cy = cy;
@@ -20,7 +20,7 @@
 } 
 /*end intellisense*/
 
-::RECT = class {
+class ::RECT {
 	ctor(left=0,top=0,right=0,bottom=0){
   		this.left = left;
   		this.top = top;

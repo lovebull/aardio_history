@@ -5,7 +5,7 @@ import process.popen;
 namespace process{
 	
 	class batch{
-		ctor( script,ownerArgs,workdir ){{
+		ctor( script,ownerArgs,workDir ){{
 			var err;
 			if(  (#script <  0x410/*_MAX_PATH_U8*/ ) && ..string.endWith(script,".aardio",true) ){
 				script,err = ..string.loadcode( script ,ownerArgs);	
@@ -34,7 +34,7 @@ namespace process{
 			tempFile.close();
 		  
 			this = ..process.popen("cmd.exe",..table.append({"/c",tempFile.path},ownerArgs),{
-				workdir = workdir : "/";
+				workDir = workDir : "/";
 			})
 	
 			this.beforeClose = function(){ 
@@ -51,9 +51,9 @@ namespace process{
 /**intellisense()
 process.batch = 批处理管道进程,\n用于加载批处理代码，支持使用 aardio 模板语法嵌入 aardio 代码
 process.batch( = 创建批处理管道进程,\n用于加载批处理代码，支持使用 aardio 模板语法嵌入 aardio 代码
-process.batch(.(script,ownerArgs,workdir) = @script 参数可以是批处理脚本或批处理文件，支持资源文件,\n支持使用 aardio 模板语法嵌入 aardio 代码,\n批处理代码会使用自动生成的临时文件加载执行,对象释放时自动删除临时文件,\n可选用 @ownerArgs 参数指定aardio 模板代码可以调用的 owner 参数,\n@ownerArgs 的数组成员传递给批处理作为启动参数,可用%1 %2 ...接收,\n可选用 @workdir 指定工作目录,默认为应用程序目录
+process.batch(.(script,ownerArgs,workDir) = @script 参数可以是批处理脚本或批处理文件，支持资源文件,\n支持使用 aardio 模板语法嵌入 aardio 代码,\n批处理代码会使用自动生成的临时文件加载执行,对象释放时自动删除临时文件,\n可选用 @ownerArgs 参数指定aardio 模板代码可以调用的 owner 参数,\n@ownerArgs 的数组成员传递给批处理作为启动参数,可用%1 %2 ...接收,\n可选用 @workDir 指定工作目录,默认为应用程序目录
 process.batch.wow64( = 创建批处理管道进程,\n禁用64位文件与注册表重定向,\n在64位系统会返回64位进程,兼容32位系统,\n用于加载批处理代码，支持使用 aardio 模板语法嵌入 aardio 代码
-process.batch.wow64(.(script,ownerArgs,workdir) = @script 参数可以是批处理脚本或批处理文件，支持资源文件,\n支持使用 aardio 模板语法嵌入 aardio 代码,\n批处理代码会使用自动生成的临时文件加载执行,对象释放时自动删除临时文件,\n可选用 @ownerArgs 参数指定aardio 模板代码可以调用的 owner 参数,\n@ownerArgs 的数组成员传递给批处理作为启动参数,可用%1 %2 ...接收,\n可选用 @workdir 指定工作目录,默认为应用程序目录
+process.batch.wow64(.(script,ownerArgs,workDir) = @script 参数可以是批处理脚本或批处理文件，支持资源文件,\n支持使用 aardio 模板语法嵌入 aardio 代码,\n批处理代码会使用自动生成的临时文件加载执行,对象释放时自动删除临时文件,\n可选用 @ownerArgs 参数指定aardio 模板代码可以调用的 owner 参数,\n@ownerArgs 的数组成员传递给批处理作为启动参数,可用%1 %2 ...接收,\n可选用 @workDir 指定工作目录,默认为应用程序目录
 process.batch() = !process_popen.
 process.batch.wow64() = !process_popen.
 end intellisense**/

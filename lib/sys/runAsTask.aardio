@@ -49,7 +49,7 @@ class runAsTask{
 		var root = this.schedule.GetFolder("\") 
 		try{ root.DeleteTask( taskName ); }
 	};
-	register = function(arguments,path,workdir){
+	register = function(arguments,path,workDir){
 		if(_STUDIO_INVOKED){return}
 		this.delete();
 		
@@ -57,7 +57,7 @@ class runAsTask{
 		var act = definition.actions.Create( this.schedule.TASK_ACTION_EXEC );
 		act.Path = path;
 		act.Arguments = ..process.joinArguments(arguments);
-		act.WorkingDirectory = workdir || ..io.splitpath(path).dir;
+		act.WorkingDirectory = workDir || ..io.splitpath(path).dir;
 			
 		var root = this.schedule.GetFolder("\") 
 		return root.RegisterTaskDefinition(this.taskName, this.definition
@@ -70,5 +70,5 @@ sys.runAsTask = 创建开机启动任务，以管理员权限启动 - 不会出�
 sys.runAsTask(.(taskName,description,author) = 创建开机启动任务，\n@taskName：计划任务名称\n@description: 计划任务描述\n@author: 创建者名称，可选参数
 sys.runAsTask() = !stdSysRunAsTask.
 !stdSysRunAsTask.delete() = 删除计划任务
-!stdSysRunAsTask.register(.(arguments,path,workdir) = 添加计划任务\n@arguments：启动命令行参数\n@path：启动的应用程序路径,省略则为当前应用程序路径\n@workdir：启动程序工作目录，可选参数
+!stdSysRunAsTask.register(.(arguments,path,workDir) = 添加计划任务\n@arguments：启动命令行参数\n@path：启动的应用程序路径,省略则为当前应用程序路径\n@workdir：启动程序工作目录，可选参数
 end intellisense**/

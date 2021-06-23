@@ -29,26 +29,26 @@ class vswhere{
 
 namespace vswhere{
 	
-	dev = function(workdir){
+	dev = function(workDir){
 		var vswhere,err  = ..process.vswhere("-prerelease -latest -property installationPath")
 		var path = vswhere[[1]][["installationPath"]]
 		if(path){
 			path = ..io.joinpath(path,"Common7\Tools\vsdevcmd.bat")
 			if(..io.exist(path)){
-				return ..process.execute("cmd.exe",{"/k",path},,,workdir);
+				return ..process.execute("cmd.exe",{"/k",path},,,workDir);
 			}
 		} 
 	}
 	
 	
-	pdev = function(workdir){
+	pdev = function(workDir){
 		var vswhere,err  = ..process.vswhere("-prerelease -latest -property installationPath")
 		var path = vswhere[[1]][["installationPath"]]
 		if(path){
 			path = ..io.joinpath(path,"Common7\Tools\vsdevcmd.bat")
 			if(..io.exist(path)){
 				return ..process.popen("cmd.exe",{"/k",path},{
-					workdir = workdir;
+					workDir = workDir;
 				});
 			}
 		} 

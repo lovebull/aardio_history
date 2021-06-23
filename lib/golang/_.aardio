@@ -122,7 +122,7 @@ class golang{
 		
 		this.command = function(...){
 			..console.open() 
-			var prcs =  ..process( this.path,{"go";...} ,{workdir=..io.fullpath("/");environment=this.environment} ); 
+			var prcs =  ..process( this.path,{"go";...} ,{workDir=..io.fullpath("/");environment=this.environment} ); 
 			prcs.wait();
 			prcs.free();
 		};

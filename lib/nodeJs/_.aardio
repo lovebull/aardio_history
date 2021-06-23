@@ -177,7 +177,7 @@ cmd = function(filename,param,...){
 	}
 		
 	var cmd =  ..io.exist( ..io.joinpath(nodePath,filename + ".cmd" )) : ..fsys.shortpath( filename + ".cmd" ) :  filename;
-	var prcs,err = ..process( cmd ,param,{workdir=..io.fullpath(self.workDir)});
+	var prcs,err = ..process( cmd ,param,{workDir=..io.fullpath(self.workDir)});
 	if(prcs){
 		prcs.wait();
 		return true;
@@ -191,7 +191,7 @@ execFile = function(path,param,...){
     
     param = argumentsToArray(param,...); 
 	..table.unshift(param, (..fsys.shortpath(path)));
-	var prcs,err = ..process.popen(nodeExePath,param,{workdir=..io.fullpath(self.workDir)})
+	var prcs,err = ..process.popen(nodeExePath,param,{workDir=..io.fullpath(self.workDir)})
 	if(prcs){
 		prcs.codepage = 65001;
 		return prcs;	
@@ -204,7 +204,7 @@ exec = function(code,param,...){
     if(!install())return;
     
     param = argumentsToArray("-",param,...);  
-	var prcs,err = ..process.popen(nodeExePath,param,{workdir=..io.fullpath(self.workDir)})
+	var prcs,err = ..process.popen(nodeExePath,param,{workDir=..io.fullpath(self.workDir)})
 	if(prcs){
 		prcs.codepage = 65001;
 		
@@ -222,7 +222,7 @@ exec = function(code,param,...){
 self.eval = function(js){
     if(!install())return;
     
-    var prcs,err = ..process.popen(nodeExePath,{"-p";"JSON.stringify("+js+")"},{workdir=..io.fullpath(self.workDir)});
+    var prcs,err = ..process.popen(nodeExePath,{"-p";"JSON.stringify("+js+")"},{workDir=..io.fullpath(self.workDir)});
     
 	if(prcs){ 
 		prcs.codepage = 65001; 
@@ -283,7 +283,7 @@ config  = function(k,v){
     }
     
     ..table.unshift(param,npmCliJsPath);
-    var prcs,err = ..process.popen(nodeExePath,param,{workdir=..io.fullpath(self.workDir)})
+    var prcs,err = ..process.popen(nodeExePath,param,{workDir=..io.fullpath(self.workDir)})
 	if(prcs){
 		prcs.codepage = 65001;
 		var ret = prcs.read(-1);
@@ -309,7 +309,7 @@ cnpm = function(param,...){
 	
 	param = argumentsToArray(param,...);
 	..table.unshift(param, (..fsys.shortpath( prefix()+"\node_modules\cnpm\bin\cnpm")) : "cnpm");
-	var prcs = ..process( ..fsys.shortpath( nodeExePath ) ,param,{workdir=..io.fullpath(self.workDir)});
+	var prcs = ..process( ..fsys.shortpath( nodeExePath ) ,param,{workDir=..io.fullpath(self.workDir)});
 	prcs.waitOne();
 	return prcs;
 }
@@ -319,7 +319,7 @@ npm = function(param,...){
 	
 	param = argumentsToArray(param,...); 
 	..table.unshift(param, npmCliJsPath);
-	var prcs = ..process( nodeExePath,param,{workdir=..io.fullpath(self.workDir)});
+	var prcs = ..process( nodeExePath,param,{workDir=..io.fullpath(self.workDir)});
 	prcs.waitOne();
 	return prcs;
 }
@@ -329,7 +329,7 @@ pnpm = function(echo,param,...){
     
     param = argumentsToArray(param,...); 
 	..table.unshift(param, npmCliJsPath);
-	var prcs,err = ..process.popen( nodeExePath,param,{workdir=..io.fullpath(self.workDir)});
+	var prcs,err = ..process.popen( nodeExePath,param,{workDir=..io.fullpath(self.workDir)});
 	 
 	if(prcs){  
 		prcs.codepage = 65001;
@@ -350,7 +350,7 @@ pcnpm = function(echo,param,...){
 	
 	param = argumentsToArray(param,...);
 	..table.unshift(param, (..fsys.shortpath( prefix()+"\node_modules\cnpm\bin\cnpm")) : "cnpm")
-	var prcs,err = ..process.popen( nodeExePath,param,{workdir=..io.fullpath(self.workDir)});
+	var prcs,err = ..process.popen( nodeExePath,param,{workDir=..io.fullpath(self.workDir)});
 	 
 	if(prcs){  
 		prcs.codepage = 65001;
@@ -367,7 +367,7 @@ npmget = function(param,...){
     
     param = argumentsToArray(param,...); 
 	..table.unshift(param, npmCliJsPath);
-	var prcs,err = ..process.popen( nodeExePath,param,{workdir=..io.fullpath(self.workDir)});
+	var prcs,err = ..process.popen( nodeExePath,param,{workDir=..io.fullpath(self.workDir)});
 	 
 	if(prcs){  
 		prcs.codepage = 65001;
@@ -408,7 +408,7 @@ pcmd = function(filename,param,...){
 	}
 		
 	var cmd =  ..io.exist( ..io.joinpath(nodePath,filename + ".cmd" )) : ..fsys.shortpath( filename + ".cmd" ) :  filename;
-	var prcs,err = ..process.popen( cmd ,param,{workdir=..io.fullpath(self.workDir)});
+	var prcs,err = ..process.popen( cmd ,param,{workDir=..io.fullpath(self.workDir)});
  
 	if(prcs){
 		prcs.codepage = 65001; 
@@ -440,7 +440,7 @@ cmdget = function(filename,param,...){
 popen = function(param,...){
     if(!install())return; 
 	param = argumentsToArray(param,...); 
-	var prcs,err =  ..process.popen( nodeExePath ,param,{workdir=..io.fullpath(self.workDir)});
+	var prcs,err =  ..process.popen( nodeExePath ,param,{workDir=..io.fullpath(self.workDir)});
  
 	if(prcs){  
 		prcs.codepage = 65001;
@@ -453,7 +453,7 @@ popen = function(param,...){
 pget = function(param,...){
     if(!install())return; 
 	param = argumentsToArray(param,...); 
-	var prcs,err = ..process.popen( nodeExePath ,param,{workdir=..io.fullpath(self.workDir)});
+	var prcs,err = ..process.popen( nodeExePath ,param,{workDir=..io.fullpath(self.workDir)});
  
 	if(prcs){  
 		prcs.codepage = 65001;

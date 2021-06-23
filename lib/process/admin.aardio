@@ -20,21 +20,21 @@ isRunAs = function(hProcess) {
 	return elevation;
 } 
 
-runas = function(file,parameters,showCmd,workdir,hwnd,wait,waitTimeout){ 
+runas = function(file,parameters,showCmd,workDir,hwnd,wait,waitTimeout){ 
 	if( !file ) file = ..io._exepath;
 	var operation = !_WINXP ? "runas" : "open";
-	return ..process.execute( file, parameters,operation,showCmd,workdir,hwnd,wait,waitTimeout)
+	return ..process.execute( file, parameters,operation,showCmd,workDir,hwnd,wait,waitTimeout)
 }
 
-runasWait = function( file,parameters,showCmd,workdir,hwnd,waitTimeout){
-	return runas(file,parameters,showCmd,workdir,hwnd,"close",waitTimeout)
+runasWait = function( file,parameters,showCmd,workDir,hwnd,waitTimeout){
+	return runas(file,parameters,showCmd,workDir,hwnd,"close",waitTimeout)
 }
 
-runasWaitInput = function( file,parameters,showCmd,workdir,hwnd,waitTimeout){
-	return runas(file,parameters,showCmd,workdir,hwnd,"input",waitTimeout)
+runasWaitInput = function( file,parameters,showCmd,workDir,hwnd,waitTimeout){
+	return runas(file,parameters,showCmd,workDir,hwnd,"input",waitTimeout)
 }
 
-runasLeastPrivileges = function(path,arguments,workdir,taskName){
+runasLeastPrivileges = function(path,arguments,workDir,taskName){
 	if( (  _WINXP) || ( ! isRunAs() ) ){
 		..process.execute(path,arguments);
 		return true;
@@ -70,7 +70,7 @@ runasLeastPrivileges = function(path,arguments,workdir,taskName){
 		var act = taskDef.getActions().Create( schedule.TASK_ACTION_EXEC )
 		act.Path = ..io.fullpath(path)
 		act.Arguments = ..process.joinArguments(arguments);
-		act.WorkingDirectory = workdir || ..io.splitpath(path).dir;
+		act.WorkingDirectory = workDir || ..io.splitpath(path).dir;
 			
 		root.RegisterTaskDefinition(taskName, taskDef, schedule.TASK_CREATE_OR_UPDATE,"","", schedule.TASK_LOGON_INTERACTIVE_TOKEN); 
 		sleep(10); try{  root.DeleteTask(taskName ); } 
@@ -103,7 +103,7 @@ isLeastPrivileges() = 进程是否运行于VISTA以后的系统并且无管理�
 isRunAs(.(进程句柄) = 判断进程是否以管理权限运行,\n成功返回true,XP返回flase,以及majorVersion版本号,\n参数可选,默认为当前句柄 
 runas(.(执行程序路径,启动参数,窗口显示样式,工作目录,窗口句柄,等待选项) = 运行应用程序,\n如果是vista以后系统请求管理权限,\n省略参数@1则默认指定为当前EXE路径,其他参数可选
 runasWait(.(执行程序路径,启动参数,窗口显示样式,工作目录,窗口句柄) = 运行应用程序,并等待进程结束,\n如果是vista以后系统请求管理权限,,\n省略参数@1则默认指定为当前EXE路径,其他参数可选
-runasWaitInput(.("__", parameters="",showCmd,workdir=",hwnd=0) = 运行应用程序,并等待界面激活输入状态,\n如果是vista以后系统请求管理权限,,\n省略参数@1则默认指定为当前EXE路径,其他参数可选
+runasWaitInput(.("__", parameters="",showCmd,workDir=",hwnd=0) = 运行应用程序,并等待界面激活输入状态,\n如果是vista以后系统请求管理权限,,\n省略参数@1则默认指定为当前EXE路径,其他参数可选
 runasLeastPrivileges(.(执行程序路径,启动参数,工作目录,任务名) = 管理权限进程内降权以非管理权限启动进程,进程如果已创建则忽略,\n注意启动程序路径应明确指定,以斜杠开头或其他绝对路径\n启动参数可以是一个数组或文本也可以不指定,任务名不必指定
 changeMsgFilter(.(hwnd,msg,flag,filter) = 修改拥有管理权限的进程窗口消息过滤规则,\n@flag参数默认为_MSGFLT_ALLOW,@filter参数可省略,\n此函数用法请参考源码与MSDN
 enableDropMsg(.(hwnd,flag) = 允许指定的窗口接收拖放消息,\n@flag参数默认为_MSGFLT_ALLOW

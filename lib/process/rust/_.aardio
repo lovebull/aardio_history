@@ -34,14 +34,14 @@ repair = function(){
 	return ret;	
 }
 
-workdir = ..io.fullpath("/");
+workDir = ..io.fullpath("/");
 
 rustup = function(cmdline,...){
 	var rustupPath,cargoPath = install();
 	if(!rustupPath) return;
 		
 	if(...) cmdline = ..process.joinArguments(cmdline,...);
-	var prcs,err = ..process(  ,'rustup ' + cmdline,{ workdir = workdir; } ) 
+	var prcs,err = ..process(  ,'rustup ' + cmdline,{ workDir = workDir; } ) 
 	if(!prcs){
 		return null,err;
 	}
@@ -58,7 +58,7 @@ cargo = function(cmdline,...){
 	if(!cargoPath) return;
 	
 	if(...) cmdline = ..process.joinArguments(cmdline,...);
-	var prcs,err =  ..process(  ,'cargo ' + cmdline,{ workdir = workdir; } ) 
+	var prcs,err =  ..process(  ,'cargo ' + cmdline,{ workDir = workDir; } ) 
 	if(!prcs){
 		return null,err;
 	}
@@ -81,7 +81,7 @@ createDllProject = function(fileName){
 		return null,"请指定合法的文件名"
 	}
 	
-	var path = ..io.joinpath(workdir,fileName);
+	var path = ..io.joinpath(workDir,fileName);
 	
 	if(..io.exist(path)){
 		return null,"目录已存在"
@@ -162,15 +162,15 @@ pub extern fn hello_rust(ptr_utf8: *const c_char,ptr_buf: *mut c_char,info: &mut
 ***/
 	..string.save(..io.joinpath(path,"src/lib.rs"),code)	
 	
-	workdir = path;
+	workDir = path;
 }
 
 /**intellisense(process.rust)
-workdir = 指定工作目录,默认为应用程序目录
+workDir = 指定工作目录,默认为应用程序目录
 install() = 如果没有安装 Rust 则自动安装 Rust
 repair() = 修复安装
 rustup(.(->->->) = 执行 rustup 命令,\n可输入一个或多个命令行参数,\n只有一个参数时直接作为命令行参数,\n多个参数则包含空格的参数置入引号内部并作必要的转义处理
 cargo(.(->->->) = 执行 cargo 命令,\n可输入一个或多个命令行参数,\n只有一个参数时直接作为命令行参数,\n多个参数则包含空格的参数置入引号内部并作必要的转义处理
 build(.() = 编译 32 位 DLL,\nRust 生成的 DLL 不依赖外部运行时，可以内存加载，并支持 WIN7, WIN 10以上系统
-createDllProject(.(path) = 创建32位DLL范例工程,\n输入目录必须是不存在的目录,\n创建成功自动设置该目录为 process.rust.workdir
+createDllProject(.(path) = 创建32位DLL范例工程,\n输入目录必须是不存在的目录,\n创建成功自动设置该目录为 process.rust.workDir
 end intellisense**/

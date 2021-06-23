@@ -36,13 +36,13 @@ class process {
 
    			if( type(parameters) == type.table ){ parameters = joinArguments(parameters);  }
    			var sa = ..table.assign(STARTUPINFO(),startInfo);
-			if( sa.suspended )
-			 	sa.creationFlag |= 0x4/*_CREATE_SUSPENDED*/
+			if( sa.suspended ) sa.creationFlag |= 0x4/*_CREATE_SUSPENDED*/;
+			if(!sa.workDir) sa.workDir = sa.workdir;
 			
    			var pfile = ..io.exist(pid);
    			if(pfile){ 
-	    		if(!sa.workdir) 
-	    			sa.workdir = ..io.splitpath(pfile).dir ; 
+	    		if(!sa.workDir) 
+	    			sa.workDir = ..io.splitpath(pfile).dir ; 
 	    			
 	    		var exe,shellpath = findExe(pfile); 
 	    		if(!exe){
@@ -91,12 +91,12 @@ class process {
 				environment = null;
 			}
 			
-
 			sa.creationFlag =  (sa.creationFlag : 0) | 0x400/*_CREATE_UNICODE_ENVIRONMENT*/; 
 			if(sa.createNoWindow){
 				sa.creationFlag = sa.creationFlag | 0x8000000/*_CREATE_NO_WINDOW*/;
 			}
 			
+		
 			if( !sa.username ){
 				ret = CreateProcess(pfile ,parameters
    				, sa.processAttributes 
@@ -104,7 +104,7 @@ class process {
    				, sa.inheritHandles
    				, sa.creationFlag
    				, environment
-   				, ..io.fullpath(sa.workdir)
+   				, ..io.fullpath(sa.workDir)
    				, sa
    				, pf)
 			}
@@ -119,7 +119,7 @@ class process {
 					, parameters
 					, sa.creationFlag
 					, environment
-					, sa.workdir
+					, sa.workDir
 					, sa
 					, pf
 				)	  
@@ -721,9 +721,9 @@ namespace process{
 		pointer hProcess;
 	}
 	
-	shell = function(file,parameters,operation,showCmd,workdir,hwnd,fMask ){
+	shell = function(file,parameters,operation,showCmd,workDir,hwnd,fMask ){
 		if(fMask===null)fMask=0x400/*_SEE_MASK_FLAG_NO_UI*/
-		var shInfo,errMsg,errCode = executeEx(file,parameters,operation,showCmd,workdir,hwnd,fMask|0x40/*_SEE_MASK_NOCLOSEPROCESS*/); 
+		var shInfo,errMsg,errCode = executeEx(file,parameters,operation,showCmd,workDir,hwnd,fMask|0x40/*_SEE_MASK_NOCLOSEPROCESS*/); 
    		
 		if(!shInfo) return null,errMsg,errCode; 
 		if(!shInfo.hProcess ){ 
@@ -733,11 +733,11 @@ namespace process{
 		return ..process(shInfo.hProcess);
 	}
 	
-	shellAs = function(file,parameters,showCmd,workdir,hwnd,fMask ){
-		return shell(file,parameters,"runas",showCmd,workdir,hwnd,fMask)
+	shellAs = function(file,parameters,showCmd,workDir,hwnd,fMask ){
+		return shell(file,parameters,"runas",showCmd,workDir,hwnd,fMask)
 	}
 
-	executeEx = function( file,parameters,operation,showCmd,workdir,hwnd,fMask ){
+	executeEx = function( file,parameters,operation,showCmd,workDir,hwnd,fMask ){
 		if( parameters === null ) parameters = "";
 		if( operation === null ) operation = "open";
 		if( showCmd === null ) showCmd = 5;
@@ -750,8 +750,8 @@ namespace process{
 		var tfile = type(file);
 		if(tfile=="string"){
 			file = ..io.localpath(file) : file;  
-			if( (! #workdir ) ){
-	    		workdir = ..io.splitpath(file).dir ;
+			if( (! #workDir ) ){
+	    		workDir = ..io.splitpath(file).dir ;
 	    	}
 	    	
 	    	shInfo.lpFile = file;
@@ -767,7 +767,7 @@ namespace process{
 		shInfo.hwnd = hwnd;
 		shInfo.lpVerb = operation;
 		shInfo.lpParameters = parameters;	
-		shInfo.lpDirectory = workdir;
+		shInfo.lpDirectory = workDir;
 		shInfo.nShow = showCmd;
 		shInfo.hInstApp = 0;	
 		shInfo.lpClass ="";
@@ -777,13 +777,13 @@ namespace process{
 		return shInfo;
 	}
 	
-	self.execute = function( file,parameters,operation,showCmd,workdir,hwnd,wait,waitTimeout){ 
+	self.execute = function( file,parameters,operation,showCmd,workDir,hwnd,wait,waitTimeout){ 
 		if( waitTimeout === null ) waitTimeout = 0xFFFFFFFF;
 		
 		var tfile = type(file);
 		if( (tfile!="string") && (tfile!="pointer") ) error("无效的文件路径",2);
   
-   		var shInfo,errMsg,errCode = executeEx(file,parameters,operation,showCmd,workdir,hwnd,0x440); 
+   		var shInfo,errMsg,errCode = executeEx(file,parameters,operation,showCmd,workDir,hwnd,0x440); 
    		
 		if(!shInfo) return null,errMsg,errCode; 
 		if(!shInfo.hProcess ){ 
@@ -811,13 +811,13 @@ namespace process{
 		return pid;
 	}; 
 	
-	executeWait = function( file, parameters="",operation="open",showCmd,workdir="",hwnd=0){
-		return ..process.execute(file,parameters,operation,showCmd,workdir,hwnd,"close")
+	executeWait = function( file, parameters="",operation="open",showCmd,workDir="",hwnd=0){
+		return ..process.execute(file,parameters,operation,showCmd,workDir,hwnd,"close")
 	}
 	execute_wait = executeWait;
 	
-	executeWaitInput = function( file, parameters="",operation="open",showCmd,workdir="",hwnd=0){
-		return ..process.execute(file,parameters,operation,showCmd,workdir,hwnd,"input")
+	executeWaitInput = function( file, parameters="",operation="open",showCmd,workDir="",hwnd=0){
+		return ..process.execute(file,parameters,operation,showCmd,workDir,hwnd,"input")
 	}
 	execute_waitInput = executeWaitInput;
 	
@@ -1151,15 +1151,15 @@ end intellisense**/
 /**intellisense(process)
 getInfo(__) = 获取进程信息\n参数指定进程句柄
 shellAs( = 以管理权限运行exe应用程序,返回进程对象
-shellAs(.("__", parameters="",showCmd,workdir,hwnd,fmask) = 参数@1指定要运行的执行程序路径,\n参数@2可用一个字符串或字符串数组指定启动参数,\n其他参数详细用法请参考本函数源码以及WINAPI中ShellExecuteEx函数用法\n除参数@1以外所有参数可选
+shellAs(.("__", parameters="",showCmd,workDir,hwnd,fmask) = 参数@1指定要运行的执行程序路径,\n参数@2可用一个字符串或字符串数组指定启动参数,\n其他参数详细用法请参考本函数源码以及WINAPI中ShellExecuteEx函数用法\n除参数@1以外所有参数可选
 shell( = 运行exe应用程序,返回进程对象
-shell(.("__", parameters="",operation="open",showCmd,workdir,hwnd,fmask) = 参数@1指定要运行的执行程序路径,\n参数@2可用一个字符串或字符串数组指定启动参数,\n其他参数详细用法请参考本函数源码以及WINAPI中ShellExecuteEx函数用法\n除参数@1以外所有参数可选
-executeEx(.("__", parameters="",operation="open",showCmd,workdir,hwnd,fmask) = 运行exe应用程序,返回SHELLEXECUTEINFO结构体,\n参数@1指定要运行的执行程序路径,\n参数@2可用一个字符串或字符串数组指定启动参数,\n其他参数详细用法请参考本函数源码以及WINAPI中ShellExecuteEx函数用法\n除参数@1以外所有参数可选
+shell(.("__", parameters="",operation="open",showCmd,workDir,hwnd,fmask) = 参数@1指定要运行的执行程序路径,\n参数@2可用一个字符串或字符串数组指定启动参数,\n其他参数详细用法请参考本函数源码以及WINAPI中ShellExecuteEx函数用法\n除参数@1以外所有参数可选
+executeEx(.("__", parameters="",operation="open",showCmd,workDir,hwnd,fmask) = 运行exe应用程序,返回SHELLEXECUTEINFO结构体,\n参数@1指定要运行的执行程序路径,\n参数@2可用一个字符串或字符串数组指定启动参数,\n其他参数详细用法请参考本函数源码以及WINAPI中ShellExecuteEx函数用法\n除参数@1以外所有参数可选
 execute( = 运行exe应用程序,成功返回进程ID,\n参数详细用法请参考本函数源码以及WINAPI中ShellExecuteEx函数用法\n运行UWP应用请使用com.shell.activateApp函数
-execute(.("__", parameters="",operation="open",showCmd,workdir,hwnd) = 参数@1为程序路径或系统命 令\n参数@parameters 可以是字符串或字符串数组，用于指定启动参数,\n参数@operation 为启动模式\n参数@showCmd使用_SW_前缀常量与win.show参数用法相同\n参数@workdir为工作目录\n参数@hwnd 为父窗口句柄
-executeWait(.("__", parameters="",operation="open",showCmd,workdir=",hwnd=0) = 运行exe应用程序\n并等待应用程序关闭\n除参数@1以外所有参数可选
-executeWaitInput(.("__", parameters="",operation="open",showCmd,workdir=",hwnd=0) = 运行exe应用程序\n并等待进程初始化完成并接受输入\n除参数@1以外所有参数可选
-executeInvoke(.(path, parameters,operation,showCmd,workdir,hwnd) = 创建临时的后台线程运行应用程序\n在打开网址前退出主线程可能无法执行操作,\n参数与process.execute函数用法一样,除指定参数@1或参数@2,其他所有参数可选
+execute(.("__", parameters="",operation="open",showCmd,workDir,hwnd) = 参数@1为程序路径或系统命 令\n参数@parameters 可以是字符串或字符串数组，用于指定启动参数,\n参数@operation 为启动模式\n参数@showCmd使用_SW_前缀常量与win.show参数用法相同\n参数@workdir为工作目录\n参数@hwnd 为父窗口句柄
+executeWait(.("__", parameters="",operation="open",showCmd,workDir=",hwnd=0) = 运行exe应用程序\n并等待应用程序关闭\n除参数@1以外所有参数可选
+executeWaitInput(.("__", parameters="",operation="open",showCmd,workDir=",hwnd=0) = 运行exe应用程序\n并等待进程初始化完成并接受输入\n除参数@1以外所有参数可选
+executeInvoke(.(path, parameters,operation,showCmd,workDir,hwnd) = 创建临时的后台线程运行应用程序\n在打开网址前退出主线程可能无法执行操作,\n参数与process.execute函数用法一样,除指定参数@1或参数@2,其他所有参数可选
 openUrl(__) = 调用默认浏览器打开网址,用于窗口程序,\n如果不用这个方法创建线程去打开网址,可能会出现界面卡顿不流畅的现象,\n在打开网址前退出主线程可能无法执行操作\n控制台程序应调用 process.execute 以避免后台线程不能阻止控制台关闭
 exploreSelect("__/*文件路径*/") = 打开资源管理器,选定该文件
 explore("__/*目录路径*/") = 使用资源管理器打开目录\n打开WIN10应用这样写:process.explore("shell:appsFolder\appPath")\n使用 com.shell.eachApp 可列出WIN10所有appPath
@@ -1205,7 +1205,7 @@ environment = 新进程的环境变量\n以键值对组成的字符串,多个键
 inheritEnvironment = 如果此属性的值恒等于false,且同时指定了environment的值,\n那么创建的子进程不会继承父进程的环境变量\n此属性不指定值时默认值为true
 processAttributes = SECURITY_ATTRIBUTES结构体指针,一般不建议设置\n如需设置请使用raw.malloc将结构体转换为指针
 threadAttributess = SECURITY_ATTRIBUTES结构体指针,一般不建议设置\n如需设置请使用raw.malloc将结构体转换为指针
-workdir = 进程工作目录,一般不建议设置
+workDir = 进程工作目录,一般不建议设置
 suspended = 是否休眠创建进程的主线程\n如果为真自动添加_CREATE_SUSPENDED参数
 username = 登录用户名
 password = 登录密码

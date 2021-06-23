@@ -26,7 +26,7 @@ if(!io.exist("/rust_dll")){
 	*/
 } 
 
-process.rust.workdir = "/rust_dll"
+process.rust.workDir = "/rust_dll"
 if(process.rust.build()){
 	console.pause(,"按任意键用 aardio 调用 Rust 生成的 DLL组件")
 	

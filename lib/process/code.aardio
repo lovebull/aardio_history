@@ -25,7 +25,7 @@ class code{
    		
    		
    		var sa = ..table.assign(..process.STARTUPINFO(),startInfo);
-		if(!sa.workdir)  sa.workdir = ..fsys.getCurDir();
+		if(!sa.workDir)  sa.workDir = ..fsys.getCurDir();
    			
 		this = ..process(self.path,parameters, startInfo)
 	}; 
