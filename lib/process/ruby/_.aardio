@@ -31,28 +31,13 @@ install = function(url){
 
 workDir = ..io.fullpath("/")
 
-argumentsToArray = function(param,...){
-    if(!param)return {};
-    
-    param = ..string.trim(param);
-	if( (!...) && ..string.find(param,"\s+")){
-		
-		if( param[1] != '"'# || param[#v] != '"'#  ){
-			var p = ..string.cmdline(" " + param ); 
-			p[0] = null;
-			return p;
-		} 
-	}
-	return {param;...}
-}
-
 cmd = function(filename,param,...){
 	var rubyPath = install();
 	if(!rubyPath) return;
 	rubyPath = ..io.splitpath(rubyPath).dir;
     
 	if(param){
-		param = argumentsToArray(param,...);
+		param = ..string.cmdline.arguments(param,...);
 	}
 	elseif(filename) {
 		var cmdline = ..string.cmdline(filename);
@@ -96,7 +81,7 @@ pcmd = function(filename,param,...){
 	rubyPath = ..io.splitpath(rubyPath).dir;
 		
 	if(param){
-		param = argumentsToArray(param,...);
+		param = ..string.cmdline.arguments(param,...);
 	}
 	elseif(filename) {
 		var cmdline = ..string.cmdline(filename);
@@ -149,7 +134,7 @@ popen = function(str,param,...){
     	}    	
     }
 
-    ..table.concat(args,argumentsToArray(param,...) );
+    ..table.concat(args,..string.cmdline.arguments(param,...) );
     
 	var prcs,err = ..process.popen(rubyPath, argsh, {workDir=..io.fullpath(self.workDir)});
 	if(!prcs){ return null,err; } 
@@ -209,4 +194,3 @@ popen() = !process_popen.
 rake(.(命令行参数->->->) = 工作目录下应当先创建 rakefile 文件,\n创建进程管道运行 rake 命令,返回标准输出,错误输出,\n默认工作目录为 process.ruby.workDir,\n\n第一个参数指定cmd命令,可选自第二个参数开始指定命令行参数\n多个命令行参数则调用 process.joinArguments 合并,\n不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号
 workDir = Ruby 工作目录\n默认值为..io.fullpath("/")
 end intellisense**/
-

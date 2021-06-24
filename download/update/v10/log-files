@@ -657,7 +657,7 @@
 -1802366171|711168|301859|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--1039435193|15|32|config\SYS.CFG
+1526868989|15|32|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 -944273779|109464|28789|config\intellisense\kernel.txt
@@ -1455,7 +1455,7 @@
 -67895191|6776|2200|lib\mouse\draw.aardio
 -543039773|2307|1134|lib\mouse\hook.aardio
 -1802899828|8346|2366|lib\mouse\_.aardio
-1965176176|17609|3972|lib\nodeJs\_.aardio
+-111992270|17403|3880|lib\nodeJs\_.aardio
 575738245|14705|5011|lib\preload\com.aardio
 -905595537|2748|1531|lib\preload\io.aardio
 5595517|3378|1416|lib\preload\math.aardio
@@ -1472,7 +1472,7 @@
 169341518|2580|1098|lib\process\cache.aardio
 1422488430|3035|1180|lib\process\code.aardio
 -91496726|6854|2337|lib\process\command.aardio
--747988815|1046|629|lib\process\control.aardio
+-1628604094|1047|628|lib\process\control.aardio
 1225818497|2873|1015|lib\process\file.aardio
 -897350285|1586|661|lib\process\heap.aardio
 0|0|0|lib\process\job\
@@ -1495,7 +1495,7 @@
 -917778214|2985|1293|lib\process\php\simpleHttpServer.aardio
 -1567703459|1793|892|lib\process\ruby\cgi.aardio
 -407280444|2290|1021|lib\process\ruby\simpleHttpServer.aardio
--909247201|6601|2107|lib\process\ruby\_.aardio
+1767454540|6309|1993|lib\process\ruby\_.aardio
 -1261076227|4777|2040|lib\process\rust\_.aardio
 -1539521430|7720|2045|lib\protobuf\message.aardio
 0|0|0|lib\protobuf\parser\
@@ -1554,7 +1554,7 @@
 -745766250|628|371|lib\string\aasdl.aardio
 180083296|8638|2760|lib\string\builder.aardio
 1874621857|6568|2179|lib\string\chineseNumber.aardio
-551523687|2452|1151|lib\string\cmdline.aardio
+464916407|3184|1424|lib\string\cmdline.aardio
 0|0|0|lib\string\conv\
 1198441300|4653|1566|lib\string\database.aardio
 -277035125|1511|682|lib\string\encoding.aardio

@@ -1,13 +1,13 @@
-﻿import wsock;
-import win;
+﻿import win;
 import win.path;
-import fsys;
+import wsock;
 import process.popen; 
 import zlib.httpFile;
 import inet.installer;
 import string.cmdline;
 import web.json;
 import console;
+import fsys;
 
 namespace nodeJs;
 
@@ -139,26 +139,12 @@ install = function(portable){
 }
 
 workDir = ..io.fullpath("/");
-argumentsToArray = function(param,...){
-    if(!param)return {};
-    
-    param = ..string.trim(param);
-	if( (!...) && ..string.find(param,"\s+")){
-		
-		if( param[1] != '"'# || param[#v] != '"'#  ){
-			var p = ..string.cmdline(" " + param ); 
-			p[0] = null;
-			return p;
-		} 
-	}
-	return {param;...}
-}
 
 cmd = function(filename,param,...){
     if(!install())return;
     
 	if(param){
-		param = argumentsToArray(param,...);
+		param = ..string.cmdline.arguments(param,...);
 	}
 	elseif(filename) {
 		var cmdline = ..string.cmdline(filename);
@@ -189,7 +175,7 @@ cmd = function(filename,param,...){
 execFile = function(path,param,...){
     if(!install())return;
     
-    param = argumentsToArray(param,...); 
+    param = ..string.cmdline.arguments(param,...); 
 	..table.unshift(param, (..fsys.shortpath(path)));
 	var prcs,err = ..process.popen(nodeExePath,param,{workDir=..io.fullpath(self.workDir)})
 	if(prcs){
@@ -203,7 +189,7 @@ execFile = function(path,param,...){
 exec = function(code,param,...){
     if(!install())return;
     
-    param = argumentsToArray("-",param,...);  
+    param = ..string.cmdline.arguments("-",param,...);  
 	var prcs,err = ..process.popen(nodeExePath,param,{workDir=..io.fullpath(self.workDir)})
 	if(prcs){
 		prcs.codepage = 65001;
@@ -307,7 +293,7 @@ cnpm = function(param,...){
 		npm("install",,"--force","-g","cnpm","--registry=https://registry.npm.taobao.org");
 	}
 	
-	param = argumentsToArray(param,...);
+	param = ..string.cmdline.arguments(param,...);
 	..table.unshift(param, (..fsys.shortpath( prefix()+"\node_modules\cnpm\bin\cnpm")) : "cnpm");
 	var prcs = ..process( ..fsys.shortpath( nodeExePath ) ,param,{workDir=..io.fullpath(self.workDir)});
 	prcs.waitOne();
@@ -317,7 +303,7 @@ cnpm = function(param,...){
 npm = function(param,...){
     if(!install())return;
 	
-	param = argumentsToArray(param,...); 
+	param = ..string.cmdline.arguments(param,...); 
 	..table.unshift(param, npmCliJsPath);
 	var prcs = ..process( nodeExePath,param,{workDir=..io.fullpath(self.workDir)});
 	prcs.waitOne();
@@ -327,7 +313,7 @@ npm = function(param,...){
 pnpm = function(echo,param,...){
     if(!install())return;
     
-    param = argumentsToArray(param,...); 
+    param = ..string.cmdline.arguments(param,...); 
 	..table.unshift(param, npmCliJsPath);
 	var prcs,err = ..process.popen( nodeExePath,param,{workDir=..io.fullpath(self.workDir)});
 	 
@@ -348,7 +334,7 @@ pcnpm = function(echo,param,...){
 		pnpm(echo,"install","-g","--force","cnpm","--registry=https://registry.npm.taobao.org");
 	}
 	
-	param = argumentsToArray(param,...);
+	param = ..string.cmdline.arguments(param,...);
 	..table.unshift(param, (..fsys.shortpath( prefix()+"\node_modules\cnpm\bin\cnpm")) : "cnpm")
 	var prcs,err = ..process.popen( nodeExePath,param,{workDir=..io.fullpath(self.workDir)});
 	 
@@ -365,7 +351,7 @@ pcnpm = function(echo,param,...){
 npmget = function(param,...){
     if(!install())return;
     
-    param = argumentsToArray(param,...); 
+    param = ..string.cmdline.arguments(param,...); 
 	..table.unshift(param, npmCliJsPath);
 	var prcs,err = ..process.popen( nodeExePath,param,{workDir=..io.fullpath(self.workDir)});
 	 
@@ -389,7 +375,7 @@ pcmd = function(filename,param,...){
     if(!install())return; 
 		
 	if(param){
-		param = argumentsToArray(param,...);
+		param = ..string.cmdline.arguments(param,...);
 	}
 	elseif(filename)  {
 		var cmdline = ..string.cmdline(filename);
@@ -439,7 +425,7 @@ cmdget = function(filename,param,...){
 
 popen = function(param,...){
     if(!install())return; 
-	param = argumentsToArray(param,...); 
+	param = ..string.cmdline.arguments(param,...); 
 	var prcs,err =  ..process.popen( nodeExePath ,param,{workDir=..io.fullpath(self.workDir)});
  
 	if(prcs){  
@@ -452,7 +438,7 @@ popen = function(param,...){
 
 pget = function(param,...){
     if(!install())return; 
-	param = argumentsToArray(param,...); 
+	param = ..string.cmdline.arguments(param,...); 
 	var prcs,err = ..process.popen( nodeExePath ,param,{workDir=..io.fullpath(self.workDir)});
  
 	if(prcs){  
