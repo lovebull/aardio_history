@@ -159,7 +159,7 @@
 1920934162|620|451|codes\范例程序\PHP语言\dofile.aardio
 1836895756|7411|3053|codes\范例程序\PHP语言\exec.aardio
 195426850|956|535|codes\范例程序\PHP语言\main.aardio
--1405213578|449|316|codes\范例程序\PHP语言\run_aardio.aardio
+-1710937975|510|345|codes\范例程序\PHP语言\run_aardio.aardio
 -1854533527|259|182|codes\范例程序\PowerShell\1、dotNet.aardio
 599165843|280|209|codes\范例程序\PowerShell\2、popen.aardio
 0|0|0|codes\范例程序\Python语言\1) Python 3.x\
@@ -657,7 +657,7 @@
 -1802366171|711168|301859|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
-1526868989|15|32|config\SYS.CFG
+1091113209|13|32|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 -944273779|109464|28789|config\intellisense\kernel.txt
@@ -1491,9 +1491,9 @@
 316640062|53399|14236|lib\process\_.aardio
 2013837002|6858|2296|lib\process\apiHook\_.aardio
 1404097761|2825|1098|lib\process\job\limitKill.aardio
-478511758|1928|933|lib\process\php\cgi.aardio
+1713512425|2191|1040|lib\process\php\cgi.aardio
 -917778214|2985|1293|lib\process\php\simpleHttpServer.aardio
--1567703459|1793|892|lib\process\ruby\cgi.aardio
+435504635|2029|992|lib\process\ruby\cgi.aardio
 -407280444|2290|1021|lib\process\ruby\simpleHttpServer.aardio
 1767454540|6309|1993|lib\process\ruby\_.aardio
 -1261076227|4777|2040|lib\process\rust\_.aardio

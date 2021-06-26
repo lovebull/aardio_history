@@ -5,10 +5,12 @@ import console;
  
 //PHP代码
 phpcode =/* 
-	$ret = aauto("
+	$ret = aardio("
 		import win;
-		win.msgbox('我是aardio代码');
-		return 123;
+		import web.json;
+		
+		win.msgbox('我是 aardio 代码');
+		return web.json.stringify({a=123;b=456});
 	")
 */ 
 
@@ -19,5 +21,5 @@ console.log( ret );
 console.pause();
 
 //================================
-//请注意: aardio返回给PHP的值都是字符串类型
-//aardio代码使用return语句返回值。
+//请注意: aardio 返回给PHP的值都是字符串类型
+//aardio 代码使用 return 语句返回值。

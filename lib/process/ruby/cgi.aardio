@@ -5,8 +5,16 @@ namespace process.ruby;
 class cgi{
 	ctor(response,request,cgiPath,...){
 		
-		request.environ.REDIRECT_STATUS = 200;
-		var prcs,err = ..process.popen(cgiPath, {cgiPath;..io.fullpath(request.path)}, {environment = request.environ });
+		var env = request.environ;
+		env.REDIRECT_STATUS = 200;
+		env.PHP_SELF = env.PATH_INFO;
+		if( ..string.endWith(env.PATH_INFO,".rb",true) ){
+			env.SCRIPT_NAME =  env.PATH_INFO;
+			env.SCRIPT_FILENAME = env.PATH_TRANSLATED;
+		}
+		env.PATH_INFO = null;
+		
+		var prcs,err = ..process.popen(cgiPath, {cgiPath;..io.fullpath(request.path)}, {environment = env });
 		if(!prcs){
 			response.error(err);
 			return; 
@@ -18,7 +26,8 @@ class cgi{
 			prcs.write( request.postData() )
 		} 
 		
-		var ok,out,err = prcs.wait(); 
+		var out = prcs.read(-1);
+		var err = prcs.readErr(-1);
 		prcs.close();
 		
 		if(#out) { 

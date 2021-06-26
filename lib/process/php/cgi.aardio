@@ -9,8 +9,16 @@ class cgi{
 			iniPath = ..io.joinpath(..io.splitpath(cgiPath).dir,"php.ini");
 		}
 	
-		request.environ.REDIRECT_STATUS = 200;
-		var prcs,err = ..process.popen(cgiPath, {"-c";..io.fullpath(iniPath);...}, {environment = request.environ });
+		var env = request.environ;
+		env.REDIRECT_STATUS = 200;
+		env.PHP_SELF = env.PATH_INFO;
+		if( ..string.endWith(env.PATH_INFO,".php",true) ){
+			env.SCRIPT_NAME =  env.PATH_INFO;
+			env.SCRIPT_FILENAME = env.PATH_TRANSLATED;
+		}
+		env.PATH_INFO = null;
+						
+		var prcs,err = ..process.popen(cgiPath, {"-c";..io.fullpath(iniPath);...}, {environment = env });
 		if(!prcs){
 			response.error(err);
 			return; 
@@ -19,9 +27,11 @@ class cgi{
 		prcs.codepage = 65001;
 		if(request.contentLength){
 			prcs.write( request.postData() )
-		} 
+		}
 		
-		var ok,out,err = prcs.wait();
+		prcs.writeClose();
+		var out = prcs.read(-1);
+		var err = prcs.readErr(-1);
 		prcs.close();
 		
 		if(#out) { 
