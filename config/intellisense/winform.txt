@@ -101,7 +101,7 @@
 !winform.wndproc = @.wndproc = function(hwnd,message,wParam,lParam){ \n	__/*添加消息回调函数*/\n}
 !winform.wndprocMap = @.wndproc = {\n	[0x202/*_WM_LBUTTONUP*/] = function(hwnd,message,wParam,lParam){ \n		var x,y = win.getMessagePos(lParam);\n		io.print("左键按下",x,y)\n	}\n}
 !winform.onDropFiles = @.onDropFiles = function(files){\n	__/*接受系统拖放,files是拖放的所有文件路径名数组*/\n}
-!winform.redraw() = 刷新
+!winform.redraw() = 刷新,此函数不会刷新背景缓存,\n刷新背景请调用 redrawBackground 函数
 !winform.setRedraw(false) = 禁止重绘
 !winform.setRedraw(true) = 恢复重绘
 !winform.cmdTranslate = @.cmdTranslate(hwnd,message,wParam,lParam);\n//在父控件wndproc消息回调中调用，用于启用子控件的oncommand事件

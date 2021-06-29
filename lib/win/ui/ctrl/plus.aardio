@@ -738,21 +738,16 @@ class plus {
 			[ 0xC/*_WM_SETTEXT*/ ] = function (hwnd, uMsg, wParam, lParam) {
 				if(lParam){
 				 	var text = ..string.fromUnicode( topointer(lParam),,true ); 
-				 	if( text != this[["(text)"]] ){
-				 		if(owner[["(editable)"]]) {
-							if( owner[["(cueBanner)"]] ){
+				 	if( text != this[["(text)"]] || owner[["(cueBanner)"]] ){
+				 		if(owner[["(editable)"]] ) {
+							if( owner[["(cueBanner)"]] ){ 
 					 			if( text==""){
-									owner.editBox.color = owner[["(cueBannerColor)"]];
-									owner[["(cueBannerPwdChr)"]] = owner.editBox.passwordChar;
-									owner.editBox.passwordChar = null;
-									owner.editBox.text = owner[["(cueBanner)"]];
-									owner.cueBannerTextShowing = true;
+					 				owner.editBox.text = "";
+					 				owner.editBox._precommand(,0x200/*_EN_KILLFOCUS*/);
 								}
 								elseif(owner.cueBannerTextShowing ){
-									owner.editBox.color = owner.color;
-									owner.editBox.passwordChar = owner[["(cueBannerPwdChr)"]];
+									owner.editBox._precommand(,0x100/*_EN_SETFOCUS*/);
 									owner.editBox.text = text;
-									owner.cueBannerTextShowing = false;
 								}
 								else {
 									owner.editBox.text = text;
