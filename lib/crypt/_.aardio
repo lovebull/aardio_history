@@ -266,13 +266,12 @@ class crypt{
 	hashFile = function(path,upper,algId,bufSize = 0x100000){  
 		var h = this.createHash(algId);
 		var f,err =  ..io.open(path, "rb");
-		if(!f)
-			return null,err; 
+		if(!f) return null,err; 
    	
-		do { 
-			var data = f.read(bufSize); 
-			h.hashData(data);  
-		} while ( data );
+   		while( var data = f.read(bufSize)  ) {
+   			h.hashData(data); 
+   		}
+   		
 		f.close(); 
 		
 		var r = h.getHexValue(upper); 

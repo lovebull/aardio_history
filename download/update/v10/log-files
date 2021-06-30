@@ -657,7 +657,7 @@
 -1802366171|711168|301859|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--1010233232|15|33|config\SYS.CFG
+1522549194|15|33|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 -944273779|109464|28789|config\intellisense\kernel.txt
@@ -1299,7 +1299,7 @@
 -263492981|1979|866|lib\crypt\protectData.aardio
 1726796049|1537|820|lib\crypt\rc4.aardio
 -183222427|13743|3271|lib\crypt\rsa.aardio
-1356631998|37971|8934|lib\crypt\_.aardio
+-713392864|37966|8929|lib\crypt\_.aardio
 849437073|4148|1745|lib\debug\log.aardio
 983730162|3213|1086|lib\debug\_.aardio
 0|0|0|lib\dotNet\.res\
