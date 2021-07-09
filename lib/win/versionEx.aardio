@@ -7,6 +7,10 @@ namespace win.versionEx{
 	
 	var reg = ..win.regReader("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion")
 	productName = reg.queryValue("ProductName");
+	if(isWin11ReleaseLater){
+		productName = ..string.replace(productName,"Windows\s+10","Windows 11");
+	}
+	
 	editionId = reg.queryValue("EditionID");
 	updateBuildRevision = reg.queryValue("UBR")
 	
@@ -33,6 +37,8 @@ namespace win.versionEx{
 	} 
   
 	isWin10ReleaseLater = function(releaseId){ 
+		if(isWin11ReleaseLater) return true;
+		
 		if( isWin10Later ) {
 			if(releaseId){
 				return tonumber(self.releaseId) >= tonumber(releaseId)

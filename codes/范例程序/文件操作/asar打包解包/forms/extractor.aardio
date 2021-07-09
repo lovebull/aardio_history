@@ -89,9 +89,12 @@ winform.treeview.onnotify = function(id,code,ptr){
 		var hItem = winform.treeview.getSelection();
 		if(hItem){
 			var data  = winform.treeview.getItemData(hItem);
-            if( data[["size"]]  && data[["size"]] < 0x10000 
-                && (  ..string.len(winform.unasar.readFile(data.path) ) ) 
-                ){
+		 	var bin;
+		 	if( data[["size"]]  && data[["size"]] < 0x10000 ){
+		 		bin = winform.unasar.readFile(data.path);
+		 	}
+		 	
+            if( bin && ..string.len( bin )  ){
             	 winform.editInfo.text = winform.unasar.readFile(data.path);
             	 winform.btnReplace.disabled = false;
             }

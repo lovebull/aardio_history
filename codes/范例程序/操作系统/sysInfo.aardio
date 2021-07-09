@@ -3,20 +3,8 @@ import console;
 import process;
 import sys.info;
 
-console.log( "是否64位", process().isWow64(),sys.info().isX64() );
-console.more(1)
-
 import win.versionEx;
-console.dump(win.versionEx);
-
-if( win.versionEx.majorVersion >= 6 ){
-	var result = {int type}
-	var ret = Kernel32.GetProductInfo(win.versionEx.majorVersion,..win.versionEx.minorVersion,0,0,result);
-	console.dump(result);//请自行搜索相关资料
-}
-
-console.log(win.versionEx.name)
-if(win.versionEx.isWin10ReleaseLater(1703)){
+if(win.versionEx.isWin10ReleaseLater(1703) && !win.versionEx.isWin11Later){
 	console.log("当前系统版本大于或等于 Win 10 1703")
 	console.printf("%s %s(OS Build %d,%d)"
 		,win.versionEx.productName
@@ -25,6 +13,17 @@ if(win.versionEx.isWin10ReleaseLater(1703)){
 		,win.versionEx.updateBuildRevision 
 		)
 }
+else {
+	console.log(win.versionEx.name)
+}
+
+if( win.versionEx.majorVersion >= 6 ){
+	var result = {int type}
+	var ret = Kernel32.GetProductInfo(win.versionEx.majorVersion,..win.versionEx.minorVersion,0,0,result);
+	console.dump(result);//请自行搜索相关资料
+}
+
+console.log( "是否64位", process().isWow64(),sys.info().isX64() );
 
 if( 1 == ::Kernel32.GetFirmwareEnvironmentVariableW(
 	"","{00000000-0000-0000-0000-000000000000}",null,0) 
@@ -34,6 +33,10 @@ if( 1 == ::Kernel32.GetFirmwareEnvironmentVariableW(
 else {
 	console.log("系统使用UEFI启动")
 }
+
+console.more(1)
+
+console.dump(win.versionEx);
 
 ::Secur32 := raw.loadDll("Secur32")
 getUserNameEx = function(format){ 
@@ -45,5 +48,29 @@ import sys;
 console.log("登录用户名：",sys.getUserName())
 console.log("登录用户显示名称(Full Name / Display Name)：",getUserNameEx(3/*NameDisplay*/))
 console.log("登录用户域名称：",getUserNameEx(2/*NameSamCompatible*/))
+
+import process.popen;
+import win.reg;
+getProductKey = function(){
+	var cmd = process.popen.cmd("wmic path softwarelicensingservice get OA3xOriginalProductKey"); 
+	if(cmd){
+		var str = cmd.read(-1);
+		if(str && string.trim(str)!="OA3xOriginalProductKey"){
+			return str;
+		}
+		
+		cmd.close();
+	}
+	
+	var reg = win.regWow64("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform")
+	if(reg){
+		var str = reg.queryValue("BackupProductKeyDefault")
+		reg.close()
+		return str;
+	}
+	
+}
+
+console.log("安装序列号" ,getProductKey() );
 
 console.pause();

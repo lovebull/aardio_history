@@ -30,25 +30,11 @@ namespace version{
         			name = "Windows XP";
         		}
         		case 2 {
-        			if( ::User32.GetSystemMetrics( 0x59/*_SM_SERVERR2*/ ) ){
-         				isWin2003 = true;
-            			name = "Windows Server 2003 R2";
-            		}
-         			else if ( suiteMask & 0x2000/*_VER_SUITE_STORAGE_SERVER*/ ){
-         				isWin2003 = true;
-            			name = "Windows Storage Server 2003";
-            		}
-         			else if ( suiteMask & 0x00008000/*_VER_SUITE_WH_SERVER*/ ){
-         				isWin2003 = true;
-            			name = "Windows Home Server";
-            		}
-            		
          			if( !isServer){
            				isXp = true;
         				name = "Windows XP";
          			}
          			else {
-        				isWin2003 = true;
         				name = "Windows Server 2003";
         			} 
         		} 
@@ -63,7 +49,6 @@ namespace version{
         				name = "Windows Vista";
         			}
         			else {
-        				isWin2008 = true;
         				name = "Windows Server 2008";
         			} 
         		}
@@ -74,7 +59,6 @@ namespace version{
         				name = "Windows 7";
         			}
         			else {
-        				isWin2008 = true;
         				name = "Windows Server 2008 R2";
         			}
         		}
@@ -122,11 +106,16 @@ namespace version{
         	isWin7Later = true;
         	isWin8Later = true;
         	isWin10Later = true;
-        	if( !isServer ){
-        		name = "Windows 10";
-        	}
+        	
+        	if(buildNumber>=21996){
+        		isWin11Later = true;
+        		
+        		if( !isServer ) name = "Windows 11"; 
+        		else name = "Windows Server 11"; 
+        	} 
         	else {
-        		name = "Windows Server 10"
+        		if( !isServer ) name = "Windows 10"; 
+        		else name = "Windows Server 10"; 
         	}
         }
         else {
@@ -149,7 +138,7 @@ http://msdn.microsoft.com/en-us/library/windows/desktop/ms724833(v=vs.85).aspx
 
 /**intellisense(!winVersion)
 format() = 格式化为文本格式的版本号
-majorVersion = 操作系统的主版本号
+majorVersion = 操作系统的主版本号\n注意 Windows 11 的主版本号仍然是 10
 minorVersion = 操作系统的副版本号
 buildNumber = 操作系统的构建版本号
 platformId = 平台ID
@@ -157,14 +146,13 @@ csdVersion = 关于该操作系统的附加信息
 productType = 产品类型,多个选项按位和\n普通家用操作系统_VER_NT_WORKSTATION\n服务器操作系统_VER_NT_SERVER,_VER_NT_DOMAIN_CONTROLLER
 name = 操作系统产品名称,例如\n"Windows XP"\n"Windows 7"\n"Windows 2012 R2"
 isServer = 是否服务器版本系统
-isVistaLater = 当前系统是否vista以及vista以后的版本\n该值如果为false,即为win xp,win 2003操作系统
-isWin7Later = 当前系统是否win7以及win7以后的版本
-isWin8Later = 当前系统是否win8以及win8以后的版本
-isWin10Later = 当前系统是否win10以及win10以后的版本
-isXp = 是否 WinXP
-isWin2003 = 是否 Win2003
+isVistaLater = 当前系统是否 Vista 以及 Vista 以后的版本\n该值如果为false,即为 Win  xp, Win  2003操作系统
+isWin7Later = 当前系统是否 Win 7以及 Win 7以后的版本
+isWin8Later = 当前系统是否 Win 8以及 Win 8以后的版本
+isWin10Later = 当前系统是否 Win 10以及 Win 10以后的版本
+isWin11Later = 当前系统是否 Win  11以及 Win 11以后的版本\n注意 Windows 11 的主版本号仍然是 10
+isXp = 是否 Win XP
 isVista = 是否 Vista
-isWin2008 = 是否 win2008
 isWin7 = 是否 win7
 isWin8 = 是否 win8
 end intellisense**/

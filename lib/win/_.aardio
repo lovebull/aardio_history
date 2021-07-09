@@ -218,7 +218,8 @@ addenv = function(k,nv,path){
 	for(k,v in tv){
 		if( ..string.cmp(nv,v) == 0 ) return values; 
 	}
-	values = values + ";" + nv;
+	
+	values = nv+ ";" + values;
 	..win.setenv(k,values)
 	return values;
 } 

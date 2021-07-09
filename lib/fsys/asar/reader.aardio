@@ -24,6 +24,7 @@ class reader{
 		} 
 		 
 		if(!this.file) return null,"打开文件失败";
+		this.unpackedPath = path + ".unpacked";
 		
 		var h  = header();
 		
@@ -51,9 +52,9 @@ class reader{
 				..table.push(this.files,v);
 				
 				if( v.files ){
-						enumInfo(v,v.path); 
+					enumInfo(v,v.path); 
 				}
-				else {
+				elseif(v.offset!=null){
 					v.offset = v.offset + headerSize; 
 					size = size + v.offset;
 				}  
@@ -75,7 +76,7 @@ class reader{
 			}
 			else {
 				if(v.offset)this.file.seek("set",v.offset);
-				proc(k,v.path,v.offset,v.size,v.executable)	
+				proc(k,v.path,v.offset,v.size,v.executable,v.unpacked)	
 			} 
 		}
 	}
@@ -88,12 +89,12 @@ class reader{
 		enumInfo = function(info,td,parent){  
 			for(k,v in info.files){    
 				if( v.files ){
-					var children = {text = k;path = v.path}
+					var children = {text = k;path = v.path;unpacked = v.unpacked;}
 					..table.push(td,children); 
 					enumInfo(v,children,v.path); 
 				}
 				else {
-					..table.push(td,{text = k;path = v.path;size = v.size}); 
+					..table.push(td,{text = k;path = v.path;size = v.size;unpacked = v.unpacked; }); 
 				}  
 			}
 		} 
@@ -108,7 +109,7 @@ class reader{
 			
 			if(v) {
 				if(v.offset)this.file.seek("set",v.offset);
-				return v.path,v.size,v.executable;
+				return v.path,v.size,v.offset,v.executable,v.unpacked;
 			};
 		} 
 	};
@@ -184,6 +185,17 @@ class reader{
 	};
 	readFile = function(path){
 		var offset,size = this.seek(path);
+		if(offset===null){
+			var f = this.find(this.info,path); 
+			if(f ? f.unpacked ){
+				var src = ..io.joinpath(this.unpackedPath,path)
+				if(..io.exist(src)){
+					return ..string.load(src);
+				}
+			}
+			return;
+		}
+		
 		if(size) return this.file.read(size);
 	}; 
 	eachReadBuffer = function(buf,size){ 
@@ -208,17 +220,29 @@ class reader{
 		
 		if(!buf) buf = ..raw.buffer(0xA00000);
 		var nextFile = this.eachFile();
-		var pathFile,sizeFile = nextFile()
-		while(pathFile &&(sizeFile===null)){
+		var pathFile,sizeFile,offsetFile,executable,unpacked = nextFile()
+		while(pathFile &&(offsetFile===null)){
 			var path = ..io.joinpath(extractDir,pathFile);
-			..io.createDir(path) ;
-			pathFile,sizeFile = nextFile()
+			if(unpacked){
+				var src = ..io.joinpath(this.unpackedPath,pathFile)
+				if(..io.exist(src)){
+					var bin = ..string.loadBuffer(src);
+					if(#bin){
+						..string.save(path,bin)
+					}
+				}
+			}
+			elseif(!sizeFile)..io.createDir(path);
 			
+			pathFile,sizeFile,offsetFile,executable,unpacked = nextFile();
 		}
+		
+		if(!pathFile){return function(){}};
 		var nextBlock = this.eachReadBuffer(buf,sizeFile); 
 		
 		var path = ..io.joinpath(extractDir,pathFile);
 		if(!..io.createDir(..io.splitpath(path).dir ) ) error('创建文件目录失败\n' + ..io.splitpath(path).dir ,2);
+		
 		var outfile = ..io.open(path,"w+b")
 		if(!outfile) error('创建文件失败\n' + path ,2);
 		
@@ -235,12 +259,21 @@ class reader{
 			};
 			outfile.close();	
 			
-			pathFile,sizeFile = nextFile();
-			while(pathFile &&(sizeFile===null)){
+			pathFile,sizeFile,offsetFile,executable,unpacked = nextFile();
+			while(pathFile &&(offsetFile===null)){
 				var path = ..io.joinpath(extractDir,pathFile);
-				..io.createDir(path) ;
-				pathFile,sizeFile = nextFile()
+				if(unpacked){
+					var src = ..io.joinpath(this.unpackedPath,pathFile)
+					if(..io.exist(src)){
+						var bin = ..string.loadBuffer(src);
+						if(#bin){
+							..string.save(path,bin)
+						}
+					} 
+				}
+				elseif(!sizeFile)..io.createDir(path);
 				
+				pathFile,sizeFile,offsetFile,executable,unpacked = nextFile();
 			}
 			
 			if(pathFile){
@@ -292,16 +325,16 @@ info = 文件系统信息,这是一个树形结构的表
 files = 文件信息列表,这是一个数组
 totalSize = asar中所有文件的大小,不包含asar文件头大小
 headerSize = asar文件头大	
-enum = @.enum(\n	function(fileName,path,offset,size,executable){\n		__/*fileName:文件名\npath:包含上层目录的相对路径\noffset:文件在asar中的偏移位置,已移动文件指针到这里\nsize:文件大小\nexecutable:是否可执行文件*/\n	}\n)
-seek(__) = 参数中指定文件的相对路径,\n移动文件指针到此文件在asar文件中的开始位置
+enum = @.enum(\n	function(fileName,path,offset,size,executable,unpacked){\n		__/*fileName:文件名\npath:包含上层目录的相对路径\noffset:如果是包内文刚表示偏移位置,并已移动文件指针到这里\nsize:文件大小\nexecutable:是否可执行文件\nunpacked 是否外部 unpacked 目录下的文件*/\n	}\n)
+seek(__) = 参数中指定文件的相对路径,\n移动文件指针到此文件在asar文件中的开始位置\n失败返回 null
 read(__) = 这个函数的参数与fsys.stream参数的read函数一样用法,\n建议在这里指定要读取的长度\n不指定长度读取一行，但不可以指定负数\n可以指定结构体
 readTo(__) =  读取直到以参数指定的字符串结束,不包含束字符串\n这个函数会一直向后读,而不考虑是不是越过了当前的文件块
 readFile(__) = 参数中指定文件的相对路径,\n读取并返回文件的全部数据,返回值为字符串值
 eachReadBuffer(缓冲区,文件路径) = @for readSize in ??.eachReadBuffer(缓冲区对象,"要读取取的文件相对路径") {
 	__/*迭代器的第一个参数应当是缓冲区\n第二个参数可选指定要读取的文件相对路径,也可以指定要读取的大小\n迭代变量 readSize 表示本次读取的长度*/
 }
-eachFile = @for path,size,executable in ??.eachFile(){
-	__/*path:包含上层目录的相对路径\nsize:文件大小,已自动移动文件指针到文件所在的偏移位置\nexecutable:是否可执行文件*/	
+eachFile = @for path,size,offset,executable,unpacked in ??.eachFile(){
+	__/*path:包含上层目录的相对路径\nsize:文件大小,已自动移动文件指针到文件所在的偏移位置\noffset: 文件偏移位置,offset为null则为目录或 unpacked 文件,\nexecutable:是否可执行文件\nunpacked 为true的文件未包含在asar文件内*/	
 }
 eachUnpack(解压目录,缓冲区) = @for path,size,progress in ??.eachUnpack("/ExtractDir") {
 	__/*迭代器的第一个参数应指下要解压的目录\n可选使用第二个参数定定缓冲区对象\npath为当前正在处理的文件路径,size为已解包总大小,\nprogress是使用小数表示的进度,1为已完成\n*/
@@ -311,4 +344,3 @@ treeData() = 返回可以直接加载到treeview视图的数据表
 replace(.("文件相对路径",替换数据) = 写入替换数据长度不能大于原数据长度
 replaceText(.("文件相对路径",替换数据)  = 替换文本并移除回车使用'\n'单换行
 end intellisense**/
-

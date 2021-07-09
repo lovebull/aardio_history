@@ -1,4 +1,6 @@
-﻿import web.rest.jsonClient;
+﻿//qywx 企业微信
+
+import web.rest.jsonClient;
 
 namespace web.rest;
 
@@ -58,6 +60,10 @@ end intellisense**/
 var http = web.rest.qywx();
 http.setAuth("corpid","corpsecret");
 var wx = http.api();
+
+//注意企业微信API有些接口网址里有用到get名称,
+//这时候请写为["/get"]即可避免被 web.rest 识别为默认的HTTP方法名，
+var user = qywx.user["/get"].get(userid="*********")
 
 //
 var result = wx.externalcontact.groupchat.list({

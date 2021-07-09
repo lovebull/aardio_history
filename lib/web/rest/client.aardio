@@ -503,9 +503,9 @@ web.rest.client(.("UserAgent","代理服务器","绕过代理的主机",连接�
 !web_restClient.api() = !web_rest_api.
 !web_rest_api.? = 可输入任意API资源名\n返回一个API调用对象,\n返回对象可以使用成员操作符继续获取下级资源，\n也可以作为函数直接调用并发送请求,\n作为函数使用时,\n可选用参数@1指定请求数据参表，也可直接指定请求字符串,\n可选用参数@2指定URL参数表,\n可选用参数@3指定inet.http对象的onReceive回调函数\n!web_rest_api.
 !web_rest_api.head() = HEAD方法提交请求\n如果该函数返回非null值为成功,请使用lastResponseHeaders获取应答HTTP头\n请求参数可以指定表或字符串,如果是表请求前会转换为字符串
-!web_rest_api.get() = GET方法提交请求,获取资源,\n请求参数@1可以指定表或字符串、缓冲区,如果是表请求前会转换为字符串
+!web_rest_api.get(__) = GET方法提交请求,获取资源,\n请求参数@1可以指定表或字符串、缓冲区,如果是表请求前会转换为字符串\n如果资源URL名称需要用到 get，请使用["/get"]替代以避免被识别为默认HTTP方法
 !web_rest_api.post(__) = POST方法提交请求,新增或修改资源,\n请求参数@1可以指定表或字符串、缓冲区,如果是表请求前会转换为字符串\n可选用参数@2指定URL参数表,\n可选用参数@3指定inet.http对象的onReceive回调函数
-!web_rest_api.delete(__) = DELETE方法提交请求,删除资源,\n请求参数@1可以指定表或字符串、缓冲区,如果是表请求前会转换为字符串\n可选用参数@2指定URL参数表,\n可选用参数@3指定inet.http对象的onReceive回调函数
+!web_rest_api.delete(__) = DELETE方法提交请求,删除资源,\n请求参数@1可以指定表或字符串、缓冲区,如果是表请求前会转换为字符串\n可选用参数@2指定URL参数表,\n可选用参数@3指定inet.http对象的onReceive回调函数\n如果资源URL名称需要用到 delete，请使用["/delete"]替代以避免被识别为默认HTTP方法
 !web_rest_api.put(__) = PUT方法提交请求,替换或更新资源,\n请求参数@1可以指定表或字符串、缓冲区,如果是表请求前会转换为字符串\n可选用参数@2指定URL参数表,\n可选用参数@3指定inet.http对象的onReceive回调函数
 !web_rest_api.patch(__) = PATCH方法提交请求,更新资源,\n请求参数@1可以指定表或字符串、缓冲区,如果是表请求前会转换为字符串\n可选用参数@2指定URL参数表,\n可选用参数@3指定inet.http对象的onReceive回调函数
 end intellisense**/

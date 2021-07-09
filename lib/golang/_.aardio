@@ -75,47 +75,9 @@ class golang{
     	..win.setenv("GOCACHE",..io.joinpath(this.root,"\.cache") );
     	this.path = ..io.joinpath(this.root,"\bin\go.exe") 
     	
-    	if(..io.exist("C:\MinGW\bin\gcc.exe") ){
-			..win.addenv("PATH","C:\MinGW\bin\",true);
-		}
-		elseif(..io.exist("C:\TDM-GCC-32\bin\gcc.exe") ){
-			..win.addenv("PATH","C:\TDM-GCC-32\bin",true);
-		}
-		elseif(..io.exist("D:\MinGW\bin\gcc.exe") ){
-			..win.addenv("PATH","D:\MinGW\bin\",true);
-		}
-		elseif(..io.exist("D:\TDM-GCC-32\bin\gcc.exe") ){
-			..win.addenv("PATH","D:\TDM-GCC-32\bin",true);
-		}
-		elseif(..io.exist("E:\MinGW\bin\gcc.exe") ){
-			..win.addenv("PATH","E:\MinGW\bin\",true);
-		}
-		elseif(..io.exist("E:\TDM-GCC-32\bin\gcc.exe") ){
-			..win.addenv("PATH","E:\TDM-GCC-32\bin",true);
-		}
-		else {
-		    var mingw = ..fsys.lnk.search( {"mingw"},"terminal" )  
-			if(mingw){
-				var str  = ..string.load(mingw);
-				if(str){
-					var path  = ..string.match(str,"set\s*PATH\s*=\s*(.+?\mingw32\\bin)\;\%PATH\%");
-					if(path){
-						..win.addenv("PATH",path,true);
-					}
-				} 
-			}
-			else {
-				var mingw = ..fsys.lnk.search( {"tdm-gcc"},"Modify or Remove MinGW" );
-				if(mingw){
-					mingw = ..io.joinpath( ..fsys.getParentDir( ..fsys.getParentDir(mingw) ),"bin");
-					if(..io.exist(..io.joinpath(mingw,"gcc.exe") ) ){
-						..win.addenv("PATH",mingw,true);
-					}
-					else {
-						..console.debug("未安装 MinGW-W64 或 TDM-GCC，不支持生成 DLL 文件！")
-					}
-				}
-			}
+    	import process.gcc;
+    	if(!process.gcc.path){ 
+			..console.debug("未安装 MinGW-W64 或 TDM-GCC，不支持生成 DLL 文件！") 
 		}
 		
 		this.environment = {};
@@ -218,7 +180,7 @@ golang() = !golang.
 !golang.runCode(.("代码路径","go代码") = 保存go代码并运行文件
 !golang.build(__) = 执行go build命令生成EXE文件,参数中指定要编译的代码文件\n可增加多个参数
 !golang.buildShared( = 执行go build命令生成DLL动态库
-!golang.buildShared(.("源文件文件路径","输出文件路径") = 执行go build命令生成DLL动态库,\n参数@1必须指定要编译的代码文件,可选指定输出dll文件路径,\n可增加多个参数\n\n64位系统需要先安装mingw-w64,https://sourceforge.net/projects/mingw-w64 \n32位系统可安装http://tdm-gcc.tdragon.net/download \n\n注意每个Go导出函数前面都要加上 //export 要导出的函数名 
+!golang.buildShared(.("源文件文件路径","输出文件路径") = 执行go build命令生成DLL动态库,\n参数@1必须指定要编译的代码文件,可选指定输出dll文件路径,\n可增加多个参数\n\n编译DLL需要依赖 GCC,如果没找到 GCC 会自动安装,\n64位系统可自行安装Mingw-w64,https://sourceforge.net/projects/mingw-w64 \n32位系统可安装 http://tdm-gcc.tdragon.net/download\n\n注意每个Go导出函数前面都要加上 //export 要导出的函数名 
 !golang.buildArchive(.("源文件文件路径","输出文件路径") = 执行go build -buildmode=c-archive命令
 !golang.buildStrip(__) = 执行go build命令生成体积较小的EXE文件,\n默认添加-ldflags "-s -w"参数移除调试信息\n文件参数中指定要编译的代码文件
 !golang.install(__) = 执行go install命令,参数中指定要编译安装的代码

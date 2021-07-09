@@ -452,7 +452,7 @@
 580823624|737|424|codes\范例程序\操作系统\settings.aardio
 -871940370|1876|911|codes\范例程序\操作系统\shellFolder.aardio
 -786755768|1946|937|codes\范例程序\操作系统\sysColor.aardio
--1082817949|1474|780|codes\范例程序\操作系统\sysInfo.aardio
+-1132525248|2109|1065|codes\范例程序\操作系统\sysInfo.aardio
 -1229088317|1039|546|codes\范例程序\操作系统\virDesktop.aardio
 285483356|689|469|codes\范例程序\操作系统\关闭显示器.aardio
 2075772280|996|553|codes\范例程序\操作系统\取硬盘序列号.aardio
@@ -515,7 +515,7 @@
 0|0|0|codes\范例程序\文件操作\asar打包解包\forms\
 1196400817|2010|821|codes\范例程序\文件操作\asar打包解包\main.aardio
 174786009|676|351|codes\范例程序\文件操作\asar打包解包\WinAsar.aproj
-1717405669|7261|2261|codes\范例程序\文件操作\asar打包解包\forms\extractor.aardio
+-422435923|7282|2277|codes\范例程序\文件操作\asar打包解包\forms\extractor.aardio
 511405815|6132|2036|codes\范例程序\文件操作\asar打包解包\forms\packer.aardio
 1275226327|2448|1108|codes\范例程序\文件操作\串口\sio.aardio
 -381002034|5644|1784|codes\范例程序\文件操作\压缩解压\CabQuicker.aardio
@@ -657,7 +657,7 @@
 -1802366171|711168|301859|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
-1522549194|15|33|config\SYS.CFG
+768045404|15|33|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 -944273779|109464|28789|config\intellisense\kernel.txt
@@ -1389,7 +1389,7 @@
 -2145745389|3076|1266|lib\fsys\watch.aardio
 1046627050|2024|957|lib\fsys\wow64.aardio
 -1380449736|21772|6503|lib\fsys\_.aardio
-1036232277|9873|3176|lib\fsys\asar\reader.aardio
+-970872798|11112|3445|lib\fsys\asar\reader.aardio
 -1843686266|6935|2414|lib\fsys\asar\writer.aardio
 1430753813|3455|1313|lib\fsys\cab\maker.aardio
 -992110102|3660|1443|lib\fsys\cab\_.aardio
@@ -1422,7 +1422,7 @@
 1272441862|62272|10246|lib\gdip\_.aardio
 699605990|1536|330|lib\gdip\.res\feather.dll
 -1841023754|263|226|lib\gdip\.res\编译.aardio
--1330033100|8036|2603|lib\golang\_.aardio
+-1423181346|6896|2418|lib\golang\_.aardio
 494515222|6928|2443|lib\ide\command.aardio
 -324537425|1818|791|lib\ide\debug.aardio
 0|0|0|lib\ide\doc\
@@ -1474,6 +1474,7 @@
 -91496726|6854|2337|lib\process\command.aardio
 -1628604094|1047|628|lib\process\control.aardio
 1225818497|2873|1015|lib\process\file.aardio
+0|0|0|lib\process\gcc\
 -897350285|1586|661|lib\process\heap.aardio
 0|0|0|lib\process\job\
 1129615568|4119|1701|lib\process\mutex.aardio
@@ -1490,6 +1491,7 @@
 -1455618052|2250|1040|lib\process\wow64.aardio
 316640062|53399|14236|lib\process\_.aardio
 2013837002|6858|2296|lib\process\apiHook\_.aardio
+-1653245131|3463|1075|lib\process\gcc\_.aardio
 1404097761|2825|1098|lib\process\job\limitKill.aardio
 1713512425|2191|1040|lib\process\php\cgi.aardio
 -917778214|2985|1293|lib\process\php\simpleHttpServer.aardio
@@ -1683,12 +1685,12 @@
 437568689|1291|774|lib\web\nativeMessaging\install.aardio
 1583466654|2861|1303|lib\web\nativeMessaging\_.aardio
 -1320507227|1383|706|lib\web\npm\_.aardio
-1847704511|24647|6627|lib\web\rest\client.aardio
+-470022285|24859|6691|lib\web\rest\client.aardio
 1805740142|1435|659|lib\web\rest\github.aardio
 -256184915|703|434|lib\web\rest\htmlClient.aardio
 -1611180188|1524|702|lib\web\rest\jsonClient.aardio
 987796269|2040|943|lib\web\rest\jsonLiteClient.aardio
--1371514947|1802|821|lib\web\rest\qywx.aardio
+1976185394|2035|963|lib\web\rest\qywx.aardio
 -1065509177|680|424|lib\web\rest\xmlClient.aardio
 -112775875|9938|3500|lib\web\rpc\externalServer.aardio
 2007378535|8001|2821|lib\web\rpc\jsonClient.aardio
@@ -1729,10 +1731,10 @@
 0|0|0|lib\win\ts\
 0|0|0|lib\win\ui\
 0|0|0|lib\win\util\
-725752287|5651|1552|lib\win\version.aardio
--1487813655|2186|1010|lib\win\versionEx.aardio
+-579386759|5341|1491|lib\win\version.aardio
+-306353340|2340|1058|lib\win\versionEx.aardio
 0|0|0|lib\win\wizard\
-1645490293|47217|13755|lib\win\_.aardio
+1912938726|47219|13752|lib\win\_.aardio
 -803629268|2526|1008|lib\win\clip\file.aardio
 1845514487|5154|1539|lib\win\clip\html.aardio
 523635146|1685|735|lib\win\clip\viewer.aardio
