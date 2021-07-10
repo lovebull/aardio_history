@@ -657,7 +657,7 @@
 -1802366171|711168|301859|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
-768045404|15|33|config\SYS.CFG
+-1281104641|15|33|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 -944273779|109464|28789|config\intellisense\kernel.txt
@@ -1462,7 +1462,7 @@
 404185541|2509|1304|lib\preload\raw.aardio
 -768064715|10192|3620|lib\preload\string.aardio
 739693232|6062|1898|lib\preload\struct.aardio
-443922702|18735|5765|lib\preload\table.aardio
+-1162515693|18753|5784|lib\preload\table.aardio
 1406950490|11596|4037|lib\preload\thread.aardio
 -2097508463|11764|4250|lib\preload\_.aardio
 1679692935|5007|1984|lib\process\admin.aardio
@@ -1799,7 +1799,7 @@
 1624620549|12731|4578|lib\win\ui\ctrl\combobox.aardio
 488148247|3737|1280|lib\win\ui\ctrl\custom.aardio
 1467959672|6943|2581|lib\win\ui\ctrl\datetimepick.aardio
-1275235314|26729|8367|lib\win\ui\ctrl\edit.aardio
+1039849322|26742|8374|lib\win\ui\ctrl\edit.aardio
 915790895|4343|1799|lib\win\ui\ctrl\hotkey.aardio
 -1843827469|5177|2200|lib\win\ui\ctrl\ipaddress.aardio
 -1819767461|12941|4288|lib\win\ui\ctrl\listbox.aardio

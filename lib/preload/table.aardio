@@ -279,7 +279,7 @@ namespace table{
 		if( t == "array" ) return "array";
 		if( ( v@[["_keys"]] !== null ) || (v[["_struct"]]) ) return "object";
 		if( v@[["length"]] !== null ) return "array";
-		if( type(v.length) == "number" ) return "array";
+		if( ( type(v.length) == "number" ) && (v[["length"]]===null) ) return "array";
 		if( #v ) return "array";
 		return "object";
 	};
@@ -303,7 +303,7 @@ namespace table{
 }  
 
 /**intellisense(table)
-type(__) = 检测传入值的表类型\n如果不是一个表返回null\n如果表的_type元属性声明了"object"或"array"的值返回该值\n如果表定义了length属性,返回"array"\n如果表在元表中定义了length元属性,返回"array"\n如果使用#操作符取数组长度返回值不是0,返回"array"\n其他一律返回"object"\n\nweb.json使用此函数区分对象的类型\n并且在解析JSON以后会通过_type元属性设置"aaray"或"object"的值
+type(__) = 检测传入值的表类型\n如果不是一个表返回null，\n如果表的_type元属性声明了"object"或"array"的值返回该值，\n如果表在元表中定义了 length 属性或 length 元属性,返回"array"，\n如果使用#操作符取数组长度返回值不是0,返回"array"，\n其他一律返回"object"\n\nweb.json使用此函数区分对象的类型，\n并且在解析JSON以后会通过_type元属性设置"aaray"或"object"的值
 isArray(__) = 检查传入参数是否一个数组，\n可传入任何数据类型参数，\n\n如果参数对象不是table类型返回false,\n参数的_type元属性为"object"返回false,\n参数对象的_type元属性为"array"返回true,\n参数对象指定了length元属性或length属性返回true,\n参数对象包含数组成员返回true,\n其他情况返回false\n\n使用table.array函数可以创建一个符合此检测条件的数组
 len(.(数组) = 获取数组长度\n在数组本身的长度,数组的length属性,以及数组的元表length属性中取最大值返回\nweb.json调用此函数以支持定长数组
 define(.(表对象,->->->) = 预定义一个或多个键名\n即使对应键的值为null,仍然在eachName迭代器中显示出来\n注意该迭代器的预定排序对null值无效,\n此函数在对象的元表中_define元属性添加键名,如果_define已经定义为函数对象则会失败\ntable.eachName,webs.json等自动支持_define元属性

@@ -252,14 +252,14 @@ edit._metaProperty =  metaProperty(
 		var len = ::SendMessage(owner[["hwnd"]],0xE/*_WM_GETTEXTLENGTH*/ ); 
 		owner.setsel(len+1);
 		 
-		if(s){
+		if(s!==null){
 			s = ..string.toUnicode(s);
 			::SendMessage(owner[["hwnd"]],0xC2/*_EM_REPLACESEL*/,,s)
 			len = ::SendMessage(owner[["hwnd"]],0xE/*_WM_GETTEXTLENGTH*/ ); 
 			owner.setsel(len+1,len+1);
 		}
 		
-		if(!...) return len;
+		if(...===null) return len;
 		return owner.appendText(...);
 	};
 	print = function(...){
