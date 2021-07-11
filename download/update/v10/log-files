@@ -657,7 +657,7 @@
 -1802366171|711168|301859|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--1281104641|15|33|config\SYS.CFG
+-995830679|15|33|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 -944273779|109464|28789|config\intellisense\kernel.txt
@@ -1588,7 +1588,7 @@
 58785228|1466|692|lib\sys\info.aardio
 1083785741|1732|662|lib\sys\mem.aardio
 -1545231223|5137|1893|lib\sys\monitor.aardio
--1918970753|2402|812|lib\sys\mpPreference.aardio
+2133097187|2544|888|lib\sys\mpPreference.aardio
 -836232035|5153|1748|lib\sys\networkIsolation.aardio
 1494447418|8312|2562|lib\sys\printer.aardio
 1164951582|3125|1272|lib\sys\runAsTask.aardio
@@ -1896,7 +1896,7 @@
 -1280120494|6103|2293|tools\其他\其他编译器\Protobuf\main.aardio
 0|0|0|tools\其他\其他编译器\Protobuf\res\
 0|0|0|tools\开发环境\.config\
--1166551465|4081|1531|tools\开发环境\defender.aardio
+1024531155|4289|1575|tools\开发环境\defender.aardio
 -768058155|3311|1471|tools\开发环境\editor.aardio
 -1253144095|5123|1845|tools\开发环境\extlib.aardio
 1614510147|4822|1841|tools\开发环境\process.aardio

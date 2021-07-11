@@ -29,10 +29,17 @@ if( service.isRunning("Windefend") ){
 			
 			var exclusionPaths = idePublishDir;
 			if(!exclusionPaths){
-				var projectDir = ide.getConfig("project_default_dir");
-				if(!#projectDir) projectDir = io.fullpath("~/project");
-	 			projectDir = fsys.path.removeBackslash(projectDir); 
-	 			exclusionPaths = {projectDir,ide.getProjectDir()}	
+				var defProjectDir = ide.getConfig("project_default_dir");
+				if(!#defProjectDir) defProjectDir = io.fullpath("~/project");
+	 			defProjectDir = fsys.path.removeBackslash(defProjectDir); 
+	 			
+	 			var curProjectDir = ide.getProjectDir()
+	 			if(!fsys.path.ischild(defProjectDir,curProjectDir)){
+	 				exclusionPaths = {projectDir,curProjectDir}	
+	 			}
+	 			else {
+	 				exclusionPaths = {projectDir}	
+	 			}
 			}
 			
 			var exclusionPaths,err = sys.mpPreference.getExclusionPaths(exclusionPaths)
@@ -55,6 +62,7 @@ else {
 	winform.msgWarn("系统未启用 Windows Defender")
 	winform.btnSave.disabled = true;
 	winform.btnAdd.disabled = true;
+	winform.close();
 }
 
 winform.btnSave.oncommand = function(id,event){
@@ -71,7 +79,7 @@ winform.btnSave.oncommand = function(id,event){
 			winform.btnSave.disabledText = null;
 			
 			if(#err){
-				winform.msgErr("系统未启用 Windows Defender")	
+				winform.msgErr("系统未启用 Windows Defender");
 			}
 			else{
 				if(publishDir){

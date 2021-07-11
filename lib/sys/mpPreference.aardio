@@ -20,9 +20,9 @@ getExclusionPaths = function(paths){
 		}
 		
 		for(k,path in paths){
-			path = ..fsys.path.removeBackslash(path); 
-			 
-			if(!..table.find(exclusionPaths,path) ){
+			path = ..fsys.path.removeBackslash(path);  
+			
+			if(!..table.find(exclusionPaths,lambda(v,k) ..fsys.path.cmp(v,path)===0 || ..fsys.path.ischild(v,path) ) ){
 				..table.push(exclusionPaths,path); 
 			} 
 		}
@@ -78,7 +78,7 @@ setExclusionPaths = function(exclusionPaths){
 
 /**intellisense()
 sys.mpPreference = Windows Defender 设置
-sys.mpPreference.getExclusionPaths() = 获取例外目录列表，返回路径数组,\n可选在参数中指定要添加到返回列表中的路径,\n此函数自动除重
+sys.mpPreference.getExclusionPaths() = 获取例外目录列表，返回路径数组,\n可选在参数中指定要添加到返回列表中的路径,\n如果参数中传入的目录或该目录的父目录已经在排除列表中，则自动排除
 sys.mpPreference.addExclusionPaths(__) = 添加一个路径到例外目录列表
 sys.mpPreference.setExclusionPaths(__) = 修改例外目录列表，参数传入路径数组,\n此函数自动除重
 sys.mpPreference.isExclusionPath(__) = 参数指定的路径是否属于例外目录
