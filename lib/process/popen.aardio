@@ -219,7 +219,7 @@ class popen{
 				function(){
 					var s  =  ..string.concat(this.peek(0));
 					if(s) echo.log( ..string.crlf( s )  );
-					if( !this.process.stillActive() ) {
+					if( !( this.process && this.process.stillActive() ) ) {
 						this.echoTimerId = null;
 						return 0;
 					}

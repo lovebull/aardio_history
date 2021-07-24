@@ -343,6 +343,7 @@ namespace flash{
 	_metaProperty.flashVars = _metaProperty.parameters;
 }
 
+/***
 begin
 
 	var ocxPathAardio = ..io.appData("aardio\std\flash.ocx")
@@ -375,6 +376,7 @@ begin
 		..com.flash.loadOcx(ocxPathAardio);
 	}
 end;
+***/
  
 /**intellisense()
 com.flash = 嵌入FLASH控件支持库\nFLASH 已被官方废弃并植入时间炸弹等，使用此扩展库可能导致程序崩溃或异常，\n此支持库后续会移除，请不要使用
