@@ -30,6 +30,55 @@ namespace Aardio.InteropServices
 			{
                 
                 Type t = assembly.GetType(typeName);
+                if (((BindingFlags)invokeAttr & BindingFlags.CreateInstance) == BindingFlags.CreateInstance)
+                {
+                    Type tClass = assembly.GetType(typeName);
+                    if (tClass != null && tClass.IsClass)
+                    {
+                        ArrayList argArray = (args as ArrayList);
+                        Type[] argTypeArray = new Type[argArray.Count];
+                        for (int i = 0; i < argArray.Count; i++)
+                        {
+                            argTypeArray[i] = argArray[i].GetType();
+                        }
+
+
+                        ConstructorInfo m = t.GetConstructor(argTypeArray);
+                        if (m != null)
+                        {
+                            return m.Invoke( (args as ArrayList).ToArray());
+                        }
+
+                        ConstructorInfo[] ms = t.GetConstructors();
+                        for (int i = 0; i < ms.Length; i++)
+                        {
+                            var parameters = ms[i].GetParameters();
+                            if (parameters.Length == argArray.Count)
+                            {
+                                Boolean failed = false;
+                                for(int k = 0;k < parameters.Length; k++){
+                                    var paramType = parameters[k].ParameterType;
+                                    if (paramType.IsEnum)
+                                    {
+                                        paramType = Enum.GetUnderlyingType(paramType);
+                                    }
+
+                                    if (!paramType.Equals( argArray[k].GetType()  ) )
+                                    {
+                                        failed = true;
+                                        break;
+                                    }
+                                }
+                              
+                                if (!failed)  return ms[i].Invoke((args as ArrayList).ToArray());
+                            }
+                        }
+                         
+                        return tClass.InvokeMember("", (BindingFlags)BindingFlags.CreateInstance | BindingFlags.IgnoreReturn, null, target, (args as ArrayList).ToArray());
+                    }
+                   
+                }
+
                 if ( ((BindingFlags)invokeAttr & BindingFlags.InvokeMethod) == BindingFlags.InvokeMethod)
                 {
                     Type tClass = assembly.GetType(typeName + "." + methodName);
@@ -38,14 +87,14 @@ namespace Aardio.InteropServices
                         return tClass.InvokeMember("", (BindingFlags)BindingFlags.CreateInstance | BindingFlags.IgnoreReturn, null, target, (args as ArrayList).ToArray());
                     }
 
-                    ArrayList arr =(args as ArrayList);
-                    Type []types = new Type[arr.Count];
-                    for (int i = 0; i < arr.Count; i++) 
+                    ArrayList argArray =(args as ArrayList);
+                    Type [] argTypeArray = new Type[argArray.Count];
+                    for (int i = 0; i < argArray.Count; i++) 
                     {
-                        types[i] = arr[i].GetType();
+                         argTypeArray[i] = argArray[i].GetType();
                     }
 
-                    MethodInfo m = t.GetMethod(methodName, (BindingFlags)invokeAttr | BindingFlags.IgnoreReturn, null, types,null);
+                    MethodInfo m = t.GetMethod(methodName, (BindingFlags)invokeAttr | BindingFlags.IgnoreReturn, null,  argTypeArray,null);
                     if (m!=null)
                     {
                         return m.Invoke(target, (args as ArrayList).ToArray());
@@ -54,7 +103,34 @@ namespace Aardio.InteropServices
                     MethodInfo []ms = t.GetMethods( (BindingFlags)invokeAttr | BindingFlags.IgnoreReturn );
                     for (int i = 0; i < ms.Length; i++)
                     {
-                        if(ms[i].Name == methodName && ms[i].GetParameters().Length == arr.Count)
+                        if (ms[i].Name != methodName) continue;
+
+                        var parameters = ms[i].GetParameters();
+                        if (parameters.Length == argArray.Count)
+                        {
+                            Boolean failed = false;
+                            for (int k = 0; k < parameters.Length; k++)
+                            {
+                                var paramType = parameters[k].ParameterType;
+                                if (paramType.IsEnum)
+                                {
+                                    paramType = Enum.GetUnderlyingType(paramType);
+                                }
+
+                                if (!paramType.Equals(argArray[k].GetType()))
+                                {
+                                    failed = true;
+                                    break;
+                                }
+                            }
+
+                            if (!failed) return ms[i].Invoke(target,  (args as ArrayList).ToArray());
+                        }
+                    }
+
+                    for (int i = 0; i < ms.Length; i++)
+                    {
+                        if(ms[i].Name == methodName && ms[i].GetParameters().Length == argArray.Count)
                         {
                             return ms[i].Invoke(target, (args as ArrayList).ToArray());
                         }
@@ -77,14 +153,14 @@ namespace Aardio.InteropServices
             Type t = target.GetType();
             if (((BindingFlags)invokeAttr & BindingFlags.InvokeMethod) == BindingFlags.InvokeMethod)
             {
-                ArrayList arr = (args as ArrayList);
-                Type[] types = new Type[arr.Count];
-                for (int i = 0; i < arr.Count; i++)
+                ArrayList argArray = (args as ArrayList);
+                Type[] argTypeArray = new Type[argArray.Count];
+                for (int i = 0; i < argArray.Count; i++)
                 {
-                    types[i] = arr[i].GetType();
+                    argTypeArray[i] = argArray[i].GetType();
                 }
 
-                MethodInfo m = t.GetMethod(methodName, (BindingFlags)invokeAttr | BindingFlags.IgnoreReturn, null, types, null);
+                MethodInfo m = t.GetMethod(methodName, (BindingFlags)invokeAttr | BindingFlags.IgnoreReturn, null, argTypeArray, null);
                 if (m != null)
                 {
                     return m.Invoke(target, (args as ArrayList).ToArray());
@@ -93,7 +169,34 @@ namespace Aardio.InteropServices
                 MethodInfo[] ms = t.GetMethods((BindingFlags)invokeAttr | BindingFlags.IgnoreReturn);
                 for (int i = 0; i < ms.Length; i++)
                 {
-                    if (ms[i].Name == methodName && ms[i].GetParameters().Length == arr.Count)
+                    if (ms[i].Name != methodName) continue;
+
+                    var parameters = ms[i].GetParameters();
+                    if (parameters.Length == argArray.Count)
+                    {
+                        Boolean failed = false;
+                        for (int k = 0; k < parameters.Length; k++)
+                        {
+                            var paramType = parameters[k].ParameterType;
+                            if (paramType.IsEnum)
+                            {
+                                paramType = Enum.GetUnderlyingType(paramType);
+                            }
+
+                            if (!paramType.Equals(argArray[k].GetType()))
+                            {
+                                failed = true;
+                                break;
+                            }
+                        }
+
+                        if (!failed) return ms[i].Invoke(target, (args as ArrayList).ToArray());
+                    }
+                }
+
+                for (int i = 0; i < ms.Length; i++)
+                {
+                    if (ms[i].Name == methodName && ms[i].GetParameters().Length == argArray.Count)
                     {
                         return ms[i].Invoke(target, (args as ArrayList).ToArray());
                     }

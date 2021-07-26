@@ -39,7 +39,7 @@ class appDomain{
 		var wrapAssembly = function(asm,...){
 			if(!asm) return asm,...;
 			asm = unWrapDotNetObject(asm);
-			
+			 
 			asm[["Name"]] = asm.GetName().Name;
 			asm[["_createInstance"]] = asm.CreateInstance;
 			asm[["__createInstanceTest"]] = function(typeName,...){
@@ -50,12 +50,12 @@ class appDomain{
 					,arrlist,null );
 				if( !ok ) return null,result;
 				return this.queryObject(result);
-			}
+			} 
 			asm[["new"]] = function(typeName,...){
 				if( type(typeName)!=type.string )error("请指定类名称,参数@2",2);
 				var obj,err = asm.__createInstanceTest(typeName,...);
+
 				if(obj) return obj;
-				
 				if(!..string.startWith(typeName,asm.Name +".") && !(..string.indexOf(typeName,".")) )
 					return asm.__createInstanceTest( asm.Name +"."+ typeName,...);
 					
@@ -96,7 +96,13 @@ class appDomain{
 			asm[["getEnum"]] = function(typeName){
 				var typeName,methodName = ..string.match(typeName,"(.+)\.([^.]+)$");  
 				var ok,result  = call(this.utility.getParseEnum,this.utility, asm ,typeName,methodName ); 
-				if( !ok ) return null,result;
+				if( !ok ) {
+					if(!..string.startWith(typeName,asm.Name +".") && !(..string.indexOf(typeName,".")) ){
+						ok,result  = call(this.utility.getParseEnum,this.utility, asm ,asm.Name +"." +typeName,methodName ); 
+					}
+					
+					if( !ok ) return null,result;
+				}
 				return result;
 			} 
 			
@@ -183,7 +189,7 @@ class appDomain{
 				if(!assemblyName) error("请指定程序集名称",2);  
 				return wrapAssembly( this.utility.loadAssembly( ..io.localpath(assemblyName) : assemblyName ) );
 			};
-			 
+			  
 			this.interop = this.loadFile($"~/lib/dotNet/.res/Aardio.InteropServices.dll");  
 			//this.interop = this.loadFile( "~\lib\dotNet\.res\bin\Debug\Aardio.InteropServices.dll" ,"~\lib\dotNet\.res\bin\Debug\Aardio.InteropServices.pdb" ); 			
 			this.utility = unWrapDotNetObject( this.interop.createInstance("Aardio.InteropServices.Utility") ); 
@@ -499,5 +505,5 @@ new(.("类名",->->-> ) = 创建对象实例,\n可添加不定个数构造参数
 invokeStaticMember(.("类名->方法名",->->-> ) = 调用类的静态方法,\n可添加不定个数调用参数\n失败返回空值,以及错误信息
 invokeMember(.("类名->方法名",BindingFlags) = 调用类的方法,\n可添加不定个数调用参数\n失败返回空值,以及错误信息
 getStaticMember(.("类名->字段名") = 获取字段或属性值、或枚举值
-getEnum(.("枚举类型名->枚举字段名") = 获取枚举值
+getEnum(.("枚举类型名->枚举字段名") = 获取枚举值\n注意参数要指定完整类型名
 end intellisense**/

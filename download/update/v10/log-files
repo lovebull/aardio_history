@@ -657,7 +657,7 @@
 -1802366171|711168|301859|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
-1571653075|15|33|config\SYS.CFG
+-964294923|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 -944273779|109464|28789|config\intellisense\kernel.txt
@@ -1303,7 +1303,7 @@
 849437073|4148|1745|lib\debug\log.aardio
 983730162|3213|1086|lib\debug\_.aardio
 0|0|0|lib\dotNet\.res\
-1261146046|21038|4777|lib\dotNet\appDomain.aardio
+-1894876679|21317|4818|lib\dotNet\appDomain.aardio
 1053547864|7716|2440|lib\dotNet\clr.aardio
 0|0|0|lib\dotNet\interface\
 0|0|0|lib\dotNet\ocr\
@@ -1313,11 +1313,11 @@
 1041040747|272|225|lib\dotNet\_.aardio
 0|0|0|lib\dotNet\.res\Aardio.InteropServices\
 -50829726|1629|619|lib\dotNet\.res\Aardio.InteropServices.csproj
--226045506|10752|4355|lib\dotNet\.res\Aardio.InteropServices.dll
+-180579192|11776|4763|lib\dotNet\.res\Aardio.InteropServices.dll
 -841155424|12987|2186|lib\dotNet\.res\PowerShellRunner.cs
 0|0|0|lib\dotNet\.res\Properties\
 -1380454023|5350|1341|lib\dotNet\.res\Aardio.InteropServices\CCodeCompiler.cs
--1870210682|5548|1108|lib\dotNet\.res\Aardio.InteropServices\Utility.cs
+465514305|10304|1519|lib\dotNet\.res\Aardio.InteropServices\Utility.cs
 -1653198930|842|389|lib\dotNet\.res\Properties\AssemblyInfo.cs
 523192411|1337|356|lib\dotNet\interface\IAppDomainSetup.aardio
 18320800|732|394|lib\dotNet\interface\ICLRMetaHost.aardio
