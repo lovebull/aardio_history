@@ -657,7 +657,7 @@
 -1802366171|711168|301859|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--964294923|15|34|config\SYS.CFG
+1603229519|15|34|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 -944273779|109464|28789|config\intellisense\kernel.txt
@@ -1456,7 +1456,7 @@
 -543039773|2307|1134|lib\mouse\hook.aardio
 -1802899828|8346|2366|lib\mouse\_.aardio
 -111992270|17403|3880|lib\nodeJs\_.aardio
-575738245|14705|5011|lib\preload\com.aardio
+1251455588|17059|5385|lib\preload\com.aardio
 -905595537|2748|1531|lib\preload\io.aardio
 5595517|3378|1416|lib\preload\math.aardio
 404185541|2509|1304|lib\preload\raw.aardio
