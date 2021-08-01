@@ -82,14 +82,14 @@ class sqlServer {
 		return !!this.findProcedureObject(name);
 	}; 
 	exec = function(sql,...){ 
-		if( ... )sql = formatSqlParameters(sql,...); 
+		if( ... )sql = format(sql,...); 
 		var ret,err = call(this.connection.Execute,this.connection,sql ); 
 		if(!ret) error(err,2);
 		return ret;
 	}; 
 	openRecordSet = function(sql,cursorType,lockType,...){
 		var rs = ..com.CreateObject("ADODB.RecordSet"); 
-		if( ... )sql = formatSqlParameters(sql,...);
+		if( ... )sql = format(sql,...);
 		var ok,err = call(rs.Open,rs,sql,this.connection,cursorType,lockType);
 		if(!ok) return null,err;
 		
@@ -186,7 +186,7 @@ class sqlServer {
 		cmd.activeConnection = this.connection;
 		cmd.commandType = ..string.find(sql,"\s\S") ? 1/*adCmdText*/ : 4/*adCmdStoredProc*/;
 		
-		if( ... )sql = formatSqlParameters(sql,...);
+		if( ... )sql = format(sql,...);
 		cmd.commandText = sql;
 		cmd.namedParameters = true;
 		
@@ -414,38 +414,98 @@ namespace sqlServer {
 		}
 	};
 	
-	formatSqlParameters = function(sql,...) {
+	escapeId = function(id){
+		if(type(id)==="table"){
+			if(#id){
+				var ret = {}
+				for(i=1;#id;1){
+					..table.push(ret,escapeId(id[i])); 
+				}
+				return ..string.join(ret,",");  
+			}
+			else {
+				var ret = {}
+				for(k,v in id){
+					if(type(v)!="table")
+						..table.push(ret,escapeId(k) + " = " + escape(v));
+					else
+						..table.push(ret,escapeId(k) + " IN " + escape(v,true));
+				} 
+				return ..string.join(ret," AND ");
+			}  
+		}
+
+		return '[' + ..string.replace(id,"\.", '].[')+ ']' 
+	};
 	
+	escape = function(v,nested){
+		var t  = type(v);
+			 	
+		if( t = "string" ){
+			return "'" +  ..string.replace(v,"'","''") + "'";
+		}
+		elseif( t = "number" ){
+			return tostring(v);
+		}
+		elseif( t = "boolean" ){
+			return v ? "1" : "0";
+		}
+		elseif( ( t = "table" ) && ..time.istime(v) ) {
+			if(..time.istime(v)){
+				var f = v.format;
+				v.format = "%Y-%m-%d %H:%M:%S";
+				var ret  = "'" +  tostring(v) + "'";
+				v.format = f;
+				return ret;
+			}
+			elseif(#v){
+				var ret = {}
+				for(i=1;#v;1){
+					..table.push(ret,escape(v[i],true)); 
+				}
+				ret = ..string.join(ret,",");
+				if(nested) ret = "(" + ret + ")";
+				return ret;
+			} 
+			elseif( v@[["_toSqlString"]] ){
+				return invoke(v@[["_toSqlString"]],v)
+			}
+			else {
+				var ret = {}
+				for(k,vv in v){
+					..table.push(ret,escapeId(k) + " = " + escape(vv));
+				} 
+				return ..string.join(ret,",");
+			}
+		} 
+		elseif( t=='buffer'){
+			return ..string.concat("0x",..string.hex(v,"") );
+		} 
+		return ..string.replace(tostring(v),"\p",""); 
+	};
+	
+	format = function(sql,...) { 
 		if( type( ... ) == "table" ){
 			var param = ...;
-			return ..string.replace(sql,"\@(<:+>|<\w+>)",
-				function(name){
-					var v =  param[name] 
-					
-					var t  = type(v);	
-					if( t = "string" ){
-						return "'" +  ..string.replace(v,"'","''") + "'";
+			if(#param){
+				var i = 0;
+				sql =  ..string.replace(sql,"\?\?*",
+					function(name) {
+						i++;
+						if( name == "?" ) return escape(param[i]);
+						else return escapeId(param[i])
 					}
-					elseif( t = "number" ){
-						return tostring(v);
-					}
-					elseif( t = "boolean" ){
-						return v ? "1" : "0";
-					}
-					elseif( ( t = "table" ) && ..time.istime(v) ) {
-						var f = v.format;
-						v.format = "%Y-%m-%d %H:%M:%S";
-						var ret  = "'" +  tostring(v) + "'";
-						v.format = f;
-						return ret;
-					} 
-					return ..string.replace(tostring(v),"\p","");
-				} 
-			); 
-		} 
-		
+				); 
+			}	
+			
+			return (..string.replace(sql,"\@(<:+>|<\w+>)",
+				lambda(name) escape(param[name])
+			)); 
+		}
 		return ..string.format(sql,...);
 	}
+	
+	formatSqlParameters =  format;
 }
 
 /**intellisense()
@@ -453,7 +513,9 @@ sqlServer( 连接参数表 ) = @sqlServer( \n	["Data Source"] = "127.0.0.1,7788"
 sqlServer( "数据库连接语句",其他格式化参数 ) = @sqlServer("Provider=SQLOLEDB.1;Data Source=.\SQLEXPRESS;Database=数据库名;User ID=登录名;Password=登录密码");
 打开数据库连接,\n如果指定的数据库不存在将自动创建数据库文件\n如果存在格式化参数，则调用string.fomat格式化连接串
 sqlServer() = !sqlServer.
-sqlServer.formatSqlParameters(sql,其他格式化参数) = 如果格式化参数为一个表,则替换所有命名参数,\n否则调用 string.format 函数格式化SQL
+sqlServer.escape(__) = 转义参数指定值为用于 SQL 查询语句的参数化值
+sqlServer.escapeId(__) = 如果传入参数是文本则转换为 SQL 标识符,\n返回文本首尾会添加中括号,\n\n如果传入参数是表, 则格式化为 SQL 键值对并以 AND 为分隔符,\n如果表中的值为数组,则格式化为 IN 语句
+sqlServer.format(.(SQL语句,格式化参数->->->) = 格式化 SQL 查询语句。\n所有需要格式化 SQL 语句的函数调用此函数格式化 SQL语句,\n如果格式化参数不是表则调用 string.format 格式化,否则按以下规则格式化:\n\nSQL语句中?或??占位符使用表的数组元素格式化,\n@字符开始的命名参数使用表的名值对元素格式化,\n其中??格式化为标识符,其他占位符格式化为参数值。\n\n字符串转为SQL安全转义字符串,buffer转为 0x4D7953514C 格式,\n数组则自动展开为列表,例如{'a', 'b'}格式化为'a', 'b'\n嵌套数组则格式化为分组列表,例如{{'a', 'b'}, {'c', 'd'}} 格式化为 ('a', 'b'), ('c', 'd')\n非数组的命名表，则格式化为 SQL 键值对,默认以逗号为分隔符,\n??占位符格式化 SQL 键值对则以 AND 为分隔符,并将数组值转换为IN语句
 end intellisense**/
 
 /**intellisense(!sqlServer)
@@ -462,11 +524,11 @@ codepage = 非 Unicode 字符的默认编码
 close() = 关闭数据库连接
 getTable(.("select * from [表名]",其他格式化参数) = 返回查询结果集数组\n每个元素代表一行,每行由N个键值对列组成\n返回值的fields成员记录了所有数据列的字段名\n结果集为空也会返回空数组,使用#操作符获取结果集长度
 getRows() = 查询并返回包含结果数据的数组\n此函数返回的数据是先列后行,与getTable相反,\n数组由所有列的数据组成,每个列都是由多个行组成的数组\n可以使用 返回数据[ 列号 ][ 行号 ] 获取对应的值,\n也可以使用 数据.字段名[列号] 获取对应的值\n\n返回数组的元表中使用recordCount记录了总行数,\n结果集为空也会返回空数组,可使用 @.recordCount判断记录集的行数\n元表中的fields字段则是记录了所有字段名的数组.\n\n所有值后面的占位空白没有去除\n可使用getTable函数获取处理过空白占位符的数据,\n或参考该函数源码自行处理尾部空白
-stepQuery(.("select * from [表名]",其他格式化参数) = 返回查询结果集第一行的数据,由键值对列组成\n无数据返回null
+stepQuery(.("select * from [表名]",其他格式化参数) = 返回查询结果集第一行的数据,由键值对列组成,\n\n格式化规则请参考 sqlServer.format 函数说明,\n格式化参数可以是一个表参数,用于替换SQL中占位符指定的参数,\nSQL语句用中@前缀标明命名参数使用表参数中的名值对格式化,\nSQL语句中的?或??占位符使用表参数中的数组值格式化
 rowCount() = 返回上次执行增、删、改、查等SQL影响的记录行数
 openRecordSet(.(sql,游标类型,锁定方法,其他格式化SQL参数) = 打开记录集,游标类型如下:\n0:默认值,启动一个只能向前移动的游标\n1:打开键集类型游标,允许任意移动，并且允许更改记录集\n2:打开动态类型游标,许所有操作，其他用户对记录集的添加、删除、更改在此记录集中\n3:打开静态类型游标\n\n锁定方法如下：\n1:默认值,不能改变数据\n2:悲观锁,编辑时立即锁定数据源的记录\n3:乐观锁,只在调用Update 方法时才锁定记\n4: 乐观批更新
-exec(.(sql,其他格式化SQL参数) =  如果格式化参数为一个表,则替换所有命名参数,\n否则调用 string.format 函数格式化SQL
-createCommand(.(sql,其他格式化SQL参数) = 创建命令对象\n 如果格式化参数为一个表,则替换所有命名参数,\n否则调用 string.format 函数格式化SQL
+exec(.(sql,其他格式化SQL参数) =  执条SQL语句\n格式化参数规则请参考 sqlServer.format 函数说明,\n格式化参数可以是一个表参数,用于替换SQL中占位符指定的参数,\nSQL语句用中@前缀标明命名参数使用表参数中的名值对格式化,\nSQL语句中的?或??占位符使用表参数中的数组值格式化
+createCommand(.(sql,其他格式化SQL参数) = 创建命令对象\n格式化规则请参考 sqlServer.format 函数说明,\n格式化参数可以是一个表参数,用于替换SQL中占位符指定的参数,\nSQL语句用中@前缀标明命名参数使用表参数中的名值对格式化,\nSQL语句中的?或??占位符使用表参数中的数组值格式化
 existsTable(.("表名") = 判断数据库中是否存在指定表
 existsProcedure(.("存储过程名") = 判断数据库中是否存在指定存储过程
 each(sql,其他格式化参数) = @for(rs in ??.each("select * from [表名]") ){ 

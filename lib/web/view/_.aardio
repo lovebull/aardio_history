@@ -333,8 +333,7 @@ namespace view{
 		
 		import inet.installer;
 		if( inet.installer("WebView2 Runtime"
-			,"https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/f5d4a72c-afdf-4cd2-865a-98c5c0259608/MicrosoftEdgeWebView2RuntimeInstallerX86.exe" 
-			," /silent /install"
+			,"https://go.microsoft.com/fwlink/?linkid=2099617"," /silent /install"
 		) ){
 			return !!getRuntimeInfo();
 		} 

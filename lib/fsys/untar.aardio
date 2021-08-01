@@ -9,20 +9,26 @@ class untar{
 
 	ctor( path,saveDir  ){
 		var tarFile;
-		var path = ..io.exist(path);
-		if(!path) return null,"错误的tar文件路径";
-		
-		if(!saveDir)saveDir = ..string.match(path,"(.*\\\w+)\.[\w.]+$");
-		if( ! (saveDir?..fsys.createDir(saveDir) ) )
-			return null,"错误的存储目录";
+		if(type(path)!="string" && type(path.size) == "function"){
+			tarFile = path;
+			if( ! (saveDir?..fsys.createDir(saveDir) ) ) return null,"错误的存储目录";
+		}
+		else{
+			var path = ..io.exist(path);
+			if(!path) return null,"错误的tar文件路径";
 			
-		if( ..string.match(path,"<.gz>|<.tgz>$") ){
-			tarFile = ..zlib.gzFile(path,"rb")
+			if(!saveDir)saveDir = ..string.match(path,"(.*\\\w+)\.[\w.]+$");
+			if( ! (saveDir?..fsys.createDir(saveDir) ) ) return null,"错误的存储目录";
+			
+				
+			if( ..string.match(path,"<.gz>|<.tgz>$") ){
+				tarFile = ..zlib.gzFile(path,"rb")
+			}
+			else {
+				tarFile = ..io.open(path,"rb")
+			}
+			if(!tarFile) return null,"打开tar文件失败";
 		}
-		else {
-			tarFile = ..io.open(path,"rb")
-		}
-		if(!tarFile) return null,"打开tar文件失败";
 
 		{
 			var size = tarFile.size(1);
@@ -164,7 +170,7 @@ namespace untar {
 
 /**intellisense()
 fsys.untar = tar文件操作
-fsys.untar(.("tar文件路径",存储路径) = 参数一可以是 *.tar, *.tar.gz, *.tgz 文件路径,\n参数2为可选参数
+fsys.untar(.("tar文件路径",存储路径) = 参数@1可以是 *.tar, *.tar.gz, *.tgz 类型文件路径,\n参数 @1 也可以指定 fsys.stream 或 fsys.file,io.file 等文件对象,\n如果参数@1为文件路径,则参数@2为可选参数
 fsys.untar() = !fsys_untarfile.
 !fsys_untarfile.utf8 = 是否使用UTF8编码文件名\n默认值为false，表示ansi多字节编码\n设为true表示使用utf8编码,\n设为null则自动检测，因为tar格式并不支持编码声明,所以可能出现文件名乱码
 !fsys_untarfile.blocksCount = 数据块总数,\n仅供进度条使用的估算值

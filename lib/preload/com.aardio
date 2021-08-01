@@ -77,16 +77,17 @@ namespace com {
 			}
 		}
 	};
+
 	int8 = lambda(v)type(v) === "number" ? Variant(v,0x10/*_VT_I1*/) : null; 
-	uint8 = lambda(v)Variant(v,0x11/*_VT_UI1*/);
-	int16 = lambda(v)Variant(v,2/*_VT_I2*/);
+	uint8 = lambda(v)type(v) === "number" ? Variant(v,0x11/*_VT_UI1*/) : SafeArrayV(v,3/*_VT_I4*/) ;
+	int16 = lambda(v)type(v) === "number" ? Variant(v,2/*_VT_I2*/) : SafeArrayV(v,3/*_VT_I4*/);
 	uint16 = lambda(v)type(v) === "number" ? Variant(v,0x12/*_VT_UI2*/) : null;
-	int32 = lambda(v)Variant(v,3/*_VT_I4*/);
+	int32 = lambda(v)type(v) === "number" ? Variant(v,3/*_VT_I4*/) : SafeArrayV(v,3/*_VT_I4*/);
 	uint32 = lambda(v)type(v) === "number" ? Variant(v,0x13/*_VT_UI4*/) : null;  
 	int64 = lambda(v)type(v) === "number" ? Variant(v,0x14/*_VT_I8*/) : null; 
 	uint64 = lambda(v)type(v) === "number" ? Variant(v,0x15/*_VT_UI8*/) : null; 
-	float = lambda(v)Variant(v,4/*_VT_R4*/);
-	double = lambda(v)Variant(v,5/*_VT_R8*/);
+	float = lambda(v)type(v) === "number" ? Variant(v,4/*_VT_R4*/) : SafeArrayV(v,3/*_VT_I4*/);
+	double = lambda(v)type(v) === "number" ? Variant(v,5/*_VT_R8*/) : SafeArrayV(v,3/*_VT_I4*/);
 } 
 
 /**intellisense()
@@ -127,9 +128,8 @@ NewControl(.(tab,progId) = 创建COM控件,可选使用参数@3指定tlb类型�
 ReleaseConnection(.(com对象, 事件接口, cookie) = 释放事件接口,cookie来自com.AddConnection的返回值\n即使不调用此函数,所有事件接口会自动释放
 ReleaseConnection(.(com对象) = 释放默认事件接口\n指释放com.Connect挂接的事件\n即使不调用此函数,所有事件接口会自动释放
 Release(__) = 释放com对象或IUnknown指针,也可用于释放com.interface创建的对象\n如果参数是pointer类型指针调用IUnknown接口Release函数使引用计数减一\n如果参数是cdata内核对象或自元表中返回cdata,则调用cdata的_gc析构函数
-DumpTypeInfo(  =  输出com对象类型信息、成员函数列表
-DumpTypeInfo(.(comObject) = 在控制台输出com对象类型信息、成员函数列表,\n请先打开控制台
-DumpTypeInfo(.(comObject,true) = 返回一个字符串\n包含com对象类型信息、成员函数列表,\n不输出到控制台
+DumpTypeInfo( = 输出com对象类型信息、成员函数列表\n输出到控制台请使用 console.dump 函数
+DumpTypeInfo(.(comObject) = 返回一个字符串\n包含com对象类型信息、成员函数列表,\n此函数不会输出到控制台,\n输出到控制台请使用 console.dump 函数
 GetTypeInfo(__/*com对象*/) = 返回类型信息
 Variant( = 创建VARIANT对象\n可用于API中VARIANT*API函数中可自动转换为pointer指针类型\n也可用于普通COM参数
 Variant(.(指针,true) = 创建VARIANT对象\n如果参数@2为true,则参数@1必须为VARIANT指针\n调用VariantCopyInd函数拷贝参数指定的源VARIANT对象

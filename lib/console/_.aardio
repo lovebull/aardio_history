@@ -618,7 +618,13 @@ readOutputCharacter = function(){
 
 dump = function(v,...){
 	open();
-	if( type(v) == type.table ) writeText( ..table.tostring(v) )
+	if( type(v) == type.table ) {
+		if(..com && ..com.IsObject(v)){
+			writeText( ..com.DumpTypeInfo(v) )
+		}
+		
+		writeText( ..table.tostring(v) )
+	}
 	else writeText( (tostring(v) ) )  
 	if(...===null ){
 		writeText('\n');
@@ -800,7 +806,7 @@ setCursorVisible(.(visible) = 设置控制台是否显示光标
 setCursorInfo(.(info) = 修改光标信息,\n用法请参考此函数源码
 getCursorInfo() = 返回光标信息,\n用法请参考此函数源码
 varDump(__/*变量*/) = 此函数显示一个或多个参数的类型与值
-dump(__/*变量*/) = 显示变量的值,支持多参数\n注意仅显示普通table,string,number等类型的值,不显示函数等\ntable对象仅显示键名为字符串的值，以及数值索引自1开始的顺序数组
+dump(__/*变量*/) = 显示变量的值,支持多参数\n注意仅显示普通table,string,number等类型的值,不显示函数等,\ntable对象仅显示键名为字符串的值，以及数值索引自1开始的顺序数组\n如果参数指定 COM 对象,则调用 com.DumpTypeInfo 函数输出类型信息
 dumpJson(__/*变量*/) = 将对像转换为格式化的JSON文本并输出到控制台\n对象如果包含数值索引自1开始的顺序数组成员则转换为JSON数组\nJSON数组会忽略其他索引不在数组范围内的成员
 dumpTable(__/*表对象*/) = 如果传入表参数,\n使用table.tostring转换表对象为文本然后输出到控制台,\n循环引用的成员将显示为null值,\n\n如果传入字符串或buffer，转换为字节码数组再输出
 close() = 关闭控制台

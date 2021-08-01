@@ -1,0 +1,16 @@
+﻿//System.IO.FileStream 
+import dotNet; 
+var appDomain = dotNet.clr().createAppDomain();
+
+//导入 System.IO.File
+var File = appDomain.mscorlib.import("System.IO.File");
+
+//调用 System.IO.File.Create()  创建 System.IO.FileStream
+var fs = File.Create( io.fullpath("/.testStream.txt") );
+
+var buf = raw.buffer("测试一下");
+fs.Write(buf,0,#buf);
+
+fs.Close();
+
+appDomain.unload();

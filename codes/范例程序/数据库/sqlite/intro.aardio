@@ -36,9 +36,9 @@ cmd.step(
 
 mainForm.button.oncommand = function(id,event){
     
-    var result  = conn.stepQuery("SELECT * FROM [工作日志表]",{
+    var result  = conn.stepQuery("SELECT * FROM [工作日志表] WHERE ??",{ {
         姓名 = mainForm.editUser.text;
-    } )
+    } } )
 
     if(result){
         mainForm.editResult.print( result.姓名 );

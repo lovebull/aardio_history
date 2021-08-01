@@ -60,6 +60,13 @@ namespace CSharpLibrary
              
             return tab.GetProperty("属性名"); 
         }
+        
+        public int [] Test(  double a, int [] b){   
+        
+            b[0] = b[0] + (int)a;
+             
+            return b; 
+        }
     }   
 } 
 ******/
@@ -78,5 +85,33 @@ var ret = cSharpObject.Hello( {
         loadcode(code)(); 
     } 
 } ); 
+
+/*
+aardio 调用 C# 函数时遵守 COM 调用传参规则，
+调用 COM 函数传参时，如果 COM 函数支持参数自动类型识别 —— 则 aardio 优先使用 COM 函数需要的类型。
+否则按默认规则处理：整数默认处理为 32 位整型(int,int32)，小数默认处理为64位浮点数(double)。
+
+调用 C# 函数时不支持参数自动类型识别和转换，
+而 C# 是静态语言，参数类型不一致会提示找不到函数，
+这时候可以使用 com 名字空间提供的以下函数显式声明参数的类型：
+
+com.int8() 
+com.uint8() 
+com.int16() 
+com.uint16()
+com.int32() 
+com.uint32()
+com.int64() 
+com.uint64()
+com.float() 
+com.double()
+
+示例如下：
+*/
+var ret = cSharpObject.Test( 
+	com.double(12),
+	com.int32({2,3})
+); 
+console.dump(ret);
 
 console.pause()
