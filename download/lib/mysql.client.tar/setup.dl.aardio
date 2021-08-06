@@ -7,4 +7,4 @@ import ide;
 ide.refreshStdLib();
 
 import win;
-win.msgboxTimeout("mysql.client扩展库已安装成功!","aardio- mysql.client扩展库安装程序")
+win.msgboxTimeout("mysql.client 扩展库已安装成功!","aardio- mysql.client扩展库安装程序")

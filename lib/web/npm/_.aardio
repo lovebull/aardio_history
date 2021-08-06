@@ -40,6 +40,13 @@ download = function(package,version,savePath,parentForm){
 	}
 }
 
+toJsDelivrUrl = function(package,version,path){
+    var url = "https://cdn.jsdelivr.net/npm/"+package+ (version?"@"+version:"");
+	if(path) url =  ..inet.url.append(url,path); 
+	return url;
+};
+
 /**intellisense()
-web.npm.download(.(包名,版本号,存储路径,父窗口) = 下载NPM包,成功返回解压目录\n如果解压目录已经存在则不下载，直接返回该目录,\n失败返回null,错误信息
+web.npm.download(.(包名,版本号,存储路径,父窗口) = 下载 NPM 包,成功返回解压目录\n如果解压目录已经存在则不下载，直接返回该目录,\n失败返回null,错误信息
+web.npm.toJsDelivrUrl(.(包名,版本号,文件路径) = NPM 包转换为 jsdelivr 网址,\n可以仅指定主版本号、或者主版本和副版本号,省略版本号表示最新版本\n省略文件路径表示默认路径,也就是 package.json 中 main 字段指定的文件,\n文件路径为斜杆则为访问文件列表的地址
 end intellisense**/

@@ -3,17 +3,27 @@ import web.rest.jsonLiteClient;
 namespace web.rest;
 
 namespace github{
-	getContent = function(user,repos,path,branch){
-		if(!(repos && path)){
+    
+    parseUrlArgs = function(user,repos,path,branch){
+        
+    	if(!(repos && path)){
 			var url = user;
 			user,repos,branch,path = ..string.match(url,"github\.com/([^/]+)/([^/]+)/<blob>|<raw>/([^/]+)/([^\s\#\?]+)")
 			if(!user){
 				user,repos,branch,path = ..string.match(url,"([^/]+)/([^/]+)/<blob>|<raw>/([^/]+)/([^\s\#\?]+)")
 				if(!user){
 					user,repos,branch,path = ..string.match(url,"raw\.githubusercontent\.com/([^/]+)/([^/]+)/([^/]+)/([^\s\#\?]+)")
+					if(!user){
+						user,repos = ..string.match(url,"github\.com/([^/]+)/([^/]+)")
+					}
 				}
 			}
 		}
+		return user,repos,path,branch;
+    }
+    
+	getContent = function(user,repos,path,branch){
+		user,repos,path,branch = parseUrlArgs(user,repos,path,branch);
 
 		if(user&&repos&&path){
 			var client = ..web.rest.jsonLiteClient();
@@ -32,10 +42,17 @@ namespace github{
 				
 			return ..string.removeBom(ret);
 		}
-	}
+	};
+	
+	toJsDelivrUrl = function(user,repos,path,version){
+		user,repos,path = parseUrlArgs(user,repos,path); 
+		return ..inet.url.append("https://cdn.jsdelivr.net/gh/"+user+"/"+repos+(version?"@"+version:""),path:"/"); 
+	};
 }
 
 /**intellisense(web.rest.github)
-getContent(.(网址) = 自指定的github网址获取数据,\n支持blob,raw网址，网址可省略域名部分
-getContent(.(用户名,仓库名,文件路径,分支名) = 自指定的github网址获取数据,分支名可省略
+getContent(.(网址) = 自指定的 GitHub 网址获取数据,\n包含 blob,raw 的 GitHub 网址可省略域名部分
+getContent(.(用户名,仓库名,文件路径,分支名) = 自指定的 GitHub 网址获取数据,分支名可省略
+toJsDelivrUrl(.(网址) = GitHub 网址 转换为 jsdelivr 网址,\n包含 blob,raw 的 GitHub 网址可省略域名部分
+toJsDelivrUrl(.(用户名,仓库名,文件路径,版本号) = GitHub 文件路径转换为 jsdelivr 网址,版本号可省略
 end intellisense**/

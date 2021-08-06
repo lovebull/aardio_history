@@ -2,9 +2,15 @@
 self.com = global.com;
 
 namespace com { 
+    
+    SafeArrayType = function(v){
+    	if( type(v)==="table" ) return v@[["_safearray_type"]];
+    };
+    
 	SafeArrayV = function(a,t){
 		return { _safearray = a : {};  _type = t : 0xC/*_VT_VARIANT*/};
 	};
+	
 	ConnectWeak = function(comObj,realSink){
 		return Connect(comObj,{ 
 			realSink = realSink;
@@ -16,25 +22,30 @@ namespace com {
 			}  
 		}); 	
 	};
+	
 	TryCreateObject = function(cls,...){
 		var ok,obj = call(CreateObject,self,cls)
 		if( ok ) return obj;
 		if( !... ) return null,obj;
 		return TryCreateObject(...); 
 	};
+	
 	TryGetObject = function(cls,...){
 		var ok,obj = call(self.GetObject,self,cls)
 		if( ok ) return obj;
 		if( !... ) return null,obj;
 		return TryGetObject(...); 
 	}; 
+	
 	GetOrCreateObject = function(...){
 		return TryGetObject(...) || TryCreateObject(...)
 	};
+	
 	isEnumerator = function(v){
 		var t,t2 = type(v);
 		return t=="table" && t2=="com._ENUMERATOR_COM_TYPE" && v.Next;
 	};
+	
 	eachRunning = function(name){
     	var r = {}
 		enumRunning( 
@@ -52,6 +63,7 @@ namespace com {
 			if(v) return v[1],v[2],k
 		}
 	};
+	
 	each = function(obj) {
 		if (type(obj) == type.function) obj = obj();
 		
@@ -97,6 +109,7 @@ end intellisense**/
 /**intellisense(com)
 each = @for index,obj in com.each(__) {\n\n} //迭代遍历com集合对象，参数可以直接传入COM迭代器
 DoObjectVerb(.(OLE对象,-1) = 执行OLE对象的动词,\n参数2可使用_OLEIVERB_前缀常量
+SafeArrayType(__) = 如果传入参数为 SafeArray 数组,\n返回一个表示数组元素类型的数值,该值应以 _VT_ 前缀的常量进行比对\n支持 com.SafeArray 创建的数组,或 COM 函数返回的数组\n不支持通过 com.SafeArrayV 或 com.Variant 创建的数组
 SafeArrayV(.(数组,类型) = 转换为SAFEARRAY数组,\n参数@1可以是数组,字符串,buffer,也可以指定null值并转换为空数组,\n类型不指定时默认为VT_VARIANT,VT_VARIANT数组兼容VBS数组
 SafeArray(_VT__/*元素类型*/) = 创建COM安全数组,可增加一个或多个参数指定数组成员\n返回的数组是普通数组类型,但 数组@._safearray_type 指定了COM类型\nCOM函数自动支持此类数组，并在获取安全数组时自动转换为相同格式\n\n也可以使用 { _safearray = "字符串、缓冲区、或数组" } 创建COM安全数组
 CreateEmbed(.(控制对象,窗体对象,progId) = 创建COM控件对象并嵌入窗口\n控制对象应当是一个table对象\n创建成功在控制对象中添加成员_host,_object,_form

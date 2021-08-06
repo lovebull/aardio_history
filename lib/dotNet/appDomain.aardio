@@ -25,6 +25,18 @@ class appDomain{
 		
 		this.queryObject = function(obj){
 			if(!..com.IsObject(obj) ) {
+				var safeArrayType = ..com.SafeArrayType(obj);
+				if(safeArrayType 
+					&& (safeArrayType==9/*_VT_DISPATCH*/ || safeArrayType===0xD/*_VT_UNKNOWN*/)
+					){
+					var arr = { _dotNetObject = obj;} //for unWrapDotNetObject
+					for(i=1;#obj;1){
+						arr[i] = { _dotNetObject = obj[i]; _dotNetAppDomain = this;@_objectMeta;}
+					}
+					
+					return arr; 
+				}
+				
 				if( type(obj) == type.function ) {
 					return function(...){
 						return this.queryObject(obj(...));
@@ -427,8 +439,8 @@ namespace appDomain{
 		}
 	} 
 	
-	unWrapDotNetObject = function(v){
-		return v[["_dotNetObject"]] : v;
+	unWrapDotNetObject = function(obj){
+		return obj[["_dotNetObject"]] : obj;
 	}
 
 	

@@ -278,6 +278,7 @@ namespace table{
 		if( t == "object" ) return "object";
 		if( t == "array" ) return "array";
 		if( ( v@[["_keys"]] !== null ) || (v[["_struct"]]) ) return "object";
+		if( v@[["_safearray_type"]] !== null ) return "array";
 		if( v@[["length"]] !== null ) return "array";
 		if( ( type(v.length) == "number" ) && (v[["length"]]===null) ) return "array";
 		if( #v ) return "array";

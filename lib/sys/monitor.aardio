@@ -8,18 +8,32 @@ class MONITORINFO  {
 		int top;
 		int right;
 		int bottom;
-	} ;       
+	};       
     struct rcWork = {
     	int left;
 		int top;
 		int right;
 		int bottom;
-	}
+	};
     INT flags;
 }
 
+class MONITORINFOEX{
+	ctor(){
+		this = MONITORINFO();
+		this.cbSize = 104;
+	};
+	WORD deviceName[32];
+}
+MONITORINFOEX.MONITORINFO = MONITORINFO;
+
 getInfo = function(hm){
 	var info = MONITORINFO(); 
+	if( hm ? ::User32.GetMonitorInfo( hm,info ) ) return info;  
+}
+
+getInfoEx = function(hm){
+	var info = MONITORINFOEX(); 
 	if( hm ? ::User32.GetMonitorInfo( hm,info ) ) return info;  
 }
 
@@ -34,7 +48,7 @@ getInfoFromPoint = function(x,y,flag = 0/*_MONITOR_DEFAULTTONULL*/){
 eachInfo = function(hdc,rcClip){
 	var m = {};
 	var proc = ..raw.tostdcall(function(hMonitor,hdcMonitor,rcMoninter,data){
-		var info = MONITORINFO();
+		var info = MONITORINFOEX();
 		if( ::User32.GetMonitorInfo( hMonitor,info ) ){
 			if( m[hMonitor]  && info.flags == 1/*_MONITORINFOF_PRIMARY*/ ) return false;
 			if( rcMoninter ) info.rc = ..raw.convert(rcMoninter,{int left;int top;int right;int bottom});
@@ -48,6 +62,27 @@ eachInfo = function(hdc,rcClip){
 	return function(hMonitor){
 		return ..table.next(m,hMonitor); 
 	} 
+}
+
+class DISPLAY_DEVICE{
+	INT cbSize=840;
+	WORD  deviceName[32];
+	WORD  deviceString[128];
+	INT stateFlags;
+	WORD  deviceId[128];
+	WORD  deviceKey[128];
+} 
+
+eachDevice = function(flags,deviceName){
+
+	var idx = 0;
+	return function(){
+		var device = DISPLAY_DEVICE();
+		if(  ::User32.EnumDisplayDevicesW(deviceName,idx,device,flags) ){
+			idx++;
+			return device;
+		}
+	}
 }
 
 class DEVMODE_DISPLAY_DEVICE{
@@ -82,12 +117,12 @@ class DEVMODE_DISPLAY_DEVICE{
   	INT panningHeight;
 } 
 
-eachMode = function(flags,idx){
+eachMode = function(flags,deviceName){
 
-	idx := 0;
-	var devMode = DEVMODE_DISPLAY_DEVICE();
+	var idx = 0;
 	return function(){
-		if(  ::User32.EnumDisplaySettingsExW(null,idx,devMode,flags) ){
+		var devMode = DEVMODE_DISPLAY_DEVICE();
+		if(  ::User32.EnumDisplaySettingsExW(deviceName,idx,devMode,flags) ){
 			idx++;
 			return devMode;
 		}
@@ -99,12 +134,15 @@ changeMode = function(mode,flags){
 		mode = ..table.assign( DEVMODE_DISPLAY_DEVICE(),mode );
 	}
 	if(mode.fields===null) mode.fields = 0;
-	if(mode.pelsWidth!==null) mode.fields = mode.fields | 0x80000/*DM_PELSWIDTH*/;
-	if(mode.pelsHeight!==null) mode.fields = mode.fields | 0x100000/*DM_PELSHEIGHT*/;
-	if(mode.bitsPerPel!==null) mode.fields = mode.fields | 0x40000/*DM_BITSPERPEL*/;
+	if(mode.pelsWidth!==null) mode.fields = mode.fields | 0x80000/*_DM_PELSWIDTH*/;
+	if(mode.pelsHeight!==null) mode.fields = mode.fields | 0x100000/*_DM_PELSHEIGHT*/;
+	if(mode.bitsPerPel!==null) mode.fields = mode.fields | 0x40000/*_DM_BITSPERPEL*/;
 	if(mode.displayOrientation!==null) mode.fields = mode.fields | 0x80/*_DM_DISPLAYORIENTATION*/
+	if(mode.displayFlags!==null) mode.fields = mode.fields | 0x00200000/*_DM_DISPLAYFLAGS*/
+	if(mode.position!==null) mode.fields = mode.fields | 0x00000020/*_DM_POSITION */
 	return ::User32.ChangeDisplaySettingsW(mode,flags);
 }
+
 
 /**intellisense(sys.monitor)
 getInfo(.(hMonitor) = 参数为显示设备句柄\n返回显示器信息
@@ -113,17 +151,21 @@ getInfoFromPoint(.(x,y) = 获取指定坐标所在显示器信息,\所有参数�
 getInfoFromPoint() = !MONITORINFO.
 getInfoFromWindow(.(窗口句柄) = 获取窗口所在显示器信息,\所有参数可选
 getInfoFromWindow() = !MONITORINFO.
-eachMode(flags,idx) = @for( devMode in sys.monitor.eachMode() ){
+eachMode(flags,deviceName) = @for( devMode in sys.monitor.eachMode() ){
 	if( devMode.pelsWidth > (devMode.pelsWidth > devMode.pelsHeight ? 640 : 480) ){
-		__
+			__/*用法请参考此函数源码\n可通过 sys.monitor.eachDevice 获取可用 deviceName*/
 	}
 }
+eachDevice(flags,deviceName) = @for( dev in sys.monitor.eachDevice() ){
+	__/*用法请参考此函数源码*/
+}
+
 eachInfo(hdc,rcClip) = @for( hMonitor,monitorInfo in sys.monitor.eachInfo() ){
-	__
+	__/*用法请参考此函数源码*/
 }
 eachInfo() = !MONITORINFO.
 eachMode() = !DEVMODE_DISPLAY_DEVICE.
-changeMode(.(mode,flags) = 参数@1指定DEVMODE_DISPLAY_DEVICE结构体,\n也可以仅指定部分要更新的字段，该结构体也可以使用eachMode迭代器获取。\n\nflags可省略,默认为0,请参考API函数ChangeDisplaySettings的文档
+changeMode(.(mode,flags) = 参数@1指定DEVMODE_DISPLAY_DEVICE结构体,\n也可以仅指定部分要更新的字段，该结构体也可以使用eachMode迭代器获取。\n\nflags可省略,该值可使用 _CDS_ 前缀的常量指定,默认为0,\n用法请参考API函数ChangeDisplaySettings的文档
 end intellisense**/
 
 /**intellisense()
@@ -148,11 +190,14 @@ _CDS_DISABLE_UNSAFE_MODES=@0x200/*_CDS_DISABLE_UNSAFE_MODES*/
 _CDS_RESET=@0x40000000/*_CDS_RESET*/
 _CDS_RESET_EX=@0x20000000/*_CDS_RESET_EX*/
 _CDS_NORESET=@0x10000000/*_CDS_NORESET*/
+_MONITORINFOF_PRIMARY=@1/*_MONITORINFOF_PRIMARY*/
 end intellisense**/
 
 /**intellisense(!MONITORINFO)
 rcMonitor = 显示器的在屏幕坐标系中的矩形\n!rect.
 rcWork = 显示器的工作区域\n!rect.
+flags = 该值为1时为主显示器
+deviceName = 仅 sys.monitor.getInfoEx 或 sys.monitor.eachInfo 函数会返回该值
 end intellisense**/
 
 /**intellisense(!DEVMODE_DISPLAY_DEVICE)
