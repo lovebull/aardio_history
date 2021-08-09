@@ -1,3 +1,4 @@
+//jsonLiteClient 客户端
 import string.xml;
 import web.rest.client;
 namespace web.rest; 

@@ -18,5 +18,17 @@ for( index,classGuid,deviceDesc in devInfo.each(
     ) ){
     console.log( index,classGuid,deviceDesc );
 }
+ 
+//查找 USB 网卡
+var devices = sys.device("{4d36e972-e325-11ce-bfc1-08002be10318}"/*_GUID_DEVCLASS_NET*/,"USB");
+for( index,classGuid,deviceDesc,hardwareId in devices.each(
+    8/*_SPDRP_CLASSGUID*/,
+    0/*_SPDRP_DEVICEDESC*/,
+    1/*_SPDRP_HARDWAREID*/
+    ) ){ 
+        
+    console.log( index,classGuid,deviceDesc,hardwareId[1] );
+
+}
 
 console.pause(true);

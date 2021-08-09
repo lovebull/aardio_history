@@ -1,4 +1,5 @@
-﻿import string.html;
+﻿//htmlClient 客户端
+import string.html;
 import web.rest.client;
 namespace web.rest; 
 

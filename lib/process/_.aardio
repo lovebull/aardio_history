@@ -1013,7 +1013,7 @@ namespace process{
 				q = true;o = o ++ b ++  b ++ '\\"'; b = ""; 
 			} 
 			else {
-				if( c == ' '  || c = '\t' || c = "\r" || c == '\n' ){
+				if( c == ' '  || c = '\t' || c = "\r" || c == '\n' || c == '^' || c == '|' || c == '&'){
 					q = true;
 				}
 				o = o ++ b ++ c; b = ""; 

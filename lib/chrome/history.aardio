@@ -51,10 +51,13 @@ clear = function(profile="Default"){
 }
 
 readOnly = function(readOnly,profile="Default"){
-   
+	
 	var historyPath = ..io.appData("\Google\Chrome\User Data\" + profile + "\History");
 	if(..io.exist(historyPath)){
-		if(readOnly){  clear(); }
+		if(readOnly){  
+			..fsys.attrib(historyPath,1); 	
+			clear(profile); 
+		}
 		..fsys.attrib(historyPath,!readOnly?1:null,readOnly?1/*_FILE_ATTRIBUTE_READONLY*/:null)	
 	}	
 }

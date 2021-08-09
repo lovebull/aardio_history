@@ -1,4 +1,4 @@
-1709720172|6404608|2350513|aardio.exe
+-1055435412|6404608|2351027|aardio.exe
 0|0|0|codes\
 0|0|0|config\
 0|0|0|download\
@@ -446,7 +446,7 @@
 1444375896|318|245|codes\范例程序\控制台\打印乘法表.aardio
 1715200834|714|357|codes\范例程序\控制台\自定义控制台颜色.aardio
 -1140064589|818|321|codes\范例程序\控制台\转义序列.aardio
--918092987|574|352|codes\范例程序\操作系统\device.aardio
+1922719077|929|449|codes\范例程序\操作系统\device.aardio
 1353429851|1214|492|codes\范例程序\操作系统\deviceNotification.aardio
 -1515826640|2009|1086|codes\范例程序\操作系统\fixUpdate.aardio
 933078256|2945|1226|codes\范例程序\操作系统\print.aardio
@@ -656,10 +656,10 @@
 -98924744|1173|697|codes\范例程序\音频视频\音频\soundDevice.aardio
 -1198887051|2904|1386|codes\范例程序\音频视频\音频\tts.aardio
 1023829753|2440|1077|codes\范例程序\音频视频\音频\volume.aardio
-1162127900|710656|301711|config\AAU.BIN
+521987153|711168|301962|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
-1181013216|13|32|config\SYS.CFG
+-1697918413|12|30|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 -1467287240|109884|28860|config\intellisense\kernel.txt
@@ -1174,7 +1174,7 @@
 0|0|0|extensions\wizard\project2\template\winform-blank\res\
 -1417429732|795|504|extensions\wizard\project2\template\winform-blank\lib\config.aardio
 0|0|0|extensions\wizard\project2\template\winform-blank\lib\fonts\
-31356315|776975|771927|help\AARDIO.CHM
+-1188504725|779407|774407|help\AARDIO.CHM
 -1407847800|12468|4146|help\关于aardio.txt
 0|0|0|help\用户许可协议\
 -911159679|1976|1010|help\用户许可协议\aardio开源代码许可证.txt
@@ -1224,7 +1224,7 @@
 0|0|0|lib\zlib\
 772824135|1074|654|lib\access\oleDb12.aardio
 -1826531292|527|332|lib\access\query.aardio
--711232921|25499|7253|lib\access\_.aardio
+917140396|25484|7248|lib\access\_.aardio
 -2018672658|3370|1200|lib\bencoding\decoder.aardio
 162527712|1570|612|lib\bencoding\encoder.aardio
 151425416|723|419|lib\bencoding\magnet.aardio
@@ -1233,8 +1233,9 @@
 814582489|3559|1728|lib\chrome\dev.aardio
 991338471|31375|7714|lib\chrome\driver.aardio
 1141455353|1023|497|lib\chrome\edge.aardio
+1415170124|1707|730|lib\chrome\edge.history.aardio
 -1783794303|916|505|lib\chrome\extensions.aardio
-782443774|2119|866|lib\chrome\history.aardio
+-1034206558|2169|875|lib\chrome\history.aardio
 -213382285|3774|1515|lib\chrome\path.aardio
 546858058|2228|945|lib\chrome\remote.aardio
 -2025937096|692|469|lib\chrome\time.aardio
@@ -1492,7 +1493,7 @@
 776577518|2296|1066|lib\process\vswhere.aardio
 -1050612479|2254|910|lib\process\wmi.aardio
 174450548|3793|1475|lib\process\wow64.aardio
-316640062|53399|14236|lib\process\_.aardio
+379480122|53434|14239|lib\process\_.aardio
 2013837002|6858|2296|lib\process\apiHook\_.aardio
 -1653245131|3463|1075|lib\process\gcc\_.aardio
 1404097761|2825|1098|lib\process\job\limitKill.aardio
@@ -1553,10 +1554,10 @@
 370279213|76800|36904|lib\sevenZip\lzma\.res\LzmaUtil.dll
 0|0|0|lib\sqlite\.res\
 -242864410|3235|1266|lib\sqlite\backup.aardio
--1830115632|41176|11069|lib\sqlite\base.aardio
+-1883320539|41192|11056|lib\sqlite\base.aardio
 -960194185|489|350|lib\sqlite\_.aardio
 -1624201378|645592|283105|lib\sqlite\.res\sqlite3.dll
-2060726454|23206|6562|lib\sqlServer\_.aardio
+1589157757|23190|6563|lib\sqlServer\_.aardio
 -745766250|628|371|lib\string\aasdl.aardio
 180083296|8638|2760|lib\string\builder.aardio
 1874621857|6568|2179|lib\string\chineseNumber.aardio
@@ -1586,7 +1587,7 @@
 807901200|1524|814|lib\sys\comPort.aardio
 -297896486|1739|907|lib\sys\cp210x.aardio
 172844449|3214|1206|lib\sys\cpu.aardio
--1581750434|6931|2209|lib\sys\device.aardio
+472152256|10586|3499|lib\sys\device.aardio
 -2019551144|1690|805|lib\sys\display.aardio
 697079004|4720|1669|lib\sys\hd.aardio
 58785228|1466|692|lib\sys\info.aardio
@@ -1689,13 +1690,13 @@
 437568689|1291|774|lib\web\nativeMessaging\install.aardio
 1583466654|2861|1303|lib\web\nativeMessaging\_.aardio
 1032572064|1921|972|lib\web\npm\_.aardio
--470022285|24859|6691|lib\web\rest\client.aardio
-973621330|2201|846|lib\web\rest\github.aardio
--256184915|703|434|lib\web\rest\htmlClient.aardio
--1611180188|1524|702|lib\web\rest\jsonClient.aardio
-987796269|2040|943|lib\web\rest\jsonLiteClient.aardio
+-2050728704|24885|6707|lib\web\rest\client.aardio
+-1271397486|2221|859|lib\web\rest\github.aardio
+-175100285|727|443|lib\web\rest\htmlClient.aardio
+-1346643092|1548|708|lib\web\rest\jsonClient.aardio
+2100316898|2068|950|lib\web\rest\jsonLiteClient.aardio
 1976185394|2035|963|lib\web\rest\qywx.aardio
--1065509177|680|424|lib\web\rest\xmlClient.aardio
+-488615180|708|438|lib\web\rest\xmlClient.aardio
 -112775875|9938|3500|lib\web\rpc\externalServer.aardio
 2007378535|8001|2821|lib\web\rpc\jsonClient.aardio
 812597022|7260|2326|lib\web\rpc\jsonServer.aardio
@@ -1719,7 +1720,7 @@
 -1635559227|524|373|lib\win\debounce.aardio
 0|0|0|lib\win\dlg\
 1052801720|6125|2350|lib\win\font.aardio
-1078929817|3705|1410|lib\win\guid.aardio
+378245602|4326|1620|lib\win\guid.aardio
 -728192444|7941|2626|lib\win\image.aardio
 -1758461095|5732|2149|lib\win\imageList.aardio
 -905486453|2970|1396|lib\win\inputBox.aardio

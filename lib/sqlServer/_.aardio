@@ -450,7 +450,7 @@ namespace sqlServer {
 		elseif( t = "boolean" ){
 			return v ? "1" : "0";
 		}
-		elseif( ( t = "table" ) && ..time.istime(v) ) {
+		elseif( t = "table" ) {
 			if(..time.istime(v)){
 				var f = v.format;
 				v.format = "%Y-%m-%d %H:%M:%S";
@@ -468,7 +468,7 @@ namespace sqlServer {
 				return ret;
 			} 
 			elseif( v@[["_toSqlString"]] ){
-				return invoke(v@[["_toSqlString"]],v)
+				return invoke(v@[["_toSqlString"]],v,'mssql')
 			}
 			else {
 				var ret = {}

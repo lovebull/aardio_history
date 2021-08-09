@@ -65,6 +65,8 @@ class sqlite {
 		var ok,stmt,param;
 		if( cond && type(cond) == "table" && ..string.indexOf(sql,"@")  ){
 			param = cond;
+			
+			var i = 0;
 			sql = (..string.replace(sql,"\?\?*",
 				function(name) {
 					i++;
@@ -86,6 +88,8 @@ class sqlite {
 		var ok,stmt,param;
 		if( cond && type(cond) == "table" && ..string.indexOf(sql,"@")  ){
 			param = cond;
+			
+			var i = 0;
 			sql = (..string.replace(sql,"\?\?*",
 				function(name) {
 					i++;
@@ -109,6 +113,8 @@ class sqlite {
 		var ok,stmt,param;
 		if( cond && type(cond) == "table" && ..string.indexOf(sql,"@")  ){
 			param = cond;
+			
+			var i = 0;
 			sql = (..string.replace(sql,"\?\?*",
 				function(name) {
 					i++;
@@ -368,7 +374,6 @@ class statement{
 	step = function(param){
 		if( param ){
 			..sqlite.reset(pstmt);
-			if(#param) this.bind.parameters(param);	 
 			this.bind.parameterAtNames(param);
 		}
 		return  ..sqlite.step(pstmt);
@@ -576,7 +581,7 @@ escape = function(v,nested){
 			return ret;
 		} 
 		elseif( v@[["_toSqlString"]] ){
-			return invoke(v@[["_toSqlString"]],v)
+			return invoke(v@[["_toSqlString"]],v,'sqlite')
 		}
 		else {
 			var ret = {}
@@ -937,7 +942,7 @@ sqlite.format(.(SQL语句,格式化参数->->->) = 格式化 SQL 查询语句。
 !sqlite_stmt.bind.utf16() = !sqlite_stmt.
 !sqlite_stmt.bind.utf8() = !sqlite_stmt.
 !sqlite_stmt.bind.parameters() = !sqlite_stmt.
-!sqlite_stmt.clear() = 清除所有绑定值\n成功返回0
+!sqlite_stmt.bind.clear() = 清除所有绑定值\n成功返回0
 
 !sqlite_stmt.column.count() = 返回列数目
 !sqlite_stmt.column.name(iCol) = 返回指定列名字
@@ -948,7 +953,7 @@ sqlite.format(.(SQL语句,格式化参数->->->) = 格式化 SQL 查询语句。
 !sqlite_stmt.prepare() = !sqlite_stmt.
 !sqlite_stmt.finalize() = 每一个预处理语句都必须调用这个接口进行销毁以避免内存泄漏
 !sqlite_stmt.reset() = 重置到没有执行之前的状态,已绑定的参数不会变化\n执行后需要改变绑定参数时必须首先调用该函数
-!sqlite_stmt.step(__/*可选输入命名参数*/) = 执行SQL命令并向下移动一行,成功则返回值大于等于100,\n如果提供命令参数表,则自动调用 reset 函数后并自动绑定参数,\n参数表可以包含数组或名值对。
+!sqlite_stmt.step(__/*可选输入命名参数*/) = 执行SQL命令并向下移动一行,成功则返回值大于等于100,\n如果提供命令参数表,则自动调用 reset 函数后并自动绑定参数,\n参数表可以包含名值对
 !sqlite_stmt.stepQuery() = 向后移动一行,并返回当前数据,失败返回null,状态码.\n返回table对象,键为列名,值为当前行数据
 !sqlite_stmt.stepResult() = 向后移动一行,并返回当前数据,失败返回null,状态码.\n返回数组,键为列序号,值为当前行数据
 !sqlite_stmt.getTable() = 返回全部数据,\n返回值为table数组,每行记录为一个数组元素.

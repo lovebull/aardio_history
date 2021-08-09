@@ -1,4 +1,5 @@
-﻿import crypt;
+﻿//github 客户端
+import crypt;
 import web.rest.jsonLiteClient;
 namespace web.rest;
 

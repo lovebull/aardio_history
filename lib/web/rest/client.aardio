@@ -1,3 +1,4 @@
+//client 基础客户端
 import inet.http;
 import inet.httpStatusCode;
 import string.encoding;
