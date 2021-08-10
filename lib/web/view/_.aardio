@@ -167,8 +167,9 @@ class view{
 		
 		return _dll.webview_do_script(this.browser,"(function(){"+js+'\n})()',null)
 	};
-	eval = function(js){
+	eval = function(js,...){
 		if(!this.browser) return;  
+		if(...) js = ..string.format(js,...);
 		
 		var done;
 		var result;
@@ -187,6 +188,16 @@ class view{
 		
 		..raw._release(callback);
 		return result;
+	};
+	xcall = function(method,...){
+		var jsThis = ..string.match(method,"(.+)\.[^.]+$") : "null";
+		var js  = method + ".apply(" + jsThis + "," + ..web.json.stringifyArray({...}) + ")";
+		return this.eval(js);
+	};
+	invoke = function(method,...){
+		var jsThis = ..string.match(method,"(.+)\.[^.]+$") : "null";
+		var js  = method + ".apply(" + jsThis + "," + ..web.json.stringifyArray({...}) + ")";
+		_dll.webview_do_script(this.browser,js,null)
 	};
 	waitEle = function(selector,callback,timeout){
     	if(!this.browser) return; 
@@ -373,7 +384,9 @@ exportHostObject( = 直接导出 aardio 对象到 javascript，\n直接转换为
 exportHostObject(.(变量名,对象) = 直接导出 aardio 对象到 javascript，\n可导出表对象、函数对象、COM 对象等,\n在js中通过 chrome.webview.hostObjects的成员访问此对象,\n中间不会经过JSON转换，而是直接转换为 COM 对象
 doScript(.(js) = 执行JS代码，\n不指定回调函数时，JS代码放入匿名函数体内执行
 doScript(.(js,callback) = @.doScript(js,function(result){\n	__/*执行JS代码成功在当前界面线程异步回调此函数，\n@result参数为JS代码的返回值*/\n} )
-eval(.(js) = 运算JS代码并返回值，\n等待返回值过程中会继续处理界面消息
+eval(.(js,->->->) = 运算JS代码并返回值，\n等待返回值过程中会继续处理界面消息,\n如果指定多个参数，则首先调用 string.format 格式化所有参数
+xcall(.("object.func",->->->) = 调用JS函数并返回值，\n等待返回值过程中会继续处理界面消息,\n参数@!指定要调用的函数名或返回函数的表达式,\n函数名最后一个点号前的对象作为调用JS函数的this参数,\n可指定一个或多个参数,参数使用JSON转换为JS值
+invoke(.("object.func",->->->) = 调用JS函数但不会等待返回值，\n参数@!指定要调用的函数名或返回函数的表达式,\n函数名最后一个点号前的对象作为调用JS函数的this参数,\n可指定一个或多个参数,参数使用JSON转换为JS值
 waitEle( = 等待网页创建指定节点
 waitEle(.(selector) = 等待网页创建指定节点\n@selector 参数指定CSS选择器,\n省略参数@2时同步等待节点出现
 waitEle(.(selector,callback,timeout) = 异步等待网页创建指定节点\n@selector 参数指定CSS选择器,\n参数@2指定 aardio 回调函数,\n找到节点回调参数@1为选择器，\n失败回调参数@2为错误信息,回调参数@1为null,\n可选用参数@3指定超时，单位毫秒
@@ -401,7 +414,7 @@ end intellisense****/
 /*
 标准库 web.view
 -----------------------------------
-基于 WebView2（Edge/Chromium内核），支持 WIN7,WIN8,WIN10
+基于 WebView2（Edge/Chromium内核），支持 WIN7,WIN8,WIN10,WIN11已自带此组件
 WebView2 Runtime 需要单独安装，aardio 会自动下载安装，安装包较大并需要管理权限。
 但这个组件下载安装速度非常快 - 体验不错，并且将来的操作系统会自带此组件。
 WebView2 是原生控件，也没有UWP版 WebView1 不能访问本机 locahost 的限制。 

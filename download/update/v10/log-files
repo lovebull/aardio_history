@@ -112,6 +112,7 @@
 -1175122103|842|548|codes\范例程序\Edge\3.remoteDebugging.aardio
 326108538|5814|1856|codes\范例程序\Edge\3.speech.aardio
 -416765659|919|527|codes\范例程序\Edge\4.waitEle.aardio
+-240210271|752|484|codes\范例程序\Edge\4.xcall.aardio
 -1161925021|963|667|codes\范例程序\Edge\5.transparent.aardio
 454340252|1603|916|codes\范例程序\Edge\6.Cesium.aardio
 640574177|1299|773|codes\范例程序\Electron\1) go.aardio
@@ -659,7 +660,7 @@
 521987153|711168|301962|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--1697918413|12|30|config\SYS.CFG
+-305339739|12|30|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
 -1467287240|109884|28860|config\intellisense\kernel.txt
@@ -1710,7 +1711,7 @@
 2087608769|7343|2216|lib\web\ui\_.aardio
 0|0|0|lib\web\view\.res\
 90414420|3197|1606|lib\web\view\dev.aardio
--662575195|17006|5890|lib\web\view\_.aardio
+-1637939913|18216|6166|lib\web\view\_.aardio
 -76258719|378368|151501|lib\web\view\.res\webview.dll
 2004808170|327458|61362|lib\win\#DEFINE.aardio
 -2025258603|3195|949|lib\win\animate.aardio
