@@ -1877,7 +1877,8 @@ id = 控件ID
 text = 控件文本
 disabledText = @.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250';text=''}__/*指定文本时,禁用此控件,并显示指定文本,\n指定一个数组时,控件将创建动画逐帧显示数组里的文字图标,\n如果控件配置了iconStyle属性,则使用iconText属性显示数组内的文字图标,\n指定为null时,启用此控件,并恢复控件禁用之前的text、iconText属性*/
 getForm() = 如果是窗体返回自身\n如果是控件则返回_parentForm\n!winform.
-isForm = 窗体返回true,控件返回false
+isForm = 标准库中所有控件以及窗体对象都拥有此同名函数\n窗体返回true,控件返回false
+getForm() = 标准库中所有控件都拥有此同名函数用于返回控件所在窗口,\n窗口对象实现了同名函数用于返回窗口自身
 _parentForm = 控件所在的父窗口(指win.form对象)\n!winform.
 getParent() = 返回父窗口\n
 setParent(__/*控件对象*/) = 改变父窗口 

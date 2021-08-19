@@ -36,14 +36,10 @@ namespace web.sciter.behavior.webbrowser {
 	onDetach = function( scOwner ){
 		scOwner.delCtrl();
 	}
-	onSize = function (scOwner) {
-		scOwner.adjustCtrl();
-	} 
 }
 
 //在HTML中引用的控件,需要使用 import 语句导入 aardio 
 import win.ui.ctrl.static;
-import win.ui.ctrl.richedit; 
 wbSciter.html =/*** 
 <body>
 	<span style="font:system">

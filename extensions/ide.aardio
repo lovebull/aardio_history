@@ -89,7 +89,24 @@ namespace ide{
 						}	
 					}
 				} 
-			
+				elseif( ..string.endWith( downloadUrl,".aardio",true) ){
+					var bin = ..inet.http().get(downloadUrl);
+					if(bin){
+						var libPath,libDir = ..io.libpath(libName)
+						if(!libPath) libPath = ..io.joinpath(libDir,"_.aardio");
+						..string.save(libPath,bin) 
+					}
+					
+					var msg = "安装失败";
+					if(..io.libpath(libName)){
+						msg = " 已安装成功";
+						refreshStdLib();
+					}
+					
+					if(installOnly){ 
+						..win.msgboxTimeout("库 " + libName ++ msg,"aardio"); 
+					}
+				} 
 			} mutex.release();
 			
 			if(..io.libpath(libName) ){	
@@ -311,7 +328,7 @@ getPublishName() = 返回生成文件名
 setPublishName(.("输出文件名") = 插件可以使用此函数修改输出文件名\n因此所有插件请尽可能使用getPublishPath函数获取当前输出路径
 getPublishPath() = 返回生成文件路径
 installLib( = 安装远程扩展库
-installLib(.(libName,libUrl,askTitle) = 参数@libName指定扩展库名称,\n参数@libUrl可选,用于指定库安装包网址，安装包使用扩展库发布工具生成,\n参数@askTitle可选,用于指定安装询问对话框标题,省略则直接安装\n\n如果不使用@libUrl参数指定网址，自官方扩展库查找高于已安装版本的安装包。\n而指定@libUrl参数时总是重新安装扩展库
+installLib(.(libName,libUrl,askTitle) = 参数@libName指定扩展库名称,\n参数@libUrl可选,可指定 *.tar.lzma 格式安装包 或 *.aardio 格式库文件地址,\n*.tar.lzma 格式安装包请使用「工具 / 开发环境 / 扩展库发布工具」生成,\n参数@askTitle可选,用于指定安装询问对话框标题,省略则直接安装\n\n如果不使用@libUrl参数指定网址，自官方扩展库查找高于已安装版本的安装包。\n而指定@libUrl参数时总是重新安装扩展库
 getExtLibs() = 返回已安装的扩展库列表
 requestLibInfo(.("all") = 查询服务端扩展库信息
 updateVersion(__) = 更新版本

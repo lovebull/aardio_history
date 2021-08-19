@@ -1,4 +1,4 @@
-//Cesium三维地图
+//Cesium 三维地图
 import win.ui;
 /*DSG{{*/
 var winform = win.form(text="Cesium三维地图演示 - 按鼠标左键拖拽移动（同时按住 Ctrl 旋转)，按鼠标右键拖拽缩放";right=1231;bottom=783;bgcolor=16777215)

@@ -328,7 +328,7 @@ class client{
 				return ret;
 			} 
 			elseif( v@[["_toSqlString"]] ){
-				return invoke(v@[["_toSqlString"]],v)
+				return invoke(v@[["_toSqlString"]],v,'mysql')
 			}
 			else {
 				var ret = {}
@@ -340,7 +340,7 @@ class client{
 		} 
 		elseif( t=='buffer'){
 			return ..string.concat("X'",..string.hex(v,""), "'");
-		} 
+		}
 		return ..string.replace(tostring(v),"\p","");
 	};
 	format = function(sql,...) { 

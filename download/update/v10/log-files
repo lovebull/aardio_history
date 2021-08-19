@@ -112,9 +112,12 @@
 -1175122103|842|548|codes\范例程序\Edge\3.remoteDebugging.aardio
 326108538|5814|1856|codes\范例程序\Edge\3.speech.aardio
 -416765659|919|527|codes\范例程序\Edge\4.waitEle.aardio
--240210271|752|484|codes\范例程序\Edge\4.xcall.aardio
--1161925021|963|667|codes\范例程序\Edge\5.transparent.aardio
-454340252|1603|916|codes\范例程序\Edge\6.Cesium.aardio
+879023448|754|486|codes\范例程序\Edge\4.xcall.aardio
+1539561798|999|692|codes\范例程序\Edge\5.transparent.aardio
+-231493667|1604|918|codes\范例程序\Edge\6.Cesium.aardio
+96673848|2088|1000|codes\范例程序\Edge\7.react.aardio
+2142629754|2418|966|codes\范例程序\Edge\8.flexbox.aardio
+-591617017|2072|883|codes\范例程序\Edge\z.learn.aardio
 640574177|1299|773|codes\范例程序\Electron\1) go.aardio
 -112117244|4666|2262|codes\范例程序\Electron\2) electron.aardio
 -2050948046|4171|1901|codes\范例程序\Electron\3) remoteDebugging.aardio
@@ -212,10 +215,10 @@
 709917448|2566|1185|codes\范例程序\Sciter.JS\1、js调用aardio函数.aardio
 -2115676357|1557|896|codes\范例程序\Sciter.JS\2、aardio调用js事件.aardio
 1843401300|1636|922|codes\范例程序\Sciter.JS\2、js调用aardio事件.aardio
-12888183|2302|1255|codes\范例程序\Sciter.JS\3、自定义控件.aardio
+-1230387366|2209|1228|codes\范例程序\Sciter.JS\3、自定义控件.aardio
 -1387088877|1135|642|codes\范例程序\Sciter.JS\4、exchange-behavior.aardio
 -2136253387|5637|2441|codes\范例程序\Sciter.JS\5、无边框窗口.aardio
-1325229361|904|464|codes\范例程序\Sciter.JS\6、reactor.aardio
+1975345629|2438|1221|codes\范例程序\Sciter.JS\6、reactor.aardio
 -1581543621|2265|873|codes\范例程序\Sciter.JS\8、canvas.aardio
 0|0|0|codes\范例程序\Web应用\FastCGI\
 0|0|0|codes\范例程序\Web应用\HTML\
@@ -660,19 +663,19 @@
 521987153|711168|301962|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--305339739|12|30|config\SYS.CFG
+-2129004092|14|32|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
--1467287240|109884|28860|config\intellisense\kernel.txt
+242879348|110299|28960|config\intellisense\kernel.txt
 786007257|4753|1683|config\intellisense\unimportant.txt
 946221732|9375|1953|config\intellisense\web.layout.behavior.txt
 31814408|10949|2205|config\intellisense\web.sciter.behavior.txt
--1702332249|27719|9072|config\intellisense\winform.txt
+-537267845|27843|9106|config\intellisense\winform.txt
 -952104398|3592|1718|config\lang\lib.txt
 -1685533732|3516|761|config\themes\dark.xml
 -451630076|3540|748|config\themes\light.xml
 0|0|0|download\update\
-66362683|13513|4547|extensions\ide.aardio
+-195934504|14128|4730|extensions\ide.aardio
 0|0|0|extensions\plugin\
 0|0|0|extensions\res\
 0|0|0|extensions\trigger\
@@ -1466,7 +1469,7 @@
 404185541|2509|1304|lib\preload\raw.aardio
 -768064715|10192|3620|lib\preload\string.aardio
 739693232|6062|1898|lib\preload\struct.aardio
--988835273|18811|5796|lib\preload\table.aardio
+2101344623|18928|5820|lib\preload\table.aardio
 1406950490|11596|4037|lib\preload\thread.aardio
 -2097508463|11764|4250|lib\preload\_.aardio
 1679692935|5007|1984|lib\process\admin.aardio
@@ -1749,7 +1752,7 @@
 -1934845315|1528|754|lib\win\dlg\ctrlColor.aardio
 -1487440215|5117|1630|lib\win\dlg\findReplace.aardio
 -171602080|1962|969|lib\win\dlg\font.aardio
-1920176375|12228|3802|lib\win\dlg\message.aardio
+1654064756|12228|3798|lib\win\dlg\message.aardio
 -365998634|3303|1195|lib\win\dlg\print.aardio
 -1067518556|216|144|lib\win\dlg\_.aardio
 13766866|1066|567|lib\win\ole\_.aardio
@@ -1813,13 +1816,13 @@
 0|0|0|lib\win\ui\ctrl\metaProperty\
 0|0|0|lib\win\ui\ctrl\pick\
 -304732565|7669|2694|lib\win\ui\ctrl\picturebox.aardio
--1895632746|81376|19096|lib\win\ui\ctrl\plus.aardio
+-1771981979|81596|19158|lib\win\ui\ctrl\plus.aardio
 53463247|5818|2105|lib\win\ui\ctrl\progress.aardio
 -1583637560|37569|10970|lib\win\ui\ctrl\richedit.aardio
 1154239158|5807|2206|lib\win\ui\ctrl\scrollbar.aardio
 -968203203|7416|2876|lib\win\ui\ctrl\spin.aardio
 -1127563964|9016|2921|lib\win\ui\ctrl\splitter.aardio
-1107204248|11076|4214|lib\win\ui\ctrl\static.aardio
+-1240347682|11304|4280|lib\win\ui\ctrl\static.aardio
 -611590027|5184|2189|lib\win\ui\ctrl\syslink.aardio
 351400134|11920|4126|lib\win\ui\ctrl\tab.aardio
 -152081446|2077|907|lib\win\ui\ctrl\thread.aardio
@@ -1930,10 +1933,11 @@
 -1147260752|616|337|tools\文本文件\.res\youdao.aardio
 0|0|0|tools\界面\.img\
 -747455673|6561|1818|tools\界面\@colorPick.aardio
-1218280386|62433|10791|tools\界面\@designPlus.aardio
+1925945010|63983|10824|tools\界面\@designPlus.aardio
 2145007807|2781|1047|tools\界面\colorWheel.aardio
 1438342466|15353|4677|tools\界面\fontAwesome.aardio
 1703753683|28541|6315|tools\界面\trackbarPlus.aardio
+-708447660|78|95|tools\界面\z-flexbox.aardio
 2112059061|4286|1804|tools\界面\.img\designPlus.ico
 -1187927381|9213|8890|tools\界面\.img\designPlus.png
 2216647|2462|406|tools\界面\.img\iconfont.ico

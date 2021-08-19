@@ -81,6 +81,7 @@
 !winform.width = 宽度
 !winform._defClientRect = 获取窗口设计时大小\n!rect.
 !winform.isForm = 是否窗体对象,\n窗体：使用 win.form 类创建的对象 \n窗口：泛指所有窗体或控件创建的窗口
+!winform.getForm() = 返回窗口对象自身\n标准库中所有控件实现了同名函数用于返回控件所在窗口
 !winform.orphanWindow( = 如果当前是子窗口,\n移除窗口的WS_CHILD样式，使窗口孤立出来悬浮于原位置,\n悬浮窗口如影随形的跟随父窗口移动或改变大小,控件原来的固定边距等参数仍然有效
 !winform.orphanWindow(.(transparent,hwndBuddy) = 创建悬浮窗口,\n悬浮窗口仍然显示在原来的位置,\n可选参数 @transparent 如果为 true 则转换为分层透明窗口,\n可选利用 @buddy 参数将只有句柄的窗口托管在悬浮窗口之上实现相同的效果,\n伙伴窗口总是会保持在悬浮窗口前面，并保持相同的大小、位置
 !winform.setPos(.(x坐标,y坐标,宽,高,插入位置,参数) = 调整窗口位置或排序,所有参数可选\n同时指定x,y坐标则移动位置\n同时指定宽高则改变大小\n指定插入位置(句柄或_HWND前缀常量)则调整Z序

@@ -1,4 +1,4 @@
-//plus配色工具
+//plus 配色工具
 import win.ui;
 import fonts.fontAwesome;
 import win.ui.ctrl.pick;
@@ -90,7 +90,7 @@ chkFgFocus={cls="plus";text="获得焦点";left=164;top=159;right=247;bottom=185
 chkFgFocusChecked={cls="plus";text="获得焦点";left=164;top=349;right=247;bottom=375;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=55};
 chkFgHover={cls="plus";text="鼠标进入";left=164;top=94;right=247;bottom=120;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=18};
 chkFgHoverChecked={cls="plus";text="鼠标进入";left=164;top=285;right=247;bottom=311;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=51};
-chkPreviewBackground={cls="plus";text="设置预览窗口背景色";left=415;top=753;right=577;bottom=779;align="left";clipBk=1;db=1;dl=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';notify=1;textPadding={left=18};z=102};
+chkPreviewBackground={cls="plus";text="设置预览窗口背景色";left=415;top=753;right=577;bottom=779;align="left";db=1;dl=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';notify=1;textPadding={left=18};z=102};
 chkTxtActive={cls="plus";text="鼠标按下";left=286;top=127;right=371;bottom=153;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=31};
 chkTxtActiveChecked={cls="plus";text="鼠标按下";left=286;top=318;right=371;bottom=344;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=64};
 chkTxtDefault={cls="plus";text="默认状态";left=286;top=61;right=371;bottom=87;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=27};

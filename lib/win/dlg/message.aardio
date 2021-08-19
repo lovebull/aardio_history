@@ -48,7 +48,7 @@ class message{
 		var parentForm = this.parent;
 		if(parentForm){
 			if( !..win.isWindow(this.parent[["hwnd"]] || this.parent) ){
-				parentForm = ..win.getActive() || ..mainForm[["hnwd"]];
+				parentForm = ..win.getActive() || ..mainForm[["hwnd"]];
 			}	
 		}
 
