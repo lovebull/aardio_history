@@ -140,7 +140,7 @@
 !winform.modifyStyle(.(remove,add) = 如果指定第三个参数，则使用此参数调用::SetWidnowPos 
 !winform.modifyStyleEx(.(remove,add) = 如果指定第三个参数，则使用此参数调用::SetWidnowPos 
 !winform.atom(字符串值) = @import win.ui.atom \nvar atom,hwndConflict = winform.atom("__/*输入唯一标识字符串\n建议使用GUID生成Globally Unique Identifier(全球唯一标识符) */");\nif(!atom){\n	/*为窗口设置原子值可以避免一个程序重复运行多个实例*/\n	win.quitMessage();//程序退出\n	return;\n};
-!winform.hitCaption() = 模拟拖动顶层父窗口标题栏\n此函数会调用setTimeout异步延时0毫秒后实际执行\n阻塞执行在electron中会导致卡死
+!winform.hitCaption() = 模拟拖动顶层父窗口标题栏\n此函数会调用 winform.setTimeout 异步延时0毫秒后实际执行,\n异步执行可避免通过当前线程异步RPC服务器调用此函数导致的问题.\n通常在无边框窗口的 winform.onMouseDown 事件中调用此函数
 !winform.hitMin() = 模拟点击顶层父窗口最小化按钮
 !winform.hitMax() = 模拟点击顶层父窗口最大化、还原按钮\n返回值为是否最大化指令
 !winform.hitClose() = 模拟点击顶层父窗口关闭按钮

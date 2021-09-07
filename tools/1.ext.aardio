@@ -47,7 +47,7 @@ showLibs = function(libs){
 		} 
 	}
 	else {
-		winform.text = "aardio扩展库安装程序 x"  +  ( err:"")
+		winform.text = "aardio扩展库安装程序 - "  +  ( err:"为避免滥用免费资源，请稍后再试")
 	} 	
 }
 showLibs( ide.requestLibInfo("all") );

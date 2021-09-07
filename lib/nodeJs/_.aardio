@@ -8,6 +8,7 @@ import string.cmdline;
 import web.json;
 import console;
 import fsys;
+import fsys.lnk;
 
 namespace nodeJs;
 
@@ -16,6 +17,15 @@ nodeExePath = null;
 npmCliJsPath = null;
 nodeModulesPath = null;
 version = null;
+	
+getInstallPath = function(){
+	var path = ..win.getenv("NODE_EXE");
+    if(!#path){path = ..win.path.search("node.exe");}
+    if(..io.exist("C:\Program Files\nodejs\node.exe")) return "C:\Program Files\nodejs\node.exe";
+    if(..io.exist("D:\Program Files\nodejs\node.exe")) return "D:\Program Files\nodejs\node.exe";
+    if(!#path){path = ..fsys.lnk.search("node.exe");}
+    return ..io.exist(path);
+}
 
 install = function(portable){
     if(nodeExePath && npmCliJsPath){
@@ -23,10 +33,7 @@ install = function(portable){
     }
      
     if(!portable){
-    	nodeExePath = ..win.getenv("NODE_EXE");
-    	if(!#nodeExePath){
-    		nodeExePath = ..win.path.search("node.exe");
-    	}
+    	nodeExePath = getInstallPath();
     }
 
     if( ..io.exist(nodeExePath) ){
@@ -68,21 +75,14 @@ install = function(portable){
 				
 				if(!portable){
     				if(!..inet.installer("Node.js",{
-						x64 = "https://nodejs.org/dist/v" + version + "/node-v" + version + "-x64.msi";
-						x86 = "https://nodejs.org/dist/v" + version + "/node-v" + version + "-x86.msi";
+						//"https://nodejs.org/dist/v"
+						x64 = "http://npm.taobao.org/mirrors/node/v" + version + "/node-v" + version + "-x64.msi";
+						x86 = "http://npm.taobao.org/mirrors/node/v" + version + "/node-v" + version + "-x86.msi";
 					} )	){
 						return;
 					}
-					else {
-						nodeExePath = ..win.getenv("NODE_EXE");
-    					if(!#nodeExePath){
-    						nodeExePath = ..win.path.search("node.exe");
-    					}
-    					
-    					if(!..io.exist(nodeExePath)){
-    						return;
-    					}
-    					
+					else { 
+    					if(!getInstallPath()){ return; } 
     					return install();
 					} 
     			}
@@ -488,6 +488,7 @@ freePort();
 
 /**intellisense(nodeJs)
 workDir = 设置node.js的应用程序工作目录\n默认已设置为 io.fullpath("/")
+getInstallPath() = 如果系统已安装 Node.js,返回 node.exe 路径
 install(.(portable) = 检测并安装node环境\n如果portable为true或指定node版本号，则忽略系统安装的node.exe\n否则优先使用系统安装的node.exe\n也可以在调用此函数以前在环境变量中使用NODE_EXE设置node.exe的路径\n此函数会在执行其他node命令前自动调用,\n在WIN10 上默认安装 Node.js  v14.17.0,WIN7上默认安装 v13.6.0,XP上安装 v5.12
 exec(__/*JS代码*/) = 运行JS代码，返回process.popen对象,\n如果参数@1不为空,则返回进程对象会关闭目标进程的输入流
 execFile(.(JS代码文件,其他命令行参数->->->) = 运行JS代码文件,返回process.popen对象,\n\n第一个参数指定JS代码文件,可选自第二个参数开始指定命令行参数\n多个命令行参数则调用 process.joinArguments 合并,\n不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号

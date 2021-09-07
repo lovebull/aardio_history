@@ -1,4 +1,5 @@
 global.import("(debug)");  
+global.import("util.table");
 debug = global["(debug)"];
 
 namespace debug; 

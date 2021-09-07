@@ -19,14 +19,14 @@ class jsonClient{
 					msg.data = owner.beforeJsonParse(msg.data);
 					if(!msg.data) return;
 				}
-					
+			
     			var data,err  =  ..web.json.tryParse(msg.data);
-    			if(type(data)!="table"){
+    			if( type(data) != "table"){ 
+    				// Chrome DevTools Protocol 没有 jsonrpc 字段
     				if( this.rpc.onError ) 	this.rpc.onError(..string.concat( err," 接收到的数据格式错误:",msg.data));
     				return;
     			}
-    			
-    			
+    			 
  				if(#data){
  					for(i=1;#data ) this.rpc._response(data[i]); 
  				}
@@ -78,6 +78,11 @@ class jsonClient{
     			};
     		}
     		else {
+    		    if(repData.error){
+    		    	this.rpc.onError(..string.concat("Server Error:",repData.error.message," #",repData.error.code),repData.error);
+    		    	return; 
+    		    }
+    		    
     			if( this.rpc.onError ) 	this.rpc.onError("接收到的数据不符合 JSON RPC 协议规则");
     			
     			owner.sendJson( {
@@ -216,7 +221,7 @@ rpc = WebSocket客户端对象\n此对象的成员谨慎改动\n!stdwebsocketjso
 on(method,proc) = @.on("__/*需要监听的Rpc通知事件名字*/",function(param){\n    \n})
 on("open",proc) = @.on("open",function(){\n	__/*已打开连接*/		\n}
 on("close",proc) = @.on("close",function(e){\n	__/*连接被关闭\ne.code为错误代码e.reason为错误原因*/\n})
-on("error",proc) = @.on("error",function(err){\n	__/*发生错误,err为错误信息*/\n})
+on("error",proc) = @.on("error",function(err,serverError){\n	__/*发生错误,err为错误信息,\n如果服务端按 jsonrpc 协议返回 error 对象,\n则 serverError 有值,包含 messge,code 字段*/\n})
 on("message",proc) = @.on("message",function(msg){\n    __/*收到服务端数据\nmsg.type为1时msg.data为文本,\n否则msg.data为字节数组（buffer类型）*/\n})
 on("fragment",proc) = @.on("fragment",function(msg){\n   __/*收到分片数据\n第一个数据包使用msg.type指明类型,参考WebSocket协议规范\n后续数据包msg.type为0,最后一个数据包msg.fin为1\n\n如果不指定这个回调函数,则自动并接分片数据后触发onMessage事件*/	\n})
 connect("ws://__") = 重新连接到WebSocket服务端\n参数指定WebSocket服务端网址，例如 "ws://localhost:7511"\n如果不指定参数,则获取上次调用此函数指定的网址参数,\n如果之前也没有指定网址则抛出异常
@@ -259,9 +264,9 @@ responseHeaders = 服务端响应的HTTP头\n这是一个表对象，键名都�
 readyState = 连接状态,\n0为等待连接,1为已连接并准备就绪,2为正在关闭,3为已关闭\n只有成功通过WebSocket协议握手以后readyState才会被置为1\n这与socket.readyState连接成功就会置为1是不同的
 isClosed() = 套接字是否已关闭
 isConnected() = 套接字是否已连接并准备就绪(已与服务器握手成功)
-heartbeatInterval = 客户端主动发送单向心跳（默认发送Pong空帧）间隔,默认为30秒\n设为-1时禁用客户端心跳,一般不建议禁用\n这个值修改以后，只能在下次调用connect函数才会生效
+heartbeatInterval = 客户端主动发送心跳间隔,默认为30秒,\n设为-1时禁用客户端心跳,注意某些服务端收到心跳包会报错,这时建议关掉心跳,\n此属性值修改以后，只能在下次调用connect函数才会生效
 heartbeatData = 单向心跳发送的数据,默认为空数据\n这个值修改以后，只能在下次调用connect函数才会生效
-heartbeatType = 单向心跳发送的的帧类型,\n默认为0xA,也就是Pong帧\n这个值修改以后，只能在下次调用connect函数才会生效
+heartbeatType = 单向心跳发送的的帧类型,\n默认为0xA,也就是单向心跳 Pong 帧\n这个值修改以后，只能在下次调用connect函数才会生效
 originUrl = 浏览器启动WebSocket客户端的网址\n一些WebSocket服务器根据这个判断是不是允许连接,\n所以有时候设置这个很重要\n默认使用WebSocket网址，并把 前面的ws://改为http://
 userAgent = 客户端应用程序代理头\n默认为"Mozilla/5.0"
 protocol = 应用程序支持的协议列表,默认为"chat"

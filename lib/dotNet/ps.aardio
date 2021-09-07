@@ -68,10 +68,9 @@ namespace ps {
 			return powerShellRunner;
 		}
 		
-		var clr = ..dotNet.clr(); 
-		if( !clr ){ return null,"系统未安装 Net Framework 2.0 以上版本";}
+		appDomain = ..dotNet.appDomain();
+		if( !appDomain ){ return null,"系统未安装 Net Framework 2.0 以上版本";}
 		
-		appDomain = clr.createAppDomain();
 		var compile = appDomain.createCompiler("C#");
 		compile.Reference("System.Core")
 		compile.Reference("System.Management.Automation");
@@ -94,20 +93,11 @@ namespace ps {
 		}
 		
 		if(!assembly){
-			appDomain.unload();
-			appDomain = null;
 			return null,"系统未安装 PowerShell"
 		}
 		powerShellRunner = assembly.createInstance("PowerShellRunner.PowerShellRunner");
 		return powerShellRunner;	
-	} 
-	
-	..subscribe("beforeUnload",function(){
-		if(appDomain){
-			appDomain.unload();
-			appDomain = null;
-		}
-	} );
+	}
 }
 
 /**intellisense()

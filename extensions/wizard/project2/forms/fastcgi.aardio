@@ -53,7 +53,7 @@ var wb = web.form( win.form(parent=winform.custom),5/*_UIFLAG_DIALOG*/,,,true);
 wb.noScriptErr = true;
 
 wb.external={
-    showWizard = lambda() winform.loadForm("~\codes\范例程序\Web应用\FastCGI\wizard.aardio")
+    showWizard = lambda() winform.loadForm("~\codes\范例程序\8) Web 应用\6) FastCGI\wizard.aardio")
 }
 
 wb.html = /** 

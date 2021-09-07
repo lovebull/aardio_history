@@ -213,6 +213,13 @@ class plus {
 						var rf = rc.float();
 						rf.angle = this.linearGradient; 
 						var brush = ..gdip.lineBrush(rf,this.backgroundColor,this.foregroundColor);
+						if(dpiScaleY > 1 && height <= 2  && height!=dpiScaleY ){
+							height = dpiScaleY;
+						}
+						if(dpiScaleX > 1 && width <= 2  && width!=dpiScaleX ){
+							width = dpiScaleX;
+						}
+						 
 						graphics.fillRectangle( brush,0,0,width,height);
 						brush.delete();
 					}
@@ -453,12 +460,13 @@ class plus {
 			var left,top,right,bottom = border.left,border.top,border.right,border.bottom;
 			if( ( left===null) && ( top ===null) && ( right ===null) && ( bottom === null)  ){ 
 				if( border.width && border.color ){	
-					var w1 = ..math.floor((border.width-1)/2);
-					var w2 = ..math.ceil(border.width/2);  
+					var width = border.width * dpiScaleX; 
+					var w1 = ..math.floor((width-1)/2);
+					var w2 = ..math.ceil(width/2);  
 					var rc = ::RECT(rc.left+w1,rc.top+w1,rc.right-w2,rc.bottom-w2);
 					
 					if( border.radius && ( border.radius > 0 ) ){ 
-						var pen = ..gdip.pen(border.color,border.width);
+						var pen = ..gdip.pen(border.color,width);
 						var pathRadius = ..gdip.path(1/*_FillModeWinding*/)
 						pathRadius.addRoundRect(rc,this.border.radius*dpiScaleX);
 						graphics.drawPath(pen,pathRadius);
@@ -466,7 +474,7 @@ class plus {
 						pen.delete() 
 					}
 					else {
-						var pen = ..gdip.pen(border.color,border.width);
+						var pen = ..gdip.pen(border.color,width);
 						graphics.drawRectangle(pen,rc.left,rc.top,rc.width(),rc.height());
 						pen.delete();
 					}
@@ -483,6 +491,7 @@ class plus {
 				}
 				
 				if( left ){
+					left = left * dpiScaleX;
 					var w = ..math.floor((left-1)/2);
 					var color = border.leftColor ;
 					if( color === null ) color = border.color;
@@ -494,6 +503,7 @@ class plus {
 					}
 				}
 				if( top ){
+					top = top * dpiScaleY;
 					var w = ..math.floor((top-1)/2);
 					var color = border.topColor ;
 					if( color === null ) color = border.color;
@@ -506,6 +516,7 @@ class plus {
 				}
 				
 				if( right ){
+					right = right * dpiScaleX;
 					var w = ..math.ceil(right/2);
 					var color = border.rightColor ; 
 					if( color === null ) color = border.color;
@@ -518,6 +529,7 @@ class plus {
 				}
 				
 				if( bottom ){
+					bottom = bottom * dpiScaleY;
 					var w = ..math.ceil(bottom/2);
 					var color = border.bottomColor ; 
 					if( color === null ) color = border.color;

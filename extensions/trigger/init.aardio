@@ -26,7 +26,7 @@ thread.invoke(
 		};
 		
 		if( ide.getConfig("statusBarPlugin") == "true" ){
-			ide.createProcess("~\tools\开发环境\statusBar.aardio");
+			ide.createProcess("~\tools\1) 开发环境\statusBar.aardio");
 		}
 		
 		sleep(1000);

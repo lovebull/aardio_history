@@ -105,8 +105,12 @@ control(.(hwnd,command,data) = 发送_WM_IME_CONTROL消息到指定窗口\n@hwnd
 getOpenStatus(.(hwnd) = 当前输入法是否打开中文输入\n@hwnd参数指定要检测的窗口句柄，省略则默认设为前景窗口
 setOpenStatus(.(status,hwnd) = status设为0关闭中文输入\n@hwnd参数指定目标窗口句柄，省略则默认设为前景窗口
 changeRequest(.(hkl,hwnd,wParam) = 发送_WM_INPUTLANGCHANGEREQUEST消息通知窗口改变输入法,\nhkl可用数值或指针指定键盘布局,\n@hwnd参数指定要检测的窗口句柄，省略则默认设为前景窗口\n其他参数可省略
+changeRequest(.(0x4090409) = 切换为英文键盘布局
+changeRequest(.(0x8040804) = 切换为中文键盘布局 
+changeRequest(.(0) = 切换为上一个键盘布局
+changeRequest(.(1) = 切换为下一个键盘布局 
 each() = @for(hKey,lang,name,description in ??.each() ){
-	__/*hKey:句柄 lang:语言ID name:输入法名 description:描述*/
+	__/*hKey:键盘布局句柄 lang:语言ID name:输入法名 description:描述*/
 }
 loadByName(.("键盘布局名",选项) = 载入指定的键盘布局\n对默认中英文键盘无效\n参数二可省略,使用 _KLF_ 前缀常量指定选项
 activate(.(键盘布局句柄,选项) = 激活指定的键盘布局\n参数二可省略,使用 _KLF_ 前缀常量指定选项
@@ -120,6 +124,4 @@ end intellisense**/
 
 /**intellisense()
 key.ime = 输入法相关操作
-_WM_INPUTLANGCHANGE=@0x51/*_WM_INPUTLANGCHANGE*/
-_WM_INPUTLANGCHANGEREQUEST=@0x50/*_WM_INPUTLANGCHANGEREQUEST*/
 end intellisense**/

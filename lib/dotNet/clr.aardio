@@ -128,7 +128,9 @@ class clr{
 					var method = this.AppDomainSetupReal["put_"+k];
 					if( method ){
 						var bstr = ::SysAllocString( v ); 
-						method(bstr); 
+						method(bstr);
+						
+						::SysFreeString(bstr); 
 					} 
 				};
 				_topointer = function(){

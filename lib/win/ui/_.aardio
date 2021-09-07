@@ -404,10 +404,14 @@ namespace win.form{
        			
        			if(struct=="JSON"&&..web[["json"]] ){ 
        				var json = topointer(lParam); 
-       				json = unicode ? ..string.fromUnicode(json,,-1) : ..raw.str(json); 
-       				return invoke(f,this,..table.unpack(..web.json.parse(json)) );
+       				
+       				json = unicode ? ..string.fromUnicode(json,,-1) : ..raw.str(json);
+       				return tonumber( (invoke(f,this,..table.unpack(..web.json.parse(json)) ) ) );
        			}
-       			return invoke(f,this,..raw.convert(topointer(lParam),{ _struct = struct })); 
+       			
+       			var r = invoke(f,this,..raw.convert(topointer(lParam),{ _struct = struct })); 
+       			if(r[["_struct"]]){ ..raw.copy(topointer(lParam),r); return 0; }
+       			return tonumber(r);
        		} 
        }
        [0xACCD/*_WM_THREAD_CALLWND*/] = function( this,hwnd,message,wParam,lParam ){ 

@@ -91,8 +91,13 @@ lnk._metaProperty = ..util.metaProperty(
 	path = {
 		_get = function(){ 
 			var hr,value =  owner.$shellLink.GetPath(1024*2, 1024, {}, 0x2/*_SLGP_UNCPRIORITY*/);
-			if( (hr)>=0/*SUCCEEDED*/) return #value ? value : owner[["(urlpath)"]];
-			
+			if( (hr)>=0/*SUCCEEDED*/) {
+				value = #value ? value : owner[["(urlpath)"]];
+				if(value && ..string.indexOf(value," (x86)\") && !..io.exist(value) ){
+					value = ..string.replace(value,"@ (x86)\","\");
+				}
+				return value;
+			} 
 		}
 		_set = function( target ){
 			owner[["(urlpath)"]] = null;

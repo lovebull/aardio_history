@@ -252,8 +252,8 @@ setOwner( = 设置所有者窗口\n下属窗口总是显示在所有者窗口前
 setOwner(.(窗口句柄,所有者窗口句柄) = 成功返回原来的所有者窗口句柄\n窗口拥有WS_CHILD样式时不执行并返回空值
 getOwner(__/*输入窗口句柄*/) = 获取所有者窗口句柄\n注意子窗口没有所有者窗口\n\n下属窗口总是显示在所有者窗口前面\n例如模态对话框通常会指定一个所有者窗口 
 getChild(__/*输入窗口句柄*/) = 获取子窗口句柄 
-eachChild(父窗口句柄,窗口类名) = @for hwnd in win.eachChild(__/*按Z序遍历所有子窗口,\n省略父窗口句柄遍历顶层窗口,\n窗口类名是可选参数，支持模式匹配语法*/) {
-   
+eachChild(父窗口句柄,窗口类名) = @for hwnd in win.eachChild(__/*按Z序遍历所有子窗口,\n省略父窗口句柄遍历桌面顶层窗口,\n窗口类名是可选参数，支持模式匹配语法\n\n此函数忽略UWP应用窗口,\n如果需要包含 UWP 窗口请改用 winex.eachFindEx 函数*/) {
+	   
 }
 getFullscreen() = 返回当前全屏窗口
 getWindow( hwnd, _GW__ ) = 获取相关窗口
@@ -284,8 +284,11 @@ var showWindow = u.api( "ShowWindow", "bool(addr hwnd,int cmd)" )
 show = function(hwnd,flag=true) {   
 	showWindow( hwnd,flag===true ? 0x5/*_SW_SHOW*/ : tonumber(flag) ); 
 }
-findEx = u.api( "FindWindowExW", "addr(addr hwndParent,addr hwndChildAfter,ustring lpszClass,ustring lpszWindow)" )  
+
 find = u.api( "FindWindowW", "addr(ustring lpszClass,ustring lpszWindow)" ) 
+findEx = function(parent,after,cls,title){
+	return ::User32.FindWindowExW(parent,after,cls,title)
+}
 
 setTopmost = function(hwnd,top=true){
 	 ::SetWindowPos(hwnd,(top)?-1/*_HWND_TOPMOST*/:-2/*_HWND_NOTOPMOST*/,0,0,0,0,0x2/*_SWP_NOMOVE*/|0x1/*_SWP_NOSIZE*/|0x10/*_SWP_NOACTIVATE*/) 
@@ -359,7 +362,7 @@ registerFormClass = function(cls,srcWc,srcName){
 
 /**intellisense(win)   
 isChild(.(父窗口句柄,子窗口句柄) = 判断参数二指定的窗口是否参数一指定窗口的子窗口或间接子窗口\n任何一个参数为null或0返回false
-isVisible(__/*输入窗口句柄*/) = 判断窗口是否可见
+isVisible(__/*输入窗口句柄*/) = 判断窗口是否可见\n此函数不会检查伪装为可见的隐形状态（Cloaked）,\nwinex.isVisible 支持检测隐形状态
 isWindow(__/*输入窗口句柄*/) = 判断是否有效窗口
 isIconic(__/*输入窗口句柄*/) = 判断窗口是否最小化为任务栏图标
 isZoomed(__/*输入窗口句柄*/) = 判断窗口是否最大化
@@ -381,12 +384,12 @@ getDesktop()=获取桌面句柄
 setTopmost(__/*输入窗口句柄*/)=置顶窗口\n设置此属性前窗口必须已显示在屏幕上
 setTopmost(__/*输入窗口句柄*/,false)=取消置顶窗口
 find(.(类名,标题)=查找顶层窗口,参数都是可选参数
-findEx(.(父窗口句柄,上一个窗口句柄,类名,标题)=查找子窗口\n除父窗口句柄以外,其他参数都是可选参数 
+findEx(.(父窗口句柄,上一个窗口句柄,类名,标题)=查找子窗口\n除父窗口句柄以外,其他参数都是可选参数,\n类名和标题不支持模式匹配,\n如果需要支持模式匹配,请改用 winex.findEx 或 winex.findEx2
 setCapture(.(窗口句柄) = 开始捕获鼠标消息,返回上次调用该函数的窗口句柄
 releaseCapture() = 释放鼠标捕获,成功返回true
 registerClassEx(.("类名",类参数表,"源类名") = 注册新类名\n如果参数@3指定了源类名则复制该类\n可选用参数@2指定 WNDCLASSEX的部份字段值
 registerFormClass(.(cls,param,className) = 注意窗口类名,\n\n如果指定了cls，则使用线程ID格式化为伪类名\n此时className为源类名\n\n如果未指定cls,则直接注册className为类名\n如果该窗口类已存在则直接返回该类名\n\n此函数返回注册成功的窗口类名
-enum(callback) = @.enum(\n	function(hwnd){\n		return true; __/*枚举所有顶层窗口,并回调此函数*/\n	}\n)
+enum(callback) = @.enum(\n	function(hwnd){\n		return true; __/*枚举所有桌面顶层窗口,并回调此函数,\n忽略UWP窗口,如果需要包含UWP窗口请改用 winex.enum 函数*/\n	}\n)
 end intellisense**/ 
 
 setPos = function(hwnd,x,y,cx,cy,after,flag){

@@ -1,6 +1,7 @@
 ﻿//acl 文件权限
 import process.popen;
 import process.token;
+import string.cmdline;
 import sys.acl;
 
 namespace fsys.acl;
@@ -22,7 +23,13 @@ takeOwn = function(filePath,...){
 cacls = function(filePath,...){
 	var prcs;
 	if(!...) prcs = ..process.popen(,"cacls",..io.fullpath(filePath),"/e","/g",..sys.acl.getUserName() +":F");
-	else prcs = ..process.popen(,"cacls",..io.fullpath(filePath),...); 
+	else {
+		var args =  ..string.cmdline.arguments(...);
+		..table.unshift(args,"cacls",..io.fullpath(filePath)); 
+		prcs = ..process.popen(,args); 
+	}
+	if(!prcs) return null,"运行 cacls 命令失败";
+	
 	prcs.writeClose("y")
 	
 	var ok,out,err = prcs.waitOne();
@@ -39,9 +46,12 @@ ownCacls = function(filePath,...){
 icacls = function(filePath,...){
 	var prcs;
 	if(!...) prcs = ..process.popen(,"icacls",..io.fullpath(filePath),"/grant",..sys.acl.getUserName() +":(F)");
-	else prcs = ..process.popen(,"icacls",..io.fullpath(filePath),...); 
-	
-	if(!prcs) return null,"运行icacls命令失败,注意icacls不支持XP系统";
+	else {
+		var args =  ..string.cmdline.arguments(...);
+		..table.unshift(args,"icacls",..io.fullpath(filePath)); 
+		prcs = ..process.popen(,args); 
+	}
+	if(!prcs) return null,"运行 icacls 命令失败,注意 icacls 不支持 XP 系统";
 	prcs.writeClose("y")
  
 	var ok,out,err = prcs.waitOne();
@@ -96,9 +106,9 @@ end intellisense**/
 /**intellisense(fsys.acl)
 takeOwnBySid(.(filePath,sid) = 使用安全标识符获取文件或目录的所有者权限,\n@sid 参数省略时默认取运行当前进程的用户SID,\n这个函数由纯aardio代码实现，不需要调用takeown.exe，\n可以解决XP等系统上没有takeown.exe的问题
 takeOwn(.(filePath,->->->) = 执行takeown命令获取文件所有权限,\n参数@filePath指定文件路径，\n可附加不定个数的字符串参数指定命令行参数,\n省略命令行参数时默认为当前登录用户获取权限,\n失败返回false,错误信息,成功返回进程标准输出文本
-cacls(.(filePath,->->->) = 执行cacls命令修改文件权限,\n参数@filePath指定文件路径，\n可附加不定个数的字符串参数指定命令行参数,\n省略命令行参数时默认为当前登录用户添加全部权限,\n失败返回false,错误信息,成功返回进程标准输出文本
+cacls(.(filePath,->->->) = 执行cacls命令修改文件权限,\n参数@filePath指定文件路径，\n可附加不定个数的字符串参数指定命令行参数,\n参数 @2 也可以传入一个文本参数并用空格分隔多个命令行参数,\n省略命令行参数时默认为当前登录用户添加全部权限,\n失败返回false,错误信息,成功返回进程标准输出文本
 ownCacls(.(filePath,->->->) = 执行takeown命令获取文件所有权限,\n如果成功再执行cacls命令修改文件权限,\n参数@filePath指定文件路径，\n可附加不定个数的字符串参数指定命令行参数,\n省略命令行参数时默认为当前登录用户添加全部权限,\n失败返回false,错误信息,成功返回进程标准输出文本
-icacls(.(filePath,->->->) = 执行icacls命令修改文件权限,\n参数@filePath指定文件路径，\n可附加不定个数的字符串参数指定命令行参数,\n省略命令行参数时默认为当前登录用户添加全部权限,\n失败返回false,错误信息,成功返回进程标准输出文本
+icacls(.(filePath,->->->) = 执行icacls命令修改文件权限,\n参数@filePath指定文件路径，\n可附加不定个数的字符串参数指定命令行参数,\n参数 @2 也可以传入一个文本参数并用空格分隔多个命令行参数,\n省略命令行参数时默认为当前登录用户添加全部权限,\n失败返回false,错误信息,成功返回进程标准输出文本
 ownICacls(.(filePath,->->->) = 执行takeown命令获取文件所有权限,\n如果成功再执行icacls命令修改文件权限,\n参数@filePath指定文件路径，\n可附加不定个数的字符串参数指定命令行参数,\n省略命令行参数时默认为当前登录用户添加全部权限,\n失败返回false,错误信息,成功返回进程标准输出文本
 save(.(filePath,aclPath) = 执行icacls命令导出文件权限,\n参数@filePath指定文件路径,\n失败返回false,错误信息,成功返回进程标准输出文本
 restore(.(filePath,aclPath) = 执行icacls命令导入文件权限,\n参数@filePath指定文件路径,\n失败返回false,错误信息,成功返回进程标准输出文本

@@ -150,6 +150,6 @@ var rdpClient = com.lite("MsTscAx.dll").createEmbed(winform,"{7cacbd7b-0d99-468f
 var msTscAx = rdpClient._object;//获取控件对象 https://docs.microsoft.com/en-us/windows/win32/termserv/mstscax
  
 完整范例： 
-"~\codes\范例程序\COM组件\嵌入 ActiveX 控件\lite.aardio"
+"~\codes\范例程序\F) COM 组件\1) 嵌入 ActiveX 控件\lite.aardio"
 
 end details**/

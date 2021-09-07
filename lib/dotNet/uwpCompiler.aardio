@@ -8,9 +8,8 @@ if(!_WIN10_LATER){
 	error("仅支持 Windows 10 1507 以上版本",2)
 }
 
-var clr = ..dotNet.clr(); 
-if( !clr ) error("当前系统未安装.Net Framework") 
-var appDomain = clr.createAppDomain();
+var appDomain = ..dotNet.appDomain();
+if( !appDomain ) error("当前系统未安装.Net Framework") 
 
 class uwpCompiler{
 	ctor( outputPath,winmdPath ){

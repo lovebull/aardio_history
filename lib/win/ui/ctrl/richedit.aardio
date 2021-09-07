@@ -266,13 +266,16 @@ richedit._metaProperty =  metaProperty(
 			return 0;
 		}
 		_set = function(v){
+			var style = ..win.getStyle(owner.hwnd);
+			var left =  !(style & 3/*_ES_CENTER | _ES_RIGHT*/ ) 
+			
 			if(v){
-				if(owner[["dpiScaleY"]]){
+				if(left && owner[["dpiScaleY"]]){
 					v = v * owner[["dpiScaleY"]];
 				}	
 			}
 			else {
-				if(owner[["dpiScaleY"]]!==1) v = owner[["dpiScaleY"]];
+				if(left && owner[["dpiScaleY"]]!==1) v = owner[["dpiScaleY"]];
 			}
 
 			if(v){

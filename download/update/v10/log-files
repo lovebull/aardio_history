@@ -1,4 +1,4 @@
--1055435412|6404608|2351027|aardio.exe
+1241124188|6407680|2351817|aardio.exe
 0|0|0|codes\
 0|0|0|config\
 0|0|0|download\
@@ -8,670 +8,688 @@
 0|0|0|tools\
 0|0|0|codes\我的代码段\
 0|0|0|codes\范例程序\
-0|0|0|codes\范例程序\Chrome\
-0|0|0|codes\范例程序\COM组件\
-0|0|0|codes\范例程序\C语言\
-0|0|0|codes\范例程序\dotNet\
-0|0|0|codes\范例程序\Edge\
-0|0|0|codes\范例程序\Electron\
-0|0|0|codes\范例程序\FreeBASIC语言\
-0|0|0|codes\范例程序\Go语言\
-0|0|0|codes\范例程序\HTMLayout\
-0|0|0|codes\范例程序\Java语言\
-0|0|0|codes\范例程序\nodeJs\
-0|0|0|codes\范例程序\PHP语言\
-0|0|0|codes\范例程序\PowerShell\
-0|0|0|codes\范例程序\Python语言\
-0|0|0|codes\范例程序\Ruby语言\
-0|0|0|codes\范例程序\Rust语言\
-0|0|0|codes\范例程序\Sciter.JS\
-0|0|0|codes\范例程序\Web应用\
-0|0|0|codes\范例程序\Web窗体应用\
-0|0|0|codes\范例程序\Windows窗口应用\
-0|0|0|codes\范例程序\协同程序\
-0|0|0|codes\范例程序\图形图像\
-0|0|0|codes\范例程序\多线程\
-0|0|0|codes\范例程序\批处理与命令行\
-0|0|0|codes\范例程序\控制台\
-0|0|0|codes\范例程序\操作系统\
-0|0|0|codes\范例程序\数据库\
-0|0|0|codes\范例程序\数组排序\
-0|0|0|codes\范例程序\文件操作\
-0|0|0|codes\范例程序\文本处理\
-0|0|0|codes\范例程序\日期时间\
-0|0|0|codes\范例程序\模拟自动化\
-0|0|0|codes\范例程序\网络应用\
-0|0|0|codes\范例程序\语言扩展\
-0|0|0|codes\范例程序\调试技术\
-0|0|0|codes\范例程序\音频视频\
-474349133|1948|1189|codes\范例程序\Chrome\app.aardio
--1429946749|1521|856|codes\范例程序\Chrome\driver.aardio
--894008657|1983|910|codes\范例程序\Chrome\extensions.aardio
--1180573278|3389|1297|codes\范例程序\Chrome\remote.aardio
--1563847535|5412|2085|codes\范例程序\COM组件\1.progId.aardio
-1351498053|452|310|codes\范例程序\COM组件\2.ROT.aardio
-2066618010|544|349|codes\范例程序\COM组件\3.输出COM对象成员.aardio
--1460909145|1650|774|codes\范例程序\COM组件\4.用连接点注册事件.aardio
--1792056895|399|296|codes\范例程序\COM组件\5.自动导入常量定义.aardio
--1460638336|308|221|codes\范例程序\COM组件\6.COM 迭代器.aardio
--1884030038|626|368|codes\范例程序\COM组件\7.collection.aardio
--1078745224|1143|649|codes\范例程序\COM组件\8.MapWinGIS.aardio
-0|0|0|codes\范例程序\COM组件\AutoCAD\
--656278167|680|467|codes\范例程序\COM组件\excel.aardio
-607782389|415|261|codes\范例程序\COM组件\fso.aardio
-1687957261|724|449|codes\范例程序\COM组件\shell.aardio
-1518133042|1442|742|codes\范例程序\COM组件\spRecognizer.aardio
-0|0|0|codes\范例程序\COM组件\WMI\
-1559908229|1059|647|codes\范例程序\COM组件\下载网页.aardio
-0|0|0|codes\范例程序\COM组件\创建 ActiveX EXE\
-2054986216|435|316|codes\范例程序\COM组件\图表.aardio
-0|0|0|codes\范例程序\COM组件\嵌入 ActiveX 控件\
--884875525|1249|805|codes\范例程序\COM组件\模拟按键.aardio
-520345558|726|497|codes\范例程序\COM组件\调用迅雷下载.aardio
-294768366|554|403|codes\范例程序\COM组件\AutoCAD\command.aardio
-1976819191|1151|693|codes\范例程序\COM组件\AutoCAD\introduction.aardio
-239028125|1716|742|codes\范例程序\COM组件\WMI\SWbemSink.aardio
-1643870433|1728|801|codes\范例程序\COM组件\WMI\SysInfo.aardio
--319430652|1260|494|codes\范例程序\COM组件\创建 ActiveX EXE\default.aproj
-0|0|0|codes\范例程序\COM组件\创建 ActiveX EXE\lib\
--449607639|967|555|codes\范例程序\COM组件\创建 ActiveX EXE\main.aardio
-0|0|0|codes\范例程序\COM组件\创建 ActiveX EXE\test\
-0|0|0|codes\范例程序\COM组件\创建 ActiveX EXE\typelib\
-0|0|0|codes\范例程序\COM组件\创建 ActiveX EXE\lib\AardioTestControl\
--1474576619|1098|570|codes\范例程序\COM组件\创建 ActiveX EXE\lib\AardioTestControl\Sample.aardio
--1868633771|608|403|codes\范例程序\COM组件\创建 ActiveX EXE\lib\AardioTestControl\SampleForm.aardio
-1863305777|476|377|codes\范例程序\COM组件\创建 ActiveX EXE\test\test.aardio
-2001573878|58|71|codes\范例程序\COM组件\创建 ActiveX EXE\test\test.ps1
-774258259|105|108|codes\范例程序\COM组件\创建 ActiveX EXE\test\test.vbs
--1106848630|359|248|codes\范例程序\COM组件\创建 ActiveX EXE\typelib\MKTYPLIB.aardio
-2028340916|10236|3253|codes\范例程序\COM组件\创建 ActiveX EXE\typelib\ODL语法参考.html
-530864888|833|446|codes\范例程序\COM组件\创建 ActiveX EXE\typelib\SampleControl.odl
-1517477978|2048|624|codes\范例程序\COM组件\创建 ActiveX EXE\typelib\SampleControl.tlb
-623279262|1194|720|codes\范例程序\COM组件\嵌入 ActiveX 控件\InkEdit.aardio
-1490399575|1500|852|codes\范例程序\COM组件\嵌入 ActiveX 控件\lite.aardio
--881230836|870|597|codes\范例程序\COM组件\嵌入 ActiveX 控件\pdf.aardio
--1065598994|1153|600|codes\范例程序\COM组件\嵌入 ActiveX 控件\wmplay.aardio
-683883141|3765|1971|codes\范例程序\C语言\dll.aardio
--1652464594|1453|614|codes\范例程序\C语言\dll.flexible_array.aardio
--176559852|1483|888|codes\范例程序\C语言\getCdecl.aardio
--1705097062|2890|1196|codes\范例程序\C语言\raw.cdeclParameter.aardio
--2010493948|740|539|codes\范例程序\C语言\run_main.aardio
-1880437641|854|534|codes\范例程序\C语言\setCdecl.aardio
-1640144148|3319|1465|codes\范例程序\dotNet\Compile.aardio
--1786046573|4608|1959|codes\范例程序\dotNet\CSNET2ClassLibrary.dll
--19674477|401|263|codes\范例程序\dotNet\FileStream.aardio
-529441130|1526|716|codes\范例程序\dotNet\Item.aardio
-1598700587|1943|911|codes\范例程序\dotNet\loadAssembly.aardio
--1906836489|1546|878|codes\范例程序\dotNet\ocr.aardio
--1854533527|259|182|codes\范例程序\dotNet\PowerShell.aardio
-1007344547|1261|521|codes\范例程序\dotNet\uia.aardio
--1532033900|3867|1408|codes\范例程序\dotNet\uwpCompiler.aardio
--144498158|527|326|codes\范例程序\dotNet\WebService.aardio
--549963752|3408|1783|codes\范例程序\Edge\1.view.aardio
-257701019|3818|1986|codes\范例程序\Edge\2.sysView.aardio
--1175122103|842|548|codes\范例程序\Edge\3.remoteDebugging.aardio
-326108538|5814|1856|codes\范例程序\Edge\3.speech.aardio
--416765659|919|527|codes\范例程序\Edge\4.waitEle.aardio
-879023448|754|486|codes\范例程序\Edge\4.xcall.aardio
-1539561798|999|692|codes\范例程序\Edge\5.transparent.aardio
--231493667|1604|918|codes\范例程序\Edge\6.Cesium.aardio
-96673848|2088|1000|codes\范例程序\Edge\7.react.aardio
-2142629754|2418|966|codes\范例程序\Edge\8.flexbox.aardio
--591617017|2072|883|codes\范例程序\Edge\z.learn.aardio
-640574177|1299|773|codes\范例程序\Electron\1) go.aardio
--112117244|4666|2262|codes\范例程序\Electron\2) electron.aardio
--2050948046|4171|1901|codes\范例程序\Electron\3) remoteDebugging.aardio
-2006630094|3819|1989|codes\范例程序\Electron\4) main.js.aardio
--1786913875|1491|685|codes\范例程序\Electron\5) multiWindow.aardio
--544786884|1751|925|codes\范例程序\Electron\6) webview.aardio
-0|0|0|codes\范例程序\Electron\res\
--1083564121|1363|775|codes\范例程序\Electron\res\main.aardio
--1482158456|1651|991|codes\范例程序\FreeBASIC语言\dll.aardio
--1575141793|545|429|codes\范例程序\FreeBASIC语言\dllCall.aardio
-1778262523|1502|986|codes\范例程序\Go语言\1、dll.aardio
-818879136|1480|831|codes\范例程序\Go语言\2、rpc-server.aardio
--703690923|1935|1016|codes\范例程序\Go语言\3、rpc-client.aardio
-938729284|1532|709|codes\范例程序\HTMLayout\attachEventHandler.aardio
--1694059932|3105|1552|codes\范例程序\HTMLayout\behavior.aardio
-1234275711|4970|1936|codes\范例程序\HTMLayout\css selector.aardio
--2122143453|2311|1274|codes\范例程序\HTMLayout\custom.aardio
--1814667432|959|627|codes\范例程序\HTMLayout\debug.aardio
--70061384|2256|1086|codes\范例程序\HTMLayout\drag.aardio
--497448651|891|554|codes\范例程序\HTMLayout\exchange.aardio
-990569481|5390|1305|codes\范例程序\HTMLayout\flex.aardio
-526248911|821|536|codes\范例程序\HTMLayout\FontAwesome.aardio
--643115559|1307|673|codes\范例程序\HTMLayout\Javascript.aardio
-1852109355|1373|810|codes\范例程序\HTMLayout\MakeDataUrl.aardio
-1381739591|21454|5398|codes\范例程序\HTMLayout\samples.aardio
-106691963|1238|619|codes\范例程序\HTMLayout\spyHtml.aardio
-568816683|1205|710|codes\范例程序\HTMLayout\tint.aardio
--1414717521|1423|835|codes\范例程序\Java语言\01.intro.aardio
-725402671|3928|1894|codes\范例程序\Java语言\02.compile.aardio
-874778864|719|415|codes\范例程序\Java语言\03.javacall.aardio
-620779944|915|571|codes\范例程序\Java语言\04.aardiocall.aardio
-1229503182|1126|643|codes\范例程序\Java语言\05.version.aardio
--808622541|2368|1344|codes\范例程序\Java语言\06.popenProcess.aardio
-0|0|0|codes\范例程序\Java语言\java\
-0|0|0|codes\范例程序\Java语言\java\aardio\
-0|0|0|codes\范例程序\Java语言\java\aardio\sample\
--1752855267|1004|601|codes\范例程序\Java语言\java\aardio\sample\HelloworldApp.class
-1427592867|1147|690|codes\范例程序\Java语言\java\aardio\sample\HelloworldApp.java
-685856506|1328|642|codes\范例程序\nodeJs\asar.aardio
--1338338433|1795|959|codes\范例程序\nodeJs\external.aardio
-680248643|1101|639|codes\范例程序\nodeJs\jsonRpc.aardio
-632758955|1970|1085|codes\范例程序\nodeJs\WebSocketRpc.aardio
--525894719|292|192|codes\范例程序\PHP语言\begin.end.aardio
--216516160|808|501|codes\范例程序\PHP语言\cgi.aardio
-1920934162|620|451|codes\范例程序\PHP语言\dofile.aardio
-1836895756|7411|3053|codes\范例程序\PHP语言\exec.aardio
-195426850|956|535|codes\范例程序\PHP语言\main.aardio
--1710937975|510|345|codes\范例程序\PHP语言\run_aardio.aardio
--1854533527|259|182|codes\范例程序\PowerShell\1、dotNet.aardio
-599165843|280|209|codes\范例程序\PowerShell\2、popen.aardio
-0|0|0|codes\范例程序\Python语言\1) Python 3.x\
-0|0|0|codes\范例程序\Python语言\2) Python 2.x\
-0|0|0|codes\范例程序\Python语言\3) py,aardio语法对比\
-1038753581|697|431|codes\范例程序\Python语言\1) Python 3.x\1) hmac-sha1.aardio
--205181197|815|470|codes\范例程序\Python语言\1) Python 3.x\2) md5.aardio
--912572591|2234|1261|codes\范例程序\Python语言\1) Python 3.x\3) import.aardio
-738049766|1118|701|codes\范例程序\Python语言\1) Python 3.x\4) export.aardio
--992355626|381|268|codes\范例程序\Python语言\1) Python 3.x\5) compile-eval.aardio
-309152206|488|302|codes\范例程序\Python语言\1) Python 3.x\6) exec.aardio
--703800331|505|313|codes\范例程序\Python语言\1) Python 3.x\7) catchOutErr.aardio
--280623168|196|168|codes\范例程序\Python语言\1) Python 3.x\8) run.aardio
-1433360303|206|149|codes\范例程序\Python语言\1) Python 3.x\9) requests.aardio
-332194051|1364|835|codes\范例程序\Python语言\1) Python 3.x\A) gil.aardio
-1135562961|2388|1202|codes\范例程序\Python语言\1) Python 3.x\B) thread.aardio
-1380729146|700|432|codes\范例程序\Python语言\2) Python 2.x\1) hmac-sha1.aardio
--1156850873|818|470|codes\范例程序\Python语言\2) Python 2.x\2) md5.aardio
--2061285580|3359|1833|codes\范例程序\Python语言\2) Python 2.x\3) import.aardio
--437834704|689|452|codes\范例程序\Python语言\2) Python 2.x\4) export.aardio
-1458683529|384|269|codes\范例程序\Python语言\2) Python 2.x\5) compile-eval.aardio
--1400409406|569|346|codes\范例程序\Python语言\2) Python 2.x\6) exec.aardio
-379412849|509|316|codes\范例程序\Python语言\2) Python 2.x\7) catchOutErr.aardio
-170651130|198|169|codes\范例程序\Python语言\2) Python 2.x\8) run.aardio
--1810653744|2390|1204|codes\范例程序\Python语言\2) Python 2.x\9) thread.aardio
-1516789511|3803|1889|codes\范例程序\Python语言\3) py,aardio语法对比\0) doc.aardio
-1802363119|1119|708|codes\范例程序\Python语言\3) py,aardio语法对比\1) 2to3.aardio
-650195862|1676|943|codes\范例程序\Python语言\3) py,aardio语法对比\2) datatype.aardio
-2075242360|1078|673|codes\范例程序\Python语言\3) py,aardio语法对比\3) dict.aardio
--431126443|1372|830|codes\范例程序\Python语言\3) py,aardio语法对比\4) list.aardio
-927443995|1099|670|codes\范例程序\Python语言\3) py,aardio语法对比\5) tuple.aardio
--45673568|4791|2216|codes\范例程序\Python语言\3) py,aardio语法对比\6) class.aardio
-1318810619|752|452|codes\范例程序\Python语言\3) py,aardio语法对比\7) generator.aardio
--612140872|4398|1842|codes\范例程序\Python语言\3) py,aardio语法对比\8) string.aardio
--616755425|1520|901|codes\范例程序\Python语言\3) py,aardio语法对比\9) pickle.aardio
-1278044617|3541|1732|codes\范例程序\Python语言\3) py,aardio语法对比\A) comment.aardio
--657289567|2618|1112|codes\范例程序\Python语言\3) py,aardio语法对比\B) other.aardio
-896595921|514|356|codes\范例程序\Ruby语言\cgi.aardio
-529757952|476|319|codes\范例程序\Ruby语言\exec.aardio
-337447257|131|109|codes\范例程序\Ruby语言\irb.aardio
-1302198585|570|384|codes\范例程序\Ruby语言\rake.aardio
--160900647|1478|863|codes\范例程序\Rust语言\dll.aardio
-699218290|224|169|codes\范例程序\Rust语言\toml.aardio
--480585894|884|551|codes\范例程序\Sciter.JS\0、external.aardio
-1491145509|2581|1431|codes\范例程序\Sciter.JS\0、template.aardio
--1023599080|2507|1312|codes\范例程序\Sciter.JS\1、aardio调用js函数.aardio
-709917448|2566|1185|codes\范例程序\Sciter.JS\1、js调用aardio函数.aardio
--2115676357|1557|896|codes\范例程序\Sciter.JS\2、aardio调用js事件.aardio
-1843401300|1636|922|codes\范例程序\Sciter.JS\2、js调用aardio事件.aardio
--1230387366|2209|1228|codes\范例程序\Sciter.JS\3、自定义控件.aardio
--1387088877|1135|642|codes\范例程序\Sciter.JS\4、exchange-behavior.aardio
--2136253387|5637|2441|codes\范例程序\Sciter.JS\5、无边框窗口.aardio
-1975345629|2438|1221|codes\范例程序\Sciter.JS\6、reactor.aardio
--1581543621|2265|873|codes\范例程序\Sciter.JS\8、canvas.aardio
-0|0|0|codes\范例程序\Web应用\FastCGI\
-0|0|0|codes\范例程序\Web应用\HTML\
-0|0|0|codes\范例程序\Web应用\HTTP服务器\
-0|0|0|codes\范例程序\Web应用\JSON\
-0|0|0|codes\范例程序\Web应用\REST\
-0|0|0|codes\范例程序\Web应用\RPC\
-0|0|0|codes\范例程序\Web应用\WebSocket\
-0|0|0|codes\范例程序\Web应用\XML\
--26332850|2778|1046|codes\范例程序\Web应用\FastCGI\wizard.aardio
--2066307336|608|370|codes\范例程序\Web应用\HTML\format.aardio
--653433818|204|161|codes\范例程序\Web应用\HTML\html2txt.aardio
-575969418|3719|1742|codes\范例程序\Web应用\HTML\parse.aardio
--1821717067|11980|4202|codes\范例程序\Web应用\HTTP服务器\asynHttpServer.aardio
-1612957708|1401|874|codes\范例程序\Web应用\HTTP服务器\simpleHttpServer.aardio
--890633421|1689|896|codes\范例程序\Web应用\JSON\JSON.aardio
-1660446796|516|352|codes\范例程序\Web应用\JSON\rpcClient.aardio
--1458183140|1728|877|codes\范例程序\Web应用\JSON\rpcServer.aardio
-1423301370|1412|798|codes\范例程序\Web应用\REST\headers.aardio
-1316183959|3443|1585|codes\范例程序\Web应用\REST\html.aardio
--930672692|261|184|codes\范例程序\Web应用\REST\ip.aardio
--1328745513|1376|633|codes\范例程序\Web应用\REST\jsonClient.aardio
--1352086808|815|556|codes\范例程序\Web应用\REST\jsonLiteClient.aardio
--1516212240|714|449|codes\范例程序\Web应用\REST\yuque.aardio
--773702800|2987|1507|codes\范例程序\Web应用\RPC\externalServer.aardio
--1076086495|1539|635|codes\范例程序\Web应用\WebSocket\client.aardio
--123752706|2064|951|codes\范例程序\Web应用\WebSocket\server.aardio
-1859265692|1570|802|codes\范例程序\Web应用\WebSocket\_jsonClient.aardio
--1090605790|3519|1526|codes\范例程序\Web应用\WebSocket\_jsonServer.aardio
--577820950|2109|934|codes\范例程序\Web应用\XML\msxml.aardio
-1368770124|423|330|codes\范例程序\Web应用\XML\SOAP.aardio
-1901782767|2747|1377|codes\范例程序\Web应用\XML\xml.aardio
--826294862|2257|1158|codes\范例程序\Web窗体应用\httpServer.aardio
-1402073285|529|404|codes\范例程序\Web窗体应用\ie8Later.aardio
-0|0|0|codes\范例程序\Web窗体应用\jQuery\
-0|0|0|codes\范例程序\Web窗体应用\queryEles\
-0|0|0|codes\范例程序\Web窗体应用\Web窗体功能\
-956394431|2635|1191|codes\范例程序\Web窗体应用\writeDemo.aardio
-0|0|0|codes\范例程序\Web窗体应用\模拟自动化\
-0|0|0|codes\范例程序\Web窗体应用\浏览器\
-0|0|0|codes\范例程序\Web窗体应用\脚本应用\
-0|0|0|codes\范例程序\Web窗体应用\jQuery\res\
-1906587195|1963|1086|codes\范例程序\Web窗体应用\jQuery\test.aardio
-0|0|0|codes\范例程序\Web窗体应用\jQuery\res\js\
-0|0|0|codes\范例程序\Web窗体应用\jQuery\res\js\jQuery\
-331065415|93107|30597|codes\范例程序\Web窗体应用\jQuery\res\js\jQuery\jquery.min.js
--649730389|1355|808|codes\范例程序\Web窗体应用\queryEles\query.aardio
--835946674|1211|676|codes\范例程序\Web窗体应用\Web窗体功能\post.aardio
--1061226453|1645|823|codes\范例程序\Web窗体应用\Web窗体功能\proxy.aardio
--1477400233|571|365|codes\范例程序\Web窗体应用\Web窗体功能\userAgent.aardio
--992996713|490|344|codes\范例程序\Web窗体应用\Web窗体功能\webgl.aardio
-1620178271|1140|659|codes\范例程序\Web窗体应用\Web窗体功能\动态控制下载选项.aardio
-0|0|0|codes\范例程序\Web窗体应用\Web窗体功能\禁止弹出窗口\
--1859438186|1205|704|codes\范例程序\Web窗体应用\Web窗体功能\给网页照相.aardio
--720067684|530|416|codes\范例程序\Web窗体应用\Web窗体功能\禁止弹出窗口\openproxy.aardio
-605715444|769|555|codes\范例程序\Web窗体应用\Web窗体功能\禁止弹出窗口\translate.aardio
-1565745815|921|630|codes\范例程序\Web窗体应用\模拟自动化\auto.aardio
--1975333810|652|403|codes\范例程序\Web窗体应用\模拟自动化\crop.aardio
-949171070|1713|1053|codes\范例程序\Web窗体应用\模拟自动化\crossDomain.aardio
--722604645|1161|629|codes\范例程序\Web窗体应用\模拟自动化\dispatchEvent.aardio
-1982284740|929|657|codes\范例程序\Web窗体应用\模拟自动化\embedWebsite.aardio
-1571993964|702|489|codes\范例程序\Web窗体应用\模拟自动化\html.aardio
--197349121|2323|1155|codes\范例程序\Web窗体应用\浏览器\frameBrowser.aardio
-884589607|2114|1007|codes\范例程序\Web窗体应用\脚本应用\array.aardio
--2050821759|1181|692|codes\范例程序\Web窗体应用\脚本应用\script.aardio
--1286772261|1777|975|codes\范例程序\Windows窗口应用\1、winform.aardio
-353081882|7157|2538|codes\范例程序\Windows窗口应用\2、winform.add.aardio
--1752992576|7810|1924|codes\范例程序\Windows窗口应用\3、calc.aardio
-0|0|0|codes\范例程序\Windows窗口应用\edit,richedit\
-0|0|0|codes\范例程序\Windows窗口应用\GDI绘图\
-0|0|0|codes\范例程序\Windows窗口应用\orphanWindow\
-0|0|0|codes\范例程序\Windows窗口应用\plus控件\
-0|0|0|codes\范例程序\Windows窗口应用\下拉框控件\
-0|0|0|codes\范例程序\Windows窗口应用\列表框控件\
-0|0|0|codes\范例程序\Windows窗口应用\列表视图控件\
-0|0|0|codes\范例程序\Windows窗口应用\剪贴板\
-0|0|0|codes\范例程序\Windows窗口应用\功能特效\
-0|0|0|codes\范例程序\Windows窗口应用\向导窗口\
-0|0|0|codes\范例程序\Windows窗口应用\定时器\
-0|0|0|codes\范例程序\Windows窗口应用\工具栏控件\
-0|0|0|codes\范例程序\Windows窗口应用\快捷键\
-0|0|0|codes\范例程序\Windows窗口应用\托盘图标\
-0|0|0|codes\范例程序\Windows窗口应用\提示控件\
-0|0|0|codes\范例程序\Windows窗口应用\树形视图控件\
-0|0|0|codes\范例程序\Windows窗口应用\状态栏\
-0|0|0|codes\范例程序\Windows窗口应用\窗口控件\
-0|0|0|codes\范例程序\Windows窗口应用\菜单\
-0|0|0|codes\范例程序\Windows窗口应用\选项卡控件\
-857300469|1293|516|codes\范例程序\Windows窗口应用\edit,richedit\findReplace.aardio
--1251887280|1202|625|codes\范例程序\Windows窗口应用\edit,richedit\line.aardio
-770582672|1332|751|codes\范例程序\Windows窗口应用\edit,richedit\lineSpacing.aardio
-1606341650|1645|794|codes\范例程序\Windows窗口应用\edit,richedit\richedit_change.aardio
-1761210934|2104|1097|codes\范例程序\Windows窗口应用\edit,richedit\richedit_menu.aardio
--1785042208|2579|1382|codes\范例程序\Windows窗口应用\GDI绘图\桌面歌词效果.aardio
--1379716016|2386|1327|codes\范例程序\Windows窗口应用\orphanWindow\listbox.aardio
--917721098|1228|626|codes\范例程序\Windows窗口应用\plus控件\animation.aardio
--513614018|1233|617|codes\范例程序\Windows窗口应用\plus控件\border.aardio
-1695850464|1548|620|codes\范例程序\Windows窗口应用\plus控件\checkbox.aardio
--486474419|780|463|codes\范例程序\Windows窗口应用\plus控件\countdown.aardio
--825996215|702|472|codes\范例程序\Windows窗口应用\plus控件\crop.aardio
--1532622530|1082|571|codes\范例程序\Windows窗口应用\plus控件\disabledText.aardio
--1008381868|641|427|codes\范例程序\Windows窗口应用\plus控件\dlgCtrlColor.aardio
--204103184|1329|659|codes\范例程序\Windows窗口应用\plus控件\drawBack.aardio
-1365529967|2031|1087|codes\范例程序\Windows窗口应用\plus控件\edit.aardio
-1475683109|786|547|codes\范例程序\Windows窗口应用\plus控件\ellipse.aardio
--1114747257|860|574|codes\范例程序\Windows窗口应用\plus控件\gif.aardio
--638144391|2643|1235|codes\范例程序\Windows窗口应用\plus控件\imageAttributes.aardio
-577701000|1101|541|codes\范例程序\Windows窗口应用\plus控件\linearGradient.aardio
-653323532|1152|723|codes\范例程序\Windows窗口应用\plus控件\msg.aardio
-1488780116|1201|675|codes\范例程序\Windows窗口应用\plus控件\pie.aardio
-615754654|726|456|codes\范例程序\Windows窗口应用\plus控件\progress.aardio
--1799531354|960|564|codes\范例程序\Windows窗口应用\plus控件\rotate.aardio
-1597783217|566|396|codes\范例程序\Windows窗口应用\plus控件\scale.aardio
-0|0|0|codes\范例程序\Windows窗口应用\plus控件\高级选项卡\
--702379157|2718|1206|codes\范例程序\Windows窗口应用\plus控件\高级选项卡\autoComplete.aardio
--1021086199|2230|989|codes\范例程序\Windows窗口应用\plus控件\高级选项卡\dropdown.aardio
-1042506257|1266|645|codes\范例程序\Windows窗口应用\plus控件\高级选项卡\popup.aardio
-474800884|2543|1016|codes\范例程序\Windows窗口应用\plus控件\高级选项卡\tabs.aardio
-519872702|1171|645|codes\范例程序\Windows窗口应用\下拉框控件\autoComplete.aardio
--1696457888|618|405|codes\范例程序\Windows窗口应用\下拉框控件\autoComplete2.aardio
-1493615467|1256|690|codes\范例程序\Windows窗口应用\列表框控件\gdi.aardio
--1585243352|2679|955|codes\范例程序\Windows窗口应用\列表框控件\ListboxDemo.aardio
-84692083|522|352|codes\范例程序\Windows窗口应用\列表框控件\listEdit.aardio
-1155957928|892|542|codes\范例程序\Windows窗口应用\列表框控件\menu.aardio
--1210146752|1970|1007|codes\范例程序\Windows窗口应用\列表框控件\ownerDraw.aardio
-802640487|1536|762|codes\范例程序\Windows窗口应用\列表视图控件\checklist.aardio
--1829759896|1628|764|codes\范例程序\Windows窗口应用\列表视图控件\customdraw.aardio
-1277729521|2041|1142|codes\范例程序\Windows窗口应用\列表视图控件\edit.aardio
-896801023|4157|1803|codes\范例程序\Windows窗口应用\列表视图控件\listview.aardio
--523532248|1127|668|codes\范例程序\Windows窗口应用\列表视图控件\listViewEdit.aardio
--1775829543|8047|2672|codes\范例程序\Windows窗口应用\列表视图控件\uwpExemption.aardio
-1819058351|492|351|codes\范例程序\Windows窗口应用\剪贴板\win.clip.viewer.aardio
--459563618|806|491|codes\范例程序\Windows窗口应用\功能特效\aero.aardio
--614331201|364|261|codes\范例程序\Windows窗口应用\功能特效\animate.aardio
--399023928|958|581|codes\范例程序\Windows窗口应用\功能特效\atom.aardio
--1851347|1347|746|codes\范例程序\Windows窗口应用\功能特效\cur.aardio
-176873519|219|179|codes\范例程序\Windows窗口应用\功能特效\fade.aardio
-1528104175|785|509|codes\范例程序\Windows窗口应用\功能特效\ITaskbarList3.aardio
-1351758096|681|417|codes\范例程序\Windows窗口应用\功能特效\mask.aardio
--1638424216|799|541|codes\范例程序\Windows窗口应用\功能特效\popup.aardio
--589523883|856|542|codes\范例程序\Windows窗口应用\功能特效\process.command.aardio
--1117533530|353|256|codes\范例程序\Windows窗口应用\功能特效\simpleWindow3.aardio
--1522829640|545|406|codes\范例程序\Windows窗口应用\功能特效\文件拖放.aardio
--410155335|1074|558|codes\范例程序\Windows窗口应用\向导窗口\wizard.aardio
--719517445|1291|624|codes\范例程序\Windows窗口应用\定时器\timer.aardio
--880054975|1116|615|codes\范例程序\Windows窗口应用\工具栏控件\main.aardio
-0|0|0|codes\范例程序\Windows窗口应用\工具栏控件\res\
-1537686823|1813|1376|codes\范例程序\Windows窗口应用\工具栏控件\res\toolbar.gif
--138981279|1403|751|codes\范例程序\Windows窗口应用\快捷键\accelerator.aardio
-2003547679|1680|952|codes\范例程序\Windows窗口应用\快捷键\hotkey.aardio
-1099803604|1045|558|codes\范例程序\Windows窗口应用\快捷键\isDialogMessage.aardio
--422272330|2917|1427|codes\范例程序\Windows窗口应用\快捷键\key.hotkey.aardio
--1635506249|751|480|codes\范例程序\Windows窗口应用\快捷键\translateAccelerator.aardio
-661177616|623|416|codes\范例程序\Windows窗口应用\托盘图标\flash.aardio
--10151567|1461|825|codes\范例程序\Windows窗口应用\托盘图标\tray.aardio
--1234029201|926|432|codes\范例程序\Windows窗口应用\提示控件\edit.aardio
-408926427|1817|949|codes\范例程序\Windows窗口应用\提示控件\tooltip.aardio
--1794656406|1524|785|codes\范例程序\Windows窗口应用\树形视图控件\checkAll.aardio
--184141985|2001|1002|codes\范例程序\Windows窗口应用\树形视图控件\checkbox.aardio
--231656790|1874|1017|codes\范例程序\Windows窗口应用\树形视图控件\expanding.aardio
-472877184|1391|676|codes\范例程序\Windows窗口应用\树形视图控件\explorer.aardio
--207841036|1180|652|codes\范例程序\Windows窗口应用\树形视图控件\nm_click.aardio
-1517780668|503|339|codes\范例程序\Windows窗口应用\树形视图控件\table.aardio
-967278071|3819|1607|codes\范例程序\Windows窗口应用\树形视图控件\treeview.aardio
-110931066|1358|716|codes\范例程序\Windows窗口应用\树形视图控件\treeview_edit.aardio
-974199949|965|537|codes\范例程序\Windows窗口应用\树形视图控件\treeview_enum.aardio
-1881492065|1261|577|codes\范例程序\Windows窗口应用\状态栏\状态栏控件.aardio
-0|0|0|codes\范例程序\Windows窗口应用\窗口控件\.res\
--799282157|812|518|codes\范例程序\Windows窗口应用\窗口控件\calendar.aardio
--1688003418|1289|653|codes\范例程序\Windows窗口应用\窗口控件\editListbox.aardio
-1965794547|1233|705|codes\范例程序\Windows窗口应用\窗口控件\innerButton.aardio
--2131820553|554|366|codes\范例程序\Windows窗口应用\窗口控件\ipAddress.aardio
-1377883120|527|402|codes\范例程序\Windows窗口应用\窗口控件\linkbutton.aardio
-1467116645|1938|844|codes\范例程序\Windows窗口应用\窗口控件\radio.aardio
-1128636906|3723|1529|codes\范例程序\Windows窗口应用\窗口控件\scroll.aardio
-1572105212|1474|628|codes\范例程序\Windows窗口应用\窗口控件\scrollWindow.aardio
-929402501|1298|707|codes\范例程序\Windows窗口应用\窗口控件\syslink.aardio
-524152264|1612|833|codes\范例程序\Windows窗口应用\窗口控件\自定义控件.aardio
-219814569|10590|10428|codes\范例程序\Windows窗口应用\窗口控件\.res\logon.jpg
-610047409|952|737|codes\范例程序\Windows窗口应用\窗口控件\.res\state.jpg
--1489280691|2144|862|codes\范例程序\Windows窗口应用\菜单\menuTable.aardio
--1892702258|1830|988|codes\范例程序\Windows窗口应用\选项卡控件\选项卡控件.aardio
-775649035|1529|877|codes\范例程序\协同程序\1.fiber.aardio
--1311958054|536|394|codes\范例程序\协同程序\2.generator.aardio
--1773595277|1010|425|codes\范例程序\协同程序\3.coroutine.aardio
-1511854383|15846|15377|codes\范例程序\图形图像\.gdip.jpg
-1541907302|683|428|codes\范例程序\图形图像\clip.aardio
--15889969|3628|1314|codes\范例程序\图形图像\colorMatrix.aardio
-1065356664|416|252|codes\范例程序\图形图像\crop.aardio
--1092859474|1462|877|codes\范例程序\图形图像\drawBackground.aardio
-835352412|5671|1804|codes\范例程序\图形图像\exif.aardio
-986739171|2652|2204|codes\范例程序\图形图像\expand.jpg
--1451157402|432|326|codes\范例程序\图形图像\feather.aardio
-912133151|7990|2958|codes\范例程序\图形图像\gdip.aardio
--549244456|5311|1594|codes\范例程序\图形图像\jpegUtil.aardio
-367951796|2335|935|codes\范例程序\图形图像\qrcode.aardio
-1601506327|2518|891|codes\范例程序\图形图像\snap.aardio
-661548846|2523|997|codes\范例程序\图形图像\zbar.aardio
--836101345|3959|1882|codes\范例程序\多线程\01.handle.aardio
--20016776|1909|918|codes\范例程序\多线程\02.thread.command.aardio
--24571673|1322|656|codes\范例程序\多线程\03.table.thread.aardio
-2081424199|952|581|codes\范例程序\多线程\04.call.aardio
-981720962|788|471|codes\范例程序\多线程\05.manage.aardio
-1665826440|2668|1138|codes\范例程序\多线程\06.works.aardio
-1419956959|1045|524|codes\范例程序\多线程\07.event.aardio
-978513072|758|424|codes\范例程序\多线程\08.semaphore.aardio
--1273772301|1708|812|codes\范例程序\多线程\09.timer.aardio
-768195727|2693|1375|codes\范例程序\多线程\10.callWnd.aardio
--1607109149|1760|956|codes\范例程序\多线程\10.callWnd2.aardio
--1880885136|1225|689|codes\范例程序\多线程\11.threadCallback.aardio
-988145281|753|445|codes\范例程序\多线程\12.PostThreadMessage.aardio
--672907369|1471|836|codes\范例程序\多线程\13.threadCtrl.aardio
--1215747440|747|477|codes\范例程序\多线程\14.function.aardio
-1370958080|2538|1203|codes\范例程序\批处理与命令行\1、batch.aardio
-1224185748|241|202|codes\范例程序\批处理与命令行\2、cmd.aardio
--336596113|10597|3332|codes\范例程序\批处理与命令行\3、cmd2Gui.aardio
-245046144|559|392|codes\范例程序\批处理与命令行\4、popen.aardio
-1106535054|815|455|codes\范例程序\批处理与命令行\5、env.aardio
-1990026477|218|177|codes\范例程序\批处理与命令行\6、ctrlEvent.aardio
-0|0|0|codes\范例程序\批处理与命令行\批处理与aardio对比\
--570482299|1986|1087|codes\范例程序\批处理与命令行\批处理与aardio对比\1、for.string.aardio
-1875486893|642|422|codes\范例程序\批处理与命令行\批处理与aardio对比\2、for.fsys.aardio
-1915448218|706|400|codes\范例程序\控制台\console.aardio
-180094559|391|276|codes\范例程序\控制台\kb.aardio
-998746082|2004|751|codes\范例程序\控制台\loading.aardio
--1693141576|257|213|codes\范例程序\控制台\倒计时.aardio
--896934275|938|594|codes\范例程序\控制台\兔子总数为多少.aardio
-262645999|475|320|codes\范例程序\控制台\出牌.aardio
-1444375896|318|245|codes\范例程序\控制台\打印乘法表.aardio
-1715200834|714|357|codes\范例程序\控制台\自定义控制台颜色.aardio
--1140064589|818|321|codes\范例程序\控制台\转义序列.aardio
-1922719077|929|449|codes\范例程序\操作系统\device.aardio
-1353429851|1214|492|codes\范例程序\操作系统\deviceNotification.aardio
--1515826640|2009|1086|codes\范例程序\操作系统\fixUpdate.aardio
-933078256|2945|1226|codes\范例程序\操作系统\print.aardio
--114226480|291|231|codes\范例程序\操作系统\restart-explorer.aardio
-580823624|737|424|codes\范例程序\操作系统\settings.aardio
--871940370|1876|911|codes\范例程序\操作系统\shellFolder.aardio
--786755768|1946|937|codes\范例程序\操作系统\sysColor.aardio
--1132525248|2109|1065|codes\范例程序\操作系统\sysInfo.aardio
--1229088317|1039|546|codes\范例程序\操作系统\virDesktop.aardio
-285483356|689|469|codes\范例程序\操作系统\关闭显示器.aardio
-2075772280|996|553|codes\范例程序\操作系统\取硬盘序列号.aardio
-0|0|0|codes\范例程序\操作系统\注册表\
-1285933871|867|550|codes\范例程序\操作系统\注册表\lastkey.aardio
--1057660845|1143|534|codes\范例程序\操作系统\注册表\openCmdHere.aardio
--305942195|1106|347|codes\范例程序\操作系统\注册表\openCodeHere.aardio
-384725022|567|349|codes\范例程序\操作系统\注册表\rdp.aardio
-1145800465|887|490|codes\范例程序\操作系统\注册表\reg.aardio
-0|0|0|codes\范例程序\数据库\access\
-0|0|0|codes\范例程序\数据库\excel\
-0|0|0|codes\范例程序\数据库\mssql\
-0|0|0|codes\范例程序\数据库\mysql\
-0|0|0|codes\范例程序\数据库\sqlite\
--37421712|2194|1131|codes\范例程序\数据库\access\access.aardio
--1061969421|985|609|codes\范例程序\数据库\excel\csv.aardio
-1289914844|1253|829|codes\范例程序\数据库\excel\excel.aardio
-1065416062|814|545|codes\范例程序\数据库\mssql\procedure.aardio
-541811498|2145|1205|codes\范例程序\数据库\mssql\数据库sql示例.aardio
-301050983|4286|1877|codes\范例程序\数据库\mysql\mysql.aardio
-614559126|1493|770|codes\范例程序\数据库\sqlite\busyTimeout.aardio
-1556580151|475|320|codes\范例程序\数据库\sqlite\getTableColumnNames.aardio
-2066974595|1405|721|codes\范例程序\数据库\sqlite\intro.aardio
--1478418016|2236|1249|codes\范例程序\数据库\sqlite\oop.aardio
--1739942951|1810|892|codes\范例程序\数据库\sqlite\ParameterByNames.aardio
-529816016|1212|711|codes\范例程序\数据库\sqlite\Parameters.aardio
--2087995321|1672|741|codes\范例程序\数据库\sqlite\replace.aardio
-306352650|822|529|codes\范例程序\数据库\sqlite\sql.aes128.aardio
--483197796|1925|745|codes\范例程序\数据库\sqlite\tableParameter.aardio
-1198998298|2700|1298|codes\范例程序\数组排序\array.aardio
-0|0|0|codes\范例程序\数组排序\比较排序\
-0|0|0|codes\范例程序\数组排序\非比较排序\
--534133407|1874|760|codes\范例程序\数组排序\比较排序\交换排序.aardio
-267698624|1197|587|codes\范例程序\数组排序\比较排序\合并排序.aardio
-1855996116|1142|405|codes\范例程序\数组排序\比较排序\插入排序.aardio
-828950124|4329|1900|codes\范例程序\数组排序\比较排序\选择排序.aardio
--210445012|3363|1622|codes\范例程序\数组排序\非比较排序\基数排序.aardio
-1348565812|1632|806|codes\范例程序\数组排序\非比较排序\桶排序.aardio
-160182302|1227|626|codes\范例程序\数组排序\非比较排序\计数排序.aardio
-0|0|0|codes\范例程序\文件操作\7Zip\
-0|0|0|codes\范例程序\文件操作\asar打包解包\
--1818317504|2154|941|codes\范例程序\文件操作\bencoding.aardio
-852437819|371|291|codes\范例程序\文件操作\desktoplnk.aardio
--515103434|553|353|codes\范例程序\文件操作\filetime.aardio
--453885269|555|364|codes\范例程序\文件操作\fsys.aardio
-1879571877|419|219|codes\范例程序\文件操作\fsys.config.aardio
--851408912|1456|601|codes\范例程序\文件操作\fsys.dlg.aardio
-211098429|595|358|codes\范例程序\文件操作\fsys.table.aardio
--543597204|344|259|codes\范例程序\文件操作\ini.aardio
--1600834605|1266|442|codes\范例程序\文件操作\namedpipe.aardio
-1674890389|502|274|codes\范例程序\文件操作\readback.aardio
--753470388|3179|1295|codes\范例程序\文件操作\rename.aardio
-1047636319|359|253|codes\范例程序\文件操作\stringlist.aardio
-0|0|0|codes\范例程序\文件操作\串口\
-0|0|0|codes\范例程序\文件操作\压缩解压\
-0|0|0|codes\范例程序\文件操作\监视文件\
--368754595|425|245|codes\范例程序\文件操作\7Zip\7zCompress.aardio
--1957552927|2087|892|codes\范例程序\文件操作\7Zip\7zExtractor.aardio
-1290599044|477|331|codes\范例程序\文件操作\7Zip\7zHttpFile.aardio
-0|0|0|codes\范例程序\文件操作\asar打包解包\forms\
-1196400817|2010|821|codes\范例程序\文件操作\asar打包解包\main.aardio
-174786009|676|351|codes\范例程序\文件操作\asar打包解包\WinAsar.aproj
--422435923|7282|2277|codes\范例程序\文件操作\asar打包解包\forms\extractor.aardio
-511405815|6132|2036|codes\范例程序\文件操作\asar打包解包\forms\packer.aardio
-1275226327|2448|1108|codes\范例程序\文件操作\串口\sio.aardio
--381002034|5644|1784|codes\范例程序\文件操作\压缩解压\CabQuicker.aardio
--1819554420|563|318|codes\范例程序\文件操作\压缩解压\gzfile.aardio
-688156735|965|630|codes\范例程序\文件操作\压缩解压\gzip.aardio
-1573011393|484|305|codes\范例程序\文件操作\压缩解压\tar.gz.aardio
--822466164|602|342|codes\范例程序\文件操作\压缩解压\tar.lzma.aardio
-984567506|142|142|codes\范例程序\文件操作\压缩解压\unrar.aardio
-26924519|452|300|codes\范例程序\文件操作\压缩解压\unzip.aardio
-470192117|188|173|codes\范例程序\文件操作\压缩解压\zip.aardio
-643290154|1250|684|codes\范例程序\文件操作\监视文件\dirWatcher.aardio
-1315135226|1593|794|codes\范例程序\文件操作\监视文件\fsys.watch.aardio
-1339934463|2281|837|codes\范例程序\文件操作\监视文件\win.util.changeNotification.aardio
-2099685461|762|343|codes\范例程序\文本处理\chineseNumber.aardio
-678627235|1848|709|codes\范例程序\文本处理\conv.aardio
--202096650|711|508|codes\范例程序\文本处理\mmseg.aardio
--707121466|1184|642|codes\范例程序\文本处理\regex.aardio
-384944739|2034|990|codes\范例程序\文本处理\stringlist.aardio
--1660953477|487|287|codes\范例程序\文本处理\内码转换.aardio
-0|0|0|codes\范例程序\文本处理\哈希加密\
-181738753|1416|756|codes\范例程序\文本处理\模式匹配函数.aardio
--558062179|1133|619|codes\范例程序\文本处理\自动提取中文字符串.aardio
--1948303479|545|225|codes\范例程序\文本处理\进制转换.aardio
-49448698|1175|756|codes\范例程序\文本处理\哈希加密\aes.aardio
-326966967|432|254|codes\范例程序\文本处理\哈希加密\base64.aardio
-1316423840|1033|696|codes\范例程序\文本处理\哈希加密\des.aardio
--1317652890|2212|1061|codes\范例程序\文本处理\哈希加密\hash.aardio
--2111243182|505|201|codes\范例程序\文本处理\哈希加密\HMAC-SHA1.aardio
--1707729215|430|241|codes\范例程序\文本处理\哈希加密\md5.sha1.aardio
-1545593978|946|506|codes\范例程序\文本处理\哈希加密\rc4.aardio
-1258364939|2849|954|codes\范例程序\文本处理\哈希加密\rsa.aardio
--1392730664|3226|1169|codes\范例程序\文本处理\哈希加密\sign.aardio
--1639730600|795|450|codes\范例程序\文本处理\哈希加密\xxtea.aardio
--239509523|5050|1644|codes\范例程序\日期时间\clock.aardio
-321771840|898|527|codes\范例程序\日期时间\ole.aardio
-601718294|205|155|codes\范例程序\日期时间\performanceCount.aardio
--691362532|3357|1346|codes\范例程序\日期时间\基本用法.aardio
-0|0|0|codes\范例程序\模拟自动化\MSAA\
-0|0|0|codes\范例程序\模拟自动化\找图找色找字\
-0|0|0|codes\范例程序\模拟自动化\窗口自动化\
-0|0|0|codes\范例程序\模拟自动化\输入文本\
-0|0|0|codes\范例程序\模拟自动化\进程操作\
-0|0|0|codes\范例程序\模拟自动化\鼠标按键\
-841674326|610|351|codes\范例程序\模拟自动化\MSAA\each.aardio
--1398106253|448|333|codes\范例程序\模拟自动化\找图找色找字\findColor.aardio
-1531720737|1887|1122|codes\范例程序\模拟自动化\找图找色找字\findImage.aardio
--437958206|1796|984|codes\范例程序\模拟自动化\找图找色找字\ocrLite.aardio
--1499552517|1935|900|codes\范例程序\模拟自动化\窗口自动化\dskicon.aardio
--1593946459|657|464|codes\范例程序\模拟自动化\窗口自动化\embed.aardio
-1659365738|360|228|codes\范例程序\模拟自动化\窗口自动化\listtxt.aardio
--662957142|1311|682|codes\范例程序\模拟自动化\窗口自动化\shellhook.aardio
--1325510262|561|382|codes\范例程序\模拟自动化\窗口自动化\后台按键.aardio
--1519353283|487|315|codes\范例程序\模拟自动化\输入文本\clip.aardio
-1300793037|130|132|codes\范例程序\模拟自动化\输入文本\打字效果.aardio
-781451736|386|233|codes\范例程序\模拟自动化\进程操作\cacls.aardio
--1229429185|350|222|codes\范例程序\模拟自动化\进程操作\heap.aardio
--1489617681|138|143|codes\范例程序\模拟自动化\进程操作\logon.aardio
--40640864|247|219|codes\范例程序\模拟自动化\进程操作\runqq.aardio
-1040329882|601|413|codes\范例程序\模拟自动化\进程操作\threadWait.aardio
-1946406469|788|496|codes\范例程序\模拟自动化\进程操作\直接运行DLL接口.aardio
--487046975|1197|614|codes\范例程序\模拟自动化\进程操作\管道.aardio
--1778949286|1278|795|codes\范例程序\模拟自动化\进程操作\进程操作.aardio
-1749080180|520|305|codes\范例程序\模拟自动化\鼠标按键\clickHere.aardio
--449223738|1423|848|codes\范例程序\模拟自动化\鼠标按键\draw.aardio
--1385366522|2064|980|codes\范例程序\模拟自动化\鼠标按键\loopkey.aardio
-1765413864|85|97|codes\范例程序\模拟自动化\鼠标按键\发送英文字符串.aardio
-1506745082|382|298|codes\范例程序\模拟自动化\鼠标按键\拖动桌面图标演示.aardio
--673475015|317|233|codes\范例程序\模拟自动化\鼠标按键\暂停继续.aardio
-2112806612|741|423|codes\范例程序\模拟自动化\鼠标按键\模拟按键演示.aardio
-343716623|1068|676|codes\范例程序\模拟自动化\鼠标按键\监视按键.aardio
--535096239|1439|706|codes\范例程序\模拟自动化\鼠标按键\监视鼠标.aardio
--706273612|457|264|codes\范例程序\网络应用\adapter.aardio
--386949229|676|367|codes\范例程序\网络应用\disableAdapter.aardio
-0|0|0|codes\范例程序\网络应用\inet库应用\
--2005367716|257|178|codes\范例程序\网络应用\isAlive.aardio
-0|0|0|codes\范例程序\网络应用\protobuf\
-651220631|601|369|codes\范例程序\网络应用\smtp.aardio
-0|0|0|codes\范例程序\网络应用\wsock\
-0|0|0|codes\范例程序\网络应用\zeromq\
-0|0|0|codes\范例程序\网络应用\下载文件\
--495663601|7587|2794|codes\范例程序\网络应用\inet库应用\chkHttp.aardio
--1770132931|615|408|codes\范例程序\网络应用\inet库应用\ftp.file.aardio
-526765688|588|327|codes\范例程序\网络应用\inet库应用\inet.ftp.aardio
-33744272|1883|957|codes\范例程序\网络应用\inet库应用\inet.http.download.aardio
-1826582222|532|338|codes\范例程序\网络应用\inet库应用\POST.aardio
-825862059|1241|656|codes\范例程序\网络应用\inet库应用\分析URL.aardio
-1522293411|657|383|codes\范例程序\网络应用\protobuf\default.aproj
-0|0|0|codes\范例程序\网络应用\protobuf\lib\
-323878500|1114|469|codes\范例程序\网络应用\protobuf\main.aardio
-1292558212|137|135|codes\范例程序\网络应用\protobuf\protobuf_c.aardio
-0|0|0|codes\范例程序\网络应用\protobuf\res\
-961943914|63|77|codes\范例程序\网络应用\protobuf\res\test.pb
--1886079085|412|238|codes\范例程序\网络应用\protobuf\res\test.proto
-1204392419|627|395|codes\范例程序\网络应用\wsock\stat.aardio
-0|0|0|codes\范例程序\网络应用\wsock\tcp\
-0|0|0|codes\范例程序\网络应用\wsock\udp\
-223179672|1679|749|codes\范例程序\网络应用\wsock\抓包.aardio
-0|0|0|codes\范例程序\网络应用\wsock\tcp\传送文件\
-558405787|622|424|codes\范例程序\网络应用\wsock\tcp\传送文件\客户端.aardio
-1729370014|1521|880|codes\范例程序\网络应用\wsock\tcp\传送文件\异步非阻塞客户端.aardio
-753148069|809|484|codes\范例程序\网络应用\wsock\tcp\传送文件\服务端.aardio
-1529192108|790|459|codes\范例程序\网络应用\wsock\udp\broadcast.aardio
--187868263|812|487|codes\范例程序\网络应用\wsock\udp\ssdp.aardio
-0|0|0|codes\范例程序\网络应用\wsock\udp\单播\
-0|0|0|codes\范例程序\网络应用\wsock\udp\组播\
-814310820|522|263|codes\范例程序\网络应用\wsock\udp\单播\客户端.aardio
--1039467064|533|337|codes\范例程序\网络应用\wsock\udp\单播\服务端.aardio
--604223000|529|270|codes\范例程序\网络应用\wsock\udp\组播\客户端.aardio
--548893816|574|363|codes\范例程序\网络应用\wsock\udp\组播\服务端.aardio
-1940152778|713|427|codes\范例程序\网络应用\zeromq\client.aardio
-1577791537|1097|620|codes\范例程序\网络应用\zeromq\server.aardio
--1202139495|1141|565|codes\范例程序\网络应用\下载文件\down.aardio
--1855517621|941|557|codes\范例程序\网络应用\下载文件\downBox.aardio
--444780587|3466|1408|codes\范例程序\网络应用\下载文件\mtDown.aardio
-893808226|521|355|codes\范例程序\网络应用\下载文件\stream.aardio
--246500122|1619|899|codes\范例程序\语言扩展\dynamicPointer.aardio
--267884075|979|524|codes\范例程序\语言扩展\func.aardio
--1066715389|2031|971|codes\范例程序\语言扩展\raw.struct.aardio
-2076909721|1137|644|codes\范例程序\语言扩展\string.builder.aardio
--1481078199|1960|1077|codes\范例程序\调试技术\log.aardio
--137925632|933|465|codes\范例程序\调试技术\调试钩子.aardio
-0|0|0|codes\范例程序\音频视频\视频\
-0|0|0|codes\范例程序\音频视频\音频\
--962857805|1030|615|codes\范例程序\音频视频\视频\aPlayer.aardio
--1212760097|1946|1030|codes\范例程序\音频视频\视频\ckplayer.aardio
-762682843|294|241|codes\范例程序\音频视频\视频\html5media.aardio
--2070410031|5217|1995|codes\范例程序\音频视频\视频\libvlc.aardio
--1394439891|3738|1368|codes\范例程序\音频视频\视频\mplayer.aardio
--1018228330|4448|1777|codes\范例程序\音频视频\视频\mpvPlayer.aardio
-880363143|1131|596|codes\范例程序\音频视频\视频\wmplay.aardio
--1491464207|2348|923|codes\范例程序\音频视频\音频\audio.aardio
-328839245|1590|865|codes\范例程序\音频视频\音频\baidu.speech.aardio
--1659069308|8969|3480|codes\范例程序\音频视频\音频\bass.aardio
--1525223800|329|206|codes\范例程序\音频视频\音频\ID3.aardio
--1338104818|4389|2321|codes\范例程序\音频视频\音频\lrc.aardio
--98924744|1173|697|codes\范例程序\音频视频\音频\soundDevice.aardio
--1198887051|2904|1386|codes\范例程序\音频视频\音频\tts.aardio
-1023829753|2440|1077|codes\范例程序\音频视频\音频\volume.aardio
-521987153|711168|301962|config\AAU.BIN
+0|0|0|codes\范例程序\1) aardio 语言\
+0|0|0|codes\范例程序\2) 调用其他语言\
+0|0|0|codes\范例程序\3) 控制台程序\
+0|0|0|codes\范例程序\4) Windows 窗口\
+0|0|0|codes\范例程序\5) 高级图像控件( plus )\
+0|0|0|codes\范例程序\6) 高级选项卡\
+0|0|0|codes\范例程序\7) Web 界面\
+0|0|0|codes\范例程序\8) Web 应用\
+0|0|0|codes\范例程序\9) 网络应用\
+0|0|0|codes\范例程序\A) 数据库\
+0|0|0|codes\范例程序\B) 文本处理\
+0|0|0|codes\范例程序\C) 文件操作\
+0|0|0|codes\范例程序\D) 图形图像\
+0|0|0|codes\范例程序\E) 音频视频\
+0|0|0|codes\范例程序\F) COM 组件\
+0|0|0|codes\范例程序\G) 操作系统\
+0|0|0|codes\范例程序\I) 自动化\
+0|0|0|codes\范例程序\1) aardio 语言\1) 多线程\
+0|0|0|codes\范例程序\1) aardio 语言\2) 协同程序\
+0|0|0|codes\范例程序\1) aardio 语言\3) 日期时间\
+0|0|0|codes\范例程序\1) aardio 语言\4) 数组排序\
+0|0|0|codes\范例程序\1) aardio 语言\5) 调试技术\
+0|0|0|codes\范例程序\1) aardio 语言\6) 语言扩展\
+1031522287|3955|1880|codes\范例程序\1) aardio 语言\1) 多线程\01.handle.aardio
+-1169290155|1899|913|codes\范例程序\1) aardio 语言\1) 多线程\02.thread.command.aardio
+1519238409|1318|651|codes\范例程序\1) aardio 语言\1) 多线程\03.table.thread.aardio
+-729080300|949|579|codes\范例程序\1) aardio 语言\1) 多线程\04.call.aardio
+418666513|781|464|codes\范例程序\1) aardio 语言\1) 多线程\05.manage.aardio
+-2012943884|2661|1132|codes\范例程序\1) aardio 语言\1) 多线程\06.works.aardio
+1250724685|1035|516|codes\范例程序\1) aardio 语言\1) 多线程\07.event.aardio
+-404793679|748|415|codes\范例程序\1) aardio 语言\1) 多线程\08.semaphore.aardio
+-135998131|1695|809|codes\范例程序\1) aardio 语言\1) 多线程\09.timer.aardio
+423385014|2686|1369|codes\范例程序\1) aardio 语言\1) 多线程\10.callWnd.aardio
+-1187469224|1753|950|codes\范例程序\1) aardio 语言\1) 多线程\11.callWnd2.aardio
+-1878233657|1636|892|codes\范例程序\1) aardio 语言\1) 多线程\12.threadCallback.aardio
+-1345551035|748|439|codes\范例程序\1) aardio 语言\1) 多线程\13.PostThreadMessage.aardio
+692051199|1466|832|codes\范例程序\1) aardio 语言\1) 多线程\14.threadCtrl.aardio
+147298955|889|529|codes\范例程序\1) aardio 语言\1) 多线程\15.function.aardio
+52804315|1525|874|codes\范例程序\1) aardio 语言\2) 协同程序\1.fiber.aardio
+-1483792154|532|392|codes\范例程序\1) aardio 语言\2) 协同程序\2.generator.aardio
+-105577198|1006|421|codes\范例程序\1) aardio 语言\2) 协同程序\3.coroutine.aardio
+-239509523|5050|1644|codes\范例程序\1) aardio 语言\3) 日期时间\clock.aardio
+321771840|898|527|codes\范例程序\1) aardio 语言\3) 日期时间\ole.aardio
+601718294|205|155|codes\范例程序\1) aardio 语言\3) 日期时间\performanceCount.aardio
+-691362532|3357|1346|codes\范例程序\1) aardio 语言\3) 日期时间\基本用法.aardio
+1198998298|2700|1298|codes\范例程序\1) aardio 语言\4) 数组排序\array.aardio
+0|0|0|codes\范例程序\1) aardio 语言\4) 数组排序\比较排序\
+0|0|0|codes\范例程序\1) aardio 语言\4) 数组排序\非比较排序\
+-534133407|1874|760|codes\范例程序\1) aardio 语言\4) 数组排序\比较排序\交换排序.aardio
+267698624|1197|587|codes\范例程序\1) aardio 语言\4) 数组排序\比较排序\合并排序.aardio
+1855996116|1142|405|codes\范例程序\1) aardio 语言\4) 数组排序\比较排序\插入排序.aardio
+828950124|4329|1900|codes\范例程序\1) aardio 语言\4) 数组排序\比较排序\选择排序.aardio
+-210445012|3363|1622|codes\范例程序\1) aardio 语言\4) 数组排序\非比较排序\基数排序.aardio
+1348565812|1632|806|codes\范例程序\1) aardio 语言\4) 数组排序\非比较排序\桶排序.aardio
+160182302|1227|626|codes\范例程序\1) aardio 语言\4) 数组排序\非比较排序\计数排序.aardio
+-1481078199|1960|1077|codes\范例程序\1) aardio 语言\5) 调试技术\log.aardio
+-137925632|933|465|codes\范例程序\1) aardio 语言\5) 调试技术\调试钩子.aardio
+-246500122|1619|899|codes\范例程序\1) aardio 语言\6) 语言扩展\dynamicPointer.aardio
+-267884075|979|524|codes\范例程序\1) aardio 语言\6) 语言扩展\func.aardio
+-1066715389|2031|971|codes\范例程序\1) aardio 语言\6) 语言扩展\raw.struct.aardio
+2076909721|1137|644|codes\范例程序\1) aardio 语言\6) 语言扩展\string.builder.aardio
+0|0|0|codes\范例程序\2) 调用其他语言\1) C 语言\
+0|0|0|codes\范例程序\2) 调用其他语言\2) dotNet\
+0|0|0|codes\范例程序\2) 调用其他语言\3) PowerShell\
+0|0|0|codes\范例程序\2) 调用其他语言\4) 批处理与命令行\
+0|0|0|codes\范例程序\2) 调用其他语言\5) Go 语言\
+0|0|0|codes\范例程序\2) 调用其他语言\6) Rust 语言\
+0|0|0|codes\范例程序\2) 调用其他语言\7) nodeJs\
+0|0|0|codes\范例程序\2) 调用其他语言\8) Python 语言\
+0|0|0|codes\范例程序\2) 调用其他语言\9) Java 语言\
+0|0|0|codes\范例程序\2) 调用其他语言\A) FreeBASIC\
+0|0|0|codes\范例程序\2) 调用其他语言\B) PHP 语言\
+0|0|0|codes\范例程序\2) 调用其他语言\C) Ruby 语言\
+0|0|0|codes\范例程序\2) 调用其他语言\D) Delphi\
+186500768|3766|1974|codes\范例程序\2) 调用其他语言\1) C 语言\1、dll.aardio
+-1122321820|1473|885|codes\范例程序\2) 调用其他语言\1) C 语言\2、getCdecl.aardio
+-851111878|844|535|codes\范例程序\2) 调用其他语言\1) C 语言\3、setCdecl.aardio
+464908271|1448|610|codes\范例程序\2) 调用其他语言\1) C 语言\4、flexible_array.aardio
+729312100|2883|1191|codes\范例程序\2) 调用其他语言\1) C 语言\5、raw.cdeclParameter.aardio
+891871147|755|546|codes\范例程序\2) 调用其他语言\1) C 语言\6、run_main.aardio
+1531382755|3203|1411|codes\范例程序\2) 调用其他语言\2) dotNet\Compile.aardio
+-1786046573|4608|1959|codes\范例程序\2) 调用其他语言\2) dotNet\CSNET2ClassLibrary.dll
+-2033182477|453|286|codes\范例程序\2) 调用其他语言\2) dotNet\FileStream.aardio
+-595866925|1500|703|codes\范例程序\2) 调用其他语言\2) dotNet\Item.aardio
+-1434143817|1920|924|codes\范例程序\2) 调用其他语言\2) dotNet\loadAssembly.aardio
+-1714471336|1546|879|codes\范例程序\2) 调用其他语言\2) dotNet\ocr.aardio
+-1854533527|259|182|codes\范例程序\2) 调用其他语言\2) dotNet\PowerShell.aardio
+-1603945946|1230|502|codes\范例程序\2) 调用其他语言\2) dotNet\uia.aardio
+-1532033900|3867|1408|codes\范例程序\2) 调用其他语言\2) dotNet\uwpCompiler.aardio
+-950407225|543|354|codes\范例程序\2) 调用其他语言\2) dotNet\WebService.aardio
+-1854533527|259|182|codes\范例程序\2) 调用其他语言\3) PowerShell\1、dotNet.aardio
+599165843|280|209|codes\范例程序\2) 调用其他语言\3) PowerShell\2、popen.aardio
+1370958080|2538|1203|codes\范例程序\2) 调用其他语言\4) 批处理与命令行\1、batch.aardio
+1224185748|241|202|codes\范例程序\2) 调用其他语言\4) 批处理与命令行\2、cmd.aardio
+-336596113|10597|3332|codes\范例程序\2) 调用其他语言\4) 批处理与命令行\3、cmd2Gui.aardio
+245046144|559|392|codes\范例程序\2) 调用其他语言\4) 批处理与命令行\4、popen.aardio
+1106535054|815|455|codes\范例程序\2) 调用其他语言\4) 批处理与命令行\5、env.aardio
+1990026477|218|177|codes\范例程序\2) 调用其他语言\4) 批处理与命令行\6、ctrlEvent.aardio
+0|0|0|codes\范例程序\2) 调用其他语言\4) 批处理与命令行\批处理与aardio对比\
+-570482299|1986|1087|codes\范例程序\2) 调用其他语言\4) 批处理与命令行\批处理与aardio对比\1、for.string.aardio
+1875486893|642|422|codes\范例程序\2) 调用其他语言\4) 批处理与命令行\批处理与aardio对比\2、for.fsys.aardio
+1778262523|1502|986|codes\范例程序\2) 调用其他语言\5) Go 语言\1、dll.aardio
+818879136|1480|831|codes\范例程序\2) 调用其他语言\5) Go 语言\2、rpc-server.aardio
+-703690923|1935|1016|codes\范例程序\2) 调用其他语言\5) Go 语言\3、rpc-client.aardio
+-160900647|1478|863|codes\范例程序\2) 调用其他语言\6) Rust 语言\dll.aardio
+699218290|224|169|codes\范例程序\2) 调用其他语言\6) Rust 语言\toml.aardio
+685856506|1328|642|codes\范例程序\2) 调用其他语言\7) nodeJs\asar.aardio
+-1338338433|1795|959|codes\范例程序\2) 调用其他语言\7) nodeJs\external.aardio
+680248643|1101|639|codes\范例程序\2) 调用其他语言\7) nodeJs\jsonRpc.aardio
+632758955|1970|1085|codes\范例程序\2) 调用其他语言\7) nodeJs\WebSocketRpc.aardio
+0|0|0|codes\范例程序\2) 调用其他语言\8) Python 语言\1) Python 3.x\
+0|0|0|codes\范例程序\2) 调用其他语言\8) Python 语言\2) Python 2.x\
+0|0|0|codes\范例程序\2) 调用其他语言\8) Python 语言\3) py,aardio语法对比\
+1038753581|697|431|codes\范例程序\2) 调用其他语言\8) Python 语言\1) Python 3.x\1) hmac-sha1.aardio
+-205181197|815|470|codes\范例程序\2) 调用其他语言\8) Python 语言\1) Python 3.x\2) md5.aardio
+-912572591|2234|1261|codes\范例程序\2) 调用其他语言\8) Python 语言\1) Python 3.x\3) import.aardio
+738049766|1118|701|codes\范例程序\2) 调用其他语言\8) Python 语言\1) Python 3.x\4) export.aardio
+-992355626|381|268|codes\范例程序\2) 调用其他语言\8) Python 语言\1) Python 3.x\5) compile-eval.aardio
+309152206|488|302|codes\范例程序\2) 调用其他语言\8) Python 语言\1) Python 3.x\6) exec.aardio
+-703800331|505|313|codes\范例程序\2) 调用其他语言\8) Python 语言\1) Python 3.x\7) catchOutErr.aardio
+-280623168|196|168|codes\范例程序\2) 调用其他语言\8) Python 语言\1) Python 3.x\8) run.aardio
+1433360303|206|149|codes\范例程序\2) 调用其他语言\8) Python 语言\1) Python 3.x\9) requests.aardio
+332194051|1364|835|codes\范例程序\2) 调用其他语言\8) Python 语言\1) Python 3.x\A) gil.aardio
+1135562961|2388|1202|codes\范例程序\2) 调用其他语言\8) Python 语言\1) Python 3.x\B) thread.aardio
+1380729146|700|432|codes\范例程序\2) 调用其他语言\8) Python 语言\2) Python 2.x\1) hmac-sha1.aardio
+-1156850873|818|470|codes\范例程序\2) 调用其他语言\8) Python 语言\2) Python 2.x\2) md5.aardio
+-2061285580|3359|1833|codes\范例程序\2) 调用其他语言\8) Python 语言\2) Python 2.x\3) import.aardio
+-437834704|689|452|codes\范例程序\2) 调用其他语言\8) Python 语言\2) Python 2.x\4) export.aardio
+1458683529|384|269|codes\范例程序\2) 调用其他语言\8) Python 语言\2) Python 2.x\5) compile-eval.aardio
+-1400409406|569|346|codes\范例程序\2) 调用其他语言\8) Python 语言\2) Python 2.x\6) exec.aardio
+379412849|509|316|codes\范例程序\2) 调用其他语言\8) Python 语言\2) Python 2.x\7) catchOutErr.aardio
+170651130|198|169|codes\范例程序\2) 调用其他语言\8) Python 语言\2) Python 2.x\8) run.aardio
+-1810653744|2390|1204|codes\范例程序\2) 调用其他语言\8) Python 语言\2) Python 2.x\9) thread.aardio
+1516789511|3803|1889|codes\范例程序\2) 调用其他语言\8) Python 语言\3) py,aardio语法对比\0) doc.aardio
+1802363119|1119|708|codes\范例程序\2) 调用其他语言\8) Python 语言\3) py,aardio语法对比\1) 2to3.aardio
+650195862|1676|943|codes\范例程序\2) 调用其他语言\8) Python 语言\3) py,aardio语法对比\2) datatype.aardio
+2075242360|1078|673|codes\范例程序\2) 调用其他语言\8) Python 语言\3) py,aardio语法对比\3) dict.aardio
+-431126443|1372|830|codes\范例程序\2) 调用其他语言\8) Python 语言\3) py,aardio语法对比\4) list.aardio
+927443995|1099|670|codes\范例程序\2) 调用其他语言\8) Python 语言\3) py,aardio语法对比\5) tuple.aardio
+-45673568|4791|2216|codes\范例程序\2) 调用其他语言\8) Python 语言\3) py,aardio语法对比\6) class.aardio
+1318810619|752|452|codes\范例程序\2) 调用其他语言\8) Python 语言\3) py,aardio语法对比\7) generator.aardio
+-612140872|4398|1842|codes\范例程序\2) 调用其他语言\8) Python 语言\3) py,aardio语法对比\8) string.aardio
+-616755425|1520|901|codes\范例程序\2) 调用其他语言\8) Python 语言\3) py,aardio语法对比\9) pickle.aardio
+1278044617|3541|1732|codes\范例程序\2) 调用其他语言\8) Python 语言\3) py,aardio语法对比\A) comment.aardio
+-657289567|2618|1112|codes\范例程序\2) 调用其他语言\8) Python 语言\3) py,aardio语法对比\B) other.aardio
+-2134945310|1473|850|codes\范例程序\2) 调用其他语言\9) Java 语言\01.intro.aardio
+725402671|3928|1894|codes\范例程序\2) 调用其他语言\9) Java 语言\02.compile.aardio
+874778864|719|415|codes\范例程序\2) 调用其他语言\9) Java 语言\03.javacall.aardio
+620779944|915|571|codes\范例程序\2) 调用其他语言\9) Java 语言\04.aardiocall.aardio
+1229503182|1126|643|codes\范例程序\2) 调用其他语言\9) Java 语言\05.version.aardio
+-808622541|2368|1344|codes\范例程序\2) 调用其他语言\9) Java 语言\06.popenProcess.aardio
+0|0|0|codes\范例程序\2) 调用其他语言\9) Java 语言\java\
+0|0|0|codes\范例程序\2) 调用其他语言\9) Java 语言\java\aardio\
+0|0|0|codes\范例程序\2) 调用其他语言\9) Java 语言\java\aardio\sample\
+-1752855267|1004|601|codes\范例程序\2) 调用其他语言\9) Java 语言\java\aardio\sample\HelloworldApp.class
+1427592867|1147|690|codes\范例程序\2) 调用其他语言\9) Java 语言\java\aardio\sample\HelloworldApp.java
+-1482158456|1651|991|codes\范例程序\2) 调用其他语言\A) FreeBASIC\dll.aardio
+-1575141793|545|429|codes\范例程序\2) 调用其他语言\A) FreeBASIC\dllCall.aardio
+-525894719|292|192|codes\范例程序\2) 调用其他语言\B) PHP 语言\begin.end.aardio
+-216516160|808|501|codes\范例程序\2) 调用其他语言\B) PHP 语言\cgi.aardio
+1920934162|620|451|codes\范例程序\2) 调用其他语言\B) PHP 语言\dofile.aardio
+1836895756|7411|3053|codes\范例程序\2) 调用其他语言\B) PHP 语言\exec.aardio
+195426850|956|535|codes\范例程序\2) 调用其他语言\B) PHP 语言\main.aardio
+-1710937975|510|345|codes\范例程序\2) 调用其他语言\B) PHP 语言\run_aardio.aardio
+896595921|514|356|codes\范例程序\2) 调用其他语言\C) Ruby 语言\cgi.aardio
+529757952|476|319|codes\范例程序\2) 调用其他语言\C) Ruby 语言\exec.aardio
+337447257|131|109|codes\范例程序\2) 调用其他语言\C) Ruby 语言\irb.aardio
+1302198585|570|384|codes\范例程序\2) 调用其他语言\C) Ruby 语言\rake.aardio
+1220102472|1303|740|codes\范例程序\2) 调用其他语言\D) Delphi\1.dll.aardio
+1168214907|369|224|codes\范例程序\2) 调用其他语言\D) Delphi\aardio.pas
+-481128048|783|492|codes\范例程序\2) 调用其他语言\D) Delphi\Project1.dpr
+944520055|876|409|codes\范例程序\2) 调用其他语言\D) Delphi\Project1.res
+-274824913|540|321|codes\范例程序\2) 调用其他语言\D) Delphi\Unit1.dfm
+1874549588|997|496|codes\范例程序\2) 调用其他语言\D) Delphi\Unit1.pas
+1915448218|706|400|codes\范例程序\3) 控制台程序\console.aardio
+180094559|391|276|codes\范例程序\3) 控制台程序\kb.aardio
+998746082|2004|751|codes\范例程序\3) 控制台程序\loading.aardio
+-1693141576|257|213|codes\范例程序\3) 控制台程序\倒计时.aardio
+-896934275|938|594|codes\范例程序\3) 控制台程序\兔子总数为多少.aardio
+262645999|475|320|codes\范例程序\3) 控制台程序\出牌.aardio
+1444375896|318|245|codes\范例程序\3) 控制台程序\打印乘法表.aardio
+1715200834|714|357|codes\范例程序\3) 控制台程序\自定义控制台颜色.aardio
+-1140064589|818|321|codes\范例程序\3) 控制台程序\转义序列.aardio
+0|0|0|codes\范例程序\4) Windows 窗口\0) 基础知识\
+0|0|0|codes\范例程序\4) Windows 窗口\1) orphanWindow\
+0|0|0|codes\范例程序\4) Windows 窗口\2) 定时器\
+0|0|0|codes\范例程序\4) Windows 窗口\3) 菜单\
+0|0|0|codes\范例程序\4) Windows 窗口\5) 快捷键\
+0|0|0|codes\范例程序\4) Windows 窗口\6) 功能特效\
+0|0|0|codes\范例程序\4) Windows 窗口\7) 托盘图标\
+0|0|0|codes\范例程序\4) Windows 窗口\8) 提示控件\
+0|0|0|codes\范例程序\4) Windows 窗口\9) 窗口控件\
+0|0|0|codes\范例程序\4) Windows 窗口\A) edit,richedit\
+0|0|0|codes\范例程序\4) Windows 窗口\B) 列表框控件\
+0|0|0|codes\范例程序\4) Windows 窗口\C) 列表视图控件\
+0|0|0|codes\范例程序\4) Windows 窗口\D) 树形视图控件\
+0|0|0|codes\范例程序\4) Windows 窗口\E) 下拉框控件\
+0|0|0|codes\范例程序\4) Windows 窗口\F) 选项卡控件\
+0|0|0|codes\范例程序\4) Windows 窗口\G) 工具栏控件\
+0|0|0|codes\范例程序\4) Windows 窗口\H) 状态栏\
+0|0|0|codes\范例程序\4) Windows 窗口\I) 剪贴板\
+0|0|0|codes\范例程序\4) Windows 窗口\J) 向导窗口\
+0|0|0|codes\范例程序\4) Windows 窗口\K) 应用程序\
+-1286772261|1777|975|codes\范例程序\4) Windows 窗口\0) 基础知识\1、win.form.aardio
+353081882|7157|2538|codes\范例程序\4) Windows 窗口\0) 基础知识\2、win.form.add.aardio
+99233816|2035|1068|codes\范例程序\4) Windows 窗口\0) 基础知识\3、wndproc..aardio
+-2078853373|4268|1954|codes\范例程序\4) Windows 窗口\0) 基础知识\4、command.aardio
+599748039|3326|1706|codes\范例程序\4) Windows 窗口\0) 基础知识\5、notify.aardio
+-1379716016|2386|1327|codes\范例程序\4) Windows 窗口\1) orphanWindow\listbox.aardio
+-719517445|1291|624|codes\范例程序\4) Windows 窗口\2) 定时器\timer.aardio
+-1489280691|2144|862|codes\范例程序\4) Windows 窗口\3) 菜单\menuTable.aardio
+-138981279|1403|751|codes\范例程序\4) Windows 窗口\5) 快捷键\accelerator.aardio
+2003547679|1680|952|codes\范例程序\4) Windows 窗口\5) 快捷键\hotkey.aardio
+1099803604|1045|558|codes\范例程序\4) Windows 窗口\5) 快捷键\isDialogMessage.aardio
+-422272330|2917|1427|codes\范例程序\4) Windows 窗口\5) 快捷键\key.hotkey.aardio
+-1635506249|751|480|codes\范例程序\4) Windows 窗口\5) 快捷键\translateAccelerator.aardio
+1512553494|814|494|codes\范例程序\4) Windows 窗口\6) 功能特效\aero.aardio
+-614331201|364|261|codes\范例程序\4) Windows 窗口\6) 功能特效\animate.aardio
+-399023928|958|581|codes\范例程序\4) Windows 窗口\6) 功能特效\atom.aardio
+-1851347|1347|746|codes\范例程序\4) Windows 窗口\6) 功能特效\cur.aardio
+176873519|219|179|codes\范例程序\4) Windows 窗口\6) 功能特效\fade.aardio
+1528104175|785|509|codes\范例程序\4) Windows 窗口\6) 功能特效\ITaskbarList3.aardio
+1351758096|681|417|codes\范例程序\4) Windows 窗口\6) 功能特效\mask.aardio
+-1638424216|799|541|codes\范例程序\4) Windows 窗口\6) 功能特效\popup.aardio
+-589523883|856|542|codes\范例程序\4) Windows 窗口\6) 功能特效\process.command.aardio
+-1117533530|353|256|codes\范例程序\4) Windows 窗口\6) 功能特效\simpleWindow3.aardio
+-1522829640|545|406|codes\范例程序\4) Windows 窗口\6) 功能特效\文件拖放.aardio
+661177616|623|416|codes\范例程序\4) Windows 窗口\7) 托盘图标\flash.aardio
+-10151567|1461|825|codes\范例程序\4) Windows 窗口\7) 托盘图标\tray.aardio
+-1234029201|926|432|codes\范例程序\4) Windows 窗口\8) 提示控件\edit.aardio
+408926427|1817|949|codes\范例程序\4) Windows 窗口\8) 提示控件\tooltip.aardio
+0|0|0|codes\范例程序\4) Windows 窗口\9) 窗口控件\.res\
+-799282157|812|518|codes\范例程序\4) Windows 窗口\9) 窗口控件\calendar.aardio
+-1688003418|1289|653|codes\范例程序\4) Windows 窗口\9) 窗口控件\editListbox.aardio
+1965794547|1233|705|codes\范例程序\4) Windows 窗口\9) 窗口控件\innerButton.aardio
+-2131820553|554|366|codes\范例程序\4) Windows 窗口\9) 窗口控件\ipAddress.aardio
+1377883120|527|402|codes\范例程序\4) Windows 窗口\9) 窗口控件\linkbutton.aardio
+1467116645|1938|844|codes\范例程序\4) Windows 窗口\9) 窗口控件\radio.aardio
+1128636906|3723|1529|codes\范例程序\4) Windows 窗口\9) 窗口控件\scroll.aardio
+1572105212|1474|628|codes\范例程序\4) Windows 窗口\9) 窗口控件\scrollWindow.aardio
+929402501|1298|707|codes\范例程序\4) Windows 窗口\9) 窗口控件\syslink.aardio
+524152264|1612|833|codes\范例程序\4) Windows 窗口\9) 窗口控件\自定义控件.aardio
+219814569|10590|10428|codes\范例程序\4) Windows 窗口\9) 窗口控件\.res\logon.jpg
+610047409|952|737|codes\范例程序\4) Windows 窗口\9) 窗口控件\.res\state.jpg
+857300469|1293|516|codes\范例程序\4) Windows 窗口\A) edit,richedit\findReplace.aardio
+-1251887280|1202|625|codes\范例程序\4) Windows 窗口\A) edit,richedit\line.aardio
+770582672|1332|751|codes\范例程序\4) Windows 窗口\A) edit,richedit\lineSpacing.aardio
+1606341650|1645|794|codes\范例程序\4) Windows 窗口\A) edit,richedit\richedit_change.aardio
+1761210934|2104|1097|codes\范例程序\4) Windows 窗口\A) edit,richedit\richedit_menu.aardio
+1493615467|1256|690|codes\范例程序\4) Windows 窗口\B) 列表框控件\gdi.aardio
+-1585243352|2679|955|codes\范例程序\4) Windows 窗口\B) 列表框控件\ListboxDemo.aardio
+84692083|522|352|codes\范例程序\4) Windows 窗口\B) 列表框控件\listEdit.aardio
+1155957928|892|542|codes\范例程序\4) Windows 窗口\B) 列表框控件\menu.aardio
+-1210146752|1970|1007|codes\范例程序\4) Windows 窗口\B) 列表框控件\ownerDraw.aardio
+802640487|1536|762|codes\范例程序\4) Windows 窗口\C) 列表视图控件\checklist.aardio
+-1829759896|1628|764|codes\范例程序\4) Windows 窗口\C) 列表视图控件\customdraw.aardio
+1277729521|2041|1142|codes\范例程序\4) Windows 窗口\C) 列表视图控件\edit.aardio
+896801023|4157|1803|codes\范例程序\4) Windows 窗口\C) 列表视图控件\listview.aardio
+-523532248|1127|668|codes\范例程序\4) Windows 窗口\C) 列表视图控件\listViewEdit.aardio
+-1775829543|8047|2672|codes\范例程序\4) Windows 窗口\C) 列表视图控件\uwpExemption.aardio
+-1794656406|1524|785|codes\范例程序\4) Windows 窗口\D) 树形视图控件\checkAll.aardio
+-184141985|2001|1002|codes\范例程序\4) Windows 窗口\D) 树形视图控件\checkbox.aardio
+-231656790|1874|1017|codes\范例程序\4) Windows 窗口\D) 树形视图控件\expanding.aardio
+472877184|1391|676|codes\范例程序\4) Windows 窗口\D) 树形视图控件\explorer.aardio
+-207841036|1180|652|codes\范例程序\4) Windows 窗口\D) 树形视图控件\nm_click.aardio
+1517780668|503|339|codes\范例程序\4) Windows 窗口\D) 树形视图控件\table.aardio
+967278071|3819|1607|codes\范例程序\4) Windows 窗口\D) 树形视图控件\treeview.aardio
+110931066|1358|716|codes\范例程序\4) Windows 窗口\D) 树形视图控件\treeview_edit.aardio
+974199949|965|537|codes\范例程序\4) Windows 窗口\D) 树形视图控件\treeview_enum.aardio
+519872702|1171|645|codes\范例程序\4) Windows 窗口\E) 下拉框控件\autoComplete.aardio
+-1696457888|618|405|codes\范例程序\4) Windows 窗口\E) 下拉框控件\autoComplete2.aardio
+-1892702258|1830|988|codes\范例程序\4) Windows 窗口\F) 选项卡控件\选项卡控件.aardio
+-880054975|1116|615|codes\范例程序\4) Windows 窗口\G) 工具栏控件\main.aardio
+0|0|0|codes\范例程序\4) Windows 窗口\G) 工具栏控件\res\
+1537686823|1813|1376|codes\范例程序\4) Windows 窗口\G) 工具栏控件\res\toolbar.gif
+1881492065|1261|577|codes\范例程序\4) Windows 窗口\H) 状态栏\状态栏控件.aardio
+1819058351|492|351|codes\范例程序\4) Windows 窗口\I) 剪贴板\win.clip.viewer.aardio
+-410155335|1074|558|codes\范例程序\4) Windows 窗口\J) 向导窗口\wizard.aardio
+-1752992576|7810|1924|codes\范例程序\4) Windows 窗口\K) 应用程序\1、calc.aardio
+-917721098|1228|626|codes\范例程序\5) 高级图像控件( plus )\animation.aardio
+-513614018|1233|617|codes\范例程序\5) 高级图像控件( plus )\border.aardio
+1695850464|1548|620|codes\范例程序\5) 高级图像控件( plus )\checkbox.aardio
+-486474419|780|463|codes\范例程序\5) 高级图像控件( plus )\countdown.aardio
+-825996215|702|472|codes\范例程序\5) 高级图像控件( plus )\crop.aardio
+-1532622530|1082|571|codes\范例程序\5) 高级图像控件( plus )\disabledText.aardio
+-1008381868|641|427|codes\范例程序\5) 高级图像控件( plus )\dlgCtrlColor.aardio
+-204103184|1329|659|codes\范例程序\5) 高级图像控件( plus )\drawBack.aardio
+1365529967|2031|1087|codes\范例程序\5) 高级图像控件( plus )\edit.aardio
+1475683109|786|547|codes\范例程序\5) 高级图像控件( plus )\ellipse.aardio
+-1114747257|860|574|codes\范例程序\5) 高级图像控件( plus )\gif.aardio
+-709416291|2575|1230|codes\范例程序\5) 高级图像控件( plus )\imageAttributes.aardio
+577701000|1101|541|codes\范例程序\5) 高级图像控件( plus )\linearGradient.aardio
+653323532|1152|723|codes\范例程序\5) 高级图像控件( plus )\msg.aardio
+1488780116|1201|675|codes\范例程序\5) 高级图像控件( plus )\pie.aardio
+615754654|726|456|codes\范例程序\5) 高级图像控件( plus )\progress.aardio
+-1799531354|960|564|codes\范例程序\5) 高级图像控件( plus )\rotate.aardio
+1597783217|566|396|codes\范例程序\5) 高级图像控件( plus )\scale.aardio
+-1140063342|2540|1020|codes\范例程序\6) 高级选项卡\1.tabs-v.aardio
+746608055|2073|900|codes\范例程序\6) 高级选项卡\2.tabs-h.aardio
+1042506257|1266|645|codes\范例程序\6) 高级选项卡\3) popup.aardio
+-1021086199|2230|989|codes\范例程序\6) 高级选项卡\4) dropdown.aardio
+-702379157|2718|1206|codes\范例程序\6) 高级选项卡\5) autoComplete.aardio
+0|0|0|codes\范例程序\7) Web 界面\1) web.view\
+0|0|0|codes\范例程序\7) Web 界面\2) web.sysView\
+0|0|0|codes\范例程序\7) Web 界面\3) web.form\
+0|0|0|codes\范例程序\7) Web 界面\4) Chrome\
+0|0|0|codes\范例程序\7) Web 界面\5) Edge\
+0|0|0|codes\范例程序\7) Web 界面\6) Electron\
+0|0|0|codes\范例程序\7) Web 界面\7) HTMLayout\
+0|0|0|codes\范例程序\7) Web 界面\A) Sciter.JS\
+1717723777|3365|1745|codes\范例程序\7) Web 界面\1) web.view\1.view.aardio
+-1521036226|5520|1899|codes\范例程序\7) Web 界面\1) web.view\2.learn.aardio
+915066944|2398|1195|codes\范例程序\7) Web 界面\1) web.view\3.react.aardio
+879023448|754|486|codes\范例程序\7) Web 界面\1) web.view\4.xcall.aardio
+-416765659|919|527|codes\范例程序\7) Web 界面\1) web.view\5.waitEle.aardio
+1539561798|999|692|codes\范例程序\7) Web 界面\1) web.view\6.transparent.aardio
+-1175122103|842|548|codes\范例程序\7) Web 界面\1) web.view\7.remoteDebugging.aardio
+-231493667|1604|918|codes\范例程序\7) Web 界面\1) web.view\8.Cesium.aardio
+557060598|2650|1040|codes\范例程序\7) Web 界面\1) web.view\9.flexbox.aardio
+-239670274|2147|1197|codes\范例程序\7) Web 界面\1) web.view\A.amis.aardio
+1548740539|3813|1989|codes\范例程序\7) Web 界面\2) web.sysView\2.sysView.aardio
+-826294862|2257|1158|codes\范例程序\7) Web 界面\3) web.form\httpServer.aardio
+1402073285|529|404|codes\范例程序\7) Web 界面\3) web.form\ie8Later.aardio
+0|0|0|codes\范例程序\7) Web 界面\3) web.form\jQuery\
+0|0|0|codes\范例程序\7) Web 界面\3) web.form\queryEles\
+0|0|0|codes\范例程序\7) Web 界面\3) web.form\Web窗体功能\
+956394431|2635|1191|codes\范例程序\7) Web 界面\3) web.form\writeDemo.aardio
+0|0|0|codes\范例程序\7) Web 界面\3) web.form\模拟自动化\
+0|0|0|codes\范例程序\7) Web 界面\3) web.form\浏览器\
+0|0|0|codes\范例程序\7) Web 界面\3) web.form\脚本应用\
+0|0|0|codes\范例程序\7) Web 界面\3) web.form\jQuery\res\
+1906587195|1963|1086|codes\范例程序\7) Web 界面\3) web.form\jQuery\test.aardio
+0|0|0|codes\范例程序\7) Web 界面\3) web.form\jQuery\res\js\
+0|0|0|codes\范例程序\7) Web 界面\3) web.form\jQuery\res\js\jQuery\
+331065415|93107|30597|codes\范例程序\7) Web 界面\3) web.form\jQuery\res\js\jQuery\jquery.min.js
+-649730389|1355|808|codes\范例程序\7) Web 界面\3) web.form\queryEles\query.aardio
+-835946674|1211|676|codes\范例程序\7) Web 界面\3) web.form\Web窗体功能\post.aardio
+-1061226453|1645|823|codes\范例程序\7) Web 界面\3) web.form\Web窗体功能\proxy.aardio
+-1477400233|571|365|codes\范例程序\7) Web 界面\3) web.form\Web窗体功能\userAgent.aardio
+-992996713|490|344|codes\范例程序\7) Web 界面\3) web.form\Web窗体功能\webgl.aardio
+1620178271|1140|659|codes\范例程序\7) Web 界面\3) web.form\Web窗体功能\动态控制下载选项.aardio
+0|0|0|codes\范例程序\7) Web 界面\3) web.form\Web窗体功能\禁止弹出窗口\
+-1859438186|1205|704|codes\范例程序\7) Web 界面\3) web.form\Web窗体功能\给网页照相.aardio
+-720067684|530|416|codes\范例程序\7) Web 界面\3) web.form\Web窗体功能\禁止弹出窗口\openproxy.aardio
+605715444|769|555|codes\范例程序\7) Web 界面\3) web.form\Web窗体功能\禁止弹出窗口\translate.aardio
+1565745815|921|630|codes\范例程序\7) Web 界面\3) web.form\模拟自动化\auto.aardio
+-1975333810|652|403|codes\范例程序\7) Web 界面\3) web.form\模拟自动化\crop.aardio
+949171070|1713|1053|codes\范例程序\7) Web 界面\3) web.form\模拟自动化\crossDomain.aardio
+-722604645|1161|629|codes\范例程序\7) Web 界面\3) web.form\模拟自动化\dispatchEvent.aardio
+1982284740|929|657|codes\范例程序\7) Web 界面\3) web.form\模拟自动化\embedWebsite.aardio
+1571993964|702|489|codes\范例程序\7) Web 界面\3) web.form\模拟自动化\html.aardio
+-197349121|2323|1155|codes\范例程序\7) Web 界面\3) web.form\浏览器\frameBrowser.aardio
+884589607|2114|1007|codes\范例程序\7) Web 界面\3) web.form\脚本应用\array.aardio
+-2050821759|1181|692|codes\范例程序\7) Web 界面\3) web.form\脚本应用\script.aardio
+474349133|1948|1189|codes\范例程序\7) Web 界面\4) Chrome\app.aardio
+-1429946749|1521|856|codes\范例程序\7) Web 界面\4) Chrome\driver.aardio
+-894008657|1983|910|codes\范例程序\7) Web 界面\4) Chrome\extensions.aardio
+164042951|3386|1315|codes\范例程序\7) Web 界面\4) Chrome\remote.aardio
+326108538|5814|1856|codes\范例程序\7) Web 界面\5) Edge\3.speech.aardio
+640574177|1299|773|codes\范例程序\7) Web 界面\6) Electron\1) go.aardio
+-112117244|4666|2262|codes\范例程序\7) Web 界面\6) Electron\2) electron.aardio
+-2050948046|4171|1901|codes\范例程序\7) Web 界面\6) Electron\3) remoteDebugging.aardio
+2006630094|3819|1989|codes\范例程序\7) Web 界面\6) Electron\4) main.js.aardio
+-1786913875|1491|685|codes\范例程序\7) Web 界面\6) Electron\5) multiWindow.aardio
+-544786884|1751|925|codes\范例程序\7) Web 界面\6) Electron\6) webview.aardio
+0|0|0|codes\范例程序\7) Web 界面\6) Electron\res\
+-1083564121|1363|775|codes\范例程序\7) Web 界面\6) Electron\res\main.aardio
+938729284|1532|709|codes\范例程序\7) Web 界面\7) HTMLayout\attachEventHandler.aardio
+-1694059932|3105|1552|codes\范例程序\7) Web 界面\7) HTMLayout\behavior.aardio
+1234275711|4970|1936|codes\范例程序\7) Web 界面\7) HTMLayout\css selector.aardio
+-2122143453|2311|1274|codes\范例程序\7) Web 界面\7) HTMLayout\custom.aardio
+-1814667432|959|627|codes\范例程序\7) Web 界面\7) HTMLayout\debug.aardio
+-70061384|2256|1086|codes\范例程序\7) Web 界面\7) HTMLayout\drag.aardio
+-497448651|891|554|codes\范例程序\7) Web 界面\7) HTMLayout\exchange.aardio
+-1131764927|5373|1309|codes\范例程序\7) Web 界面\7) HTMLayout\flex.aardio
+526248911|821|536|codes\范例程序\7) Web 界面\7) HTMLayout\FontAwesome.aardio
+-643115559|1307|673|codes\范例程序\7) Web 界面\7) HTMLayout\Javascript.aardio
+1852109355|1373|810|codes\范例程序\7) Web 界面\7) HTMLayout\MakeDataUrl.aardio
+1381739591|21454|5398|codes\范例程序\7) Web 界面\7) HTMLayout\samples.aardio
+106691963|1238|619|codes\范例程序\7) Web 界面\7) HTMLayout\spyHtml.aardio
+568816683|1205|710|codes\范例程序\7) Web 界面\7) HTMLayout\tint.aardio
+-480585894|884|551|codes\范例程序\7) Web 界面\A) Sciter.JS\0、external.aardio
+1491145509|2581|1431|codes\范例程序\7) Web 界面\A) Sciter.JS\0、template.aardio
+-1023599080|2507|1312|codes\范例程序\7) Web 界面\A) Sciter.JS\1、aardio调用js函数.aardio
+709917448|2566|1185|codes\范例程序\7) Web 界面\A) Sciter.JS\1、js调用aardio函数.aardio
+-2115676357|1557|896|codes\范例程序\7) Web 界面\A) Sciter.JS\2、aardio调用js事件.aardio
+1843401300|1636|922|codes\范例程序\7) Web 界面\A) Sciter.JS\2、js调用aardio事件.aardio
+-1230387366|2209|1228|codes\范例程序\7) Web 界面\A) Sciter.JS\3、自定义控件.aardio
+-1387088877|1135|642|codes\范例程序\7) Web 界面\A) Sciter.JS\4、exchange-behavior.aardio
+-2136253387|5637|2441|codes\范例程序\7) Web 界面\A) Sciter.JS\5、无边框窗口.aardio
+1975345629|2438|1221|codes\范例程序\7) Web 界面\A) Sciter.JS\6、reactor.aardio
+-1581543621|2265|873|codes\范例程序\7) Web 界面\A) Sciter.JS\8、canvas.aardio
+0|0|0|codes\范例程序\8) Web 应用\1) REST\
+0|0|0|codes\范例程序\8) Web 应用\2) JSON\
+0|0|0|codes\范例程序\8) Web 应用\3) WebSocket\
+0|0|0|codes\范例程序\8) Web 应用\4) HTTP服务器\
+0|0|0|codes\范例程序\8) Web 应用\5) RPC\
+0|0|0|codes\范例程序\8) Web 应用\6) FastCGI\
+0|0|0|codes\范例程序\8) Web 应用\7) XML\
+0|0|0|codes\范例程序\8) Web 应用\8) HTML\
+1423301370|1412|798|codes\范例程序\8) Web 应用\1) REST\headers.aardio
+1316183959|3443|1585|codes\范例程序\8) Web 应用\1) REST\html.aardio
+-930672692|261|184|codes\范例程序\8) Web 应用\1) REST\ip.aardio
+-1328745513|1376|633|codes\范例程序\8) Web 应用\1) REST\jsonClient.aardio
+-1352086808|815|556|codes\范例程序\8) Web 应用\1) REST\jsonLiteClient.aardio
+-1516212240|714|449|codes\范例程序\8) Web 应用\1) REST\yuque.aardio
+-890633421|1689|896|codes\范例程序\8) Web 应用\2) JSON\JSON.aardio
+1660446796|516|352|codes\范例程序\8) Web 应用\2) JSON\rpcClient.aardio
+-1458183140|1728|877|codes\范例程序\8) Web 应用\2) JSON\rpcServer.aardio
+-1076086495|1539|635|codes\范例程序\8) Web 应用\3) WebSocket\client.aardio
+-123752706|2064|951|codes\范例程序\8) Web 应用\3) WebSocket\server.aardio
+1859265692|1570|802|codes\范例程序\8) Web 应用\3) WebSocket\_jsonClient.aardio
+-1090605790|3519|1526|codes\范例程序\8) Web 应用\3) WebSocket\_jsonServer.aardio
+-1821717067|11980|4202|codes\范例程序\8) Web 应用\4) HTTP服务器\asynHttpServer.aardio
+1612957708|1401|874|codes\范例程序\8) Web 应用\4) HTTP服务器\simpleHttpServer.aardio
+-773702800|2987|1507|codes\范例程序\8) Web 应用\5) RPC\externalServer.aardio
+-26332850|2778|1046|codes\范例程序\8) Web 应用\6) FastCGI\wizard.aardio
+-577820950|2109|934|codes\范例程序\8) Web 应用\7) XML\msxml.aardio
+1368770124|423|330|codes\范例程序\8) Web 应用\7) XML\SOAP.aardio
+1901782767|2747|1377|codes\范例程序\8) Web 应用\7) XML\xml.aardio
+-2066307336|608|370|codes\范例程序\8) Web 应用\8) HTML\format.aardio
+-653433818|204|161|codes\范例程序\8) Web 应用\8) HTML\html2txt.aardio
+575969418|3719|1742|codes\范例程序\8) Web 应用\8) HTML\parse.aardio
+0|0|0|codes\范例程序\9) 网络应用\1) wsock\
+0|0|0|codes\范例程序\9) 网络应用\2) inet库应用\
+0|0|0|codes\范例程序\9) 网络应用\3) protobuf\
+0|0|0|codes\范例程序\9) 网络应用\4) zeromq\
+0|0|0|codes\范例程序\9) 网络应用\5) 下载文件\
+-706273612|457|264|codes\范例程序\9) 网络应用\adapter.aardio
+-386949229|676|367|codes\范例程序\9) 网络应用\disableAdapter.aardio
+-2005367716|257|178|codes\范例程序\9) 网络应用\isAlive.aardio
+651220631|601|369|codes\范例程序\9) 网络应用\smtp.aardio
+1204392419|627|395|codes\范例程序\9) 网络应用\1) wsock\stat.aardio
+0|0|0|codes\范例程序\9) 网络应用\1) wsock\tcp\
+0|0|0|codes\范例程序\9) 网络应用\1) wsock\udp\
+223179672|1679|749|codes\范例程序\9) 网络应用\1) wsock\抓包.aardio
+0|0|0|codes\范例程序\9) 网络应用\1) wsock\tcp\传送文件\
+558405787|622|424|codes\范例程序\9) 网络应用\1) wsock\tcp\传送文件\客户端.aardio
+1729370014|1521|880|codes\范例程序\9) 网络应用\1) wsock\tcp\传送文件\异步非阻塞客户端.aardio
+753148069|809|484|codes\范例程序\9) 网络应用\1) wsock\tcp\传送文件\服务端.aardio
+1529192108|790|459|codes\范例程序\9) 网络应用\1) wsock\udp\broadcast.aardio
+-187868263|812|487|codes\范例程序\9) 网络应用\1) wsock\udp\ssdp.aardio
+0|0|0|codes\范例程序\9) 网络应用\1) wsock\udp\单播\
+0|0|0|codes\范例程序\9) 网络应用\1) wsock\udp\组播\
+814310820|522|263|codes\范例程序\9) 网络应用\1) wsock\udp\单播\客户端.aardio
+-1039467064|533|337|codes\范例程序\9) 网络应用\1) wsock\udp\单播\服务端.aardio
+-604223000|529|270|codes\范例程序\9) 网络应用\1) wsock\udp\组播\客户端.aardio
+-548893816|574|363|codes\范例程序\9) 网络应用\1) wsock\udp\组播\服务端.aardio
+-495663601|7587|2794|codes\范例程序\9) 网络应用\2) inet库应用\chkHttp.aardio
+-1770132931|615|408|codes\范例程序\9) 网络应用\2) inet库应用\ftp.file.aardio
+526765688|588|327|codes\范例程序\9) 网络应用\2) inet库应用\inet.ftp.aardio
+33744272|1883|957|codes\范例程序\9) 网络应用\2) inet库应用\inet.http.download.aardio
+1826582222|532|338|codes\范例程序\9) 网络应用\2) inet库应用\POST.aardio
+825862059|1241|656|codes\范例程序\9) 网络应用\2) inet库应用\分析URL.aardio
+1522293411|657|383|codes\范例程序\9) 网络应用\3) protobuf\default.aproj
+0|0|0|codes\范例程序\9) 网络应用\3) protobuf\lib\
+323878500|1114|469|codes\范例程序\9) 网络应用\3) protobuf\main.aardio
+1292558212|137|135|codes\范例程序\9) 网络应用\3) protobuf\protobuf_c.aardio
+0|0|0|codes\范例程序\9) 网络应用\3) protobuf\res\
+961943914|63|77|codes\范例程序\9) 网络应用\3) protobuf\res\test.pb
+-1886079085|412|238|codes\范例程序\9) 网络应用\3) protobuf\res\test.proto
+1940152778|713|427|codes\范例程序\9) 网络应用\4) zeromq\client.aardio
+1577791537|1097|620|codes\范例程序\9) 网络应用\4) zeromq\server.aardio
+-1202139495|1141|565|codes\范例程序\9) 网络应用\5) 下载文件\down.aardio
+-1855517621|941|557|codes\范例程序\9) 网络应用\5) 下载文件\downBox.aardio
+-444780587|3466|1408|codes\范例程序\9) 网络应用\5) 下载文件\mtDown.aardio
+893808226|521|355|codes\范例程序\9) 网络应用\5) 下载文件\stream.aardio
+0|0|0|codes\范例程序\A) 数据库\1) sqlite\
+0|0|0|codes\范例程序\A) 数据库\2) mysql\
+0|0|0|codes\范例程序\A) 数据库\3) access\
+0|0|0|codes\范例程序\A) 数据库\4) mssql\
+0|0|0|codes\范例程序\A) 数据库\5) excel\
+614559126|1493|770|codes\范例程序\A) 数据库\1) sqlite\busyTimeout.aardio
+1556580151|475|320|codes\范例程序\A) 数据库\1) sqlite\getTableColumnNames.aardio
+2066974595|1405|721|codes\范例程序\A) 数据库\1) sqlite\intro.aardio
+-1478418016|2236|1249|codes\范例程序\A) 数据库\1) sqlite\oop.aardio
+-1739942951|1810|892|codes\范例程序\A) 数据库\1) sqlite\ParameterByNames.aardio
+529816016|1212|711|codes\范例程序\A) 数据库\1) sqlite\Parameters.aardio
+-2087995321|1672|741|codes\范例程序\A) 数据库\1) sqlite\replace.aardio
+306352650|822|529|codes\范例程序\A) 数据库\1) sqlite\sql.aes128.aardio
+-483197796|1925|745|codes\范例程序\A) 数据库\1) sqlite\tableParameter.aardio
+301050983|4286|1877|codes\范例程序\A) 数据库\2) mysql\mysql.aardio
+-37421712|2194|1131|codes\范例程序\A) 数据库\3) access\access.aardio
+1065416062|814|545|codes\范例程序\A) 数据库\4) mssql\procedure.aardio
+541811498|2145|1205|codes\范例程序\A) 数据库\4) mssql\数据库sql示例.aardio
+-1061969421|985|609|codes\范例程序\A) 数据库\5) excel\csv.aardio
+1289914844|1253|829|codes\范例程序\A) 数据库\5) excel\excel.aardio
+2099685461|762|343|codes\范例程序\B) 文本处理\chineseNumber.aardio
+678627235|1848|709|codes\范例程序\B) 文本处理\conv.aardio
+-202096650|711|508|codes\范例程序\B) 文本处理\mmseg.aardio
+-707121466|1184|642|codes\范例程序\B) 文本处理\regex.aardio
+384944739|2034|990|codes\范例程序\B) 文本处理\stringlist.aardio
+-1660953477|487|287|codes\范例程序\B) 文本处理\内码转换.aardio
+0|0|0|codes\范例程序\B) 文本处理\哈希加密\
+181738753|1416|756|codes\范例程序\B) 文本处理\模式匹配函数.aardio
+-558062179|1133|619|codes\范例程序\B) 文本处理\自动提取中文字符串.aardio
+-1948303479|545|225|codes\范例程序\B) 文本处理\进制转换.aardio
+49448698|1175|756|codes\范例程序\B) 文本处理\哈希加密\aes.aardio
+326966967|432|254|codes\范例程序\B) 文本处理\哈希加密\base64.aardio
+1316423840|1033|696|codes\范例程序\B) 文本处理\哈希加密\des.aardio
+-1317652890|2212|1061|codes\范例程序\B) 文本处理\哈希加密\hash.aardio
+-2111243182|505|201|codes\范例程序\B) 文本处理\哈希加密\HMAC-SHA1.aardio
+-1707729215|430|241|codes\范例程序\B) 文本处理\哈希加密\md5.sha1.aardio
+1545593978|946|506|codes\范例程序\B) 文本处理\哈希加密\rc4.aardio
+2143392290|2949|1011|codes\范例程序\B) 文本处理\哈希加密\rsa.aardio
+-1254508170|2980|1063|codes\范例程序\B) 文本处理\哈希加密\sign.aardio
+-1639730600|795|450|codes\范例程序\B) 文本处理\哈希加密\xxtea.aardio
+0|0|0|codes\范例程序\C) 文件操作\1) 压缩解压\
+0|0|0|codes\范例程序\C) 文件操作\2) 7Zip\
+0|0|0|codes\范例程序\C) 文件操作\3) asar打包解包\
+0|0|0|codes\范例程序\C) 文件操作\4) 串口\
+0|0|0|codes\范例程序\C) 文件操作\5) 监视文件\
+-1818317504|2154|941|codes\范例程序\C) 文件操作\bencoding.aardio
+852437819|371|291|codes\范例程序\C) 文件操作\desktoplnk.aardio
+-515103434|553|353|codes\范例程序\C) 文件操作\filetime.aardio
+-453885269|555|364|codes\范例程序\C) 文件操作\fsys.aardio
+1879571877|419|219|codes\范例程序\C) 文件操作\fsys.config.aardio
+-851408912|1456|601|codes\范例程序\C) 文件操作\fsys.dlg.aardio
+211098429|595|358|codes\范例程序\C) 文件操作\fsys.table.aardio
+-543597204|344|259|codes\范例程序\C) 文件操作\ini.aardio
+-1600834605|1266|442|codes\范例程序\C) 文件操作\namedpipe.aardio
+1674890389|502|274|codes\范例程序\C) 文件操作\readback.aardio
+-753470388|3179|1295|codes\范例程序\C) 文件操作\rename.aardio
+1047636319|359|253|codes\范例程序\C) 文件操作\stringlist.aardio
+-381002034|5644|1784|codes\范例程序\C) 文件操作\1) 压缩解压\CabQuicker.aardio
+-1819554420|563|318|codes\范例程序\C) 文件操作\1) 压缩解压\gzfile.aardio
+688156735|965|630|codes\范例程序\C) 文件操作\1) 压缩解压\gzip.aardio
+1573011393|484|305|codes\范例程序\C) 文件操作\1) 压缩解压\tar.gz.aardio
+-822466164|602|342|codes\范例程序\C) 文件操作\1) 压缩解压\tar.lzma.aardio
+984567506|142|142|codes\范例程序\C) 文件操作\1) 压缩解压\unrar.aardio
+26924519|452|300|codes\范例程序\C) 文件操作\1) 压缩解压\unzip.aardio
+470192117|188|173|codes\范例程序\C) 文件操作\1) 压缩解压\zip.aardio
+-368754595|425|245|codes\范例程序\C) 文件操作\2) 7Zip\7zCompress.aardio
+-1957552927|2087|892|codes\范例程序\C) 文件操作\2) 7Zip\7zExtractor.aardio
+1290599044|477|331|codes\范例程序\C) 文件操作\2) 7Zip\7zHttpFile.aardio
+0|0|0|codes\范例程序\C) 文件操作\3) asar打包解包\forms\
+1196400817|2010|821|codes\范例程序\C) 文件操作\3) asar打包解包\main.aardio
+174786009|676|351|codes\范例程序\C) 文件操作\3) asar打包解包\WinAsar.aproj
+-422435923|7282|2277|codes\范例程序\C) 文件操作\3) asar打包解包\forms\extractor.aardio
+511405815|6132|2036|codes\范例程序\C) 文件操作\3) asar打包解包\forms\packer.aardio
+1275226327|2448|1108|codes\范例程序\C) 文件操作\4) 串口\sio.aardio
+643290154|1250|684|codes\范例程序\C) 文件操作\5) 监视文件\dirWatcher.aardio
+1315135226|1593|794|codes\范例程序\C) 文件操作\5) 监视文件\fsys.watch.aardio
+1339934463|2281|837|codes\范例程序\C) 文件操作\5) 监视文件\win.util.changeNotification.aardio
+1511854383|15846|15377|codes\范例程序\D) 图形图像\.gdip.jpg
+1541907302|683|428|codes\范例程序\D) 图形图像\clip.aardio
+-15889969|3628|1314|codes\范例程序\D) 图形图像\colorMatrix.aardio
+1065356664|416|252|codes\范例程序\D) 图形图像\crop.aardio
+-1092859474|1462|877|codes\范例程序\D) 图形图像\drawBackground.aardio
+835352412|5671|1804|codes\范例程序\D) 图形图像\exif.aardio
+986739171|2652|2204|codes\范例程序\D) 图形图像\expand.jpg
+-1451157402|432|326|codes\范例程序\D) 图形图像\feather.aardio
+912133151|7990|2958|codes\范例程序\D) 图形图像\gdip.aardio
+-549244456|5311|1594|codes\范例程序\D) 图形图像\jpegUtil.aardio
+367951796|2335|935|codes\范例程序\D) 图形图像\qrcode.aardio
+1601506327|2518|891|codes\范例程序\D) 图形图像\snap.aardio
+661548846|2523|997|codes\范例程序\D) 图形图像\zbar.aardio
+-1785042208|2579|1382|codes\范例程序\D) 图形图像\桌面歌词效果.aardio
+0|0|0|codes\范例程序\E) 音频视频\视频\
+0|0|0|codes\范例程序\E) 音频视频\音频\
+-962857805|1030|615|codes\范例程序\E) 音频视频\视频\aPlayer.aardio
+-1212760097|1946|1030|codes\范例程序\E) 音频视频\视频\ckplayer.aardio
+762682843|294|241|codes\范例程序\E) 音频视频\视频\html5media.aardio
+-2070410031|5217|1995|codes\范例程序\E) 音频视频\视频\libvlc.aardio
+-1394439891|3738|1368|codes\范例程序\E) 音频视频\视频\mplayer.aardio
+-1018228330|4448|1777|codes\范例程序\E) 音频视频\视频\mpvPlayer.aardio
+880363143|1131|596|codes\范例程序\E) 音频视频\视频\wmplay.aardio
+-1491464207|2348|923|codes\范例程序\E) 音频视频\音频\audio.aardio
+328839245|1590|865|codes\范例程序\E) 音频视频\音频\baidu.speech.aardio
+-1659069308|8969|3480|codes\范例程序\E) 音频视频\音频\bass.aardio
+-1525223800|329|206|codes\范例程序\E) 音频视频\音频\ID3.aardio
+-1338104818|4389|2321|codes\范例程序\E) 音频视频\音频\lrc.aardio
+-98924744|1173|697|codes\范例程序\E) 音频视频\音频\soundDevice.aardio
+-1198887051|2904|1386|codes\范例程序\E) 音频视频\音频\tts.aardio
+1023829753|2440|1077|codes\范例程序\E) 音频视频\音频\volume.aardio
+0|0|0|codes\范例程序\F) COM 组件\1) 嵌入 ActiveX 控件\
+-1563847535|5412|2085|codes\范例程序\F) COM 组件\1.progId.aardio
+0|0|0|codes\范例程序\F) COM 组件\2) 创建 ActiveX EXE\
+1351498053|452|310|codes\范例程序\F) COM 组件\2.ROT.aardio
+0|0|0|codes\范例程序\F) COM 组件\3) WMI\
+2066618010|544|349|codes\范例程序\F) COM 组件\3.输出COM对象成员.aardio
+-1460909145|1650|774|codes\范例程序\F) COM 组件\4.用连接点注册事件.aardio
+0|0|0|codes\范例程序\F) COM 组件\5) AutoCAD\
+-1792056895|399|296|codes\范例程序\F) COM 组件\5.自动导入常量定义.aardio
+-1460638336|308|221|codes\范例程序\F) COM 组件\6.COM 迭代器.aardio
+-1884030038|626|368|codes\范例程序\F) COM 组件\7.collection.aardio
+-1078745224|1143|649|codes\范例程序\F) COM 组件\8.MapWinGIS.aardio
+-656278167|680|467|codes\范例程序\F) COM 组件\excel.aardio
+607782389|415|261|codes\范例程序\F) COM 组件\fso.aardio
+1687957261|724|449|codes\范例程序\F) COM 组件\shell.aardio
+1518133042|1442|742|codes\范例程序\F) COM 组件\spRecognizer.aardio
+1559908229|1059|647|codes\范例程序\F) COM 组件\下载网页.aardio
+2054986216|435|316|codes\范例程序\F) COM 组件\图表.aardio
+-884875525|1249|805|codes\范例程序\F) COM 组件\模拟按键.aardio
+520345558|726|497|codes\范例程序\F) COM 组件\调用迅雷下载.aardio
+623279262|1194|720|codes\范例程序\F) COM 组件\1) 嵌入 ActiveX 控件\InkEdit.aardio
+1490399575|1500|852|codes\范例程序\F) COM 组件\1) 嵌入 ActiveX 控件\lite.aardio
+-881230836|870|597|codes\范例程序\F) COM 组件\1) 嵌入 ActiveX 控件\pdf.aardio
+-1065598994|1153|600|codes\范例程序\F) COM 组件\1) 嵌入 ActiveX 控件\wmplay.aardio
+-319430652|1260|494|codes\范例程序\F) COM 组件\2) 创建 ActiveX EXE\default.aproj
+0|0|0|codes\范例程序\F) COM 组件\2) 创建 ActiveX EXE\lib\
+-449607639|967|555|codes\范例程序\F) COM 组件\2) 创建 ActiveX EXE\main.aardio
+0|0|0|codes\范例程序\F) COM 组件\2) 创建 ActiveX EXE\test\
+0|0|0|codes\范例程序\F) COM 组件\2) 创建 ActiveX EXE\typelib\
+0|0|0|codes\范例程序\F) COM 组件\2) 创建 ActiveX EXE\lib\AardioTestControl\
+-1474576619|1098|570|codes\范例程序\F) COM 组件\2) 创建 ActiveX EXE\lib\AardioTestControl\Sample.aardio
+-1868633771|608|403|codes\范例程序\F) COM 组件\2) 创建 ActiveX EXE\lib\AardioTestControl\SampleForm.aardio
+1863305777|476|377|codes\范例程序\F) COM 组件\2) 创建 ActiveX EXE\test\test.aardio
+2001573878|58|71|codes\范例程序\F) COM 组件\2) 创建 ActiveX EXE\test\test.ps1
+774258259|105|108|codes\范例程序\F) COM 组件\2) 创建 ActiveX EXE\test\test.vbs
+-1106848630|359|248|codes\范例程序\F) COM 组件\2) 创建 ActiveX EXE\typelib\MKTYPLIB.aardio
+2028340916|10236|3253|codes\范例程序\F) COM 组件\2) 创建 ActiveX EXE\typelib\ODL语法参考.html
+530864888|833|446|codes\范例程序\F) COM 组件\2) 创建 ActiveX EXE\typelib\SampleControl.odl
+1517477978|2048|624|codes\范例程序\F) COM 组件\2) 创建 ActiveX EXE\typelib\SampleControl.tlb
+239028125|1716|742|codes\范例程序\F) COM 组件\3) WMI\SWbemSink.aardio
+1643870433|1728|801|codes\范例程序\F) COM 组件\3) WMI\SysInfo.aardio
+294768366|554|403|codes\范例程序\F) COM 组件\5) AutoCAD\command.aardio
+1976819191|1151|693|codes\范例程序\F) COM 组件\5) AutoCAD\introduction.aardio
+0|0|0|codes\范例程序\G) 操作系统\1) 注册表\
+1922719077|929|449|codes\范例程序\G) 操作系统\device.aardio
+1353429851|1214|492|codes\范例程序\G) 操作系统\deviceNotification.aardio
+-1515826640|2009|1086|codes\范例程序\G) 操作系统\fixUpdate.aardio
+933078256|2945|1226|codes\范例程序\G) 操作系统\print.aardio
+-114226480|291|231|codes\范例程序\G) 操作系统\restart-explorer.aardio
+580823624|737|424|codes\范例程序\G) 操作系统\settings.aardio
+-871940370|1876|911|codes\范例程序\G) 操作系统\shellFolder.aardio
+-786755768|1946|937|codes\范例程序\G) 操作系统\sysColor.aardio
+-1132525248|2109|1065|codes\范例程序\G) 操作系统\sysInfo.aardio
+-1229088317|1039|546|codes\范例程序\G) 操作系统\virDesktop.aardio
+285483356|689|469|codes\范例程序\G) 操作系统\关闭显示器.aardio
+2075772280|996|553|codes\范例程序\G) 操作系统\取硬盘序列号.aardio
+1145800465|887|490|codes\范例程序\G) 操作系统\1) 注册表\1.reg.aardio
+1285933871|867|550|codes\范例程序\G) 操作系统\1) 注册表\2.lastkey.aardio
+-1057660845|1143|534|codes\范例程序\G) 操作系统\1) 注册表\3.openCmdHere.aardio
+-305942195|1106|347|codes\范例程序\G) 操作系统\1) 注册表\4.openCodeHere.aardio
+384725022|567|349|codes\范例程序\G) 操作系统\1) 注册表\5.rdp.aardio
+0|0|0|codes\范例程序\I) 自动化\1) 找图找色找字\
+0|0|0|codes\范例程序\I) 自动化\2) MSAA\
+0|0|0|codes\范例程序\I) 自动化\3) 窗口自动化\
+0|0|0|codes\范例程序\I) 自动化\4) 输入文本\
+0|0|0|codes\范例程序\I) 自动化\5) 鼠标按键\
+0|0|0|codes\范例程序\I) 自动化\6) 进程操作\
+-1398106253|448|333|codes\范例程序\I) 自动化\1) 找图找色找字\findColor.aardio
+1531720737|1887|1122|codes\范例程序\I) 自动化\1) 找图找色找字\findImage.aardio
+-1016681734|1821|1003|codes\范例程序\I) 自动化\1) 找图找色找字\ocrLite.aardio
+841674326|610|351|codes\范例程序\I) 自动化\2) MSAA\each.aardio
+-1499552517|1935|900|codes\范例程序\I) 自动化\3) 窗口自动化\dskicon.aardio
+-1593946459|657|464|codes\范例程序\I) 自动化\3) 窗口自动化\embed.aardio
+1659365738|360|228|codes\范例程序\I) 自动化\3) 窗口自动化\listtxt.aardio
+-662957142|1311|682|codes\范例程序\I) 自动化\3) 窗口自动化\shellhook.aardio
+-1325510262|561|382|codes\范例程序\I) 自动化\3) 窗口自动化\后台按键.aardio
+-1519353283|487|315|codes\范例程序\I) 自动化\4) 输入文本\clip.aardio
+-1150057999|180|167|codes\范例程序\I) 自动化\4) 输入文本\打字效果.aardio
+1749080180|520|305|codes\范例程序\I) 自动化\5) 鼠标按键\clickHere.aardio
+-449223738|1423|848|codes\范例程序\I) 自动化\5) 鼠标按键\draw.aardio
+343247004|1884|928|codes\范例程序\I) 自动化\5) 鼠标按键\loopkey.aardio
+1765413864|85|97|codes\范例程序\I) 自动化\5) 鼠标按键\发送英文字符串.aardio
+-1395460567|385|300|codes\范例程序\I) 自动化\5) 鼠标按键\拖动桌面图标演示.aardio
+-673475015|317|233|codes\范例程序\I) 自动化\5) 鼠标按键\暂停继续.aardio
+2112806612|741|423|codes\范例程序\I) 自动化\5) 鼠标按键\模拟按键演示.aardio
+343716623|1068|676|codes\范例程序\I) 自动化\5) 鼠标按键\监视按键.aardio
+-1339598584|1430|699|codes\范例程序\I) 自动化\5) 鼠标按键\监视鼠标.aardio
+-422756066|614|374|codes\范例程序\I) 自动化\6) 进程操作\cacls.aardio
+-1229429185|350|222|codes\范例程序\I) 自动化\6) 进程操作\heap.aardio
+-1489617681|138|143|codes\范例程序\I) 自动化\6) 进程操作\logon.aardio
+886341521|252|223|codes\范例程序\I) 自动化\6) 进程操作\runqq.aardio
+1416101601|863|510|codes\范例程序\I) 自动化\6) 进程操作\threadWait.aardio
+1946406469|788|496|codes\范例程序\I) 自动化\6) 进程操作\直接运行DLL接口.aardio
+-1444102955|1277|629|codes\范例程序\I) 自动化\6) 进程操作\管道.aardio
+-1778949286|1278|795|codes\范例程序\I) 自动化\6) 进程操作\进程操作.aardio
+-1539047926|713728|303079|config\AAU.BIN
 0|0|0|config\intellisense\
 0|0|0|config\lang\
--2129004092|14|32|config\SYS.CFG
+-2097594001|14|32|config\SYS.CFG
 -1857708118|3541|748|config\SYS.THEME
 0|0|0|config\themes\
-242879348|110299|28960|config\intellisense\kernel.txt
-786007257|4753|1683|config\intellisense\unimportant.txt
+-1791952367|110302|28966|config\intellisense\kernel.txt
+986360664|4802|1718|config\intellisense\unimportant.txt
 946221732|9375|1953|config\intellisense\web.layout.behavior.txt
 31814408|10949|2205|config\intellisense\web.sciter.behavior.txt
--537267845|27843|9106|config\intellisense\winform.txt
--952104398|3592|1718|config\lang\lib.txt
+1611951845|27975|9148|config\intellisense\winform.txt
+-1914125981|3671|1757|config\lang\lib.txt
 -1685533732|3516|761|config\themes\dark.xml
 -451630076|3540|748|config\themes\light.xml
 0|0|0|download\update\
@@ -695,15 +713,15 @@
 -561110134|3541|3495|extensions\plugin\view\res\images\panel-back.png
 -823630779|2863|2894|extensions\plugin\view\res\images\panel-caption-back.png
 743936213|23558|4107|extensions\res\app.ico
--533337239|1441|802|extensions\trigger\before-publish.aardio
+52807502|1447|804|extensions\trigger\before-publish.aardio
 1628538018|952|458|extensions\trigger\default.aproj
 -1630737918|1911|677|extensions\trigger\edit-default.aardio
 -468701680|23|42|extensions\trigger\gotoFile.aardio
-1082551895|1603|749|extensions\trigger\init.aardio
+1178155207|1606|752|extensions\trigger\init.aardio
 0|0|0|extensions\trigger\lib\
 -143629808|948|508|extensions\trigger\openProject.aardio
-1831587836|5032|1785|extensions\trigger\publish-website.aardio
-1987848184|13366|4525|extensions\trigger\publish.aardio
+-2014695281|5039|1793|extensions\trigger\publish-website.aardio
+512516933|13366|4525|extensions\trigger\publish.aardio
 0|0|0|extensions\trigger\res\
 1939472766|241|215|extensions\trigger\lib\config.aardio
 0|0|0|extensions\trigger\res\config\
@@ -714,7 +732,7 @@
 -1482346476|161|143|extensions\wizard\files\default.main.aardio
 1728652859|5576|2407|extensions\wizard\files\layout-blank.aardio
 1405964242|374|252|extensions\wizard\files\layout.aardio
--2114693699|698|520|extensions\wizard\files\webform-blank.aardio
+-1310143510|2191|1071|extensions\wizard\files\webform-blank.aardio
 1082507441|364|296|extensions\wizard\files\webform.aardio
 -1823906657|403|294|extensions\wizard\files\website.main.aardio
 -392434232|171|145|extensions\wizard\files\winform.aardio
@@ -733,7 +751,7 @@
 1847094655|2496|1154|extensions\wizard\project2\.build\高级选项卡.Manifest.xml
 0|0|0|extensions\wizard\project2\forms\console\
 -116837173|2668|1071|extensions\wizard\project2\forms\console.aardio
--805362629|5979|2636|extensions\wizard\project2\forms\fastcgi.aardio
+754459123|6148|2654|extensions\wizard\project2\forms\fastcgi.aardio
 0|0|0|extensions\wizard\project2\forms\images\
 0|0|0|extensions\wizard\project2\forms\plus\
 -798941659|2754|1040|extensions\wizard\project2\forms\plus.aardio
@@ -1178,7 +1196,7 @@
 0|0|0|extensions\wizard\project2\template\winform-blank\res\
 -1417429732|795|504|extensions\wizard\project2\template\winform-blank\lib\config.aardio
 0|0|0|extensions\wizard\project2\template\winform-blank\lib\fonts\
--1188504725|779407|774407|help\AARDIO.CHM
+954784421|772187|767015|help\AARDIO.CHM
 -1407847800|12468|4146|help\关于aardio.txt
 0|0|0|help\用户许可协议\
 -911159679|1976|1010|help\用户许可协议\aardio开源代码许可证.txt
@@ -1235,7 +1253,7 @@
 -1895578078|54|49|lib\bencoding\_.aardio
 -1095537913|22393|6847|lib\chrome\app.aardio
 814582489|3559|1728|lib\chrome\dev.aardio
-991338471|31375|7714|lib\chrome\driver.aardio
+-609092617|32152|7887|lib\chrome\driver.aardio
 1141455353|1023|497|lib\chrome\edge.aardio
 1415170124|1707|730|lib\chrome\edge.history.aardio
 -1783794303|916|505|lib\chrome\extensions.aardio
@@ -1297,25 +1315,26 @@
 1244987244|7801|2555|lib\console\wine.aardio
 -568972073|27470|8449|lib\console\_.aardio
 1216052277|1046|568|lib\coroutine\_.aardio
--252425047|3533|1549|lib\crypt\aes.aardio
+698961939|3504|1527|lib\crypt\aes.aardio
 251731818|3473|1063|lib\crypt\bin.aardio
 -705410517|3288|1473|lib\crypt\des.aardio
--884887948|4399|1733|lib\crypt\hash.aardio
+-985047563|4412|1754|lib\crypt\hash.aardio
 -330008860|1848|687|lib\crypt\hmac.aardio
 -34059323|2505|967|lib\crypt\jwt.aardio
 -263492981|1979|866|lib\crypt\protectData.aardio
+-275706605|1014|557|lib\crypt\provParam.aardio
 1726796049|1537|820|lib\crypt\rc4.aardio
--183222427|13743|3271|lib\crypt\rsa.aardio
--713392864|37966|8929|lib\crypt\_.aardio
+-692262387|15737|3663|lib\crypt\rsa.aardio
+433441306|40388|9450|lib\crypt\_.aardio
 849437073|4148|1745|lib\debug\log.aardio
-983730162|3213|1086|lib\debug\_.aardio
+489948337|3243|1094|lib\debug\_.aardio
 0|0|0|lib\dotNet\.res\
-2056656055|21704|4928|lib\dotNet\appDomain.aardio
-1053547864|7716|2440|lib\dotNet\clr.aardio
+1565100758|23127|5389|lib\dotNet\appDomain.aardio
+-1855785224|7754|2453|lib\dotNet\clr.aardio
 0|0|0|lib\dotNet\interface\
 0|0|0|lib\dotNet\ocr\
--366694438|3552|1455|lib\dotNet\ps.aardio
--1532052223|1910|929|lib\dotNet\uwpCompiler.aardio
+-64401708|3360|1395|lib\dotNet\ps.aardio
+-1255957917|1887|915|lib\dotNet\uwpCompiler.aardio
 1574881189|1757|738|lib\dotNet\version.aardio
 1041040747|272|225|lib\dotNet\_.aardio
 0|0|0|lib\dotNet\.res\Aardio.InteropServices\
@@ -1332,7 +1351,7 @@
 1497699716|1095|471|lib\dotNet\interface\ICLRRuntimeInfo.aardio
 1491986198|1336|480|lib\dotNet\interface\ICorRuntimeHost.aardio
 0|0|0|lib\dotNet\ocr\.res\
--1672991166|11517|3008|lib\dotNet\ocr\_.aardio
+-1665971201|11406|2961|lib\dotNet\ocr\_.aardio
 732821783|8704|3535|lib\dotNet\ocr\.res\ocr.dll
 0|0|0|lib\electron\app\
 0|0|0|lib\electron\runtime\
@@ -1349,13 +1368,13 @@
 -737056152|2249|847|lib\fastcgi\nameValuePairs.aardio
 -1059815256|2532|816|lib\fastcgi\stream.aardio
 -51995625|23|42|lib\fastcgi\_.aardio
-909205800|30889|8229|lib\fastcgi\client\_.aardio
+-1713954713|31271|8344|lib\fastcgi\client\_.aardio
 0|0|0|lib\fonts\.res\
 -1125240956|507|346|lib\fonts\fontAwesome.aardio
 -2136493270|552|375|lib\fonts\httpFamily.aardio
 -1337359088|3134|1428|lib\fonts\_.aardio
 1306959830|158100|85704|lib\fonts\.res\FontAwesome.ttf
--1664649598|5293|1318|lib\fsys\acl.aardio
+1328974508|5716|1439|lib\fsys\acl.aardio
 0|0|0|lib\fsys\asar\
 -376971027|3406|1005|lib\fsys\batch.aardio
 0|0|0|lib\fsys\cab\
@@ -1372,7 +1391,7 @@
 116515129|2117|1017|lib\fsys\hosts.aardio
 -4063331|1735|884|lib\fsys\info.aardio
 2059050227|6044|1942|lib\fsys\ini.aardio
-1826838651|14861|4088|lib\fsys\lnk.aardio
+-1925842385|15027|4140|lib\fsys\lnk.aardio
 392074803|2366|1028|lib\fsys\localfile.aardio
 1881123752|4131|1253|lib\fsys\log.aardio
 402794755|6985|2705|lib\fsys\media.aardio
@@ -1455,14 +1474,14 @@
 -1996332073|22395|5681|lib\inet\_.aardio
 353625305|2275|1119|lib\key\hook.aardio
 0|0|0|lib\key\hotkey\
--1898176958|4598|1699|lib\key\ime.aardio
+-1595473835|4720|1732|lib\key\ime.aardio
 1832939412|12212|3426|lib\key\VK.aardio
 -1345025058|10099|2987|lib\key\_.aardio
 999147542|13539|4046|lib\key\hotkey\_.aardio
 -67895191|6776|2200|lib\mouse\draw.aardio
 -543039773|2307|1134|lib\mouse\hook.aardio
 -1802899828|8346|2366|lib\mouse\_.aardio
--111992270|17403|3880|lib\nodeJs\_.aardio
+1579376893|17681|3963|lib\nodeJs\_.aardio
 -1124680528|17730|5520|lib\preload\com.aardio
 -905595537|2748|1531|lib\preload\io.aardio
 5595517|3378|1416|lib\preload\math.aardio
@@ -1477,7 +1496,7 @@
 1685550576|1158|628|lib\process\atom.aardio
 1781082304|3856|1543|lib\process\batch.aardio
 169341518|2580|1098|lib\process\cache.aardio
-1422488430|3035|1180|lib\process\code.aardio
+-793768067|3131|1193|lib\process\code.aardio
 -91496726|6854|2337|lib\process\command.aardio
 -1628604094|1047|628|lib\process\control.aardio
 1258118950|825|292|lib\process\displaySwitch.aardio
@@ -1487,7 +1506,7 @@
 0|0|0|lib\process\job\
 1129615568|4119|1701|lib\process\mutex.aardio
 0|0|0|lib\process\php\
-1810782984|18238|5163|lib\process\popen.aardio
+-2116822123|18730|5246|lib\process\popen.aardio
 0|0|0|lib\process\ruby\
 -475412020|852|521|lib\process\rundll.aardio
 0|0|0|lib\process\rust\
@@ -1497,7 +1516,7 @@
 776577518|2296|1066|lib\process\vswhere.aardio
 -1050612479|2254|910|lib\process\wmi.aardio
 174450548|3793|1475|lib\process\wow64.aardio
-379480122|53434|14239|lib\process\_.aardio
+-1414009639|54637|14530|lib\process\_.aardio
 2013837002|6858|2296|lib\process\apiHook\_.aardio
 -1653245131|3463|1075|lib\process\gcc\_.aardio
 1404097761|2825|1098|lib\process\job\limitKill.aardio
@@ -1573,7 +1592,6 @@
 200788786|2899|1166|lib\string\fuzzyMatching.aardio
 810202900|1952|873|lib\string\glob.aardio
 -213421199|3657|1492|lib\string\html.aardio
-478056621|1984|697|lib\string\lcid.aardio
 1499601359|8322|2730|lib\string\list.aardio
 715503445|5657|2082|lib\string\lrc.aardio
 -1479569812|1571|601|lib\string\padding.aardio
@@ -1585,7 +1603,7 @@
 1304316827|2770|862|lib\string\xxtea.aardio
 0|0|0|lib\string\conv\.res\
 948733262|1652|820|lib\string\conv\pinyin.aardio
--366851228|2777|1088|lib\string\conv\_.aardio
+1090486616|2899|1138|lib\string\conv\_.aardio
 -375387965|83892|59193|lib\string\conv\.res\data.txt
 1839814212|8669|2480|lib\sys\acl.aardio
 807901200|1524|814|lib\sys\comPort.aardio
@@ -1595,6 +1613,7 @@
 -2019551144|1690|805|lib\sys\display.aardio
 697079004|4720|1669|lib\sys\hd.aardio
 58785228|1466|692|lib\sys\info.aardio
+0|0|0|lib\sys\locale\
 1083785741|1732|662|lib\sys\mem.aardio
 -8139920|6481|2176|lib\sys\monitor.aardio
 2133097187|2544|888|lib\sys\mpPreference.aardio
@@ -1606,6 +1625,8 @@
 1094354463|3309|1090|lib\sys\vc14.aardio
 84729105|5444|2007|lib\sys\volume.aardio
 -1224990289|2072|918|lib\sys\_.aardio
+-278388968|2070|752|lib\sys\locale\abbrevNames.aardio
+1783751645|1766|734|lib\sys\locale\_.aardio
 -928803953|1904|727|lib\table\product.aardio
 1583337718|4015|1409|lib\thread\apiHook.aardio
 6497176|988|550|lib\thread\atom.aardio
@@ -1619,7 +1640,7 @@
 -1606251352|1819|866|lib\thread\token.aardio
 1343974654|6261|2075|lib\thread\works.aardio
 1643154721|4925|2016|lib\time\ntp.aardio
-110381182|8876|2809|lib\time\ole.aardio
+766123043|8898|2819|lib\time\ole.aardio
 -280491231|924|516|lib\time\performance.aardio
 1334756331|919|476|lib\time\timer.aardio
 -883340326|3026|1074|lib\time\zone.aardio
@@ -1707,16 +1728,16 @@
 -2014910930|2909|917|lib\web\soapClient\parameters.aardio
 666218477|7637|2514|lib\web\soapClient\_.aardio
 190130042|6355|2518|lib\web\socket\chrome.aardio
-1062519796|17104|5429|lib\web\socket\client.aardio
--1805828197|11049|3877|lib\web\socket\jsonClient.aardio
--1704632835|10069|2768|lib\web\socket\jsonServer.aardio
+-1363653256|17138|5453|lib\web\socket\client.aardio
+1408922786|11454|4027|lib\web\socket\jsonClient.aardio
+531314715|10241|2813|lib\web\socket\jsonServer.aardio
 -621548269|18638|5419|lib\web\socket\server.aardio
 2087608769|7343|2216|lib\web\ui\_.aardio
 0|0|0|lib\web\view\.res\
-90414420|3197|1606|lib\web\view\dev.aardio
--1637939913|18216|6166|lib\web\view\_.aardio
+-641522855|3819|1685|lib\web\view\dev.aardio
+1095542663|18156|6134|lib\web\view\_.aardio
 -76258719|378368|151501|lib\web\view\.res\webview.dll
-2004808170|327458|61362|lib\win\#DEFINE.aardio
+1348251051|327774|61566|lib\win\#DEFINE.aardio
 -2025258603|3195|949|lib\win\animate.aardio
 631762345|4002|1438|lib\win\appBar.aardio
 0|0|0|lib\win\clip\
@@ -1743,7 +1764,7 @@
 -579386759|5341|1491|lib\win\version.aardio
 -306353340|2340|1058|lib\win\versionEx.aardio
 0|0|0|lib\win\wizard\
-1912938726|47219|13752|lib\win\_.aardio
+2088074799|47611|13885|lib\win\_.aardio
 -803629268|2526|1008|lib\win\clip\file.aardio
 1845514487|5154|1539|lib\win\clip\html.aardio
 523635146|1685|735|lib\win\clip\viewer.aardio
@@ -1770,7 +1791,7 @@
 -2077446882|949|509|lib\win\region\png\.res\build.aardio
 -673249726|2048|546|lib\win\region\png\.res\c.dll
 -1287274659|2007|872|lib\win\ts\changeNotification.aardio
-914194601|7367|2703|lib\win\ts\_.aardio
+735595714|7374|2709|lib\win\ts\_.aardio
 -1905724311|2829|1233|lib\win\ui\accelerator.aardio
 -41202246|1487|701|lib\win\ui\atom.aardio
 -138249488|5889|1856|lib\win\ui\background.aardio
@@ -1793,11 +1814,11 @@
 32216182|3600|1436|lib\win\ui\simpleWindow2.aardio
 2092266129|3015|1269|lib\win\ui\simpleWindow3.aardio
 -1098848637|3596|1316|lib\win\ui\statusbar.aardio
--296597406|43710|10959|lib\win\ui\tabs.aardio
+2082806301|43933|10985|lib\win\ui\tabs.aardio
 499386293|10052|2964|lib\win\ui\toolbar.aardio
 -617068702|10681|3284|lib\win\ui\tooltip.aardio
 -1766920331|10172|2781|lib\win\ui\tracker.aardio
--2067874064|58888|13486|lib\win\ui\_.aardio
+623174055|59035|13517|lib\win\ui\_.aardio
 1620929574|6551|2659|lib\win\ui\ctrl\atlax.aardio
 -689946269|4825|1700|lib\win\ui\ctrl\bk.aardio
 -751364781|9955|3305|lib\win\ui\ctrl\bkplus.aardio
@@ -1808,17 +1829,17 @@
 1624620549|12731|4578|lib\win\ui\ctrl\combobox.aardio
 488148247|3737|1280|lib\win\ui\ctrl\custom.aardio
 1467959672|6943|2581|lib\win\ui\ctrl\datetimepick.aardio
-1039849322|26742|8374|lib\win\ui\ctrl\edit.aardio
+-1304497342|27228|8419|lib\win\ui\ctrl\edit.aardio
 915790895|4343|1799|lib\win\ui\ctrl\hotkey.aardio
 -1843827469|5177|2200|lib\win\ui\ctrl\ipaddress.aardio
 -1819767461|12941|4288|lib\win\ui\ctrl\listbox.aardio
-600851893|54323|13568|lib\win\ui\ctrl\listview.aardio
+-1532206609|55070|13763|lib\win\ui\ctrl\listview.aardio
 0|0|0|lib\win\ui\ctrl\metaProperty\
 0|0|0|lib\win\ui\ctrl\pick\
 -304732565|7669|2694|lib\win\ui\ctrl\picturebox.aardio
--1771981979|81596|19158|lib\win\ui\ctrl\plus.aardio
+732770273|81949|19254|lib\win\ui\ctrl\plus.aardio
 53463247|5818|2105|lib\win\ui\ctrl\progress.aardio
--1583637560|37569|10970|lib\win\ui\ctrl\richedit.aardio
+-1851936046|37691|10988|lib\win\ui\ctrl\richedit.aardio
 1154239158|5807|2206|lib\win\ui\ctrl\scrollbar.aardio
 -968203203|7416|2876|lib\win\ui\ctrl\spin.aardio
 -1127563964|9016|2921|lib\win\ui\ctrl\splitter.aardio
@@ -1829,7 +1850,7 @@
 -1155664699|8543|2711|lib\win\ui\ctrl\trackbar.aardio
 -1125456067|37732|10282|lib\win\ui\ctrl\treeview.aardio
 2012308056|5997|2014|lib\win\ui\ctrl\_.aardio
-1567855820|32466|7676|lib\win\ui\ctrl\metaProperty\_.aardio
+9327327|32501|7682|lib\win\ui\ctrl\metaProperty\_.aardio
 0|0|0|lib\win\ui\ctrl\pick\.res\
 -1383136007|35662|8144|lib\win\ui\ctrl\pick\_.aardio
 1888989482|4286|973|lib\win\ui\ctrl\pick\.res\color.cur
@@ -1849,7 +1870,7 @@
 -1069300197|680|367|lib\winex\desktop.aardio
 1514836294|2825|1140|lib\winex\key.aardio
 1288732660|4598|1091|lib\winex\mouse.aardio
-663593921|24661|6069|lib\winex\_.aardio
+543850581|27182|6679|lib\winex\_.aardio
 -5254621|4764|1297|lib\winex\accObject\element.aardio
 -866080167|7557|2594|lib\winex\accObject\_.aardio
 97442501|10530|2811|lib\winex\ctrl\listview.aardio
@@ -1861,12 +1882,12 @@
 0|0|0|lib\wsock\udp\
 1006724467|27258|7670|lib\wsock\_.aardio
 944740427|15954|4846|lib\wsock\tcp\asynClient.aardio
-920335151|29752|8287|lib\wsock\tcp\asynHttpServer.aardio
+-1437217506|29969|8333|lib\wsock\tcp\asynHttpServer.aardio
 439346883|10910|3318|lib\wsock\tcp\asynServer.aardio
 867069460|24893|6879|lib\wsock\tcp\client.aardio
 -653866149|8279|2898|lib\wsock\tcp\jsonClient.aardio
 -2070030988|5361|2128|lib\wsock\tcp\server.aardio
-1540350751|33356|8472|lib\wsock\tcp\simpleHttpServer.aardio
+-1176905367|33591|8527|lib\wsock\tcp\simpleHttpServer.aardio
 1984733421|3202|1265|lib\wsock\tcp\socks5Client.aardio
 -2097737651|3669|1554|lib\wsock\udp\asynClient.aardio
 -438556444|8703|2667|lib\wsock\udp\client.aardio
@@ -1878,88 +1899,90 @@
 1069146128|5966|2229|lib\zlib\zip.aardio
 -1552006076|15576|4178|lib\zlib\_.aardio
 1480676041|142848|69587|lib\zlib\.res\zlibwapi.dll
-671794419|7809|2455|tools\1.ext.aardio
+0|0|0|tools\1) 开发环境\
+-1756957257|7855|2494|tools\1.ext.aardio
+0|0|0|tools\2) 界面\
 -1556041127|28777|8034|tools\2.doc.aardio
+0|0|0|tools\3) 编码\
 -1302826247|3682|1305|tools\4.update.aardio
-0|0|0|tools\其他\
-0|0|0|tools\开发环境\
-0|0|0|tools\探测器\
-0|0|0|tools\文本文件\
-0|0|0|tools\界面\
-0|0|0|tools\编码\
-0|0|0|tools\网络\
-0|0|0|tools\转换工具\
-0|0|0|tools\鼠标按键\
--2120382032|75|92|tools\其他\timer.aardio
-0|0|0|tools\其他\其他编译器\
-1438179594|7496|2549|tools\其他\进程管理器.aardio
-0|0|0|tools\其他\其他编译器\C语言\
-0|0|0|tools\其他\其他编译器\INTEL汇编语言\
-0|0|0|tools\其他\其他编译器\Protobuf\
-2021348440|3027|1319|tools\其他\其他编译器\C语言\tcc.aardio
-0|0|0|tools\其他\其他编译器\INTEL汇编语言\.asm\
--1701867252|6044|2266|tools\其他\其他编译器\INTEL汇编语言\asm2hex.aardio
--2007431455|1594|775|tools\其他\其他编译器\INTEL汇编语言\att.aardio
-1286637959|310|210|tools\其他\其他编译器\Protobuf\default.aproj
-0|0|0|tools\其他\其他编译器\Protobuf\lib\
--1280120494|6103|2293|tools\其他\其他编译器\Protobuf\main.aardio
-0|0|0|tools\其他\其他编译器\Protobuf\res\
-0|0|0|tools\开发环境\.config\
-1024531155|4289|1575|tools\开发环境\defender.aardio
--768058155|3311|1471|tools\开发环境\editor.aardio
--1253144095|5123|1845|tools\开发环境\extlib.aardio
-1614510147|4822|1841|tools\开发环境\process.aardio
-789288000|5770|1864|tools\开发环境\reset.aardio
--876368211|6307|2075|tools\开发环境\statusBar.aardio
-0|0|0|tools\探测器\.res\
-1451119324|15301|4094|tools\探测器\1.winspy.aardio
--1595045959|17587|5720|tools\探测器\2.webspy.aardio
--1664592951|6082|2084|tools\探测器\3.dllView.aardio
-1924998772|1238|845|tools\探测器\.res\1.gif
-1408206410|1189|789|tools\探测器\.res\2.gif
-1277385501|326|112|tools\探测器\.res\spy.cur
-0|0|0|tools\文本文件\.res\
--656854397|20125|4640|tools\文本文件\1.match.aardio
-694298987|457|301|tools\文本文件\2.gfie.aardio
-299073007|96|113|tools\文本文件\2.hash.aardio
-1394622113|3263|1460|tools\文本文件\2.translate.aardio
--737475585|5343|2006|tools\文本文件\3.codepage.aardio
-1936654139|88|105|tools\文本文件\jpegUtil.aardio
-9447270|83|99|tools\文本文件\zbar.aardio
--266746690|687|372|tools\文本文件\.res\baidu.aardio
-1612085238|758|380|tools\文本文件\.res\deepl.aardio
-1475450992|683|339|tools\文本文件\.res\google.aardio
--1596933183|2553|1174|tools\文本文件\.res\ocr.aardio
--1147260752|616|337|tools\文本文件\.res\youdao.aardio
-0|0|0|tools\界面\.img\
--747455673|6561|1818|tools\界面\@colorPick.aardio
-1925945010|63983|10824|tools\界面\@designPlus.aardio
-2145007807|2781|1047|tools\界面\colorWheel.aardio
-1438342466|15353|4677|tools\界面\fontAwesome.aardio
-1703753683|28541|6315|tools\界面\trackbarPlus.aardio
--708447660|78|95|tools\界面\z-flexbox.aardio
-2112059061|4286|1804|tools\界面\.img\designPlus.ico
--1187927381|9213|8890|tools\界面\.img\designPlus.png
-2216647|2462|406|tools\界面\.img\iconfont.ico
-590619719|4286|428|tools\界面\.img\tracker.ico
-1779052077|7525|2723|tools\编码\1) maker.aardio
--517851499|6936|2470|tools\编码\2) com_ocx.aardio
-1557684283|2647|1094|tools\编码\3) com_exportenumerations.aardio
--280150723|973|537|tools\编码\4) guid.aardio
-842466073|1920|823|tools\编码\4) indent.aardio
--2072207821|2361|1107|tools\编码\5) dumpcode.aardio
--911796663|6977|2018|tools\编码\6) paste.aardio
--542260268|1061|497|tools\编码\7) json2table.aardio
--714853201|101|119|tools\网络\asynHttpServer.aardio
-1452039622|7640|2685|tools\网络\git.aardio
--985094933|6859|1875|tools\网络\inetHelper.aardio
--46764107|79|96|tools\网络\portScanner.aardio
-1650163126|4121|1607|tools\网络\portTest.aardio
--1107807214|122|139|tools\网络\uwpExemption.aardio
-1059797503|13955|3250|tools\转换工具\api.aardio
--650886601|5877|1913|tools\转换工具\constConvert.aardio
-381059073|3363|1513|tools\转换工具\dumpstring.aardio
--300194820|3002|1209|tools\转换工具\radix.aardio
-414039989|1973|1081|tools\转换工具\全局常量优化工具.aardio
--1113972130|5001|1961|tools\鼠标按键\keyMacro.aardio
--267627926|81|92|tools\鼠标按键\鼠标左右切换.aardio
+0|0|0|tools\5) 文本文件\
+0|0|0|tools\6) 探测器\
+0|0|0|tools\7) 转换工具\
+0|0|0|tools\8) 鼠标按键\
+0|0|0|tools\9) 网络\
+0|0|0|tools\A) 其他\
+0|0|0|tools\1) 开发环境\.config\
+1024531155|4289|1575|tools\1) 开发环境\defender.aardio
+-768058155|3311|1471|tools\1) 开发环境\editor.aardio
+1875225239|5162|1849|tools\1) 开发环境\extlib.aardio
+1614510147|4822|1841|tools\1) 开发环境\process.aardio
+789288000|5770|1864|tools\1) 开发环境\reset.aardio
+1819067461|6462|2118|tools\1) 开发环境\statusBar.aardio
+0|0|0|tools\2) 界面\.img\
+1438342466|15353|4677|tools\2) 界面\1) fontAwesome.aardio
+1158854162|63995|10827|tools\2) 界面\2) designPlus.aardio
+1703753683|28541|6315|tools\2) 界面\3) trackbarPlus.aardio
+-747455673|6561|1818|tools\2) 界面\4) colorPick.aardio
+2145007807|2781|1047|tools\2) 界面\5) colorWheel.aardio
+-1836329548|99|116|tools\2) 界面\6) flexbox.aardio
+1101216333|95|110|tools\2) 界面\7) web-learn.aardio
+-1725566163|58339|11852|tools\2) 界面\8) message.aardio
+2112059061|4286|1804|tools\2) 界面\.img\designPlus.ico
+-1187927381|9213|8890|tools\2) 界面\.img\designPlus.png
+2216647|2462|406|tools\2) 界面\.img\iconfont.ico
+590619719|4286|428|tools\2) 界面\.img\tracker.ico
+1779052077|7525|2723|tools\3) 编码\1) maker.aardio
+-517851499|6936|2470|tools\3) 编码\2) com_ocx.aardio
+1557684283|2647|1094|tools\3) 编码\3) com_exportenumerations.aardio
+-280150723|973|537|tools\3) 编码\4) guid.aardio
+842466073|1920|823|tools\3) 编码\4) indent.aardio
+-2072207821|2361|1107|tools\3) 编码\5) dumpcode.aardio
+-911796663|6977|2018|tools\3) 编码\6) paste.aardio
+-542260268|1061|497|tools\3) 编码\7) json2table.aardio
+0|0|0|tools\5) 文本文件\.res\
+-656854397|20125|4640|tools\5) 文本文件\1.match.aardio
+694298987|457|301|tools\5) 文本文件\2.gfie.aardio
+-1103717718|99|117|tools\5) 文本文件\2.hash.aardio
+1394622113|3263|1460|tools\5) 文本文件\2.translate.aardio
+-737475585|5343|2006|tools\5) 文本文件\3.codepage.aardio
+2139313447|91|108|tools\5) 文本文件\jpegUtil.aardio
+-1477403978|86|102|tools\5) 文本文件\zbar.aardio
+-266746690|687|372|tools\5) 文本文件\.res\baidu.aardio
+1612085238|758|380|tools\5) 文本文件\.res\deepl.aardio
+1475450992|683|339|tools\5) 文本文件\.res\google.aardio
+-1596933183|2553|1174|tools\5) 文本文件\.res\ocr.aardio
+-1147260752|616|337|tools\5) 文本文件\.res\youdao.aardio
+0|0|0|tools\6) 探测器\.res\
+1451119324|15301|4094|tools\6) 探测器\1.winspy.aardio
+2062082597|17590|5721|tools\6) 探测器\2.webspy.aardio
+-1664592951|6082|2084|tools\6) 探测器\3.dllView.aardio
+1924998772|1238|845|tools\6) 探测器\.res\1.gif
+1408206410|1189|789|tools\6) 探测器\.res\2.gif
+1277385501|326|112|tools\6) 探测器\.res\spy.cur
+1059797503|13955|3250|tools\7) 转换工具\api.aardio
+-1910712598|5750|1883|tools\7) 转换工具\constConvert.aardio
+381059073|3363|1513|tools\7) 转换工具\dumpstring.aardio
+-300194820|3002|1209|tools\7) 转换工具\radix.aardio
+414039989|1973|1081|tools\7) 转换工具\全局常量优化工具.aardio
+-1113972130|5001|1961|tools\8) 鼠标按键\keyMacro.aardio
+-267627926|81|92|tools\8) 鼠标按键\鼠标左右切换.aardio
+1443793718|108|126|tools\9) 网络\asynHttpServer.aardio
+1452039622|7640|2685|tools\9) 网络\git.aardio
+-985094933|6859|1875|tools\9) 网络\inetHelper.aardio
+758205104|2655|1116|tools\9) 网络\portScanner.aardio
+1650163126|4121|1607|tools\9) 网络\portTest.aardio
+1379946495|123|141|tools\9) 网络\uwpExemption.aardio
+-507743536|95|109|tools\A) 其他\timer.aardio
+0|0|0|tools\A) 其他\其他编译器\
+1438179594|7496|2549|tools\A) 其他\进程管理器.aardio
+0|0|0|tools\A) 其他\其他编译器\C语言\
+0|0|0|tools\A) 其他\其他编译器\INTEL汇编语言\
+0|0|0|tools\A) 其他\其他编译器\Protobuf\
+2021348440|3027|1319|tools\A) 其他\其他编译器\C语言\tcc.aardio
+0|0|0|tools\A) 其他\其他编译器\INTEL汇编语言\.asm\
+-1701867252|6044|2266|tools\A) 其他\其他编译器\INTEL汇编语言\asm2hex.aardio
+-2007431455|1594|775|tools\A) 其他\其他编译器\INTEL汇编语言\att.aardio
+1286637959|310|210|tools\A) 其他\其他编译器\Protobuf\default.aproj
+0|0|0|tools\A) 其他\其他编译器\Protobuf\lib\
+-1280120494|6103|2293|tools\A) 其他\其他编译器\Protobuf\main.aardio
+0|0|0|tools\A) 其他\其他编译器\Protobuf\res\

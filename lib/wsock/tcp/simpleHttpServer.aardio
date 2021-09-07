@@ -166,6 +166,12 @@ class simpleHttpServer{
                 			}
 							return owner._raw_stdin_data;
 						};
+						postJson = function(){  
+							if ( environ.CONTENT_TYPE && ..string.endWith(environ.CONTENT_TYPE,"/json",true) ) {
+								var data = owner.postData();
+								if(data) return ..web.json.tryParse(data);
+							}
+						};
 						postFileData = function(){
 							if(! (environ.CONTENT_TYPE && environ.CONTENT_LENGTH ) ) return;
 							if( owner._raw_stdin_data || owner._raw_file_data ) return owner._raw_file_data;

@@ -122,3 +122,5 @@ math = math 数学计算
 libzint = libzint 条码二维码
 freeBasic = freeBasic 语言
 ahk = ahk 按键自动化
+string\conv = conv 文本与简繁转换
+sys\locale = locale 区域与语言

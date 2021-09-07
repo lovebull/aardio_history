@@ -38,11 +38,13 @@ class tabs{
 		
 		if(this.horizontal){
 			this.itemMargin = defRc2.left - defRc.right;	 
-			hcontainer= ::User32.RealChildWindowFromPoint(this._form.hwnd,x + cx,y + cy +cy);
+			hcontainer= ::User32.ChildWindowFromPointEx(this._form.hwnd,x + cx,y + cy +cy,2 | 4 );
+			if(!hcontainer) hcontainer = ::User32.ChildWindowFromPointEx(this._form.hwnd,x + cx,y - cy,2 | 4 );
 		}
 		else {
 			this.itemMargin = defRc2.top - defRc.bottom;
-			hcontainer= ::User32.RealChildWindowFromPoint(this._form.hwnd,x + cx + cx,y + cy );
+			hcontainer= ::User32.ChildWindowFromPointEx(this._form.hwnd,x + cx + cx,y + cy,2 | 1 | 4 );
+			if(!hcontainer) hcontainer = ::User32.ChildWindowFromPointEx(this._form.hwnd,x - cx,y + cy,2 | 4 );  
 		}
 		
 		this.designTimeItemWidth = defRc2.width();

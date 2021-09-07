@@ -55,9 +55,9 @@ class hash{
 		};
 		return null,..lasterr(,"deriveKey");
 	};
-	sign = function(keySpec = 2/*_AT_SIGNATURE*/,sDescription,flags=0){
-		var r,sOut,size = CryptSignHash( this.handle,keySpec,sDescription,flags,0,0) ;
-		if( r && size ) r,sOut,size = CryptSignHash( this.handle,keySpec,sDescription,flags,size,size) ;
+	sign = function(keySpec = 2/*_AT_SIGNATURE*/,flags=0){
+		var r,sOut,size = CryptSignHash( this.handle,keySpec,,flags,0,0) ;
+		if( r && size ) r,sOut,size = CryptSignHash( this.handle,keySpec,,flags,size,size) ;
 		if( r ) return sOut;
 	};
 	destroy = function () {
@@ -106,5 +106,5 @@ crypt.hash() = !crypt_hash.
 !crypt_hash.hashData(__/*字符串*/) = 计算哈希值
 !crypt_hash.hashBuffer(.(缓冲区指针,长度) = 缓冲区指针必须�raw.bufferc()创建的托管指针\n长度为可选参数
 !crypt_hash.deriveKey(.(算法ID,选项) = 从哈希表中派生密钥,\n参数可选,算法ID默认为_CALG_RC4,选项默认为0\n密钥自动绑定到CSP密钥容器对象\n该函数无返回值
-!crypt_hash.sign() = 返回签名\n可在参数中指定密钥容器,默认为_AT_SIGNATURE\n导入密钥时请改为_AT_KEYEXCHANGE
+!crypt_hash.sign(.(keySpec,flags) = 返回签名\n可选用 @keySpec 参数中指定密钥类型,\n@flags 不必指定,默认为_AT_SIGNATURE\n导入密钥时请改为_AT_KEYEXCHANGE
 end intellisense**/

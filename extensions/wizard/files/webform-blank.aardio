@@ -1,29 +1,84 @@
 import win.ui;
 /*DSG{{*/
-var winform = win.form(text="Web Form";right=759;bottom=469)
+var winform = win.form(text="WebView2";right=966;bottom=622)
 winform.add()
 /*}}*/
 
-//创建web窗体
-import web.form;
-var wb = web.form(winform,5/*_UIFLAG_DIALOG*/);
-
-//使用external接口定义网页脚本可调用的本地函数
-wb.external = { 
-	func = function( num ){
-		winform.text = "网页脚本调用aardio函数,参数：" + num
-	}
+import web.view;
+var wb = web.view(winform);
+	
+wb.external = {
+	getData = function(){
+		import sys.device;
+		var devInfo = sys.device(,"PCI");
+		
+		var result = table.array()
+		for( index,classGuid,deviceDesc 
+			in devInfo.each(8/*_SPDRP_CLASSGUID*/,0/*_SPDRP_DEVICEDESC*/) ){
+			table.push(result,{classGuid:classGuid,deviceDesc:deviceDesc});
+		}
+		
+		return web.json.stringifyArray(result);
+	};
 }
 
-//打开目标网站
-wb.go("http://api.aardio.com/v10/pages/new-file/web-browser/") 
-winform.show(); //显示窗体
-wb.wait(""); //等待指定网址,可以使用模式匹配语法
- 
-//在网页上执行javascript脚本
-wb.doScript("
-	external.func(123);
-	")
+wb.html = /**
+<!DOCTYPE html><html>
+<head>
+	<meta charset="utf-8" />
+	<title>WebView2</title> 
+	<script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.production.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.production.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/moment/moment.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/antd@4/dist/antd.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/antd@4/dist/antd.min.css"> 
+	<script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7/babel.min.js"></script>
+	<style type="text/css"> 
+	</style>
+</head>
+<body>  
 
-//启动消息循环
+<script type="text/babel"> 
+	const { useState,useEffect,useCallback,useRef } =  React;
+	const { Button,Table,DatePicker,Alert,Tooltip  } = antd;
+
+	const App = () => { 
+			const [data,setData] = useState([]);
+		
+			return ( 
+				<div style={{ width: '100%', margin: '0 auto', padding:'10px' }}>	 
+				<Button onClick={ 
+					async ()=> {
+						var ds = await aardio.getData();
+						setData(JSON.parse(ds));
+					}
+				}>列出系统 PCD 硬件设备</Button>
+					
+				<br/><br/>
+				<Table size="middle"  dataSource={data} columns={[
+						{
+							title: 'GUID',
+							dataIndex: 'classGuid',
+							width: 300,
+							key: 'classGuid',
+						},
+						{
+							title: '硬件设备',
+							dataIndex: 'deviceDesc',
+							key: 'deviceDesc',
+						}
+				]} />
+				
+				</div> 
+			);
+	};
+		
+	ReactDOM.render(<App />, document.querySelector('#app')); 
+</script>
+
+<div id="app"></div>
+</body> 
+**/
+
+winform.show();
 win.loopMessage();

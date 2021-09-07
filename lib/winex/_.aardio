@@ -36,10 +36,11 @@ match = function(hwnd,text,cls,id){
 	return true;
 }
 
-//枚举所有子窗口 - 深度递归遍历 
+//枚举所有子窗口 - 深度递归遍历，支持 UWP 窗口
 var enumWindows;
 enumWindows=function( onfind, parent, cls ,text, id,depth  ){
-	var next = getWindow( parent ,0x5/*_GW_CHILD*/ ) ;
+	
+	var next = ::User32.FindWindowExW(parent, ,null,null )
 	if(!next) return;
 	
 	var hwnds = {};
@@ -62,42 +63,41 @@ enumWindows=function( onfind, parent, cls ,text, id,depth  ){
 		}while(0) 
 		
 		 
-		next = getWindow( next ,0x2/*_GW_HWNDNEXT*/ )
+		next = ::User32.FindWindowExW(parent,next,null,null )
 		
 	}while( next  )
 }
 
-enum = function( onfind, parent, cls ,text, id  ){
-	parent := ..win.getDesktop(); 
-	enumWindows(onfind, parent, cls ,text, id,2)
+enum = function(onfind,parent,cls,text,id){
+	return enumWindows(onfind, parent, cls ,text, id,2); 
 }
  
-function enumTop( onfind ) {  
-    assert( where===null || type(where) == type.string ,"查询条件必须是字符串")
- 
-    var EnumwndProc = function( hwnd,lParam ){ 
-                    
-		if( onfind( hwnd ) === false)
-			return 0;
-		else
-			return 1 ;  
-    } 
-    
-    pEnumwndProc = ..raw.tostdcall(EnumwndProc,"int(int hwnd,int lParam )" ); 
-    EnumWindows(pEnumwndProc ,0); 
-    pEnumwndProc = null; 
+function enumTop( onfind, cls ,text ) {  
+
+	var hwnd;
+	var hwnds = {};
+	do {
+		hwnd =::User32.FindWindowExW(0,hwnd,cls,text )
+		if(hwnd){
+			if( hwnds[hwnd] ) return;
+			hwnds[hwnd] = true;
+			
+			if( onfind( hwnd ) === false ) return false;
+		} 
+	}while(hwnd)
     
 }
 
 function each( mcls,mtitle,parent ) {
-    parent := ..win.getDesktop(); 
-    
+   
     var title;
     var hwnds = {};
 	return function(hwnd) {
         do{	
-        	if( hwnd ) hwnd = getWindow( hwnd  ,0x2/*_GW_HWNDNEXT*/ );
-        	else hwnd = getWindow( parent ,0x5/*_GW_CHILD*/ )
+        	if( hwnd ) hwnd = ::User32.FindWindowExW(parent,hwnd,null,null )
+        	else {
+        		hwnd = ::User32.FindWindowExW(parent, ,null,null )
+        	}
         	 
         	if(!hwnd) return null;
         	if(!::User32.IsWindow(hwnd))  return null; 
@@ -165,11 +165,34 @@ waitEx = function(parent,number,cls,text,id,style,nStyle){
 	
 	return hwndfind;
 }
+
+eachFindEx = function(cls,title,parent,parentTitle){
+	if(parentTitle || type(parent) === "string") {
+		parent = ::User32.FindWindowExW(null,null,parent,parentTitle ); 
+		if(!parent) return lambda() null;
+	}
+	return function(hwnd) return ::User32.FindWindowExW(parent,hwnd,cls,title ) : null,parent;  
+}
+
+findEx2 = function(ctrlCls,ctrlText,wndCls,wndTitle,ctrlPrcsId){
+	if(ctrlPrcsId){
+		var tid,pid;
+		for hCtrl,hwnd in eachFindEx(ctrlCls,ctrlText,wndCls,wndTitle){
+			tid,pid = ..win.getThreadProcessId(hCtrl);
+			if(pid===ctrlPrcsId) return hCtrl,hwnd;
+		}
+		
+		return;
+	}
+	
+	var wnd = find(wndCls,wndTitle);
+	if(wnd) return findEx(wnd,0,ctrlCls,ctrlText ),wnd
+}
 	
 findEx = function(parent,number,cls,text,id,style,nStyle){
 	var count=0;
 	var result;
-	
+
 	enum( 
 		function( hwndfind,depth ){
 			if( (style!==null) || (nStyle!==null) ){
@@ -385,7 +408,6 @@ fromClientPoint = function(hwnd,x,y,un=0x0001/*_CWP_SKIPINVISIBLE*/){
 
 fromClientPointReal = User32.api("RealChildWindowFromPoint","int(addr hwnd,int x,int y )")
 
-
 attachThread = function(tid,att = true){
 	var cid = ..thread.getId(); 
 	if(tid==cid)
@@ -585,27 +607,51 @@ findMenu = function(target_window,...) {
 		return hMenuFind,menuId  
 }
 
+if(!_WINXP){
+	::DwmApi := ..raw.loadDll("Dwmapi.dll");
+	
+	isVisible = function(hwnd){
+		if(!..win.isVisible(hwnd)) return false;
+		
+ 		var isCloaked = {bool value};
+ 		if( ::DwmApi.DwmGetWindowAttribute(hwnd, 14/*_DWMWA_CLOAKED*/,isCloaked, 4) >= 0/*_SUCCEEDED*/){
+ 			if( isCloaked.value ) return false;
+ 		}
+ 		
+ 		return true;
+ 	}
+}
+else {
+	isVisible = ..win.isVisible;
+}
+
 /**intellisense(winex)
+isVisible(__/*窗口句柄*/) = 如果窗口可见并且不是伪装为可见的隐形状态（Cloaked）,\n返回 true,否则不可见返回 flase，隐形返回 null
 isUnicode(__/*窗口句柄*/) = 判断窗口是否Unicode窗口
 isHung( = 判断窗口是否失去响应
 isHung(.(窗口句柄,超时) = 判断窗口是否失去响应\n超时为可选参数,默认为500毫秒
-enum(onfind,parent)=@.enum( \n	function(hwnd,depth){\n		..io.print( depth/*深度*/,hwnd/*窗口*/,winex.getText(hwnd)/*标题*/ )\n		__/*此函数深度枚举指定父窗口的所有下级窗口(包括直接子窗口、间接子窗口），返回false停止枚举*/\n	} \n	,父窗口\n	,要查找的类名\n	,要查找的标题\n	,要查找的控件ID\n)
-enum(onfind)=@.enum( \n	function(hwnd,depth){\n		..io.print( depth/*深度*/,hwnd/*窗口*/,winex.getText(hwnd)/*标题*/ )\n		__/*此函数深度枚举所有窗口(包括窗口的直接子窗口、间接子窗口），返回false停止枚举*/\n	} \n)
-enumTop=@.enumTop(\n	function(hwnd){\n 		..io.print(hwnd)\n	}\n)\n//枚举桌面顶层窗口;
-each("类名","查找标题") =  @for hwnd,title,threadId,processId in winex.each( "", ".*__/*请输入标题包含字符串\n可使用模式匹配语法*/" ) { \n//遍历所有顶层窗口并查找匹配窗口\n	\n}
-each() =  @for hwnd,title,threadId,processId in winex.each( __/*无参数则返回桌面所有顶层窗口\n可在此输入标题包含字符串\n可使用模式匹配语法*/ ) { \n//遍历所有顶层窗口\n	\n}
-each("类名","查找标题",父窗口) =  @for hwnd,title,threadId,processId in winex.each("", ,__/*请输入父窗口句柄*/) { \n//遍历指定父窗口中的直接子窗口，不含子间接子窗口\n	\n}
+enum(onfind,parent)=@.enum( \n	function(hwnd,depth){\n		..io.print( depth/*深度*/,hwnd/*窗口*/,winex.getText(hwnd)/*标题*/ )\n		__/*此函数深度枚举指定父窗口的所有下级窗口(包括直接子窗口、间接子窗口）,\n省略父窗口则默认为桌面窗口,\n返回false停止枚举*/\n	} \n	,父窗口\n	,要查找的类名\n	,要查找的标题\n	,要查找的控件ID\n)
+enum(onfind)=@.enum( \n	function(hwnd,depth){\n		..io.print( depth/*深度*/,hwnd/*窗口*/,winex.getText(hwnd)/*标题*/ )\n		__/*此函数深度枚举所有窗口(包括窗口的直接子窗口、间接子窗口）,\n不指定父窗口会枚举所有桌面窗口,以及UWP应用窗口,\n返回false停止枚举*/\n	} \n)
+enumTop(onFind,cls,title)=@.enumTop(\n	function(hwnd){\n 		__/*枚举桌面顶层窗口,\n@onFind 参数为枚举回调函数,\n@cls 参数指定要查找的类名,不支持模式匹配,可省略,\n@title 参数指定要查找的标题,不支持模式匹配,可省略\n\n回调参数 @hwnd 为当前找到的窗口句柄*/\n	}\n)
+each("类名","查找标题") =  @for hwnd,title,threadId,processId in winex.each( "", ".*__/*请输入标题包含字符串\n可使用模式匹配语法*/" ) { \n//遍历所有顶层窗口以及UWP应用顶层窗口并查找匹配窗口\n	\n}
+each() =  @for hwnd,title,threadId,processId in winex.each( __/*无参数则返回桌面所有顶层窗口以及UWP应用顶层窗口,\n可在此输入类名,标题包含字符串\n可使用模式匹配语法*/ ) { \n//遍历所有顶层窗口\n	\n}
+each("类名","查找标题",父窗口) =  @for hwnd,title,threadId,processId in winex.each("", ,__/*请输入桌面父窗口句柄\n省略父窗口则父窗口为顶层桌面窗口,*/) { \n//遍历指定父窗口中的直接子窗口，不含子间接子窗口\n	\n}
+eachFindEx( = 返回一个迭代器,\n按Z序遍历所有子窗口,支持 UWP 应用窗口,\n迭代器每次遍历返回2个值：找到的子窗口句柄,父窗口句柄
+eachFindEx(.(控件类名,控件文本,父窗口) = 查找类名,查找标题都是可选参数，都不支持模式匹配语法,\n省略父窗口句柄遍历全部顶层窗口
+eachFindEx(.(控件类名,控件文本,父窗口类名,父窗口标题) = 查找类名,查找标题都是可选参数，都不支持模式匹配语法,\n省略父窗口句柄遍历全部顶层窗口
 match(.(句柄,文本,类名,ID) = 指定一个窗口句柄,检测是否符合给定参数\n所有参数可选,类名与文本支持模式表达式
 find(.(类名模式串,标题模式串,进程ID,线程ID)=查找顶层窗口,所有参数都是可选参数\n返回值为：句柄,线程ID,进程ID
 findMainWnd(.(类名模式串,标题模式串,进程ID,线程ID) = 查找独立不属于其他窗口所有的顶层窗口所有参数都是可选参数\n返回值为：句柄,线程ID,进程ID
 waitEx( = 在指定父窗口内查找并等待子窗口,
 waitEx(.(父窗口句柄,第几个匹配,类名模式串,标题模式串,控件ID) = 除父窗口句柄外所有参数可选，\n使用winex.enum枚举指定父窗口的所有下级窗口(包括直接子窗口,间接子窗口),\n返回值为句柄
 waitEx(.(所有窗口句柄, ,窗口模式串,标题模式串,控件ID) = 使用参数@1指定所有窗口,除所有窗口句柄外所有参数可选，\n使用winex.enum枚举指定所有独立窗口,\n并且该窗口的所有窗口为参数@1指定的句柄,\n返回值为句柄
-findEx( = 在指定父窗口内查找子窗口,
+findEx( = 在指定父窗口内查找子窗口,\n使用句柄指定父窗口,\n使用类名和标题查找子窗口,支持模式匹配
 findEx(.(父窗口句柄,第几个匹配,类名模式串,标题模式串,控件ID)=在指定父窗口内查找子窗口,除父窗口句柄外所有参数可选，\n使用winex.enum枚举指定父窗口的所有下级窗口(包括直接子窗口,间接子窗口),\n返回值为句柄
 findEx(.(所有窗口句柄, ,窗口模式串,标题模式串,控件ID)=使用参数@1指定所有窗口,除所有窗口句柄外所有参数可选，\n使用winex.enum枚举指定所有独立窗口,\n并且该窗口的所有窗口为参数@1指定的句柄,\n返回值为句柄
 findExists(.(父窗口标题,控件文本,父窗口类名,控件类名,控件ID,进程ID,第几个匹配控件) = 查找包含指定控件窗口的父窗口,所有参数可选\n控件窗口可以是指定父窗口的所有下级窗口(包括直接子窗口,间接子窗口),\n也可以用参数@1指定所有窗口并查找独立窗口,\n返回值为:窗口句柄,控件句柄,线程ID,进程ID
 findActivate(.(父窗口标题,控件文本,父窗口类名,控件类名,控件ID,进程ID,第几个匹配控件) = 调用winex.findExists查找并激活包含指定控件窗口的父窗口,所有参数可选\n控件窗口可以是指定父窗口的所有下级窗口(包括直接子窗口,间接子窗口),\n也可以用参数@1指定所有窗口并查找独立窗口,\n返回值为:窗口句柄,控件句柄,线程ID,进程ID
+findEx2( = 在指定父窗口内查找并等待子窗口,\n通过类名和标题查找父窗口与子窗口,不支持模式匹配
+findEx2(.(子窗口类名,子窗口标题,父窗口类名,父窗口标题,子窗口进程ID) = 查找指定的子窗口,所有参数不支持模式匹配,\n所有参数都可以省略
 wait(.(父窗口标题,控件文本,父窗口类名,控件类名,控件ID,进程ID,第几个匹配) = 等待指定窗口创建,所有参数可选\n父窗口也可以是所有窗口,参数与winex.findExists相同\n成功返回窗口句柄,控件句柄,线程ID,进程ID,超时返回空值
 waitMainWnd( = 查询符合条件,并且独立不属于其窗口所有的窗体\n
 waitMainWnd(.(类名模式串,标题模式串,进程ID,线程ID,最大超时) = 所有参数都是可选参数\n超时以毫秒为单位

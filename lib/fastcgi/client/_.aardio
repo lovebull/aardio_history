@@ -321,6 +321,12 @@ class client{
 				
 					return this.readUploadFile(owner);
 				};
+				postJson = function(){  
+					if ( environ.CONTENT_TYPE && ..string.endWith(environ.CONTENT_TYPE,"/json",true) ) {
+						var data = owner.postData();
+						if(data) return ..web.json.tryParse(data);
+					}
+				};
 				postFileData = function(){
 				
 					if(!environ.CONTENT_TYPE) return;
@@ -732,6 +738,7 @@ scheme = URL协议部份
 sessionId = 会话ID,\n应用程序需要自行管理会话过期时间
 createSessionId() = 应用程序可调用此函数重新创建新的会话ID
 keepAlive = 客户端是否请求保持连接
+postJson() = 如果请求格式为 application/json 或 text/json , \n返回 JSON 格式请求数据并解析为 aardio 对象返回\n解析失败返回 null
 postData() = 获取原始上传数据\nmultipart/form-data表单上传的文件数据应使用postFileData函数读取
 postFileData() = 可以使用此函数判断当前请求是否上传文件\n获取multipart/form-data表单上传的文件数据\n如果无上传数据返回空值,\n解析出错返回空值并发送400错误后关闭页面输出\n\n此函数的返回值是一个fsys.multipartFormData对象\n关于数据的格式请参考标准库中该对象的文档,\n!stdfsysmultipartFormData.
 end intellisense**/

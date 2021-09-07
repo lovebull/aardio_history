@@ -1,0 +1,101 @@
+//入门
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="Edge 浏览器控件 - web.view";right=759;bottom=469;bgcolor=16777215)
+winform.add()
+/*}}*/
+
+/*
+web.view 基于微软 WebView2 组件。
+如果 运行范例（或发布EXE）遇到问题，请首先到控制面板找到 WebView2 并卸载。
+然后重新运行代码创建 web.view 对象时即可自动安装最新版 WebView2 组件。 
+更新：Windows 11 已自带 WebView2。
+*/
+import web.view;
+var wb = web.view(winform);
+ 
+ /*
+导出为Javascript中的 aardio 对象，
+直接转换为 COM 对象，不需要经过 JSON 转换。
+Javascript 使用 Promise 访问此对象的成员。
+*/
+wb.external = {
+    toString = function(){
+    	return owner.property; 
+    };
+	property = "这是 aardio 对象的属性值";
+	methodWithParametersAndReturnValue = function(a,b){
+		return a + b
+	} 
+}
+ 
+//导出任意个 Javascript 全局函数, 使用JSON自动转换参数和返回值，
+//注意下面的 JS 回调函数内禁止调用 wb.doScript 或  wb.eval 执行Javascript。
+wb.export({
+    alert = function(msg){
+		winform.msgbox(msg) 
+	};
+	nativeAdd = function(a,b){ 
+		return a + b; 
+	}
+})
+ 
+wb.html = /**
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style type="text/css">
+    html,body{ height:100%; } 
+    </style>
+    <script type="text/javascript"> 
+    (async ()=>{
+    	var v = await aardio.property;
+    	var n = await aardio.methodWithParametersAndReturnValue(21,12);
+    	
+    	/*
+    	toString是 Javascript 函数
+    	要远程调用 aardio 函数按微软的文档要使用 applyHostFunction("toString")
+    	但实际上这样写会报错，正确用法应该是 getHostProperty("toString").applyHostFunction([])
+    	而且  applyHostFunction 其实可以省略，正确写法如下：
+    	*/
+    	var str = await aardio.getHostProperty("toString")()
+    	 
+    	alert(str);
+    })()
+    </script>
+</head>
+<body style="margin:50px"><pre>
+<b>标准库 web.view</b>
+-----------------------------------
+基于 WebView2（Edge/Chromium内核），支持 WIN7，WIN8，WIN10。
+WebView2 Runtime 需要单独安装，但没有默认不能访问本机 locahost 的限制。
+
+运行时可自动安装 WebView2 Runtime， 安装包较大并需要请求管理权限。
+好在微软官方提供下载，速度非常快，所以体验还不错，并且这种公共运行库，应当会较快普及。
+
+web.view 库的体积非常小，可以生成独立 EXE文件。
+
+<b>扩展库 web.sysView</b>
+-----------------------------------
+如果是WIN10 系统并且未安装 WebView2 Runtime ，
+调用 WIN10 系统 Edge/Edge(Chromium) 浏览器自带的 WebView1 创建浏览器控件。 
+WebView1 是 UWP 控件，默认不能不能访问本机 locahost，
+aardio 在运行时会检测并自动解除限制（但有请求管理权限的提示）。
+
+如果是 WIN7，WIN8 或者已安装 WebView2 Runtime ，
+web.sysView 会自动调用标准库 web.view 创建对象。
+
+web.sysView 的体积非常小，可以生成独立 EXE文件。
+</pre></body>
+</html>
+**/
+//wb.go("http://ruanyf.github.io/es-checker/")
+
+//执行 JS 并获取返回值。
+wb.doScript("window.location.href",function(result,err){
+	winform.msgbox(result,"doScript")
+})
+
+winform.show();
+win.loopMessage();

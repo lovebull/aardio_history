@@ -433,13 +433,20 @@ class process {
 			return ..sys.volume.getPathName(..string.fromUnicode(m,,-1));
 		}
 	};
-	getMainWindow = function(){
+	getMainWindow = function(cls){
 		var hMain;
-		var pid = {INT value}
+		var pid = {INT value};
+		var getClassName = ::User32.api( "GetClassName", "int( addr hwnd,ustring  &lpClassName,int nMaxCount )" )  
 		var callback = ..raw.tostdcall(function(hwnd){
 			if(::User32.GetWindowThreadProcessId(hwnd,pid)){
 				if(pid.value===this.id){
-					if(!::User32.GetWindow(hwnd,4/*_GW_OWNER*/) && ::User32.IsWindowVisible(hwnd) ){
+					if(!::User32.GetWindow(hwnd,4/*_GW_OWNER*/)  ){
+						if(cls){
+							var re,clsName = getClassName(hwnd,0x64,0x64/*_MAX_CLASS*/);
+							if(!..string.cmpMatch(clsName,cls)) return true;
+						}
+						elseif(!::User32.IsWindowVisible(hwnd)) return true;
+						
 						hMain = hwnd;
 						return false;
 					}
@@ -449,8 +456,17 @@ class process {
 			return true; 
 		},"bool(int,int)"); 
 		::User32.EnumWindows(callback,0);  
+		..raw._release(getClassName);
 		
 		return hMain;
+	};
+	waitMainWindow = function(waitCls,waitHwnd){
+		var hwnd;
+		do {
+			hwnd = this.getMainWindow(waitCls);
+		} while ((!hwnd)  && (!waitHwnd || ::User32.IsWindow(waitHwnd)) && ..thread.delay(1000) );
+		
+		return hwnd;
 	};
 	closeMainWindow = function(){
 		var hwnd = this.getMainWindow();
@@ -963,17 +979,15 @@ namespace process{
 	Process32Next = Kernel32.api("Process32NextW","int(pointer hsnap,struct & lppe)");
 
 	each = function(exename) {
-    	exename ?= ..string.lower(exename) //exename = exename and string.lower(exename)
     	var nextSnap,freeItor = eachSnap( 0,0x2/*_TH32CS_SNAPPROCESS*/,PROCESSENTRY32(),Process32First,Process32Next)
 
 		return function( entry ) { //接收for循环传递的参数得到迭代器控制变量 
 			entry = nextSnap( entry )
 			 	
 	    	while(entry){
-	        	if(!exename)	
-	        		return entry; 
+	        	if(!exename) return entry; 
 	               	 
-	        	if( ..string.find( ..string.lower( entry.szExeFile ),exename)  )
+	        	if( ..string.cmpMatch(entry.szExeFile,exename)  )
 	               	return entry;
 	    	
 	    		entry = nextSnap(entry) ;
@@ -981,18 +995,15 @@ namespace process{
  			
 		},freeItor   ;
 	
+	}  
+	
+	findId = function(exename){
+		for entry in each(exename)  return entry.th32ProcessID;  
 	}
 	
 	find = function(exename){
-		var tpath = ..io.splitpath(exename)
-		exename = tpath.file;
-		
-		var prcs;
-		for entry in each(exename) { 
-			 prcs = ..process(entry.th32ProcessID);
-			 break;
-		} 
-		return prcs;
+		var pid = findId(exename);
+		if(pid) return ..process(pid);
 	}
 	
 	getPath = function(pid){
@@ -1070,7 +1081,6 @@ process(.( ,系统命令行) = 如果省略第一个参数,并仅指定命令行
 process(.(执行文件,命令行参数,更多命令行参数,->->->) = 命令行参数可以是一个数组、一个或多个字符串参数,\n\n数组或多个命令行参数调用 process.joinArguments 合并,\n不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号,\n命令参数最大长度为8191/0x1FFFF个字符\n\n要特别注意某些跨平台程序需要将首参数指定为应用程序自身路径,\n否则会启动失败
 process(.(执行文件,命令行参数,STARTUPINFO) = 命令行参数可以是字符串或由多个字符串组成的数组,\n数组参数调用 process.joinArguments 合并,\n不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号,\nSTARTUPINFO参数为process.STARTUPINFO 结构体,可选参数\n如果该参数是普通table对象.将自动创建为STARTUPINFO结构体\n\n要特别注意某些跨平台程序需要将首参数指定为应用程序自身路径,\n否则会启动失败
 process() = !process.
-?process.find = !process.
 process.find() = !process.
 process.shell() = !process.
 process.shellAs() = !process.
@@ -1137,7 +1147,10 @@ process.shellAs() = !process.
 !process.getModuleBaseAddress(.(模块名) = 返回模块基址,\n模块名忽略大小写,\n不指定模块名则返回应用程序基址
 !process.isWow64() = 进程是否在64位系统上运行的32进程
 !process.getUiInfo() = 获取UI线程窗口焦点,光标等信息\n!guithreadinfo.
-!process.getMainWindow() = 返回进程的主窗口，忽略隐藏窗口
+!process.getMainWindow(.() = 返回进程的主窗口，忽略隐藏窗口
+!process.getMainWindow(.(类名) = 返回进程的指定类名的主窗口，\n类名参数支持模式匹配语法
+!process.waitMainWindow( = 等待并返回进程主窗口
+!process.waitMainWindow(.(类名,等待窗口句柄) = 等待并返回进程主窗口,所有参数可选,\n可选指定要等待的类名,类名参数支持模式匹配语法,\n不指定类名时忽略隐藏窗口,\n可选指定等待窗口句柄,该窗口关闭时些函数不再等待并直接返回结果
 !process.closeMainWindow() = 关闭进程的主窗口，忽略隐藏窗口
 !process.assignToJobObject(.(hJob) = 绑定到作业对象,成功返回true\n作业对象示例请参考标准库process.job.limitKill的源码。
 !process.ctrlEvent(0)=发送Ctrl+C(SIGINT信号)\n信号将传递到与目标进程控制台连接的所有非分离控制台进程\n64位目标进程会导致当前控制台暂时关闭
@@ -1166,7 +1179,8 @@ explore("__/*目录路径*/") = 使用资源管理器打开目录\n打开WIN10�
 regAs(`__/*命令参数*/`) = 以管理权限执行 reg 命令
 findExe("__/*文件路径*/") = 查找文件关联的可执行程序
 isExe("__/*文件路径*/") = 检测目标文件是否可执行文件\n如果是可执行文件返回"PE32"或"PE64"\n第二个返回值为子系统,GUI为2,CUI为3
-find("__/*exe文件名*/") = 查找进程并返回进程对象\n支持模式匹配语法,忽略大小写
+find("__/*exe 文件名*/") = 查找进程并返回进程对象,\n参数@1指定要查找的进程启动文件名,注意应指定文件名而非文件路径,\n文件名参数支持模式匹配语法,忽略大小写,
+findId("__/*exe 文件名*/") = 查找进程并返回进程 ID,\n参数@1指定要查找的进程启动文件名,注意应指定文件名而非文件路径,\n文件名参数支持模式匹配语法,忽略大小写
 kill(.(exePath,restart) = 查找所有同名exe文件的进程,并关闭进程\n支持模式匹配语法,忽略大小写,\n如果restart参数为true，则杀进程成功后立即重新启动该进程，\n 否则返回进程的完整路径
 kill(.(pid)  = 使用参数@pid指定进程ID,关闭该进程
 each =  @for processEntry in process.each( ".*.exe" ) { \n//遍历所有进程\n	__//io.print( processEntry.szExeFile  )\n \n}
@@ -1215,16 +1229,12 @@ createNoWindow = 不为应用程序创建控制台窗口
 end intellisense**/
 
 /*intellisense(!processEntry) 
-dwSize = 296;
-cntUsage = 0;
-th32ProcessID = 进程ID,INT数据类型
-th32DefaultHeapID =  
-th32ModuleID = associated exe
-cntThreads = 0;
-th32ParentProcessID = 父进程ID,INT数据类型
-pcPriClassBase = 进程优先级,INT数据类型
-dwFlags = 0;
-szExeFile = exe文件路径 
+dwSize = 结构体长度，以字节为单位 
+th32ProcessID = 进程ID,INT数据类型  
+cntThreads = 此进程开启的线程计数
+th32ParentProcessID = 父进程的 ID
+pcPriClassBase = 进程优先级,INT数据类型 
+szExeFile = 进程启动文件名,不是文件完整路径
 end intellisense*/
 
 /*intellisense(moduleEntry)  

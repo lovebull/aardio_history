@@ -737,18 +737,29 @@ namespace listview{
 				}
 			} 
 		};
-		setColumns = function(fields){
+		setColumns = function(fields,widths,alignments,...){
+			if(type.isString(fields)){
+				return owner.setColumns({fields,widths,alignments,...})
+			}
+			
 			for(i=owner.columnCount-1;0;-1){
 				::SendMessageInt(owner.hwnd, 0x101C/*_LVM_DELETECOLUMN*/, i, 0);
 			}
 			
 			if !(fields && #fields) return;
+			if( widths ){
+				if(widths[#widths]===null) widths[#widths]=-1;
+				for(i=1;#fields;1) owner.insertColumn(fields[i],widths[i]:-1,alignments[[i]]);
+				return;
+			}
+			
 			var str = ..string.join(fields);
 			var rc = owner.clientRect;
 			var width = rc.right - rc.left;
 			var col = width/ #str;
 			
-			for(i=1;#fields;1) owner.insertColumn(fields[i],col*#fields[i]);
+			for(i=1;#fields-1;1) owner.insertColumn(fields[i],col*#fields[i],alignments[[i]]);
+			owner.insertColumn(fields[#fields],-1,alignments[[#fields]]);
 		};
 		checked = {
 			_get = function(){  
@@ -963,7 +974,8 @@ namespace listview{
 !listview.theme = 外观主题,例如\nwinform.button.theme = "Explorer"\nwinform.button.theme = false
 !listview.delItem(__) = 参数为数值,移除指定索引的项目
 !listview.items = 返回或设置包含所有列表项的数组\n数组的每个项表示一行，每行也必须是包含列文本的数组\n返回数组有一个可选字段checked包含了所有勾选的行
-!listview.setColumns(__) = 用一个字符串数组指定要显示的列\n如果参数为空则清空所有列
+!listview.setColumns(.(columns,widths,alignments) = 参数@1用一个字符串数组指定要显示的列\n如果参数@1为空则清空所有列,\n可选在 @widths 参数用一个数组指定各列宽度,\n可选在 @alignments 参数用一个数组指定各列对齐选项,\n各列可用参数与 insertColumn 函数相同
+!listview.setColumns(.(column1,column2,->->->) = 参数用不定个数的字符串指定要显示的列\n如果参数@1为空则清空所有列
 !listview.setTable(__) = 用listview控件显示数据表\n此函数会自动清空控件之前的所有项,\n如果没有创建任何列,则自动创建列\n如果要重新创建列,请先调用clear(true)清空原来的列,\n\n数据表应当包含行组成的数组,\n每行的数据列必须是由列名和列值组成的键值对\n数据表应使用fields包含需要显示的列名称数组\n可以通过fields控制要显的列、以及要显示的顺序\n\n使用sqlite,access,sqlServer等数据库对象提供的getTable函数可获取符合此规格的数据表
 !listview.checked = 返回已勾选复选框的项目索引数组,\n需要先启用复选框支持
 !listview.checkbox = 是否在每个项目前显示复选框

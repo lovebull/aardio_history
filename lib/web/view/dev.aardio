@@ -15,11 +15,38 @@ class dev{
 		
 		if(webView.export){
 			webView.export("____devSrc_aardio____",function(){
+				import nodeJs;
+				import process.code;
+				nodeJs.install();
+				process.code.install();
+				
 				..fsys.enum( "/", "*.*",
 					function(dir,filename,fullpath,findData){ 
 						if(!filename) {
 							if(..io.exist(..io.joinpath(fullpath,"package.json")) ){
 								loadcodex("~\extensions\trigger\edit.aardio",fullpath);
+								return false; 
+							}
+						}
+					} 
+					,false
+				); 
+			})
+			
+			webView.export("____devSrc_aardio2____",function(){
+				import nodeJs;
+				import process.code;
+				nodeJs.install();
+				process.code.install();
+				
+				..fsys.enum( "/", "*.*",
+					function(dir,filename,fullpath,findData){ 
+						if(!filename) {
+							if(..io.exist(..io.joinpath(fullpath,"package.json")) ){
+								import process.code;
+								if(process.code.install()){
+									process.code(fullpath);
+								}
 								return false; 
 							}
 						}
@@ -93,13 +120,13 @@ dev.html = `
 	
 	h5{margin-bottom:0;padding-bottom:5px}
     </style>
-    <script type="text/javascript"></script>
+    <script></script>
 </head>
 <body>
 <h3><span class ="fa fa-spin fa-spinner"></span> <span>正在等待 http://localhost:${DEV_PORT} 启动……</span></h3>
 <p>
-请在 aardio 工程内右键点击「网页源码」目录, <br>
-在弹出菜单中点击「<a onclick="javascript:____devSrc_aardio____()" href="javascript:void(0)">用外部编辑器打开</a>」, 在 <a href="https://code.visualstudio.com/" target="_blank">VSCode</a>  中打开前端工程源码，<br>
+请 <a onclick="javascript:____devSrc_aardio2____()" href="javascript:void(0)" >点这里用 VS Code</a> 打开前端工程源码，<br>
+也可右键点工程「网页源码」目录, 在弹出菜单中点击「<a onclick="javascript:____devSrc_aardio____()" href="javascript:void(0)">用外部编辑器打开</a>」。<br>
 然后按 Ctrl + `` 打开 <a href="https://code.visualstudio.com/docs/editor/integrated-terminal" target="_blank">VSCode 终端</a>。<br>
 <br>
 <h5>调试步骤：</h5> 

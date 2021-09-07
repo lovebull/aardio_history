@@ -9,9 +9,9 @@ if(_WIN10_LATER && service.isRunning("Windefend") ){
 		string.save(path,string.crc32(path))
 	 
 	 	//此时在 defender.aardio 中调用 ide 接呀会导致阻塞
-		var pid = ide.createProcess("~\tools\开发环境\defender.aardio",`
+		var pid = ide.createProcess("~\tools\1) 开发环境\defender.aardio",`
 			_IDE_PUBLISTH_PROJECT_DIR =`+ ..table.tostring({projectDir,ide.getProjectDir()})+`
-			loadcodex("~\tools\开发环境\defender.aardio")
+			loadcodex("~\tools\1) 开发环境\defender.aardio")
 		
 		`,"runas");
 		

@@ -390,6 +390,8 @@ edit._metaProperty =  metaProperty(
 		}
 	};
 	showBalloonTip = function(title,text,icon){ 
+		if(text===null) title,text = text,title;
+		
 		var ti =  {
 			INT cbSize;
 			ustring title = title:"";
@@ -620,12 +622,16 @@ edit._metaProperty =  metaProperty(
 !edit.publish("__/*发布消息名*/",) = 在窗口所在界面线程发布消息,\n运行界面线程所有所有调用subscribe函数订阅此消息的函数,\n可添加任意个触发参数
 !edit.showBalloonTip( = 显示气泡提示,\n建议直接调用showInfoTip，showWarningTip 或 showErrorTip
 !edit.showBalloonTip(.(title,text,icon) = 在输入光标处显示汽泡提示,\n@title参数指定标题,\n@text参数指定文本,\nicon指定图标句柄，可省略
+!edit.showBalloonTip(.(text) = 在输入光标处显示汽泡提示,\n@text参数指定文本
 !edit.showInfoTip( = 在输入光标处显示汽泡提示
 !edit.showInfoTip(.(title,text,large) = 在输入光标处显示汽泡提示,使用提示信息图标,\n@title参数指定标题,\n@text参数指定文本,\nlarge指定是否使用大图标，可省略
+!edit.showInfoTip(.(text) = 在输入光标处显示汽泡提示,使用提示信息图标,\n@text参数指定文本
 !edit.showWarningTip( = 在输入光标处显示汽泡提示,使用警告图标
 !edit.showWarningTip(.(title,text,large) = 在输入光标处显示汽泡提示,使用警告图标,\n@title参数指定标题,\n@text参数指定文本,\nlarge指定是否使用大图标，可省略
+!edit.showWarningTip(.(text) = 在输入光标处显示汽泡提示,使用警告图标,\n@text参数指定文本
 !edit.showErrorTip( = 在输入光标处显示汽泡提示,使用错误图标
 !edit.showErrorTip(.(title,text,large) = 在输入光标处显示汽泡提示,使用错误图标,\n@title参数指定标题,\n@text参数指定文本,\nlarge指定是否使用大图标，可省略
+!edit.showErrorTip(.(text) = 在输入光标处显示汽泡提示,使用错误图标,\n@text参数指定文本
 !edit.getRoot() = 获取顶层父窗口，这个函数会查找 orphanWindow 的父窗口
 ?win.ui.ctrl.edit  =!edit.
 win.ui.ctrl.edit() = 文本框控件\n!edit.

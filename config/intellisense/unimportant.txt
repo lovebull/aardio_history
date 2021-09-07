@@ -100,3 +100,4 @@ rect=RECT结构体\n这是保留变量名,应专用于RECT对象,\n!rect.
 rectf=RECTF结构体\n这是保留变量名,应专用于RECTF对象,\n!rectf.
 point=POINT/POINTF结构体\n这是保留变量名,应专用于POINT/POINTF对象,\n!point.
 pt=POINT/POINTF结构体\n这是保留变量名,应专用于POINT/POINTF对象,\n!point.
+::DwmApi = @DwmApi := raw.loadDll("Dwmapi.dll")

@@ -24,7 +24,7 @@ class jsonServer{
 					}
 					
 					var req,err = ..web.json.tryParse(msg.data);
-					if( type(req) != "table" ) req = null; 
+					if( type(req) != "table") req = null; 
 					
 					if( ! req  ){
 						this.send(hSocket,{ 
@@ -147,11 +147,17 @@ class jsonServer{
 	_beginRpcResponse = function(hSocket,req){
 		this.hActiveSocket = hSocket;
 		
-		if( req.id && (! req.method) ){
+		if(!req.id){
+			if(req.error){
+    			this._wsServer.onError(hSocket,..string.concat("Client Error:",req.error.message," #",req.error.code) );
+    			return;
+    		} 
+    	}
+		elseif(! req.method){
 			var c = this.xcallback[req.id];
 			if( c) c(hSocket,req.result,req.error); 
 			return;
-		}
+		} 
 		
 		var rep  = owner._rpcResponse(hSocket,req);
 		if( rep && (req.id!=null) ) {

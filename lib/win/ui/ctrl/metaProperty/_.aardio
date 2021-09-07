@@ -828,21 +828,24 @@ namespace metaProperty {
    						} 
    					}
 					
-					if( !owner["_parentForm"] //orphanWindow
-						&& !..win.getStyle(owner.hwnd,0x40000000/*_WS_CHILD*/) 
+					if( !owner["_parentForm"] //orphanWindow 
 						){
 						var x,y,cx,cy = owner.getPos();
 						var cx2 = ( cx / origScaleX ) * scaleX;
 						var cy2 = ( cy / origScaleY ) * scaleY;
 						var x2 = x -(cx2 - cx)/2;
 						var y2 = y -(cy2 - cy)/2;
-						var sx = ::GetSystemMetrics(0x10/*_SM_CXFULLSCREEN*/) ;
-						var sy = ::GetSystemMetrics(0x11/*_SM_CYFULLSCREEN*/) + ::GetSystemMetrics(0x4/*_SM_CYCAPTION窗口标题的高度*/);
 						
-						if( x2+cx2 > sx &&  x+cx<=sx){x2 = sx-(sx-(x+cx))-cx2;}
-						if( ( x == 0 ) || ( x2 <0 && x>0 ) ){x2 = 0;}
-						if( y2+cy2 > sy &&  y+cy<=sy){y2 = sy-(sy-(y+cy) )-cy2;}
-						if( ( y == 0 ) || ( y2 <0 && y>0 ) ){y2 = 0;}
+						if(!..win.getStyle(owner.hwnd,0x40000000/*_WS_CHILD*/) ){
+							var sx = ::GetSystemMetrics(0x10/*_SM_CXFULLSCREEN*/) ;
+							var sy = ::GetSystemMetrics(0x11/*_SM_CYFULLSCREEN*/) + ::GetSystemMetrics(0x4/*_SM_CYCAPTION窗口标题的高度*/);
+							
+							if( x2+cx2 > sx &&  x+cx<=sx){x2 = sx-(sx-(x+cx))-cx2;}
+							if( ( x == 0 ) || ( x2 <0 && x>0 ) ){x2 = 0;}
+							if( y2+cy2 > sy &&  y+cy<=sy){y2 = sy-(sy-(y+cy) )-cy2;}
+							if( ( y == 0 ) || ( y2 <0 && y>0 ) ){y2 = 0;}
+						}
+						
 						owner.setPos(x2,y2, cx2,cy2 );
 					}
 				}

@@ -6,14 +6,24 @@ var freeDomainId = 0;
 class appDomain{
 
 	ctor( clr,domainName ){
-	
+		
+		if (clr===null ){
+			if(self.singletonAppDomain){
+				return self.singletonAppDomain; 
+			}
+			
+			if(!..dotNet.clr) error("请先导入 dotNet 库!",2);
+			
+			var clr,err = ..dotNet.clr();
+			if(!clr){ return null,err; }
+			
+			self.singletonAppDomain = clr.createAppDomain();
+			return self.singletonAppDomain;
+		}
+		
 		var appDomain;
 		 
 		if(!domainName) {
-			if( __appDomainCache[domainName] ){
-				error("指定的域名称已经被占用",2)
-			}
-			
 			domainName = "Aardio.CLR.AppDomain["+ ..thread.getId() +"]" + freeDomainId;  
 			freeDomainId++; 
 		}
@@ -210,7 +220,7 @@ class appDomain{
 			this.system = this.load("System");
 		}
 		else {
-			return null;
+			return null,..lasterr(hr,"dotNet.appDomain");
 		}
 		
 		
@@ -368,6 +378,9 @@ class appDomain{
 	unload = function(){
 		if(appDomain){
 			__appDomainCache[domainName] = null;
+			if(self.singletonAppDomain ===  this){
+				self.singletonAppDomain = null;
+			}
 			
 			var pAppDomain = ..com.GetPointer(appDomain);
 			var hr = clr.corRuntimeHost.UnloadDomain(pAppDomain)
@@ -458,6 +471,10 @@ getObject = function(v){
 
 /**intellisense()
 dotNet.getObject(__) = 如果对象是.Net对象\n返回被封装的原始.Net对象,\n原始的.Net对象在aardio中是一个COM对象
+dotNet.appDomain( = 创建应用程序域,\n注意应当通过导入 dotNet 库自动导入 dotNet.appDomain
+dotNet.appDomain(.() = 不指定参数为当前线程创建唯一的应用程序域实例,\n该实例可能被其他代码使用,请不要调用 unload 函数释放,\n线程结束前会自动释放此实例。\n\n成功返回应用程序域,失败返回 null,错误信息,\n失败一般是因为系统没有安装 .Net 运行时。\n除了XP系统，WIN7 以及 WIN7 以上系统已自带 .Net 运行时,\n所以不检测返回值也行。\n\n注意应当通过导入 dotNet 库自动导入 dotNet.appDomain
+dotNet.appDomain(.(clr,domainName) = @clr 参数指定 dotNet.clr 对象,\n可选用 @domainName 指定应用程序域名称,\n指定参数时应改用 dotNet.clr 对象的 createAppDomain 函数
+dotNet.appDomain() = !dotNetAppDomain.
 end intellisense**/
 
 /**intellisense(!dotNetAppDomain)
@@ -480,7 +497,7 @@ load(.("程序集名") = 载入程序集,\n参数可以是程序集名称或路�
 loadFile(.("程序集跃径") = 自内存载入程序集,\n参数可以是路径,或内存资源,\n可选在第2个参数中指定pdb调试数据或pdb调试文件路径。
 load() = !dotNetCrlAssembly.
 loadFile() = !dotNetCrlAssembly.
-unload() = 卸载应用程序域
+unload() = 卸载应用程序域,一般不需要手动调用此函数,\n当前线程退出时会自动释放此线程创建的所有应用程序域,\n不带参数调用 dotNet.appDomain 创建的应用程序域不应手动调用此函数释放
 createWebService( = 创建Web服务程序集
 createWebService(.(服务网址,名字空间,协议名,DLL路径) = 创建Web服务程序集,可选在参数@2中指定一个自定义的名字空间\n协议名默认为"Soap",可选值"Soap12",\n如果使用参数@4指定输出DLL路径则在内存中编译程序集
 createWebService() = !dotNetCrlAssembly.

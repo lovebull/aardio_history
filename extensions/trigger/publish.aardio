@@ -1,4 +1,4 @@
-﻿import fsys;
+import fsys;
 import config;
 import process;
 import ide;
@@ -369,7 +369,7 @@ winform.onClose = function(hwnd,message,wParam,lParam){
 
 winform.buttonMakeUpdater.oncommand = function(id,event){
     winform.close()
-    loadcodex("~\tools\编码\1) maker.aardio")
+    loadcodex("~\tools\3) 编码\1) maker.aardio")
 }
 
 win.setActive(winform.hwnd);

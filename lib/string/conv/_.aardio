@@ -71,6 +71,10 @@ isGb2312 = function(strUtf8){
 	return !!..string.match(str,'^<\xB0-\xF7\xA1-\xFE>+$')
 }
 
+/**intellisense()
+string.conv = 文本与简繁转换\n相关标准库: sys.locale, string.lcid 
+end intellisense**/
+
 /**intellisense(string.conv)
 toWide(__/*字符串*/) = 半角转全角
 fromWide(__/*字符串*/) = 全角转半角

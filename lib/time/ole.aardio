@@ -1,6 +1,6 @@
 //ole 时间对象
+import sys.locale.abbrevNames;
 
-import string.lcid;
 namespace time;
 
 class ole {
@@ -80,7 +80,7 @@ namespace ole{
     	};
     	systemFormat = function(format,locale){
     		if(!locale) locale = owner.locale;
-    		locale = locale ? ..string.lcid[locale] : 0x0800 ;
+    		locale = locale ? ..sys.locale.abbrevNames[locale] : 0x0800 ;
     		format = owner.toSystemFormat(format);
     		
     		var size = ::Kernel32.GetDateFormatW(locale,flags,owner,format,null,0);

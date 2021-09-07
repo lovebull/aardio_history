@@ -5,18 +5,14 @@ import winex.mouse;
 
 namespace dotNet;
 
-var clr = ..dotNet.clr();
-var appDomain = clr ? clr.createAppDomain();
+var appDomain = ..dotNet.appDomain()
 var ocrAssembly = appDomain ? appDomain.loadFile($"~\lib\dotNet\ocr\.res\ocr.dll");
-		
+
 class ocr{
-	ctor(){ 
-		if( !ocrAssembly ) error("当前系统未安装.Net Framework",2)
-				
-		if(!_WIN10_LATER){
-			error("仅支持 Windows 10 以上系统",2)
-		}
-		
+	ctor(){
+		if(!_WIN10_LATER) error("仅支持 Windows 10 以上系统",2); 
+		if(!ocrAssembly ) error("当前系统未安装.Net Framework",2);
+
 		this.ocrEngine = ocrAssembly.new("aardio.UwpOcrEngine");
 		var languages = this.ocrEngine.AvailableRecognizerLanguages();
 		
@@ -217,10 +213,6 @@ namespace ocr{
 		return ..string.fuzzyMatching(txt).search(owner.text,miniSimilar); 
 	} 
 }
-
-..table.gc(self,function(){
-	appDomain.unload();
-})
 
 /**intellisense()
 dotNet.ocr = 识别屏幕或图像上文字的本地组件，\n系统自带组件，仅支持 Windows 10

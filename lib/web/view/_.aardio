@@ -369,7 +369,6 @@ web.view() = !stdWebView2.
 web.view.getRuntimeInfo() = 获取 WebView2 Runtime 安装信息\n未安装返回 null
 web.view.checkRuntime(.(winform) = 如果未安装 WebView2 Runtime 就自动下载安装
 web.view.intallRuntime(.(winform) = 重装 WebView2 Runtime
-web.view.devHtml = dev 函数使用的提示 HTML 模板
 end intellisense**/
 
 /****intellisense(!stdWebView2) 
@@ -380,7 +379,7 @@ doScript(js) = 执行 JS 脚本
 html = @.html = /**\n<!doctype html>\n<html>\n<head>\n    <meta charset="utf-8">\n    <style type="text/css">\n    html,body{ height:100%; margin:0; } __\n    </style>\n    <script type="text/javascript"></script>\n</head>\n<body>\n    <div id="header"></div>\n    <div id="container"> \n        <div class="lside"> </div> \n        <div class="rside"> </div>  \n    </div>\n</body>\n</html>\n**/
 export( = 导出aardio函数为JS全局变量\n注意JS调用这里导出的本地函数时，\n传入JS参数通过JSON转换为 aardio对象,\n返回值通过JSON转换为JS对象\n注意export导出的函数内禁止执行Javascript
 export(.(JS变量名,回调函数) = 导出aardio函数为JS全局变量,\n参数也可以使用一个表包含多个需要绑定到JS的变量名值对,值必须是函数。\nJS脚本中调用这里绑定的本地函数返回值为 Promise 对象
-exportHostObject( = 直接导出 aardio 对象到 javascript，\n直接转换为 COM 对象，中间不需要经过 JSON 转换，\n[用法请参考](https://docs.microsoft.com/en-us/microsoft-edge/webview2/reference/win32/icorewebview2?view=webview2-1.0.705.50#addhostobjecttoscript)
+exportHostObject( = 直接导出 aardio 对象到 javascript，\n直接转换为 COM 对象，中间不需要经过 JSON 转换，\n用法请参考: https://docs.microsoft.com/en-us/microsoft-edge/webview2/reference/win32/icorewebview2?view=webview2-1.0.705.50#addhostobjecttoscript
 exportHostObject(.(变量名,对象) = 直接导出 aardio 对象到 javascript，\n可导出表对象、函数对象、COM 对象等,\n在js中通过 chrome.webview.hostObjects的成员访问此对象,\n中间不会经过JSON转换，而是直接转换为 COM 对象
 doScript(.(js) = 执行JS代码，\n不指定回调函数时，JS代码放入匿名函数体内执行
 doScript(.(js,callback) = @.doScript(js,function(result){\n	__/*执行JS代码成功在当前界面线程异步回调此函数，\n@result参数为JS代码的返回值*/\n} )

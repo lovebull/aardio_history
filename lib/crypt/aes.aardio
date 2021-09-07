@@ -6,7 +6,7 @@ class aes {
 
     ctor( initVector ) {  
         this = ..crypt(
-        	 ::Kernel32.QueryFullProcessImageName ?"Microsoft Enhanced RSA and AES Cryptographic Provider" : "Microsoft Enhanced RSA and AES Cryptographic Provider (Prototype)"
+        	 _WINXP ? "Microsoft Enhanced RSA and AES Cryptographic Provider (Prototype)" : "Microsoft Enhanced RSA and AES Cryptographic Provider"
         	 ,0x18/*_PROV_RSA_AES*/
         );  
         this.initVector = initVector; 

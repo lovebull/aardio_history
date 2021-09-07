@@ -17,7 +17,7 @@ import config;
 import process;
 winform.lbTitle.text = '<a href="http://bbs.aardio.com">点这里查看部署网站教程。</a>'
 winform.lbTitle.onHyperlinkClick = function(nmSysLink,url,id){ 
-    ide.createProcess("~\codes\范例程序\Web应用\FastCGI\wizard.aardio");
+    ide.createProcess("~\codes\范例程序\8) Web 应用\6) FastCGI\wizard.aardio");
 }
 
 win.setOwner(winform.hwnd,ide.getMainHwnd()); //避免窗口跑到IDE后面
