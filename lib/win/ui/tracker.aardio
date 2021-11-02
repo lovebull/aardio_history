@@ -97,7 +97,8 @@ class tracker{
 				if(this._onStateChange) this._onStateChange(state);
 			} 
 			[0x203/*_WM_LBUTTONDBLCLK*/] = function(hwnd,message,wParam,lParam){ 
-				if(this.onMouseDoubuleClick) this.onMouseDoubuleClick(wParam,lParam);
+				var cb = this.onMouseDoubleClick || this.onMouseDoubuleClick;
+				if(cb) invoke(cb,this,wParam,lParam);    
 			}
 			[0x21/*_WM_MOUSEACTIVATE*/]  = function(hwnd,message, wParam,lParam){
             	if( this.onMouseActivate ) {
@@ -228,7 +229,7 @@ win.ui.tracker() = !winuitracker.
     var x,y = win.getMessagePos(lParam);
 	__/*鼠标左键弹起*/
 }
-!winuitracker.onMouseDoubuleClick = @.onMouseDoubuleClick = function(wParam,lParam){
+!winuitracker.onMouseDoubleClick = @.onMouseDoubleClick = function(wParam,lParam){
     var x,y = win.getMessagePos(lParam);
 	__/*鼠标双击*/
 }

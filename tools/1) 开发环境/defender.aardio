@@ -31,14 +31,13 @@ if( service.isRunning("Windefend") ){
 			if(!exclusionPaths){
 				var defProjectDir = ide.getConfig("project_default_dir");
 				if(!#defProjectDir) defProjectDir = io.fullpath("~/project");
-	 			defProjectDir = fsys.path.removeBackslash(defProjectDir); 
-	 			
-	 			var curProjectDir = ide.getProjectDir()
-	 			if(!fsys.path.ischild(defProjectDir,curProjectDir)){
-	 				exclusionPaths = {projectDir,curProjectDir}	
+	 		 
+	 			var curProjectDir = ide.getProjectDir() 
+	 			if( (#curProjectDir) && (!fsys.path.ischild(defProjectDir,curProjectDir)) ){
+	 				exclusionPaths = {defProjectDir,curProjectDir}	
 	 			}
 	 			else {
-	 				exclusionPaths = {projectDir}	
+	 				exclusionPaths = {defProjectDir}	
 	 			}
 			}
 			

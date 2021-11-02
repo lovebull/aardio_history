@@ -16,11 +16,14 @@ dic = {
 }
 
 而在aardio中则是这样写(分隔元素用分号，而不是逗号)：
-dic = { 
+var dic = { 
     键 = "值";
     键2 = "值2";
     test = 123;
 }
+
+不过有趣的是 aardio 也可以用 Python 的语法来写这种字典，
+也就是允许用冒号代替等号，用逗号代理分号，并且把键名包含在字符串内，这在 aardio 中也是合法的写法。
 
 python遍历字典是这样写
 
@@ -33,6 +36,12 @@ for k in dic:
 for k,v in dic{
 	io.print(k,v)
 }
+
+/*
+Python 或 aardio 各种功能的迭代器函数、迭代方法都有很多，
+这些Python 或 aardio 独有 —— 也不太可能混淆用法的函数这里不多讲。
+茴香豆的茴字在 Python 里有几种写法我们暂且跳过。
+*/
 
 要注意在python中删除一个字典成员用下面的语句
 del dic["test"] #不能写 dic["test"] = None, 

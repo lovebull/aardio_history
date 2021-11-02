@@ -26,6 +26,7 @@ if(!atom){
 
 import web.view;
 var wb = web.view(winform.static);
+if(_WINXP){ error("本程序基于 WebView2 ，不支持 XP 系统",2) }
 
 import win.ui.tabs;
 var tbs = win.ui.tabs(winform.nav1,winform.nav2,winform.nav3,winform.nav4,winform.nav5);

@@ -503,8 +503,15 @@ namespace popmenu {
 !popmenu.getString(__/*菜单项序号*/) = 返回菜单项文本
 !popmenu.setString(__/*菜单项序号*/,"") = 设置菜单项文本
 !popmenu.setBitmap(.(菜单序号或ID,位图,选中位图) = 选中位图为可选参数,\n图像可以是句柄指针,也可以是图像文件路径或数据
-!popmenu.popup(.(x坐标,y坐标,是否屏幕坐标) = 弹出菜单\n如果不指定坐标,则自动调用 win.getMessagePos函数获取最后一次鼠标消息坐标
-!popmenu.popId(.(x坐标,y坐标,是否屏幕坐标) = 弹出菜单\n并返回用户点选ID\n未选择或发生错误则返回零 
+!popmenu.popup(.(x坐标,y坐标,是否屏幕坐标,选项) = 弹出菜单\n如果不指定坐标,则自动调用 win.getMessagePos函数获取最后一次鼠标消息坐标,\n可选用参数@4指定 _TPM_ 前缀的选项,\n例如 _TPM_BOTTOMALIGN 指定坐标 y 指定菜单底部位置
+!popmenu.popId(.(x坐标,y坐标,是否屏幕坐标,选项) = 弹出菜单\n并返回用户点选ID\n未选择或发生错误则返回零,\n如果不指定坐标,则自动调用 win.getMessagePos函数获取最后一次鼠标消息坐标,\n可选用参数@4指定 _TPM_ 前缀的选项,\n例如 _TPM_BOTTOMALIGN 指定坐标 y 指定菜单底部位置
+_TPM_CENTERALIGN=@0x4/*_TPM_CENTERALIGN*/
+_TPM_LEFTALIGN=@0/*_TPM_LEFTALIGN*/
+_TPM_RIGHTALIGN=@0x8/*_TPM_RIGHTALIGN*/
+_TPM_BOTTOMALIGN=@0x20/*_TPM_BOTTOMALIGN*/
+_TPM_TOPALIGN=@0/*_TPM_TOPALIGN*/
+_TPM_VCENTERALIGN=@0x10/*_TPM_VCENTERALIGN*/
+
 !popmenu.ownerDraw = 启用自绘\n系统菜单自绘没多大意义,建议使用弹出窗口模拟菜单即可
 !popmenu.onMenuItemClick = @.onMenuItemClick = function(id){
 	menuFile.selId = id;__/*指定默认菜单回调函数*/

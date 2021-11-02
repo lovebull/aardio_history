@@ -121,6 +121,7 @@ class jsonServer{
 			
 			
 			return {
+				@{ _defined = {"result"}; _type="object"};
 				error = err;
 				result = result;
 				id = reqData.id;

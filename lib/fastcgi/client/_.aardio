@@ -509,7 +509,7 @@ class client{
 				writeBuffer = function(buffer,len){
 					if( buffer === null ) return;
 					if( owner.closed ) return; 
-					if( #buffer > 65535 ) error("缓冲区长度不应大于65535字节",2);
+					if( #buffer > 65535 ) error("buffer 长度不应大于65535字节",2);
 					
 					if( ! owner._headersWritten ) owner.open();
 					this.stream.writeRecord( 
@@ -745,7 +745,7 @@ end intellisense**/
 
 /**intellisense(response)
 write(__) = 输出一个或多个值,\n参数将自动转换为字符串对象\n可直接输出结构体,其他table转换为JSON输出
-writeBuffer(.(缓冲区,长度) = 输出缓冲区数据
+writeBuffer(.(buffer,长度) = 输出 buffer 对象中的数据
 redirect("__") = 302重定向,\n必须在页面尚未输出响应头时调用,\n参数@1可以是相对路径或任意网址,\n此函数终止执行页面后续代码 
 redirect("__",301) = 301重定向,\n必须在页面尚未输出响应头时调用,\n参数@1可以是相对路径或任意网址,\n此函数终止执行页面后续代码 
 close() = 关闭输出\n此函数终止执行页面后续代码

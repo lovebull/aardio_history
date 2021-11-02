@@ -316,12 +316,13 @@ getIp = function(domain) {
 /*}}*/
 
 getLocalIp = function(){
-	var ips = { getIp() }; 
-	for(i=1;#ips){ 
-		if(..string.startWith(ips[i],"192.168.")){ return ips[i]; } 
-	} 
-	
-	return ips[1];	
+	var ips = { getIp() };  
+	var ips2 = ..table.filter(ips,lambda(v) ..string.startWith(v,"192.168.1.") );
+	if(!#ips2) ips2 = ..table.filter(ips,lambda(v) ..string.startWith(v,"192.168.") );
+	if(!#ips2)  ips2 = ..table.filter(ips,lambda(v) ..string.startWith(v,"10.") );
+	if(!#ips2)  ips2 = ..table.filter(ips,lambda(v) ..string.startWith(v,"172.") );
+	if(!#ips2)  ips2 = ..table.filter(ips,lambda(v) !..string.startWith(v,"169.254.") );
+	return #ips2 ? ips2[1] : ips[1];
 }
 
 /**intellisense(wsock)
@@ -338,9 +339,9 @@ _wsadata.maxUdpDg = 最大数据包大小,0为无限制
 accept(__/*套接字句柄*/) = 创建一个新的套接字来与客户套接字创建连接通道,\n如果连接成功,就返回新创建的套接字句柄
 select(.(nfds,readfds,writefds,exceptfds,tv_sec,tv_usec) = 所有参数可选,\n成功返回套接字数目,超时返回0,出错返回-1/*_SOCKET_ERROR*/
 inet_ntoa(__/*in_addr*/) = in_addr结构体或数值转换为字符串格式IP地址
-getIp("__/*请输入域名*/") = 解析域名,可返回一个或多个IP\n如果不指定任何参数,返回内网IP
+getIp("__/*请输入域名*/") = 解析域名,可返回一个或多个IP\n如果不指定任何参数,返回内网IP,\n\n优先取192.168.1 开头的IP,请改用 wsock.getLocalIp 函数,\n\n如果要更优先获取当前上网卡的本机IP,\n请改用 wsock.tcp.client.getLocalIp 函数
 getIpAddr(__/*请输入域名*/) = 解析域名,\n返回in_addr或in_addr结构体数组\n返回值2为AF_INET或AF_INET6
-getLocalIp() = 返回内网IP，优先取192.168.开头的IP
+getLocalIp() = 返回内网IP，优先取192.168.1 开头的IP,\n\n如果要更优先获取当前上网卡的本机IP,\n请改用 wsock.tcp.client.getLocalIp 函数
 hostent = 记录主机信息的结构体
 end intellisense**/
 

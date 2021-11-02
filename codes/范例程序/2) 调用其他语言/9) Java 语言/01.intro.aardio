@@ -13,8 +13,8 @@ var jvm = java(); //创建Java虚拟机
 /*
 注意java会到 "默认类搜寻路径" + "类名(替换'.'为'\')" 去查找类,"默认类搜寻路径"为"/java/"以及"/java/*.jar"
 用下面的函数可以动态添加类搜索位置(目录或jar文件)
-*/
-jvm.addClassLoaderUrl("~\codes\范例程序\2) 调用其他语言\9) Java语言\java"); 
+*/      
+jvm.addClassLoaderUrl("~\codes\范例程序\2) 调用其他语言\9) Java 语言\java\"); 
 
 //加载Java类对象
 HelloworldApp = jvm.loadClass("aardio.sample.HelloworldApp")
@@ -24,7 +24,8 @@ HelloworldApp = jvm.loadClass("aardio.sample.HelloworldApp")
 注意下面的$操作符指示aardio在编译时将文件置入内存，
 而路径前面的波浪线~表示EXE根目录(开发时指开发环境根目录)
 */
-HelloworldApp = jvm.loadClass("aardio.sample.HelloworldApp",$"~\codes\范例程序\2) 调用其他语言\9) Java语言\java\aardio\sample\HelloworldApp.class") 
+HelloworldApp = jvm.loadClass("aardio.sample.HelloworldApp"
+	,$"~\codes\范例程序\2) 调用其他语言\9) Java 语言\java\aardio\sample\HelloworldApp.java") 
 
 //创建java对象
 var helloworld = HelloworldApp();

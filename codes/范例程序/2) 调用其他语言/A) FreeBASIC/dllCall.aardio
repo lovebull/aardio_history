@@ -13,6 +13,10 @@ var info = {
 
 // 然后直接调用 API
 var ret = dll.msgboxW(123,456,"测试一下好用不好用",info);
+/*
+相关文档：《 aardio 用户手册 / 函数库 / 核心库 / raw 库 / 不声明调用API 》
+相关范例：「 aardio 范例 / 调用其他语言 / C语言 」
+*/
 
 //最后打印结构体看一下值
 import console;

@@ -5,12 +5,6 @@ var winform = win.form(text="Edge 浏览器控件 - web.view";right=759;bottom=4
 winform.add()
 /*}}*/
 
-/*
-web.view 基于微软 WebView2 组件。
-如果 运行范例（或发布EXE）遇到问题，请首先到控制面板找到 WebView2 并卸载。
-然后重新运行代码创建 web.view 对象时即可自动安装最新版 WebView2 组件。 
-更新：Windows 11 已自带 WebView2。
-*/
 import web.view;
 var wb = web.view(winform);
  
@@ -67,26 +61,20 @@ wb.html = /**
 </head>
 <body style="margin:50px"><pre>
 <b>标准库 web.view</b>
------------------------------------
-基于 WebView2（Edge/Chromium内核），支持 WIN7，WIN8，WIN10。
-WebView2 Runtime 需要单独安装，但没有默认不能访问本机 locahost 的限制。
+web.view 基于微软 WebView2（Edge/Chromium内核），
+支持 WIN7,WIN8,WIN10,WIN11已自带此组件，Office 已默认安装 WebView2。
 
-运行时可自动安装 WebView2 Runtime， 安装包较大并需要请求管理权限。
-好在微软官方提供下载，速度非常快，所以体验还不错，并且这种公共运行库，应当会较快普及。
+所有使用WebView2的程序共用一个 WebView2 Runtime，
+WebView2 Runtime 虽然需要单独安装，但下载安装速度非常快，
 
-web.view 库的体积非常小，可以生成独立 EXE文件。
+标准库 web.view 的体积非常小，可以生成独立 EXE文件。
+如果检测到系统未安装 WebView2 将会自动下载安装。
 
-<b>扩展库 web.sysView</b>
------------------------------------
-如果是WIN10 系统并且未安装 WebView2 Runtime ，
-调用 WIN10 系统 Edge/Edge(Chromium) 浏览器自带的 WebView1 创建浏览器控件。 
-WebView1 是 UWP 控件，默认不能不能访问本机 locahost，
-aardio 在运行时会检测并自动解除限制（但有请求管理权限的提示）。
+如果运行范例（或发布EXE）遇到问题，请首先到控制面板找到 旧版本 WebView2 并卸载，
+然后重新运行代码创建 web.view 对象时即可自动安装最新版 WebView2 组件。 
 
-如果是 WIN7，WIN8 或者已安装 WebView2 Runtime ，
-web.sysView 会自动调用标准库 web.view 创建对象。
-
-web.sysView 的体积非常小，可以生成独立 EXE文件。
+网页右键菜单可以打开网页开发工具，
+在开发工具的「设置 / 语言」界面可切换开发工具的界面语言。
 </pre></body>
 </html>
 **/

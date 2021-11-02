@@ -1,7 +1,6 @@
 //浏览网页
- 
-import electron.runtime; // 如果希望自动安装electron到系统目录,请先导入electron.runtime
-import electron.app; // 导入electron扩展库
+
+import electron.app; 
 var theApp = electron.app(); // 创建electron进程,如果第3个参数为true，可以UTF8模式打开控制台 - 用于查看electron主进程输出
 
 //启动主进程的 main.js

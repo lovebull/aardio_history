@@ -29,9 +29,5 @@ wb.waitEle("#kw",`
 this.value = "aardio";
 `)
 
-/*
-web.view 和 web.sysView 都支持 wb.waitEle() 函数，用法一样。
-*/
-
 winform.show();
 win.loopMessage();

@@ -295,8 +295,8 @@ inet.ftp.getParentDir(.(路径) = 返回父目录
 !ftp_file.read() = 读文件,返回文件数据,\n可选指定缓冲区长度
 !ftp_file.read(-1) = 读取所有数据
 !ftp_file.write(.(写入字符串,不定个数字符串) = 写文件,支持多参数,\n返回写入数据的总长度,失败返回空或0
-!ftp_file.writeBuffer(.(缓冲区指针,写入长度) = 上传文件数据\n参数一必须是使用raw.malloc()函数创建的缓冲区指针\n长度参数可选,默认为缓冲区长度. 
-!ftp_file.readBuffer(.(缓冲区指针,写入长度) = 下载文件数据\n参数一必须是使用raw.malloc()函数创建的缓冲区指针\n长度参数可选,默认为缓冲区长度. 
+!ftp_file.writeBuffer(.(buffer,写入长度) = 上传文件数据\n参数一必须是使用 buffer 对象\n长度参数可选,默认为缓冲区长度. 
+!ftp_file.readBuffer(.(buffer,写入长度) = 下载文件数据\n参数一必须是使用 buffer 对象\n长度参数可选,默认为缓冲区长度. 
 !ftp_file.eachRead(缓冲区长度) = @for(str in ??.eachRead() ){
 	__
 }

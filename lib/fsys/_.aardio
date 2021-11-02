@@ -335,24 +335,33 @@ isHidden = function(f){
 	var s = attrib(f)
 	return (s!=-1) && ( s & 2/*_FILE_ATTRIBUTE_HIDDEN*/);
 }
+
 isSystem = function(f){
 	var s = attrib(f)
 	return (s!=-1) && ( s & 4/*_FILE_ATTRIBUTE_SYSTEM*/);
 }
+
 isDir = function(f){
 	var s = attrib(f)
 	return (s!=-1) && ( s & 0x10/*_FILE_ATTRIBUTE_DIRECTORY*/);
 }
+
 isReadonly = function(f){
 	var s = attrib(f)
 	return (s!=-1) && ( s & 1/*_FILE_ATTRIBUTE_READONLY*/);
 }
+
 formatSize = function (...){  
 	return ..math.size64(...).format();
 }
+
 replace =function(path,p,s,c){
 	var d = ..string.load(path);
 	if(d) return ..string.save(path, ( ..string.replace(d,p,s,c) ) )	
+}
+
+gmatch = function(path,p){
+	return ..string.gmatch(..string.loadBuffer(path):"",p)
 }
 
 getSize =  ..io.getSize; // @Deprecated
@@ -362,7 +371,7 @@ appdata = ..io.appData; // @Deprecated
 formatSize( = 该函数参数支持math.size64支持的所有参数类型
 formatSize(.(字节长度) = 转换字节长度到适合的最大单位表示的文本,\n单位使用 bytes,KB,MB,GB等
 formatSize(.(字节长度低位,字节长度高位) = 转换字节长度到适合的最大单位( bytes,KB,MB,GB等 )\n低位用于表示4GB以下的长度,高位以4GB为最小单位表示长度
-shortpath(__/*路径*/) = 转换为短文件名\n如果文件不存在,返回空值,\n短文件名指向会因实际文件数变更,所以不能把短文件名存入数据库
+shortpath(__/*路径*/) = 转换为短路径,\n如果文件不存在,返回空值,\n短文件名指向会因实际文件数变更,所以不能把短路径存入数据库\n\n存在特定文件目录无法获取短路径且返回包含空格的长路径的可能性\n如无必要，不建议使用或依赖此函数，正确使用 process 等可以自动\n转义路径参数中的空格
 longpath(__/*路径*/) = 转换为完整路径,并将短文件名转换为长文件名
 joinpath(.("根目录",不定个数子路径) = 注意根目录不可以圆点字符开始\n可追加任意个子路径参数,如果子路径是绝对路径则返回子路径\n拼接时可以使用空参数,但不可全部参数为空
 getCurDir() = 获取当前目录
@@ -392,8 +401,8 @@ enum(目录路径,通配符,回调函数,目录筛选函数) = @.enum( "/遍历�
 enum(目录路径,通配符,,目录回调函数) = @.enum( "/遍历目录路径", "*.*",,\n	function(dirpath,dirname){\n		__/*处理每个子目录前首先调用此函数,返回false跳过该目录*/\n		return false;\n	} \n);
 idListFromPath(__/*路径*/) = 路径转换为名称ID(PIDL)\路径必须存在
 pathFromIdList(.(PIDL名称ID,是否释放PIDL) = 名称ID(PIDL)转换为路径
-getSpecial(_CSIDL__) = 获取指定目录,参数为_CSIDL开头的常量\n可选参数2指定是否将PIDL转换为路径返回,也可以是一个用于拼接的相对路径\n可选使用参数三指定访问令牌,用于修改用户目录\nfsys.getSpecial()//默认获取桌面目录\nfsys.getSpecial( _CSIDL_RECENT ) //获取用户最近文档目录\n可选指定第二个参数为false,以返回原始PIDL句柄
-getSpecialDefault(_CSIDL__) = 获取默认用户目录,参数为_CSIDL开头的常量\n参数用法同getSpecial,不同的是访问令牌默认指定为default user\n注意VISTA以后的系统在此目录下创建文件或目录需要管理权限
+getSpecial(_CSIDL__) = 获取特殊文件夹,\n也可以使用 io.getSpecial 函数实现类似功能,\n参数@1使用_CSIDL开头的常量指定特殊文件夹的 CSIDL 标识,\n省略参数@1则默认值获取桌面目录,\n可选参数2指定是否将PIDL转换为路径返回,也可以是一个用于拼接的相对路径\n参数@2指定为false,则返回原始PIDL句柄\n可选使用参数@3指定访问令牌,用于修改用户目录
+getSpecialDefault(_CSIDL__) = 获取默认用户的特殊文件夹,\n参数@1使用_CSIDL开头的常量指定特殊文件夹的 CSIDL 标识,\n参数用法同getSpecial,不同的是访问令牌默认指定为 default 用户,\n注意 VISTA 以后的系统在此目录下创建文件或目录需要管理权限
 delete(.("路径",FOF选项,进度标题,父窗口句柄) = 删除文件或目录,成功返回true,\n路径参数可以是多个路径组成的数组,其他参数可选\n支持非空目录,文件名支持通配符 
 deleteEx(.("路径",FOF选项,进度标题,父窗口句柄) = 删除文件或目录,成功返回true,\n路径参数只能是字符串,其他参数可选\n如果删除失败,则在下次系统重启时删除文件,\n重启删除目录之前必须先清空目录,\n重启删除文件的顺序与调用时的顺序相同
 move(.(源路径,目标路径,FOF选项,进度标题,父窗口句柄) = 移动文件或目录,路径参数可以是多个路径组成的数组,其他参数可选\n如果目标路径是已存在目录或源路径包含通配符则移动文件到目标目录下面,\n否则复制文件或目录到参数@2指定的目标路径,
@@ -401,6 +410,7 @@ copy(.(源路径,目标路径,FOF选项,进度标题,父窗口句柄) = 复制�
 rename(.(源路径,目标路径,FOF选项) = 重命名文件或目录,其他参数可选 
 fromFileTime(__/*FILETIME结构体*/) = 将::FILETIME结构体转换为time对象
 replace(.(文件路径,查找串,替换串,替换次数) = 替换文件内容,\n查找串支持模式匹配,\支持所有string.replace函数支持的替换串格式,\n不指定替换次数则替换所有匹配串
+gmatch(文件路径,查找串)  = @for m in fsys.gmatch( ,".__/*指定模式表达式,\n用于在参数@1指定的文件中循环全局搜索符合条件的字符串,\n有几个匹配分组迭代器返回几个值,\n注意表达式不能以^开始*/") { \n    \n}
 fromFileTime = !time.
 WIN32_FIND_DATA = !findData.
 end intellisense**/

@@ -280,6 +280,8 @@ class crypt{
 	}; 
 	hashFile = function(path,upper,algId,bufSize = 0x100000){  
 		var h = this.createHash(algId);
+		if(!h) return null,..lasterr();
+		
 		var f,err =  ..io.open(path, "rb");
 		if(!f) return null,err; 
    	
@@ -522,7 +524,7 @@ genSignatureKey(.(size,flags) = 创建用于签名算法的公/私钥对,\n@size
 getUserKey(.(keySpec) = 获取密钥,并设置为默认密钥\n参数指定密钥类型，例如 _AT_SIGNATURE\n成功返回true
 hasKey() = 检测是否已设置密钥
 setKey(.(密钥句柄) = 设置新的默认密钥句柄,\n该密钥将由密钥容器管理,不需要释放该密钥\n参数为null则删除密钥
-setKeyParam(.(类型,数据值,选项) = 设置加密参数\n数据值可以是结构体,字符串，或缓冲区\n如果数据值一个数值参数,则转换为表示32位整型数值地址的结构体指针\n成功返回true,失败请使用 ..lasterr()获取错误信息
+setKeyParam(.(类型,数据值,选项) = 设置加密参数\n数据值可以是结构体,字符串，或 buffer 对象,\n如果数据值一个数值参数,则转换为表示32位整型数值地址的结构体指针\n成功返回true,失败请使用 ..lasterr()获取错误信息
 setKeyParamMode(_CRYPT_MODE__) = 设置加密模式\n成功返回true,失败请使用 ..lasterr()获取错误信息
 setKeyParamPadding(_PKCS5__) = 设置加密填充方式\n成功返回true,失败请使用 ..lasterr()获取错误信息
 getKeyParam(.(类型,数据值) = 获取密钥参数\n数据值应当指定一个结构体\n不指定数据值则自动分配buffer对象存储返回值\n失败返回null
@@ -543,11 +545,11 @@ setHashPassword() = !crypt.
 setPlainPassword() = !crypt.
 exportPlainTextKeyBlob() = !plaintextkeyblob.
 hash(.(字符串,是否大写,返回16位结果,算法) = 计算哈希值,\n除第一个参数以外,其他参数可选\n默认使用MD5算法
-hashFile(.(文件路径,是否大写,算法) = 计算哈希值,\n除第一个参数以外,其他参数可选\n默认使用MD5算法
+hashFile(.(文件路径,是否大写,算法) = 计算哈希值,\n除第一个参数以外,其他参数可选,\n参数 @3 省略时默认使用MD5算法。\n\n此函数执行失败会返回2个值，分别为：null,错误信息,\n创建 crypt 对象时参数@2 请指定为 _PROV_RSA_AES 才能支持 SHA-256（SHA-2）算法,\n也可以改用 crypt.aes 或 crypt.rsa 创建 crypt 对象
 lastHash = 最后一次调用createHashXXX() 系列函数创建的哈希对象
 decrypt(.(字符串,是否已输入全部数据,哈希对象,选项) = 除第一个参数以外,其他参数都是可选参数\n成功返回解密文本,失败返回空,\n可使用..lasterr()函数获取错误信息
 encrypt(.(字符串,是否已输入全部数据,哈希对象,选项) = 除第一个参数以外,其他参数都是可选参数\n成功返回加密文本,失败返回空,\n可使用..lasterr()函数获取错误信息
-allocBuffer(.(大小,块大小) = 分配加解密需要用到的缓冲区\n如果不手动分配,程序将会自动按需分配缓冲区\n参数2可选,可使用对象的blockSize属性指定默认块大小
+allocBuffer(.(大小,块大小) = 分配加解密需要用到的 buffer\n如果不手动分配,程序将会自动按需分配 buffer,\n参数2可选,可使用对象的blockSize属性指定默认块大小
 blockSize = 加密填充的块大小，默认为8
 sign(.(keySpec,flags) = 返回签名\n可选用 @keySpec 参数中指定密钥类型,\n@flags 不必指定
 verifySignature(.(sign,flags) = 验证签名,\n参数@1为签名字符串,其他参数可选\n验证签名以前必须首先导入公钥,并创建哈希对象

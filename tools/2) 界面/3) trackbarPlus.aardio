@@ -518,8 +518,13 @@ winform.btnUpdateForm.oncommand = function(id,event){
 	ctrlParam.text = "";
 	ctrlParam.color = gdi.rgbReverse(winform.plusPreview.argbColor)
 	
-	ctrlParam.right = ctrlParam.left + winform.plusPreview.width;
-	ctrlParam.bottom = ctrlParam.top + winform.plusPreview.height;
+	var rect = winform.plusPreview.getRect();
+	if(ctrlParam.left){
+		ctrlParam.right = ctrlParam.left + rect.width() / winform.dpiScaleX;
+	}
+	if(ctrlParam.top){
+		ctrlParam.bottom = ctrlParam.top + rect.height() / winform.dpiScaleY;
+	}
 	
 	if(!ide.setControlParam(ctrlName,ctrlParam)){
 		winform.msgboxErr("更新窗体设计器中选定控件参数失败");
@@ -705,16 +710,12 @@ winform.bindConfig( config.winform,{
 	checkbox = "checked";
 } );
 
-for(name,ctrl in winform.eachControl("trackbar") ){ 
-	ctrl.oncommand ();
-}
-
 for(name,ctrl in winform.eachControl("plus") ){ 
 	if(string.startWith(name,"chk") ){
     	ctrl.oncommand ();
 	}
 }
-
+winform.tbHeight.oncommand();
 
 winform.clrPicker.setColor  = pickerSetColor;
 winform.cBgDefault.setFocus();
@@ -811,6 +812,10 @@ winform.btnOpenColorTable.oncommand = function(id,event){
 winform.setIcon( hico )
 
 winform.show();
+for(name,ctrl in winform.eachControl("trackbar") ){ 
+	ctrl.oncommand ();
+}
+
 winform.plusPreview.redrawTransparent();
 winform.cPreviewBackground.redrawTransparent();
 win.setTopmost(winform.hwnd);

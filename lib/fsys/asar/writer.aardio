@@ -224,8 +224,8 @@ fsys.asar.writer() = 创建asar文件打包生成器\n!fsys_asar_writer.
 !fsys_asar_writer.add(__) = 添加文件或目录到asar文件
 !fsys_asar_writer.remove(__) = 在已添加的asar的文件列表中移除文件或目录\n返回删除的文件数目
 !fsys_asar_writer.pack(.(输出路径) = 直接打包为asar文件\n输出路径必须使用.asar后缀\n如果需要获取进度,请使用eachPack迭代器
-!fsys_asar_writer.eachPack(输出路径,缓冲区) = @for(path,size,progress in ??.eachPack("/test.asar")){
-	__/*path为正在处理的文件相对路径\nsize是已处理的文件大小\nprogress是进度,0到1之间的小数\n输出路径必须使用.asar后缀,可选在参数@2中指定缓冲区*/
+!fsys_asar_writer.eachPack(输出路径,buffer) = @for(path,size,progress in ??.eachPack("/test.asar")){
+	__/*path为正在处理的文件相对路径\nsize是已处理的文件大小\nprogress是进度,0到1之间的小数\n输出路径必须使用.asar后缀,可选在参数@2中指定 buffer*/
 }
 !fsys_asar_writer.filter = @.filter = function(path){ 
 	return __/*参数为待添加文件路径,返回布尔值控制是否继续添加*/;

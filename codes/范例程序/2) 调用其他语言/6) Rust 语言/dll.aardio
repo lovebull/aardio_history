@@ -49,6 +49,11 @@ if(process.rust.build()){
 	}
 	
 	var buf = raw.buffer(100);
+	
+	/*
+	相关文档：《 aardio 用户手册 / 函数库 / 核心库 / raw 库 / 不声明调用API 》
+	相关范例：「 aardio 范例 / 调用其他语言 / C语言 」
+	*/
 	var ret = dll.hello_rust("Hello,Rust!",buf,info);
 	
 	console.dumpJson(info)

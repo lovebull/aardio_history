@@ -5,7 +5,7 @@ import win.ui.atom;
 /*DSG{{*/
 var winform = win.form(text="扩展库打包发布工具";right=596;bottom=440;border="dialog frame";clipch=1;max=false;min=false;topmost=1)
 winform.add(
-btnPub={cls="button";text="发布扩展库";left=367;top=20;right=568;bottom=54;font=LOGFONT(h=-16);z=1};
+btnPub={cls="button";text="发布扩展库";left=369;top=21;right=570;bottom=55;font=LOGFONT(h=-16);z=1};
 edit={cls="edit";left=28;top=67;right=568;bottom=419;edge=1;font=LOGFONT(h=-16);hscroll=1;multiline=1;vscroll=1;z=3};
 editLibName={cls="edit";text="process.command";left=28;top=22;right=355;bottom=54;edge=1;font=LOGFONT(h=-16);multiline=1;z=2}
 )
@@ -36,6 +36,7 @@ import sevenZip.lzma;
 
 winform.btnPub.oncommand = function(id,event){ 
 	winform.btnPub.disabled = true;
+	thread.delay(200);
 	
 	var fb = fiber.create( 
 		function(){ 

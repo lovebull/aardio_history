@@ -353,6 +353,24 @@ namespace reg{
 			}
 		return null,err;
 	}
+	
+	query = function(path,valueName){
+		var reg = ..win.regReader(path)
+		if(reg){
+			var v = reg.queryValue(valueName:"")
+			reg.close()
+			return v;
+		}	
+	}
+	
+	queryWow64 = function(path,valueName){
+		var reg = ..win.regReaderWow64(path)
+		if(reg){
+			var v = reg.queryValue(valueName:"")
+			reg.close()
+			return v;
+		}
+	}
 }
 
 regWow64 = function(rpath,check,root,samDesired,createOption,securityAttributes){
@@ -386,6 +404,10 @@ win.regWow32("HKEY_LOCAL_MACHINE__") = 打开已存在或创建新的注册表�
 win.regWow32("HKEY_LOCAL_MACHINE__",true) = 仅仅打开存在的注册表路径,\n在64位系统中访问32位注册表,\n如果不存在返回null
 win.reg.overridePredefinedKey("根键","重定向键",回调函数) = @.overridePredefinedKey("HKEY_CLASSES_ROOT","HKEY_CURRENT_USER\Software\Classes",\n    function(){\n        __/*注册表已成功重定向*/\n    }\n);
 win.reg.overrideClasses(runas,proc) = @.overrideClasses(false,\n	function(){\n		__/*重定向HKEY_CLASSES_ROOT到HKEY_CURRENT_USER\Software\Classes*/\n	}\n)
+win.reg.queryWow64( = 直接读取注册表路径的指定值,\n在64位系统访问64位注册表,兼容 32 位系统
+win.reg.queryWow64(.(path,valueName) = 返回 @path 参数指定的注册表路径下\n@valueName 指定名字的值,失败返回 null\n在64位系统访问64位注册表,兼容 32 位系统
+win.reg.query( = 直接读取注册表路径的指定值
+win.reg.query(.(path,valueName) = 返回 @path 参数指定的注册表路径下 \n @valueName 指定名字的值,失败返回 null
 !win_reg.setDwValue("__",) = 设置32位数值
 !win_reg.setDwValueBigEndian("__",) = 设置大端序32位数值
 !win_reg.setQwValue("__",) = 设置64位数值,\n参数@2支持math.size64对象表示的64位长整数
@@ -418,30 +440,30 @@ win.regWow64() = !win_reg.
 win.reg() = !win_reg.
 !win_reg.open() = !win_reg.
 
-_REG_BINARY=@0x3/*_REG_BINARY*/
-_REG_CREATED_NEW_KEY=@0x1/*_REG_CREATED_NEW_KEY*/
-_REG_DWORD=@0x4/*_REG_DWORD*/
+_REG_BINARY=@3/*_REG_BINARY*/
+_REG_CREATED_NEW_KEY=@1/*_REG_CREATED_NEW_KEY*/
+_REG_DWORD=@4/*_REG_DWORD*/
 _REG_QWORD=@0xB/*_REG_QWORD*/ 
-_REG_DWORD_BIG_ENDIAN=@0x5/*_REG_DWORD_BIG_ENDIAN*/
-_REG_DWORD_LITTLE_ENDIAN=@0x4/*_REG_DWORD_LITTLE_ENDIAN*/
-_REG_EXPAND_SZ=@0x2/*_REG_EXPAND_SZ*/
-_REG_FULL_RESOURCE_DESCRIPTOR=@0x9/*_REG_FULL_RESOURCE_DESCRIPTOR*/
-_REG_LINK=@0x6/*_REG_LINK*/
-_REG_MULTI_SZ=@0x7/*_REG_MULTI_SZ*/
-_REG_NONE=@0x0/*_REG_NONE*/
-_REG_NOTIFY_CHANGE_ATTRIBUTES=@0x2/*_REG_NOTIFY_CHANGE_ATTRIBUTES*/
-_REG_NOTIFY_CHANGE_LAST_SET=@0x4/*_REG_NOTIFY_CHANGE_LAST_SET*/
-_REG_NOTIFY_CHANGE_NAME=@0x1/*_REG_NOTIFY_CHANGE_NAME*/
-_REG_NOTIFY_CHANGE_SECURITY=@0x8/*_REG_NOTIFY_CHANGE_SECURITY*/
-_REG_OPENED_EXISTING_KEY=@0x2/*_REG_OPENED_EXISTING_KEY*/
-_REG_OPTION_BACKUP_RESTORE=@0x4/*_REG_OPTION_BACKUP_RESTORE*/
-_REG_OPTION_CREATE_LINK=@0x2/*_REG_OPTION_CREATE_LINK*/
-_REG_OPTION_NON_VOLATILE=@0x0/*_REG_OPTION_NON_VOLATILE*/
-_REG_OPTION_RESERVED=@0x0/*_REG_OPTION_RESERVED*/
-_REG_OPTION_VOLATILE=@0x1/*_REG_OPTION_VOLATILE*/
-_REG_REFRESH_HIVE=@0x2/*_REG_REFRESH_HIVE*/
-_REG_RESOURCE_LIST=@0x8/*_REG_RESOURCE_LIST*/
+_REG_DWORD_BIG_ENDIAN=@5/*_REG_DWORD_BIG_ENDIAN*/
+_REG_DWORD_LITTLE_ENDIAN=@4/*_REG_DWORD_LITTLE_ENDIAN*/
+_REG_EXPAND_SZ=@2/*_REG_EXPAND_SZ*/
+_REG_FULL_RESOURCE_DESCRIPTOR=@9/*_REG_FULL_RESOURCE_DESCRIPTOR*/
+_REG_LINK=@6/*_REG_LINK*/
+_REG_MULTI_SZ=@7/*_REG_MULTI_SZ*/
+_REG_NONE=@0/*_REG_NONE*/
+_REG_NOTIFY_CHANGE_ATTRIBUTES=@2/*_REG_NOTIFY_CHANGE_ATTRIBUTES*/
+_REG_NOTIFY_CHANGE_LAST_SET=@4/*_REG_NOTIFY_CHANGE_LAST_SET*/
+_REG_NOTIFY_CHANGE_NAME=@1/*_REG_NOTIFY_CHANGE_NAME*/
+_REG_NOTIFY_CHANGE_SECURITY=@8/*_REG_NOTIFY_CHANGE_SECURITY*/
+_REG_OPENED_EXISTING_KEY=@2/*_REG_OPENED_EXISTING_KEY*/
+_REG_OPTION_BACKUP_RESTORE=@4/*_REG_OPTION_BACKUP_RESTORE*/
+_REG_OPTION_CREATE_LINK=@2/*_REG_OPTION_CREATE_LINK*/
+_REG_OPTION_NON_VOLATILE=@0/*_REG_OPTION_NON_VOLATILE*/
+_REG_OPTION_RESERVED=@0/*_REG_OPTION_RESERVED*/
+_REG_OPTION_VOLATILE=@1/*_REG_OPTION_VOLATILE*/
+_REG_REFRESH_HIVE=@2/*_REG_REFRESH_HIVE*/
+_REG_RESOURCE_LIST=@8/*_REG_RESOURCE_LIST*/
 _REG_RESOURCE_REQUIREMENTS_LIST=@0xA/*_REG_RESOURCE_REQUIREMENTS_LIST*/
-_REG_SZ=@0x1/*_REG_SZ*/
-_REG_WHOLE_HIVE_VOLATILE=@0x1/*_REG_WHOLE_HIVE_VOLATILE*/
+_REG_SZ=@1/*_REG_SZ*/
+_REG_WHOLE_HIVE_VOLATILE=@1/*_REG_WHOLE_HIVE_VOLATILE*/
 end intellisense**/

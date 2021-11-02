@@ -1,4 +1,4 @@
-//JPEG压缩转换工具
+//JPEG 压缩转换
 import win.ui;
 import win.dlg.message;
 import fonts.fontAwesome;

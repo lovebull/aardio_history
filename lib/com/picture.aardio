@@ -53,6 +53,11 @@ load = function(strfile){
 	return  pic; 
 }
 
+loadObject = function(path){
+	var pic = load(path);
+	if(pic) return ..com.QueryObject(pic);
+}
+
 loadBitmap = function(path){
 	var p,e = load(path);
 	if(!p) return null,e;
@@ -183,7 +188,8 @@ is = function(v){
 }
 
 /**intellisense(com.picture) 
-load(__/*请输入文件路径*/) =  载入图像并返回com.IPicture对象,\n参数也可以指定资源路径、或者图像的内存数据\n如果已经导入了inet.http,加载路径可以使用小写http,https开头的网址,网址长度必须小于1040字节
+load(__/*请输入文件路径*/) =  载入图像并返回 com.IPicture 对象,\n参数也可以指定资源路径、或者图像的内存数据\n如果已经导入了inet.http,加载路径可以使用小写http,https开头的网址,网址长度必须小于1040字节
+loadObject(__/*请输入文件路径*/) =  载入图像并返回 com.IDispath 对象,\n参数也可以指定资源路径、或者图像的内存数据\n如果已经导入了inet.http,加载路径可以使用小写http,https开头的网址,网址长度必须小于1040字节
 snap(.(窗口句柄,左坐标,顶坐标,宽,高) = 自屏幕抓取窗口图象并返回com.IPicture对象,\n截图结果会包含透明部分的背景图像，\n所有参数都是可选参数
 snapClient(.(窗口句柄,左坐标,顶坐标,宽,高) = 自屏幕抓取窗口客户区图像并返回com.IPicture对象,\n截图结果会包含透明部分的背景图像，\n所有参数都是可选参数
 printWindow(.(窗口句柄,左坐标,顶坐标,宽,高) = 后台抓取窗口图象并返回com.IPicture对象\n所有参数都是可选参数
@@ -212,6 +218,7 @@ com.picture.printClient() = !ipicture.
 com.picture.load() = !ipicture.
 com.picture.snap() = !ipicture.
 com.picture.load() = !ipicture.
+com.picture.loadObject() = !ipicture.
 com.picture.fromBitmap() = !ipicture.
 com.picture.fromIcon() = !ipicture.
 com.GetIPicture(__) = 转换为 com.IPicture 对象\n参数可指定 IPictrue 接口的指针或 COM 对象

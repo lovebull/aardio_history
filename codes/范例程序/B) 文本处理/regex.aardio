@@ -10,7 +10,7 @@ var regex = preg("(\w+\:\/\/)(?P<host>[\w.]+)");
 
 var testString = /*
 http://bbs.aardio.com
-http://www.baidu.com
+https://www.example.com
 */
 
 console.log( "测试是否匹配", regex.test(testString) );
@@ -34,7 +34,7 @@ console.log( '函数替换结果\r\n', regex.replace( testString
 var urls = regex.grep( {
 	"http://bbs.aardio.com";
 	"www.aardio.net";
-	"http://www.baidu.com";
+	"http://www.example.com";
 } );
 
 console.varDump(urls)

@@ -379,7 +379,7 @@ doScript(js) = 执行 JS 脚本
 html = @.html = /**\n<!doctype html>\n<html>\n<head>\n    <meta charset="utf-8">\n    <style type="text/css">\n    html,body{ height:100%; margin:0; } __\n    </style>\n    <script type="text/javascript"></script>\n</head>\n<body>\n    <div id="header"></div>\n    <div id="container"> \n        <div class="lside"> </div> \n        <div class="rside"> </div>  \n    </div>\n</body>\n</html>\n**/
 export( = 导出aardio函数为JS全局变量\n注意JS调用这里导出的本地函数时，\n传入JS参数通过JSON转换为 aardio对象,\n返回值通过JSON转换为JS对象\n注意export导出的函数内禁止执行Javascript
 export(.(JS变量名,回调函数) = 导出aardio函数为JS全局变量,\n参数也可以使用一个表包含多个需要绑定到JS的变量名值对,值必须是函数。\nJS脚本中调用这里绑定的本地函数返回值为 Promise 对象
-exportHostObject( = 直接导出 aardio 对象到 javascript，\n直接转换为 COM 对象，中间不需要经过 JSON 转换，\n用法请参考: https://docs.microsoft.com/en-us/microsoft-edge/webview2/reference/win32/icorewebview2?view=webview2-1.0.705.50#addhostobjecttoscript
+exportHostObject( = 直接导出 aardio 对象到 javascript，\n直接转换为 COM 对象，中间不需要经过 JSON 转换,\n用法请参考: https://docs.microsoft.com/en-us/microsoft-edge/webview2/reference/win32/icorewebview2?view=webview2-1.0.705.50#addhostobjecttoscript
 exportHostObject(.(变量名,对象) = 直接导出 aardio 对象到 javascript，\n可导出表对象、函数对象、COM 对象等,\n在js中通过 chrome.webview.hostObjects的成员访问此对象,\n中间不会经过JSON转换，而是直接转换为 COM 对象
 doScript(.(js) = 执行JS代码，\n不指定回调函数时，JS代码放入匿名函数体内执行
 doScript(.(js,callback) = @.doScript(js,function(result){\n	__/*执行JS代码成功在当前界面线程异步回调此函数，\n@result参数为JS代码的返回值*/\n} )
@@ -410,21 +410,19 @@ remoteDebuggingPort = 远程调试端口,只读属性
 openRemoteDebugging() = 创建 web.socket.chrome 远程调试对象,\n请先导入web.socket.chrome\n!stdwebsocketchromeClient.
 end intellisense****/
 
-/*
-标准库 web.view
------------------------------------
-基于 WebView2（Edge/Chromium内核），支持 WIN7,WIN8,WIN10,WIN11已自带此组件
-WebView2 Runtime 需要单独安装，aardio 会自动下载安装，安装包较大并需要管理权限。
-但这个组件下载安装速度非常快 - 体验不错，并且将来的操作系统会自带此组件。
-WebView2 是原生控件，也没有UWP版 WebView1 不能访问本机 locahost 的限制。 
+/**details(WebView2 Edge/Chromium内核 )
+web.view 基于微软 WebView2（Edge/Chromium内核），
+支持 WIN7,WIN8,WIN10,WIN11已自带此组件，Office 已默认安装 WebView2。
 
-扩展库 web.sysView
------------------------------------
-如果是WIN10 系统并且未安装 WebView2 Runtime ，
-调用 WIN10 系统 Edge/Edge(Chromium) 浏览器自带的 WebView1 创建浏览器控件。 
-WebView1 是 UWP 控件，默认不能不能访问本机 locahost，
-aardio 在运行时会检测并自动解除限制（但有请求管理权限的提示）。
+所有使用WebView2的程序共用一个 WebView2 Runtime，
+WebView2 Runtime 虽然需要单独安装，但下载安装速度非常快，
 
-如果是 WIN7，WIN8 或者已安装 WebView2 Runtime ，
-web.sysView 会自动调用标准库 web.view 创建对象。。
-*/
+标准库 web.view 的体积非常小，可以生成独立 EXE文件。
+如果检测到系统未安装 WebView2 将会自动下载安装。
+
+如果运行范例（或发布EXE）遇到问题，请首先到控制面板找到 旧版本 WebView2 并卸载，
+然后重新运行代码创建 web.view 对象时即可自动安装最新版 WebView2 组件。 
+
+网页右键菜单可以打开网页开发工具，
+在开发工具的「设置 / 语言」界面可切换开发工具的界面语言。
+end details**/

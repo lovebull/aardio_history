@@ -34,7 +34,7 @@ namespace gdip{
 			defaultToken = null;
 		}
 	} 
-	open();  ..table.gc(self,"close");	//<--
+	open();  ..table.gc(self,"close");	//<--table.gc 按调用顺序的逆序析构对象
 	
 	errMsg = {
 		"GenericError! an error on the method call.";

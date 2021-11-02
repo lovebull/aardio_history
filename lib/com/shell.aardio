@@ -2,12 +2,23 @@
 import com;
 import com.interface.IApplicationActivationManager;
 
-namespace com.shell;
+namespace com;
+
+class shell{
+	ctor(){
+		return ..com.CreateObject("Shell.Application");
+	}; 
+}
+
+namespace shell;
 
 eachApp = function(){
 	var shell = ..com.CreateObject("Shell.Application")
 	if(!_WIN10_LATER){ return function(){} }
-	return ..com.each( shell.NameSpace("shell:::{4234d49b-0245-4df3-b780-3893943456e1}").Items() )
+	 
+	return ..com.each( 
+		shell.NameSpace("shell:::{4234d49b-0245-4df3-b780-3893943456e1}"/*Shell:AppsFolder*/).Items() 
+	)
 } 
 
 activateApp = function(aumid,arguments,options){
@@ -26,6 +37,7 @@ eachWindow = function(){
 } 
 
 /**intellisense()
+com.shell() = 返回 ..com.CreateObject("Shell.Application") 创建的对象
 com.shell.activateApp(.(aumid,arguments,options) = 打开Win10 APP,\n参数@1 指定 Application User Model ID,\n也可以将应用拖到桌面上,然后打开快捷方式的属性在taget中查看，\n参数@2,@3为可选参数,
 com.shell.eachApp = @for i,item in com.shell.eachApp(){ 
 	io.print( item.name,item.path );__/*遍历WIN10 appsFolder目录下安装的应用*/

@@ -8,9 +8,7 @@ custom2={cls="custom";text="custom2";left=552;top=14;right=1196;bottom=779;bgcol
 )
 /*}}*/
 
-import electron.runtime;
 import electron.app;
-
 //创建第一个electron窗口
 var app = electron.app(winform.custom); 
 app.jsMain =/**  

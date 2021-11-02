@@ -16,7 +16,7 @@ class golang{
 			if(_WINXP){ version = "1.11" }	 
 			
 			var ok,err = ..zlib.httpFile.download("https://golang.google.cn/dl/go"+(version:"1.16.1")
-				+( ..process().isWow64() ? ".windows-amd64.zip" : ".windows-386.zip" ) ,"正在下载Go编译器（Google服务器响应有点慢）"
+				+( _WIN_64 ? ".windows-amd64.zip" : ".windows-386.zip" ) ,"正在下载Go编译器（Google服务器响应有点慢）"
 				,"~\lib\golang\.res"
 				,"~\lib\golang\.res") 
 			if( !ok  ){

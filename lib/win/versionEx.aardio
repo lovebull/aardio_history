@@ -6,13 +6,14 @@ win.versionEx = win.version;
 namespace win.versionEx{ 
 	
 	var reg = ..win.regReader("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion")
+	updateBuildRevision = reg.queryValue("UBR") : 0;
+	
 	productName = reg.queryValue("ProductName");
-	if(isWin11ReleaseLater){
+	if(isWin11Later){
 		productName = ..string.replace(productName,"Windows\s+10","Windows 11");
 	}
 	
-	editionId = reg.queryValue("EditionID");
-	updateBuildRevision = reg.queryValue("UBR")
+	editionId = reg.queryValue("EditionID"); 
 	
 	//https://docs.microsoft.com/en-us/windows/release-health/release-information
 	var win10ReleaseId = {
@@ -35,9 +36,11 @@ namespace win.versionEx{
 			releaseId = reg.queryValue("ReleaseId");
 		}
 	} 
+	
+	displayVersion = reg.queryValue("DisplayVersion") : (majorVersion +"." + minorVersion);
   
 	isWin10ReleaseLater = function(releaseId){ 
-		if(isWin11ReleaseLater) return true;
+		if(isWin11Later) return true;
 		
 		if( isWin10Later ) {
 			if(releaseId){
@@ -62,5 +65,5 @@ isWin10ReleaseLater(.(releaseId) = 系统是否Win10并且ReleaseId大于等于�
 end intellisense**/
 
 /**intellisense()
-win.versionEx = 扩展系统版本信息\naardio 内建以下全局常量也可用于检测系统版本：\n_WINXP,_WIN7_LATER,_WIN10_LATER,_WINE 等\n!winVersion.
+win.versionEx = 导入后 win.versionEx 指向 win.version 并进行扩展,\n增加 productName,editionId,updateBuildRevision 等字段,\n增强 format 函数,以及改变 displayVersion 为 Win10,Win11 格式\n\naardio 内建以下全局常量也可用于检测系统版本：\n_WINXP,_WIN7_LATER,_WIN10_LATER,_WINE 等\n!winVersion.
 end intellisense**/

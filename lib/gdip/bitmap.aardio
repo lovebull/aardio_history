@@ -404,7 +404,7 @@ end intellisense**/
 gdip.bitmap = 位图对象
 gdip.bitmap.is(__) = 参数是否gdip.bitmap对象
 gdip.bitmap( = 创建位图对象\n失败返回null,以及错误信息
-gdip.bitmap(.(图片文件路径或数据) = 创建GDI+位图对象
+gdip.bitmap(.(图片文件路径或数据) = 创建GDI+位图对象\n如果事先导入标准库 inet.http,这里也可以直接传入图像网址,\n注意传入网址会同步下载并阻塞当前线程
 gdip.bitmap(.(graphics对象,100,100) = 从指定的graphics对象创建GDI+位图副本\n对位图的修改不会影响原来的graphics对象\n参数(graphics对象,宽度,高度)
 gdip.bitmap(.(位图句柄) = 从位图句柄创建bitmap对象\n不会销毁传入的位图,须自行释放
 gdip.bitmap(.(图标句柄,1/*_IMAGE_ICON*/) = 从图标句柄创建bitmap对象\n不会销毁传入的位图,须自行释放
@@ -450,7 +450,7 @@ gdip.bitmap(.(宽,高,像素格式,内存指针,行扫描像素宽度) = 自内�
 !gdipbitmap.saveToStream() = !fsys_stream.
 !gdipbitmap.saveToStream( = 保存到内存流对象\n该函数成功返回值为流对象
 !gdipbitmap.saveToStream(.(流对象,后缀名,输出质量) = 流对象请使用 fsys.stream 创建\n后缀名默认为"*.jpg",质量默认为100,\n可选在参数@4使用gdip.encoder.parameter数组指定保存参数	
-!gdipbitmap.saveToBuffer(.(后缀名,输出质量) = 保存图像到内存缓冲区,返回缓冲区(buffer),\n后缀名默认为"*.jpg",质量默认为100,\n可选在参数@3使用gdip.encoder.parameter数组指定保存参数	
+!gdipbitmap.saveToBuffer(.(后缀名,输出质量) = 保存图像到 buffer，返回 buffer,\n后缀名默认为"*.jpg",质量默认为100,\n可选在参数@3使用gdip.encoder.parameter数组指定保存参数	
 !gdipbitmap.save("__/*请输入文件路径*/") = 保存图像\n使用参数指定的文件路径或加载图片时的路径\n根据后缀名自动设定格式,\n可选在参数@3使用gdip.encoder.parameter数组指定保存参数	
 !gdipbitmap.save("__/*请输入文件路径*/",80) = 保存图像\n使用参数指定的文件路径或加载图片时的路径\n根据后缀名自动设定格式\njpg文件可使用第二个参数指定图像质量,\n可选在参数@3使用gdip.encoder.parameter数组指定保存参数	
 !gdipbitmap.saveAdd(.(图像路径) = 创建多帧图像,参数指定保存路径,\n使用saveAdd添加帧，添加帧参数@1不能指定路径,\n添加所有帧以后调用saveFlush函数即可

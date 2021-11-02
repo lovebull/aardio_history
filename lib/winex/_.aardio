@@ -85,7 +85,6 @@ function enumTop( onfind, cls ,text ) {
 			if( onfind( hwnd ) === false ) return false;
 		} 
 	}while(hwnd)
-    
 }
 
 function each( mcls,mtitle,parent ) {
@@ -256,7 +255,7 @@ findExists = function(title,text,cls,ctrlcls,ctrlid,pid,number,style,nStyle){
 } 
 
 findActivate = function(title,text,cls,ctrlcls,ctrlid,pid,number){
-	parent,ctrl,threadId,processId = findExists(title,text,cls,ctrlcls,ctrlid,pid,number);
+	var parent,ctrl,threadId,processId = findExists(title,text,cls,ctrlcls,ctrlid,pid,number);
 	if(parent){  
 		..win.setForeground(parent)
 		sleep(1)
@@ -333,6 +332,7 @@ waitActive = function( title,text,cls,ctrlcls,ctrlid,pid,number){
 	var tk = ..time.tick(); 
 	var hwnd = type(title)==type.number ? title;
 	var f;
+	
 	while( ..win.delay(waitDelay) ){
 		if( waitTimeout ){
 		 	if( ..time.tick() - tk > waitTimeout ){
@@ -360,7 +360,6 @@ waitActive = function( title,text,cls,ctrlcls,ctrlid,pid,number){
 		
 		sleep(0) 
 	}
-	  
 }
  
 waitMainWnd = function(cls,title,pid,tid,waitTimeout){
@@ -421,8 +420,13 @@ attachThread = function(tid,att = true){
 }
 
 attach = function(hwnd,att = true){
-	if(!hwnd)
-		error("无效的窗口句柄",2)
+	if(!hwnd) error("无效的窗口句柄",2)
+	if(type(att)===type.function){
+		attach(hwnd,true);
+		var ret = att();
+		attach(hwnd,false);	
+		return ret;
+	}
 	var tid,pid = ..win.getThreadProcessId(hwnd); // 当前窗口的线程ID  
 	return attachThread(tid,att);
 }
@@ -523,11 +527,17 @@ getText = function(hwnd,len,timeout=3000){
 	return "";
 }
 
-click = function( hwnd,cmdid ){
-   if( ! cmdid )  
-   		::PostMessage(hwnd, 0xf5/*_BM_CLICK*/, 0, 0) 
-   else  
-   		::PostMessage(hwnd, 0x111/*_WM_COMMAND*/,cmdid ,0);
+click = function(hwnd,cmdId,...){
+	if( ! cmdId ) { 
+		::PostMessage(hwnd, 0xf5/*_BM_CLICK*/, 0, 0) 
+	}
+	elseif(type.isString(cmdId) || ...){
+		var _,id = findMenu(hwnd,cmdId,...);
+		if(id) ::PostMessage(hwnd, 0x111/*_WM_COMMAND*/,id,0);
+	}  
+	else {
+		::PostMessage(hwnd, 0x111/*_WM_COMMAND*/,cmdId ,0);
+	} 	
 }
 
 quit = function(hwnd){
@@ -538,73 +548,49 @@ close = function(hwnd){
 	::PostMessage(hwnd,0x10/*_WM_CLOSE*/,0,0);
 } 
 
-GetMenu = ::User32.api("GetMenu","int(int hwnd)")
-GetSubMenu = User32.api("GetSubMenu","int(int hMenu,int nPos)");
-GetMenuItemID = User32.api("GetMenuItemID","INT(int hMenu,int nPos)"); 
-GetMenuItemCount = User32.api("GetMenuItemCount","int(int hMenu)");
-GetMenuString = User32.api("GetMenuString","int(int hMenu,int wIDItem,ustring& lpString,int nMaxCount,int wFlag)")
+closeAndWait = function(hwnd){
+	var r = ..thread.invokeAndWait( lambda(hwnd) ::User32.SendMessage(hwnd,0x10/*_WM_CLOSE*/,0,0) ,hwnd )
+	return !..win.isWindow(hwnd);
+}
 
-findMenu = function(target_window,...) { 
-	lables = {...}
+findSubMenu = function(hMenu,label,...){
+	if(!hMenu) return hMenu;
+	var count = ::User32.GetMenuItemCount(hMenu); 
+	if (count < 1) return;  
 	
-	var hMenu = GetMenu(target_window); 
-	if (!hMenu)  
-		return 0;
-
-	if( not #lables )
-		return hMenu;
-
-	var menuId = 0xFFFFFFFF/*_MENU_ITEM_IS_SUBMENU*/;
-	var itmeCount = GetMenuItemCount(hMenu); 
-	if (itmeCount < 1)  
-		return;  
- 
-    var hMenuFind;
- 	onFindSubMenu = function( menu_pos ){ 
- 		
-		menuId = GetMenuItemID(hMenu, menu_pos); 
-		if (menuId == 0xFFFFFFFF/*_MENU_ITEM_IS_SUBMENU*/) {
-			hMenu = GetSubMenu(hMenu, menu_pos);
-			itmeCount = GetMenuItemCount(hMenu); 
-			hMenuFind = hMenu;
+	if(type.isString(label)){
+		var buf = ..raw.buffer(1024);
+		for(pos=0;count-1){ 
+			var len = ::User32.GetMenuString(hMenu, pos, buf, 512, 0x400/*_MF_BYPOSITION*/);
+			var target = ..string.fromUnicode(buf,,-1);
+		
+			if( not  ..string.find(label,"\&" ) )
+ 				target = ..string.replace(target,"\&","");
+ 			
+			if( ..string.find( target,label ) ){
+				label = pos+1;
+				break;
+			} 
+		}	
+	}
+	
+	if(type(label)=="number"){
+		if ( ( label < 1) || ( label > count) ) return;  
+		
+		var menuId =  ::User32.GetMenuItemID(hMenu, label-1); 
+		if (menuId == -1/*_MENU_ITEM_IS_SUBMENU*/) {
+			if(!...) return hMenu; 
+			var hMenu = ::User32.GetSubMenu(hMenu, label-1);
+			return findSubMenu(hMenu,...);
 		}
 		else { 
-			itmeCount = 0; 
-			hMenu = null; 
+			return hMenu,menuId;
 		}
 	}
- 
-	for(i=1;#lables ) {
-		if (!hMenu)  
-			return;   
-    
-		if( type(lables[i])==type.number ){ 
-			if ( (lables[i] <= -1) || ( lables[i] >= itmeCount) )  
-				return;  
-			
-			onFindSubMenu(lables[i]) 
-		}
-		else if(type(lables[i])==type.string) {
-			for(pos=0;itmeCount-1){
-				var len, target= GetMenuString(hMenu, pos, 1024, 1024-1, 0x400/*_MF_BYPOSITION*/);
-				
-				if( not  ..string.find( lables[i],"\&" ) )
- 					target = ..string.replace(target,"\&","");
- 				
-			 	if( ..string.find( target,lables[i] ) ){
-			 		onFindSubMenu(pos)
-					break;
-			 	} 
-			}   
-		}  
-		else
-			return ;
-	}  
+}
 
-	if (menuId == 0xFFFFFFFF/*_MENU_ITEM_IS_SUBMENU*/) 
-		return hMenuFind;   
-	else
-		return hMenuFind,menuId  
+findMenu = function(hwnd,...) {
+	return findSubMenu(User32.GetMenuP(topointer(hwnd)),...)
 }
 
 if(!_WINXP){
@@ -623,6 +609,16 @@ if(!_WINXP){
 }
 else {
 	isVisible = ..win.isVisible;
+}
+
+removeBorder = function(hwnd){
+	return ..win.modifyStyle(hwnd,0xCF0000);
+}
+
+orphanWindow = function(ctrl,hwnd){
+	removeBorder(hwnd);
+	attach(hwnd);
+	ctrl.orphanWindow(false,hwnd)
 }
 
 /**intellisense(winex)
@@ -672,14 +668,17 @@ fromPointReal(.(x坐标,y坐标)=从指定的屏幕坐标查找窗口\n获取叶
 fromClientPoint(.(窗口句柄,x坐标,y坐标) = 从指定的窗口坐标查找子窗口\n仅子窗口,非叶级窗口
 fromClientPoint(.(窗口句柄,x坐标,y坐标,_CWP_ALL) = 从指定的窗口坐标查找子窗口\n_CWP_ALL指定包含隐藏、禁用控件
 fromClientPointReal(.(窗口句柄,x坐标,y坐标) = 从指定的窗口坐标查找子窗口\n仅子窗口,非叶级窗口,穿透groupbox。 
-attach(__/*窗口句柄*/) = 附加到外部线程窗口并共享输入状态\n返回值为是否成功附加\n注意该函数会重置键盘状态
-attach(__/*窗口句柄*/,false) = 解除共享输入状态\n返回值为是否成功解除
+attach( = 绑定到外部线程窗口并共享输入状态\n注意该函数会重置键盘状态
+attach(.(hwnd,enabled) = 绑定到外部线程窗口并共享输入状态,\n@hwnd 指定外部线程的目标窗口柄\n参数@enabled 省略或为true绑定目标线程,为false取消绑定,\n返回值为是否成功
+attach(.(hwnd,proc) = 执行参数@proc指定的回调函数,\n@hwnd 指定外部线程的目标窗口柄,\n执行回调函数时绑定目标窗口线程并共享输入状态,\n执行完取消绑定，并返回该函数的返回值
 attachThread(__/*线程ID*/) = 附加到外部线程并共享输入状态\n返回值为是否成功附加\n注意该函数会重置键盘状态
 attachThread(__/*线程ID*/,false) = 解除附加\n返回值为是否成功解除
 getFocus(__/*输入父窗口句柄*/)=获取输指定窗口输入焦点所在的控件句柄
 getFocus()=获取前台窗口、输入焦点所在的控件句柄
-findMenu(.(窗口句柄,"子菜单标题",或子菜单序号,支持任意个参数) = 例如：\nhmenu,menuid = winex.findMenu(hwnd ,"文件","另存为"  )
+findMenu(.(窗口句柄,"菜单标题",->->->) = 参数@2开始可以指定1个或任意个菜单匹配参数,\n菜单匹配参数可以是菜单项标题,也可以是菜单项序号,\n第一个菜单项序号为1\n找到子菜单则返回子菜单,\n否则返回当前菜单句柄与菜单项命令ID
+findSubMenu(.(菜单句柄,"菜单标题",->->->) = 参数@2开始可以指定1个或任意个菜单匹配参数,\n菜单匹配参数可以是菜单项标题,也可以是菜单项序号,\n第一个菜单项序号为1\n找到子菜单则返回子菜单,\n否则返回当前菜单句柄与菜单项命令ID
 click(.(窗口句柄,命令ID) = 模拟点击命令
+click(.(窗口句柄,"菜单标题",->->->) = 如果参数@2为字符串,\n或者指定了参数@3,\n则先使用所有传入参数调用 winex.findMenu 查找菜单项,\n如果找到则模拟点击该菜单项
 click(.(按钮窗口句柄) = 模拟点击按钮
 say(.("发送文本",窗口句柄) = 向指定控件窗口发送Unicode编码文本,\n省略窗口句柄自动获取焦点窗口
 sayAnsi(.("发送文本",窗口句柄) = 向指定控件窗口发送ANSI编码文本,\n省略窗口句柄自动获取焦点窗口
@@ -689,8 +688,11 @@ sendString(.("发送文本",窗口句柄) = 向指定窗口上的文本框发送
 setText(.(窗口句柄,文本) = 修改外部程序窗口标题或控件文本
 getText(.(窗口句柄,缓冲区长度,超时值) = 取外部程序窗口标题或控件文本\n缓冲区长度为可选参数,默认自动获取文本长度\n超时值为可选参数,默认为1000毫秒
 getUiInfo() = 获取UI线程窗口焦点,光标等信息\n可选使用参数@1指定目标窗口,省略则默认指定为前景窗口\n!guithreadinfo.
-quit(__/*输入窗口句柄*/) = 退出程序(WM_QUIT)
-close(__/*输入窗口句柄*/) = 关闭窗口(WM_CLOSE)
+quit(__/*输入窗口句柄*/) = 退出程序,发送 _WM_QUIT 消息
+close(__/*输入窗口句柄*/) = 关闭窗口,发送 _WM_CLOSE 消息\n不等待消息处理完成
+closeAndWait(__/*输入窗口句柄*/) = 关闭窗口,发送 _WM_CLOSE 消息\n等待消息处理完成,且不阻塞当前线程消息循环
+removeBorder(__) = 移除窗体边框样式,\n参数@1指定目标窗口句柄
+orphanWindow(.(ctrl,hwnd) = 使用 @hwnd 指定句柄的外部窗口作为参数,\n调用 aardio 控件对象的 orphanWindow 函数。\n使外部窗口附加为控件的悬浮影子窗口,\n悬浮影子窗口可将外部进程窗口附加到 @ctrl 并如影随形的自适应缩放调整位置\n此函数同时移除外窗口边框，并附加输入线程
 end intellisense**/
 
 /**intellisense(!guithreadinfo)

@@ -1,0 +1,73 @@
+//使用模块 
+
+/*
+系统安装的 Python 与你在 aardio 加载的 Python 请使用完全相同的版本，
+然后用 pip 安装模块，再把安装好的模块手动复制到 aardio 里面。 
+
+添加第三方 Python 模块失败的可能原因：
+1、低级错误，模块放错了位置。
+2、模块的版本与 Python 版本不兼容。
+3、可能缺少了其他依赖模块和依赖文件，而依赖模块又可能重复出现这几个问题，请耐心爬坑。
+
+aardio 内默认的 Python 搜索模块的路径为:
+"~\lib\py3\.res\Lib.zip"
+"~\lib\py3\.res\"
+"\"
+"\py"
+
+aardio 代码内文件路径开始为斜杠（或反斜杠）表示应用程序根目录，
+在工程中根目录为工程目录，工程之外单独运行的aardio文件根目录就是文件所在的目录，发布生成EXE后就是EXE所在的目录.
+而文件路径开始为波浪线指的是EXE所在的目录（开发时为 aardio.exe 所在目录）
+
+*.pyd 也可以放到上面的目录下, 或者 sys.path 指定的目录下，
+如果 pyd 还依赖其他 DLL，也必须放到sys.path 指定的目录下， 
+
+sys.path 默认包含以下目录：
+"\" aardio 工程目录(也就是发布后的 EXE运行目录), 
+"~\lib\py3\.res\DLLs"
+
+aardio中的 Python 解释器是32位版本，
+pyd 以及 DLL 必须与当前 Python 解释器使用相同的运行时构建。
+关于 Python 的版本信息，可调用 py3.run() 打开解释器查看。
+*/
+import console;
+console.open();//在导入py前打开控制台可以显示python输出
+
+import py3;//这里是导入Python3.4,改成import py2 就是导入Python2.7
+
+//可以自己添加模块搜索路径，例如：
+//py3.appendPath("C:\Python34\Lib\site-packages\");
+ 
+var pyCode = /**
+import urllib.request
+def getHtml(url): 
+    b = urllib.request.urlopen(url).read()
+    return b.decode("utf-8")
+**/
+string.save("/myHttp.py",pyCode );//创建一个创建的模块文件
+ 
+//试试在python中import上面保存的测试模块
+var myHttp = py3.import("myHttp");
+var str = myHttp.getHtml("http://www.aardio.com" );
+
+console.log( str );
+console.pause()
+/*
+aardio 与 Python 的 import 语句基本用法类似，
+都是用来导入模块，都要求文件名与模块路径与文件路径保持一致。
+
+但 aardio 的 import 语句语简单，
+aardio 模块通常没有 Python 那么复杂的版本兼容问题，
+使用 aardio 只要更新到最新版，扩展库下载最新版，基本可以向下兼容。
+
+Python 的 import 语句则有很多复杂的功能，例如：
+	from 模块名 import 函数名 
+	from 模块名 import *
+	from hashlib import md5 as md5New
+等等用法。
+
+aardio 需要在 import 过来的库中用 namespace 定义名字空间，
+而 Python 并不需要这么做，文件放到哪里模块名字就变成什么，
+所以经常会在 Python 代码中看到这句代码 if __name__ == "__main__":
+如果一个库被直接执行 __name__ 的值就是 "__main__",否则就是当前导入的模块名字或者当前类的名字，
+*/

@@ -5,14 +5,22 @@ import win.ui;
 var winform = win.form(text="控件提示 - 鼠标悬停在超链接上试试";right=492;bottom=254;bgcolor=4448391;max=false)
 winform.add(
 plus={cls="plus";text="http://www.aardio.com";left=80;top=79;right=404;bottom=107;color=15793151;font=LOGFONT(h=-24);notify=1;z=1};
-plusTracking={cls="plus";text="手动控制的汽泡提示";left=187;top=201;right=442;bottom=238;bgcolor=-5197169;font=LOGFONT(h=-16;name='FontAwesome';charset=0);z=2}
+plusTracking={cls="plus";text="手动控制的汽泡提示";left=187;top=201;right=442;bottom=238;bgcolor=-5197169;font=LOGFONT(h=-16;name='FontAwesome';charset=0);notify=1;z=2}
 )
 /*}}*/
 
 import win.ui.tooltip; 
-var tooltipCtrl = win.ui.tooltip( winform );//在窗口上创建tooltip控件 
-tooltipCtrl.addTool(winform.plus,"这是一个超链接" )
 
+//在所有者窗口 winform 上创建 tooltip 提示控件 
+var tooltipCtrl = win.ui.tooltip( winform );
+
+//添加一个自动模式的控件提示（TOOLINFO 对象，简称 tool ）
+tooltipCtrl.addTool(winform.plus,"这是一个超链接" )
+ 
+/*
+自动模式的提示会在鼠标放到关系控件上时自动显示，离开时自动隐藏。
+当然也可以使用下面的方法修改提示文本。
+*/
 import process;
 winform.plus.oncommand = function( id,event ){ 
 	process.openUrl(owner.text);//打开网页
@@ -27,14 +35,17 @@ winform.plus.oncommand = function( id,event ){
 	tooltipCtrl.setText("已经点过的超链接2",winform.plus);
 } 
 
-var trackingToolTip = win.ui.tooltip.tracking(winform)
+/*
+下面创建一个手动跟踪模式的提示控件
+*/
+var balloonTipCtrl = win.ui.tooltip.tracking(winform,false).setInfo("标题")
 winform.plusTracking.onMouseEnter = function(wParam,lParam){ 
-    var x,y,cx,cy = winform.plusTracking.getPos(true)
-	trackingToolTip.setInfo("标题").setText("内容").trackPopup(true,x+20,y+cy);
+    var x,y,cx,cy = winform.plusTracking.getPos(true);
+    balloonTipCtrl.setText("手动跟踪模式的提示控件").trackPopup(true,x+20,y+cy );
 }
 
 winform.plusTracking.onMouseLeave = function(wParam,lParam){ 
-    trackingToolTip.getTool().trackPopup(false)
+	balloonTipCtrl.getCurrentTool().trackPopup(false)
 }
 
 winform.plusTracking.skin({
@@ -50,5 +61,6 @@ winform.plus.skin(
 		active = 0xFF00FF00; //鼠标按下去的颜色
 	}
 )
+
 winform.show() 
-win.loopMessage(); 
+win.loopMessage();

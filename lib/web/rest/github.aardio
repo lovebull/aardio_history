@@ -1,7 +1,14 @@
-﻿//github 客户端
+﻿//github 接口
 import crypt;
 import web.rest.jsonLiteClient;
 namespace web.rest;
+
+class github{
+	ctor( ... ){
+		this = ..web.rest.jsonLiteClient();
+		this.defaultUrlTemplate = "https://api.github.com";
+	};
+}
 
 namespace github{
     
@@ -27,9 +34,8 @@ namespace github{
 		user,repos,path,branch = parseUrlArgs(user,repos,path,branch);
 
 		if(user&&repos&&path){
-			var client = ..web.rest.jsonLiteClient();
-			var github = client.api("https://api.github.com"); 
-			var result = github.repos[user][repos].contents[path].get(,{ref=branch});
+			var client = ..web.rest.github();
+			var result = client.api().repos[user][repos].contents[path].get(,{ref=branch});
 
 			if(result[["content"]] && result[["encoding"]]=="base64"){
 				var str = ..crypt.decodeBin(result[["content"]]);
@@ -45,6 +51,19 @@ namespace github{
 		}
 	};
 	
+	latestRelease = function(repo,filename){
+		var client = ..web.rest.github();
+		var latest = client.api().repos[repo].releases.latest.get();
+		client.close();
+		
+		if(filename && latest && latest.tag_name){
+			var url = type.isString(filename) ? filename : filename(latest.tag_name);
+			if(url) url = "https://github.com/"+repo+"/releases/download/" + latest.tag_name + "/" + url;
+			return url;
+		}
+		return latest;
+	};
+	
 	toJsDelivrUrl = function(user,repos,path,version){
 		user,repos,path = parseUrlArgs(user,repos,path); 
 		return ..inet.url.append("https://cdn.jsdelivr.net/gh/"+user+"/"+repos+(version?"@"+version:""),path:"/"); 
@@ -56,4 +75,9 @@ getContent(.(网址) = 自指定的 GitHub 网址获取数据,\n包含 blob,raw 
 getContent(.(用户名,仓库名,文件路径,分支名) = 自指定的 GitHub 网址获取数据,分支名可省略
 toJsDelivrUrl(.(网址) = GitHub 网址 转换为 jsdelivr 网址,\n包含 blob,raw 的 GitHub 网址可省略域名部分
 toJsDelivrUrl(.(用户名,仓库名,文件路径,版本号) = GitHub 文件路径转换为 jsdelivr 网址,版本号可省略
+latestRelease(.("用户名/仓库名") = 获取最新发布版本信息\n\n如果参数@2指定文件名,或获取文件名的函数,\n则返回该文件的完整下载地址
+end intellisense**/
+
+/**intellisense()
+web.rest.github() = 创建 GitHub 接口客户端\n使用 api 函数返回接口对象,不需要输入接口地址,\n!web_restClient.
 end intellisense**/

@@ -1,0 +1,35 @@
+//跟踪超链接
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="提示控件 / 跟踪模式 / 启用超链接";right=759;bottom=469)
+winform.add(
+button={cls="button";text="点这里显示提示控件";left=176;top=156;right=404;bottom=227;z=1}
+)
+/*}}*/
+
+import win.ui.tooltip;
+var tooltipCtrl = win.ui.tooltip.tracking(winform);
+tooltipCtrl.setInfo("提示标题");
+
+import process;
+tooltipCtrl.onHyperlinkClick = function(link,id,nmhdr){
+	process.openUrl(link);  
+}
+
+var tooltip = tooltipCtrl.addTrackingTool(winform.button); 
+winform.button.oncommand = function(id,event){ 
+    var x,y,cx,cy = winform.button.getPos(true)
+    tooltip.setText("点链接试试：<a>https://www.example.com</a>").trackPopup(true,x+20,y+cy);
+    tooltipCtrl.capture = true;  
+}  
+
+tooltipCtrl.wndproc = function(hwnd,message,wParam,lParam){
+	if(message==0x201/*_WM_LBUTTONDOWN*/){ 
+		if(!tooltipCtrl.ptInClientRect(lParam)){
+			tooltipCtrl.popup(false);  
+		} 
+	}
+}
+
+winform.show();
+win.loopMessage();

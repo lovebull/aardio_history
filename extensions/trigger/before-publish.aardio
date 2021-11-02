@@ -3,14 +3,25 @@ import fsys;
 import service;
 
 if(_WIN10_LATER && service.isRunning("Windefend") ){
-	var projectDir = ide.getProjectDir()
-	var path = ..io.joinpath(projectDir,".build/mp.lock")
+	var curProjectDir = ide.getProjectDir()
+	var path = ..io.joinpath(curProjectDir,".build/mp.lock")
 	if(string.load(path)!=string.crc32(path)){
 		string.save(path,string.crc32(path))
+		
+		var defProjectDir = ide.getConfig("project_default_dir");
+		if(!#defProjectDir) defProjectDir = io.fullpath("~/project");
+		
+		var exclusionPaths;
+	 	if(!fsys.path.ischild(defProjectDir,curProjectDir)){
+	 		exclusionPaths = {..io.fullpath("~/config"),defProjectDir,curProjectDir}	
+	 	}
+	 	else {
+	 		exclusionPaths = {..io.fullpath("~/config"),defProjectDir}	
+	 	}
 	 
 	 	//此时在 defender.aardio 中调用 ide 接呀会导致阻塞
 		var pid = ide.createProcess("~\tools\1) 开发环境\defender.aardio",`
-			_IDE_PUBLISTH_PROJECT_DIR =`+ ..table.tostring({projectDir,ide.getProjectDir()})+`
+			_IDE_PUBLISTH_PROJECT_DIR =`+ ..table.tostring(exclusionPaths)+`
 			loadcodex("~\tools\1) 开发环境\defender.aardio")
 		
 		`,"runas");

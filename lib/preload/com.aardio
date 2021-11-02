@@ -89,6 +89,11 @@ namespace com {
 			}
 		}
 	};
+	
+	first = function(obj){
+		var next = obj ? each(obj);
+		return next ? rget(2,next()); 
+	};
 
 	int8 = lambda(v)type(v) === "number" ? Variant(v,0x10/*_VT_I1*/) : null; 
 	uint8 = lambda(v)type(v) === "number" ? Variant(v,0x11/*_VT_UI1*/) : SafeArrayV(v,3/*_VT_I4*/) ;
@@ -107,13 +112,15 @@ com = COM组件支持库,\n虽然这是内核库，但例外的是这个库不�
 end intellisense**/
 
 /**intellisense(com)
+first(__) = 对传入的 COM 对象调用 com.each 创建迭代器,\n执行该迭代器并返回第一次返回的 COM 对象,\n如果传入参数为 null 或 false 则直接返回
 each = @for index,obj in com.each(__) {\n\n} //迭代遍历com集合对象，参数可以直接传入COM迭代器
 DoObjectVerb(.(OLE对象,-1) = 执行OLE对象的动词,\n参数2可使用_OLEIVERB_前缀常量
 SafeArrayType(__) = 如果传入参数为 SafeArray 数组,\n返回一个表示数组元素类型的数值,该值应以 _VT_ 前缀的常量进行比对\n支持 com.SafeArray 创建的数组,或 COM 函数返回的数组\n不支持通过 com.SafeArrayV 或 com.Variant 创建的数组
 SafeArrayV(.(数组,类型) = 转换为SAFEARRAY数组,\n参数@1可以是数组,字符串,buffer,也可以指定null值并转换为空数组,\n类型不指定时默认为VT_VARIANT,VT_VARIANT数组兼容VBS数组
-SafeArray(_VT__/*元素类型*/) = 创建COM安全数组,可增加一个或多个参数指定数组成员\n返回的数组是普通数组类型,但 数组@._safearray_type 指定了COM类型\nCOM函数自动支持此类数组，并在获取安全数组时自动转换为相同格式\n\n也可以使用 { _safearray = "字符串、缓冲区、或数组" } 创建COM安全数组
-CreateEmbed(.(控制对象,窗体对象,progId) = 创建COM控件对象并嵌入窗口\n控制对象应当是一个table对象\n创建成功在控制对象中添加成员_host,_object,_form
-CreateEmbed(.(控制对象,窗体对象,COM对象) = 将已存在的com.IDispatch控件对象嵌入窗口\n控制对象应当是一个table对象\n创建成功在控制对象中添加成员_host,_object,_form
+SafeArray(_VT__/*元素类型*/) = 创建COM安全数组,可增加一个或多个参数指定数组成员\n返回的数组是普通数组类型,但 数组@._safearray_type 指定了COM类型\nCOM函数自动支持此类数组，并在获取安全数组时自动转换为相同格式\n\n也可以使用 { _safearray = "字符串、buffer、或数组" } 创建COM安全数组
+CreateEmbed( = 创建 COM 控件对象,\n通常不会直接使用此函数,\n应改用窗口或控件对象提供的 CreateEmbed 或 CreateEmbedEx 函数,\n或者 com.lite 提供的 CreateEmbed 或 CreateEmbedEx 函数
+CreateEmbed(.(embedObject,formOrCtrl,progId) = 创建 COM 控件对象并嵌入 @formOrCtrl 指定的窗体或控件窗口\n@progId 指定要创建的 COM 控件的 ProgID 或者 CLSID\n@embedObject 用一个表指定容器对象\n容器对象可以是一个空的表用于接管 COM 对象\n\n函数返回该容器对象并添加成员_host,_object,_form\n_object 成员是创建的 COM 对象,\n_form 是传入参数中的 @formOrCtrl,\n_host 是 COM 宿主对象,通常很少会用到,\n\n容器对象可通过添加成员函数响应 COM 对象事件，\n容器对象的另主要作用是充当访问 COM 对象的中间代理对象。\n通常使用 util.metaProperty 为容器对象添加属性元表，\n属性元表可拦截属性、函数调用并调用 _object 对象
+CreateEmbed(.(embedObject,formOrCtrl,comObject) = 创建 COM 控件对象并嵌入 @formOrCtrl 指定的窗体或控件窗口\n@comObject 参数指定 com.IDispatch 对象,\n@embedObject 用一个表指定容器对象
 CreateObject("__") = 创建并返回com.IDispatch对象,参数@1可指定CLSID或ProgID,\n创建失败会抛出异常,使用com.TryCreateObject代替不会抛异常
 GetObject("__") = 从已运行的实例获取并返回com.IDispatch对象,\n参数@1可指定CLSID或ProgID,也可指定打开的文件路径,如doc文件,\n创建失败会抛出异常,使用com.TryGetObject代替不会抛异常
 TryCreateObject(.(cls,->->->) = 参数可指定一个或多个CLSID/ProgID,逐个测试直到创建成功,\n成功返回com.IDispatch对象,\n创建失败返回null,错误信息,不会抛出异常,\n参数@1可指定CLSID或ProgID

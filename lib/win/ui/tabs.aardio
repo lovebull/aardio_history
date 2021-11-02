@@ -38,13 +38,13 @@ class tabs{
 		
 		if(this.horizontal){
 			this.itemMargin = defRc2.left - defRc.right;	 
-			hcontainer= ::User32.ChildWindowFromPointEx(this._form.hwnd,x + cx,y + cy +cy,2 | 4 );
-			if(!hcontainer) hcontainer = ::User32.ChildWindowFromPointEx(this._form.hwnd,x + cx,y - cy,2 | 4 );
+			hcontainer= ::User32.ChildWindowFromPointEx(this._form.hwnd,x + cx,y + cy +cy,2 | 1 | 4 );
+			if(!hcontainer) hcontainer = ::User32.ChildWindowFromPointEx(this._form.hwnd,x + cx,y - cy,2 | 1 | 4 );
 		}
 		else {
 			this.itemMargin = defRc2.top - defRc.bottom;
 			hcontainer= ::User32.ChildWindowFromPointEx(this._form.hwnd,x + cx + cx,y + cy,2 | 1 | 4 );
-			if(!hcontainer) hcontainer = ::User32.ChildWindowFromPointEx(this._form.hwnd,x - cx,y + cy,2 | 4 );  
+			if(!hcontainer) hcontainer = ::User32.ChildWindowFromPointEx(this._form.hwnd,x - cx,y + cy,2 | 1 | 4 );  
 		}
 		
 		this.designTimeItemWidth = defRc2.width();
@@ -52,7 +52,20 @@ class tabs{
 		
 		if( hcontainer ){
 			this.container = this._form.getCtrl(hcontainer);
-			if(this.container[["cls"]]!="custom") this.container = null;
+			if(this.container[["cls"]]!="custom") {
+				this.container = null;
+				
+				var startRect = this.strips[1].getRect(); 
+				if(this.horizontal) startRect.inflate(0,cy); 
+				else startRect.inflate(cx,0); 
+				
+				for(name,ctrl in this._form.eachControl("custom") ){
+					if(ctrl.getRect().intersectsWith(startRect)){
+						this.container = ctrl;
+						break;
+					}
+				}
+			}
 		} 
 		this.forms = {}; 
 		
@@ -1170,7 +1183,7 @@ namespace tabs{
 }
  
 /**intellisense()
-win.ui.tabs = 高级选项卡\n如果是水平选项卡，应在下侧放置custom控件,\n如果是垂直选项卡,应在右侧放置 custom控件\n高级选项卡会自动查找附近合适的custom控件用于加载子窗口\n\n为了避免在启动软件时一次性加载大量子窗口导致启动速度慢,\n为每一个选项卡添加子窗口时,win.ui.tabs并不会直正的加载窗口,\n直到点击该选项卡才会真正加载相应的子窗口
+win.ui.tabs = 高级选项卡\n自动查找附近合适的 custom 控件用于加载子窗口,\n优先选择未禁用、未隐藏、未设置透明的 custom 控件。\n如果是水平选项卡，应在下侧放置 custom 控件作为选项页面容器,\n如果是垂直选项卡,应在右侧放置 custom 控件作为选项页面容器。\n\n为了避免在启动软件时一次性加载大量子窗口导致启动速度慢,\n为每一个选项卡添加子窗口时,win.ui.tabs并不会直正的加载窗口,\n直到点击该选项卡才会真正加载相应的子窗口
 win.ui.tabs(__) = 创建高级选项卡,\n参数必须指定至少2个已创建的plus控件模板,对象创建成功可选清除模板\n如果不需要动态增删选项卡,参数中的plus控件无需保持均匀间隔,\n\n动态增加选项卡时会根据模板控件的样式与位置,\n自动分析是水平排列还是垂直排列,自动分析排列间距，\n并动态添加选项卡,可选显示删除选项卡的按钮\n\n添加的选项卡数目超出显示范围时可自动折叠到下拉菜单，\n自动折叠功能会保证新增选项卡、当前选项卡位于可见位置,\n这会导致选项卡在必要时自动调整位置,\n所以同一索引并不一定指向同一选项卡
 win.ui.tabs() = !win_ui_tabs.
 end intellisense**/

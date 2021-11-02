@@ -1,0 +1,38 @@
+//Flash 动画
+import web.blink.form;
+import web.npPlugin.flash;
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="Flash 动画";right=1008;bottom=616)
+winform.add()
+/*}}*/
+
+//如果要透明请改为 web.blink.layeredWindow
+var wb = web.blink.form( winform  );
+
+wb.html = /** 
+<html>
+<head>
+    <style type="text/css"> html,body{ background:transparent }   </style> 
+</head>
+<body>
+<embed name="plugin" type="application/x-shockwave-flash"
+	bgcolor=transparent wmode="transparent" quality=high  width="550"  height="400" 
+    src="https://update.aardio.com/v10.files/demo/transparent.swf">
+</embed>
+
+&nbsp;<!--透明窗口页面上一定要放一些其他的内容，例如空白字符-->
+</body>
+</html>
+**/
+ 
+
+winform.show(); 
+
+//注意先要调用这个函数等待页面打开
+wb.wait();
+
+//也可以直接打开 swf 文件
+wb.go("https://update.aardio.com/v10.files/demo/transparent.swf")
+
+win.loopMessage();

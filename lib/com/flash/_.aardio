@@ -379,7 +379,7 @@ end;
 ***/
  
 /**intellisense()
-com.flash = 嵌入FLASH控件支持库\nFLASH 已被官方废弃并植入时间炸弹等，使用此扩展库可能导致程序崩溃或异常，\n此支持库后续会移除，请不要使用
+com.flash = 嵌入FLASH控件支持库\nFLASH 已被官方废弃并植入时间炸弹等，使用此扩展库可能导致程序崩溃或异常，\n此支持库后续会移除，请不要使用\n改用 web.kit + web.npPlugin.flash 可轻松创建绿色便携的 Flash 播放器
 com.flash.loadOcx(.($"/flash->ocx") = 载入指定版本的flash控件\n参数用法与 raw.loadDll 函数相同\n在路径前使用$指令编译为内存OCX,$指令包含的文件不应添加到工程中
 com.flash.createObject() = 创建 flash 控件
 com.flash(.(winform) = 嵌入FLASH控件,\n参数为窗体或控件对象\n可选在参数@2中使用一个表对象设定Flash控件的属性值

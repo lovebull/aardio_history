@@ -791,9 +791,9 @@ class pick{
 		} 
 	}
 	
-	this.plusColor.onMouseDoubuleClick = function(wParam,lParam){
-	    if(this.onColorDoubuleClick){
-	    	this.onColorDoubuleClick(wParam,lParam);
+	this.plusColor.onMouseDoubleClick = function(wParam,lParam){
+	    if(this.onColorDoubleClick){
+	    	this.onColorDoubleClick(wParam,lParam);
 	    }
 	}
 	

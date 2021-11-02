@@ -1,4 +1,5 @@
 ﻿//ssdp 设备发现
+import wsock.tcp.client;
 import wsock.udp.asynClient;
 import wsock.err;
 
@@ -7,8 +8,9 @@ namespace wsock.udp;
 class ssdpClient{
 	ctor(ip){
 		if( ip === null ){
-			ip = queryLocalIp()[1];
+			ip = ..wsock.tcp.client.getLocalIp();
 		}
+ 
 		this.socket = ..wsock.udp.asynClient(); 
 		this.socket.reuseAddress(true);
 		this.socket.setMulticastInterface(ip);
@@ -60,15 +62,6 @@ ST: %s\r\n\r\n',mx:5,st : "ssdp:all");
 	}
 }
 
-ssdpClient.queryLocalIp = function(){
-	var ips = { ..wsock.getIp() };
-	var ips2 = ..table.filter(ips,lambda(v) ..string.startWith(v,"192.168.") );
-	if(!#ips2)  ips2 = ..table.filter(ips,lambda(v) ..string.startWith(v,"10.") );
-	if(!#ips2)  ips2 = ..table.filter(ips,lambda(v) ..string.startWith(v,"172.") );
-	if(!#ips2)  ips2 = ..table.filter(ips,lambda(v) !..string.startWith(v,"169.254.") );
-	return #ips2 ? ips2 : ips;
-};
-	
 /**intellisense()
 wsock.udp.ssdpClient() = SSDP - 局域网简单设备发现协议客户端\n!wsock_udp_ssdpClient.
 !wsock_udp_ssdpClient.socket = UDP套接字对象\n!udp_asynClient.

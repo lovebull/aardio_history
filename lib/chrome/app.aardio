@@ -177,9 +177,15 @@ class app {
 	}; 
 	setPos = function(...){
 		if(this.hwndChrome) ..win.setPos(this.hwndChrome,...);
+		else {
+			this.$position = {...}
+		}
 	};
 	center = function(target){
 		if(this.hwndChrome) ..win.center(this.hwndChrome,target);
+		else {
+			this.$position = "center"
+		}
 	};
 	addArguments = function(...){
 		if( !this.chromeArguments )this.chromeArguments ={};
@@ -204,7 +210,7 @@ class app {
 		}
 	};
 	indexReady = function(proc){
-		if(this.$indexReady){proc();}
+		if(this.$indexReadySocket){proc(this.$indexReadySocket);}
 		else {..table.push(this.$indexReadyCallbacks,proc);} 
 	};
 	start = function(indexUrl,laucher,timeout){
@@ -221,19 +227,19 @@ class app {
 		
 		this.external = ..table.mix( this.external,{
 			$onUrlReady = function($,url){
-				if(!this.$indexReady){
+				if(!this.$indexReadySocket){
 					if(this.hwndChrome && this._form){ 
 						var rc = this._form.getRect(true); 
 						..win.setRect(this.hwndChrome,rc,true) 	
 					}
 					 
-					this.$indexReady = true;
+					this.$indexReadySocket = $;
 					if( this.onIndexReady ) this.onIndexReady();
 					
 					var $indexReadyCallbacks = this.$indexReadyCallbacks;
 					for(i=1;#$indexReadyCallbacks;1){
 						var p = $indexReadyCallbacks[i]
-						p();
+						p($);
 					}
 					this.$indexReadyCallbacks = {};					
 				} 
@@ -416,9 +422,11 @@ class app {
 			 				}
 						} 
 						else {
-							if(!..win.isZoomed(hwnd)){
-								..win.center(hwnd);
-							} 
+							if(this.$position){
+								if(..win.isZoomed(hwnd)) ..win.show(hwnd,9/*_SW_RESTORE*/)
+								if(this.$position == "center")..win.center(hwnd);
+								else ..win.setPos(hwnd,..table.unpackArgs(this.$position));
+							}
 						}
 						 
 						::User32.AttachThreadInput( threadId,..thread.getId(),true);
@@ -490,7 +498,7 @@ survey(.(method,->->->) = 发起调查任务,\n调用所有网页客户端的同
 notify(.($,"method",->->->) = 调用指定chrome函数,但不需要客户端回调反馈,\n\n参数@1指定客户端套接字句柄,\nRPC服务端远程回调函数名首字符为$时,\n第一个回调$参数即为当前客户端套接字句柄,\n除非熟悉getActiveSocket函数导致的潜在问题,请不要省略$参数
 xcall(.($,"method",->->->) = 调用chrome函数,\n参数@1指定客户端套接字句柄,\nRPC服务端远程回调函数名首字符为$时,第一个回调$参数即为当前客户端套接字句柄,\n除非熟悉getActiveSocket函数导致的潜在问题,请不要省略$参数\n\n在chrome的js代码使用 aardio.on("method")\n添加允许aardio调用的js回调函数.\n\n可选使用callback函数指定一个同名回调函数按收本次调用chrome的返回值 
 callback(name,callback) = @.callback("__/*要接收返回值的JS函数名,\n回调叁数$为RPC客户端套接字句柄\n成功result为返回值,失败err为错误信息*/",function($,result,err){\n	\n})
-doScript(.($,js,->->->) = 在chrome中执行javascript代码,忽略返回值,\n在js参数后可选指定多个字符串格式化参数用于调用string.form格式化代码,\n\n参数@1指定客户端套接字句柄,\nRPC服务端远程回调函数名首字符为$时,\n第一个回调$参数即为当前客户端套接字句柄,\n除非熟悉getActiveSocket函数导致的潜在问题,请不要省略$参数
+doScript(.($,js,->->->) = 在chrome中执行javascript代码,忽略返回值,\n在js参数后可选指定多个字符串格式化参数用于调用string.form格式化代码,\n\n参数@1指定客户端套接字句柄,\nRPC服务端远程回调函数名首字符为$时,\n第一个回调$参数即为当前客户端套接字句柄,\n除非熟悉 getActiveSocket 函数导致的潜在问题,请不要省略$参数
 external = @.external = {
     __/*可以在这里指定允许chrome访问的对象和函数\n在chrome里引用虚拟的"/aardio.js"导入aardio对象即可访问这里的成员函数,\n必须在调用start函数以前设置此对象才能生效*/
 }
@@ -511,7 +519,7 @@ msgboxTest("__") = 弹出询问对话框\n参数@1指定显示的数据,如果�
 close() = 关闭chrome窗口
 remoteDebuggingPort = 指定远程调试端口\n如果指定为0，则自动分配1025以后的空闲端口\n此属性启动后更新为实际开始的调试端口号
 userDataDir = 设置用户数据目录,\n使用 fsys.environment自动转换%LocalAppData%等路径环境变量\n远程调试以及全屏功能，都要求使用同一用户数据目录时只有一个正在运行的chrome进程
-indexReady = @.indexReady(\n	function(){\n		__/*如果加载首页已完成,\n并且页面上的DOM内容、aardio模块都已准备就绪,\n将立即执行在此注册的回调函数,\n可重复添加回调，并保证按添加的前后顺序调用且仅调用一次*/\n	} \n)
+indexReady = @.indexReady(\n	function($){\n		__/*如果加载首页已完成,\n并且页面上的DOM内容、aardio模块都已准备就绪,\n将立即执行在此注册的回调函数,\n可重复添加回调，并保证按添加的前后顺序调用且仅调用一次\n参数 $ 为触发此事件的网页RPC客户端套接字句柄*/\n	} \n)
 onIndexReady = @.onIndexReady = function(){
 	__/*主窗口首次加载完成startEnviron.indexUrl指定的首页,\n并且页面上的DOM内容、aardio模块都已准备就绪*/
 }
@@ -531,7 +539,9 @@ httpHandler = @.httpHandler["/test.js" ] = function(response,request){
 	__/*自定义HTTP处理程序\n键为请求的路径,值为处理函数或者HTML代码*/
 }
 favicon = 指定窗口图标路径\n默认为/res/favicon.ico
-setPos(.(x坐标,y坐标,宽,高,插入位置,选项) = 调整窗口位置或排序,所有参数可选\n同时指定x,y坐标则移动位置\n同时指定宽高则改变大小\n指定插入位置<句柄或_HWND前缀常量>则调整Z序\n选项不用指定，可参考此函数源码了解细节
-center(.(目标窗口句柄) = 居中窗口,并调整以保证显示在可见范围内\n目标窗口句柄如果为空则取父窗口或所有者窗口,为0表示桌面
+setPos( = 调整窗口位置或排序,所有参数可选,\n如果要调用此函数,建议在调用 start 函数前调用,\n只有浏览器显示为独立窗口时才支持此函数
+setPos(.(x坐标,y坐标,宽,高,插入位置,选项) = 调整窗口位置或排序,所有参数可选,\n如果要调用此函数,建议在调用 start 函数前调用,\n同时指定x,y坐标则移动位置\n同时指定宽高则改变大小\n指定插入位置<句柄或_HWND前缀常量>则调整Z序\n选项不用指定，可参考此函数源码了解细节
+center( = 居中窗口,并调整以保证显示在可见范围内,\n如果要调用此函数,建议在调用 start 函数前调用,\n只有浏览器显示为独立窗口时才支持此函数
+center(.(目标窗口句柄) = 居中窗口,并调整以保证显示在可见范围内,\n如果要调用此函数,建议在调用 start 函数前调用,\n目标窗口句柄如果为空则取父窗口或所有者窗口,为0表示桌面
 addArguments(__) = 添加一个或多个Chrome启动参数,\n参数也可以是一个包含多个启动参数的数组\n注意参数中不必要使用引号,多个参数应分开写不要拼接成一个参数\n每个启动参数都是使用两个横杠开始的字符串\n[chrome启动参数大全]( https://peter.sh/experiments/chromium-command-line-switches/ )
 end intellisense**/

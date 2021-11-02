@@ -49,13 +49,17 @@ theApp.httpHandler["/res/index.aardio" ] = /***
 	<body>
 ***/
 
-//调整窗口大小
+//此函数参数指定的回调函数会在网页端准备就绪后执行
 theApp.indexReady(
-	function(){
-		//为避免Chrome黑屏闪烁(Electron也有这问题)，建议在这里显示窗口
-		mainForm.show()
+	function($){ //参数 $ 表示当前连接到 aardio 的网页客户端
+		theApp.doScript($,`
+		alert("在 aardio 里执行了 JavaScript 代码")
+		`)
 	} 
 )
+
+//可选在调用 start 函数前用 theApp.setPos 或 theApp.center 调整窗口位置
+theApp.center()
 
 //正式的启动chrome进程
 theApp.start("/res/index.aardio")

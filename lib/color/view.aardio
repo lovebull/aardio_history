@@ -205,10 +205,10 @@ class view{
 			if(clr) this.onItemClick(owner.hoverIndex,clr.rgb,clr.argb,clr.name,clr.ename);
 		}
 	};
-	onMouseDoubuleClick = function(wParam,lParam){
-   		if( this.onItemDoubuleClick ){
+	onMouseDoubleClick = function(wParam,lParam){
+   		if( this.onItemDoubleClick ){
 			var clr = this.colorTable[owner.hoverIndex];
-			if(clr) this.onItemDoubuleClick(owner.hoverIndex,clr.rgb,clr.argb,clr.name,clr.ename);
+			if(clr) this.onItemDoubleClick(owner.hoverIndex,clr.rgb,clr.argb,clr.name,clr.ename);
 		}
 	}
 	adjust = function( cx,cy,wParam ) {
@@ -235,7 +235,7 @@ onItemHover() = @.onItemHover = function(index,rgb,argb,name,ename){
 onItemClick() = @.onItemClick = function(index,rgb,argb,name,ename){
 	__/*鼠标点击色卡触发此事件\nindex为为色卡索引,rgb为GDI颜色值,argb为GDI+颜色值,\nname为颜色中文名字,ename为英文名字*/	
 }
-onItemDoubuleClick() = @.onItemDoubuleClick = function(index,rgb,argb,name,ename){
+onItemDoubleClick() = @.onItemDoubleClick = function(index,rgb,argb,name,ename){
 	__/*鼠标双击击色卡触发此事件\nindex为色卡索引,rgb为GDI颜色值,argb为GDI+颜色值,\nname为颜色中文名字,ename为英文名字*/	
 }
 onItemLeave = @.onItemLeave = function(){

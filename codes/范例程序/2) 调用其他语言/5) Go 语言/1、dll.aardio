@@ -40,6 +40,11 @@ var dll = raw.loadDll("/hello.dll",,"cdecl");
 console.open();
 
 var goString = golang.string( "必须在Go函数名前面加上 export 函数名的注释才能导出函数");
+
+/*
+相关文档：《 aardio 用户手册 / 函数库 / 核心库 / raw 库 / 不声明调用API 》
+相关范例：「 aardio 范例 / 调用其他语言 / C语言 」
+*/
 dll.SayHello( goString ,"这是普通字符串");
 
 //console.log( tostring(goString) )

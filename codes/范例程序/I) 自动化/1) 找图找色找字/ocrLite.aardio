@@ -1,4 +1,4 @@
-//屏幕找字
+//屏幕找字完整版
 import win.ui;
 /*DSG{{*/
 var winform = win.form(text="string.ocrLite简单演示";right=796;bottom=504)

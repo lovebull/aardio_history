@@ -3,149 +3,150 @@ import win.ui;
 import fonts.fontAwesome;
 import win.ui.ctrl.pick;
 /*DSG{{*/
-var winform = win.form(text="aardio - plus控件配色工具";right=1126;bottom=782;bgcolor=16777215;border="none";exmode="none";mode="popup")
+var winform = win.form(text="plus 控件配色工具";right=992;bottom=686;bgcolor=16777215;border="none";exmode="none";mode="popup")
 winform.add(
-bk={cls="bk";text="   plus 控件配色工具";left=0;top=0;right=1129;bottom=24;align="left";bgcolor=8026746;color=16777215;dl=1;dr=1;dt=1;z=121};
-btnFont={cls="plus";text="文本字体";left=8;top=424;right=69;bottom=447;align="left";color=16711680;dl=1;dt=1;notify=1;z=109};
-btnOpenColorTable={cls="plus";text='\uF090 导出配色表';left=658;top=755;right=817;bottom=777;bgcolor=14935259;db=1;dr=1;font=LOGFONT(h=-13;name='FontAwesome');notify=1;z=124};
-btnUpdateForm={cls="plus";text='\uF08B 导出到窗体设计器选中控件';left=827;top=755;right=1089;bottom=777;bgcolor=-3286072;db=1;dr=1;font=LOGFONT(h=-13;name='FontAwesome');forecolor=-4733773;notify=1;z=120};
-cBdActive={cls="plus";left=389;top=132;right=407;bottom=156;bgcolor=15193170;dl=1;dt=1;edge=1;z=82};
-cBdActiveChecked={cls="plus";left=389;top=322;right=407;bottom=346;bgcolor=5816524;dl=1;dt=1;edge=1;z=93};
-cBdDefault={cls="plus";left=389;top=64;right=407;bottom=88;bgcolor=16775369;dl=1;dt=1;edge=1;z=78};
-cBdDefaultChecked={cls="plus";left=389;top=254;right=407;bottom=278;bgcolor=13414549;dl=1;dt=1;edge=1;z=89};
-cBdDisabled={cls="plus";left=389;top=194;right=407;bottom=218;bgcolor=12430081;dl=1;dt=1;edge=1;z=86};
-cBdDisabledChecked={cls="plus";left=389;top=384;right=407;bottom=408;bgcolor=10581536;dl=1;dt=1;edge=1;z=97};
-cBdFocus={cls="plus";left=389;top=162;right=407;bottom=186;bgcolor=14074940;dl=1;dt=1;edge=1;z=84};
-cBdFocusChecked={cls="plus";left=389;top=352;right=407;bottom=376;bgcolor=10133792;dl=1;dt=1;edge=1;z=95};
-cBdHover={cls="plus";left=389;top=99;right=407;bottom=123;bgcolor=16773785;dl=1;dt=1;edge=1;z=80};
-cBdHoverChecked={cls="plus";left=389;top=289;right=407;bottom=313;bgcolor=9807820;dl=1;dt=1;edge=1;z=91};
-cBgActive={cls="plus";left=20;top=132;right=38;bottom=156;bgcolor=12378323;dl=1;dt=1;edge=1;z=10};
-cBgActiveChecked={cls="plus";left=20;top=322;right=38;bottom=346;bgcolor=6141424;dl=1;dt=1;edge=1;z=43};
-cBgDefault={cls="plus";left=20;top=64;right=38;bottom=88;bgcolor=11580047;dl=1;dt=1;edge=1;notify=1;z=6};
-cBgDefaultChecked={cls="plus";left=20;top=254;right=38;bottom=278;bgcolor=12576767;dl=1;dt=1;edge=1;z=39};
-cBgDisabled={cls="plus";left=20;top=194;right=38;bottom=218;bgcolor=14933183;dl=1;dt=1;edge=1;z=14};
-cBgDisabledChecked={cls="plus";left=20;top=384;right=38;bottom=408;bgcolor=22159;dl=1;dt=1;edge=1;z=47};
-cBgFocus={cls="plus";left=20;top=162;right=38;bottom=186;bgcolor=14935011;dl=1;dt=1;edge=1;z=12};
-cBgFocusChecked={cls="plus";left=20;top=352;right=38;bottom=376;bgcolor=2129597;dl=1;dt=1;edge=1;z=45};
-cBgHover={cls="plus";left=20;top=99;right=38;bottom=123;bgcolor=11766674;dl=1;dt=1;edge=1;z=8};
-cBgHoverChecked={cls="plus";left=20;top=289;right=38;bottom=313;bgcolor=9819132;dl=1;dt=1;edge=1;z=41};
-cFgActive={cls="plus";left=145;top=131;right=163;bottom=155;bgcolor=8882679;dl=1;dt=1;edge=1;z=21};
-cFgActiveChecked={cls="plus";left=145;top=321;right=163;bottom=345;bgcolor=7907412;dl=1;dt=1;edge=1;z=54};
-cFgDefault={cls="plus";left=145;top=63;right=163;bottom=87;bgcolor=14672639;dl=1;dt=1;edge=1;z=17};
-cFgDefaultChecked={cls="plus";left=145;top=253;right=163;bottom=277;bgcolor=12971428;dl=1;dt=1;edge=1;z=50};
-cFgDisabled={cls="plus";left=145;top=193;right=163;bottom=217;bgcolor=4408202;dl=1;dt=1;edge=1;z=25};
-cFgDisabledChecked={cls="plus";left=145;top=383;right=163;bottom=407;bgcolor=4027648;dl=1;dt=1;edge=1;z=58};
-cFgFocus={cls="plus";left=145;top=161;right=163;bottom=185;bgcolor=6645199;dl=1;dt=1;edge=1;z=23};
-cFgFocusChecked={cls="plus";left=145;top=351;right=163;bottom=375;bgcolor=4688384;dl=1;dt=1;edge=1;z=56};
-cFgHover={cls="plus";left=145;top=98;right=163;bottom=122;bgcolor=12040959;dl=1;dt=1;edge=1;z=19};
-cFgHoverChecked={cls="plus";left=145;top=288;right=163;bottom=312;bgcolor=9817192;dl=1;dt=1;edge=1;z=52};
-cPreviewBackground={cls="plus";left=352;top=498;right=657;bottom=742;db=1;dl=1;dt=1;z=3};
-cTxtActive={cls="plus";left=267;top=132;right=285;bottom=156;bgcolor=10263708;dl=1;dt=1;edge=1;z=32};
-cTxtActiveChecked={cls="plus";left=267;top=322;right=285;bottom=346;bgcolor=13994083;dl=1;dt=1;edge=1;z=65};
-cTxtDefault={cls="plus";left=267;top=64;right=285;bottom=88;bgcolor=0;dl=1;dt=1;edge=1;z=28};
-cTxtDefaultChecked={cls="plus";left=267;top=255;right=285;bottom=279;bgcolor=16762792;dl=1;dt=1;edge=1;z=61};
-cTxtDisabled={cls="plus";left=267;top=194;right=285;bottom=218;bgcolor=15132390;dl=1;dt=1;edge=1;z=36};
-cTxtDisabledChecked={cls="plus";left=267;top=384;right=285;bottom=408;bgcolor=9324544;dl=1;dt=1;edge=1;z=69};
-cTxtFocus={cls="plus";left=267;top=162;right=285;bottom=186;bgcolor=12895428;dl=1;dt=1;edge=1;z=34};
-cTxtFocusChecked={cls="plus";left=267;top=352;right=285;bottom=376;bgcolor=11626300;dl=1;dt=1;edge=1;z=67};
-cTxtHover={cls="plus";left=267;top=99;right=285;bottom=123;bgcolor=7171437;dl=1;dt=1;edge=1;z=30};
-cTxtHoverChecked={cls="plus";left=267;top=289;right=285;bottom=313;bgcolor=16624779;dl=1;dt=1;edge=1;z=63};
-cbAlign={cls="combobox";left=268;top=425;right=354;bottom=445;dl=1;dt=1;edge=1;items={"左对齐";"水平居中";"右对齐"};mode="dropdownlist";z=125};
-cbEditor={cls="combobox";left=686;top=425;right=813;bottom=445;dl=1;dt=1;edge=1;items={"禁止编辑";"嵌入edit";"嵌入richedit"};mode="dropdownlist";z=131};
-cbIconAlign={cls="combobox";left=521;top=454;right=607;bottom=474;dl=1;dt=1;edge=1;items={"左对齐";"水平居中";"右对齐"};mode="dropdownlist";z=118};
-cbIconVAlign={cls="combobox";left=609;top=454;right=695;bottom=474;dl=1;dt=1;edge=1;items={"顶对齐";"垂直居中";"底对齐"};mode="dropdownlist";z=119};
-cbIcons={cls="combobox";left=349;top=454;right=515;bottom=479;dl=1;dt=1;edge=1;font=LOGFONT(h=-16;name='FontAwesome');items={};mode="dropdown";z=123};
-cbVAlign={cls="combobox";left=356;top=425;right=442;bottom=445;dl=1;dt=1;edge=1;items={"顶对齐";"垂直居中";"底对齐"};mode="dropdownlist";z=126};
-chkBdActive={cls="plus";text="鼠标按下";left=406;top=127;right=491;bottom=153;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=81};
-chkBdActiveChecked={cls="plus";text="鼠标按下";left=406;top=318;right=491;bottom=344;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=92};
-chkBdDefault={cls="plus";text="默认状态";left=406;top=61;right=491;bottom=87;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=77};
-chkBdDefaultChecked={cls="plus";text="默认状态";left=406;top=254;right=491;bottom=280;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=88};
-chkBdDisabled={cls="plus";text="禁用状态";left=406;top=192;right=491;bottom=218;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=85};
-chkBdDisabledChecked={cls="plus";text="禁用状态";left=406;top=381;right=491;bottom=407;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=96};
-chkBdFocus={cls="plus";text="获得焦点";left=406;top=159;right=491;bottom=185;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=83};
-chkBdFocusChecked={cls="plus";text="获得焦点";left=406;top=349;right=491;bottom=375;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=94};
-chkBdHover={cls="plus";text="鼠标进入";left=406;top=94;right=491;bottom=120;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=79};
-chkBdHoverChecked={cls="plus";text="鼠标进入";left=406;top=286;right=491;bottom=312;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=90};
-chkBgActive={cls="plus";text="鼠标按下";left=38;top=127;right=123;bottom=153;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=9};
-chkBgActiveChecked={cls="plus";text="鼠标按下";left=38;top=318;right=123;bottom=344;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=42};
-chkBgDefault={cls="plus";text="默认状态";left=38;top=61;right=123;bottom=87;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';notify=1;textPadding={left=18};z=5};
-chkBgDefaultChecked={cls="plus";text="默认状态";left=38;top=254;right=123;bottom=280;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=38};
-chkBgDisabled={cls="plus";text="禁用状态";left=38;top=192;right=123;bottom=218;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=13};
-chkBgDisabledChecked={cls="plus";text="禁用状态";left=38;top=381;right=123;bottom=407;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=46};
-chkBgFocus={cls="plus";text="获得焦点";left=38;top=159;right=123;bottom=185;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=11};
-chkBgFocusChecked={cls="plus";text="获得焦点";left=38;top=349;right=123;bottom=375;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=44};
-chkBgHover={cls="plus";text="鼠标进入";left=38;top=94;right=123;bottom=120;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=7};
-chkBgHoverChecked={cls="plus";text="鼠标进入";left=38;top=286;right=123;bottom=312;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=40};
-chkBorderBottom={cls="plus";text="下边框";left=179;top=513;right=244;bottom=539;align="left";disabled=1;dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8 ';textPadding={left=17};z=105};
-chkBorderLeft={cls="plus";text="左边框";left=248;top=513;right=313;bottom=539;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8 ';textPadding={left=17};z=106};
-chkBorderRight={cls="plus";text="左边框";left=111;top=513;right=176;bottom=539;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8 ';textPadding={left=17};z=104};
-chkBorderTop={cls="plus";text="上边框";left=42;top=513;right=107;bottom=539;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8 ';textPadding={left=17};z=103};
-chkFgActive={cls="plus";text="鼠标按下";left=164;top=127;right=247;bottom=153;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=20};
-chkFgActiveChecked={cls="plus";text="鼠标按下";left=164;top=317;right=247;bottom=343;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=53};
-chkFgDefault={cls="plus";text="默认状态";left=164;top=61;right=247;bottom=87;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=16};
-chkFgDefaultChecked={cls="plus";text="默认状态";left=164;top=253;right=247;bottom=279;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=49};
-chkFgDisabled={cls="plus";text="禁用状态";left=164;top=192;right=247;bottom=218;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=24};
-chkFgDisabledChecked={cls="plus";text="禁用状态";left=164;top=381;right=247;bottom=407;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=57};
-chkFgFocus={cls="plus";text="获得焦点";left=164;top=159;right=247;bottom=185;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=22};
-chkFgFocusChecked={cls="plus";text="获得焦点";left=164;top=349;right=247;bottom=375;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=55};
-chkFgHover={cls="plus";text="鼠标进入";left=164;top=94;right=247;bottom=120;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=18};
-chkFgHoverChecked={cls="plus";text="鼠标进入";left=164;top=285;right=247;bottom=311;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=51};
-chkPreviewBackground={cls="plus";text="设置预览窗口背景色";left=415;top=753;right=577;bottom=779;align="left";db=1;dl=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';notify=1;textPadding={left=18};z=102};
-chkTxtActive={cls="plus";text="鼠标按下";left=286;top=127;right=371;bottom=153;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=31};
-chkTxtActiveChecked={cls="plus";text="鼠标按下";left=286;top=318;right=371;bottom=344;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=64};
-chkTxtDefault={cls="plus";text="默认状态";left=286;top=61;right=371;bottom=87;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=27};
-chkTxtDefaultChecked={cls="plus";text="默认状态";left=286;top=254;right=371;bottom=280;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=60};
-chkTxtDisabled={cls="plus";text="禁用状态";left=286;top=192;right=371;bottom=218;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=35};
-chkTxtDisabledChecked={cls="plus";text="禁用状态";left=286;top=381;right=371;bottom=407;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=68};
-chkTxtFocus={cls="plus";text="获得焦点";left=286;top=159;right=371;bottom=185;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=33};
-chkTxtFocusChecked={cls="plus";text="获得焦点";left=286;top=349;right=371;bottom=375;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=66};
-chkTxtHover={cls="plus";text="鼠标进入";left=286;top=94;right=371;bottom=120;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=29};
-chkTxtHoverChecked={cls="plus";text="鼠标进入";left=286;top=286;right=371;bottom=312;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=62};
-clrPicker={cls="pick";left=506;top=24;right=1111;bottom=415;bgcolor=16777215;dl=1;dr=1;dt=1;z=99};
-editCheckedIconText={cls="edit";left=271;top=454;right=339;bottom=477;dl=1;dt=1;edge=1;z=73};
-editGradient={cls="edit";left=230;top=486;right=329;bottom=509;dl=1;dt=1;edge=1;multiline=1;z=117};
-editIconSize={cls="edit";left=762;top=454;right=812;bottom=477;dl=1;dt=1;edge=1;multiline=1;num=1;z=133};
-editIconText={cls="edit";left=100;top=454;right=168;bottom=477;dl=1;dt=1;edge=1;z=70};
-editIconTextPadding={cls="edit";text="-0,0,0,0 //左,上,右,下";left=880;top=454;right=1043;bottom=477;dl=1;dt=1;edge=1;multiline=1;z=127};
-editPadding={cls="edit";text="0,0,0,0  //左,上,右,下";left=880;top=425;right=1043;bottom=448;dl=1;dt=1;edge=1;multiline=1;z=110};
-editPreview={cls="richedit";left=677;top=498;right=1105;bottom=742;db=1;dl=1;dr=1;dt=1;edge=1;hscroll=1;multiline=1;vscroll=1;z=98};
-editPreviewSize={cls="edit";text="150,50 //宽,高";left=70;top=486;right=163;bottom=509;dl=1;dt=1;edge=1;multiline=1;z=114};
-editText={cls="edit";text="测 试";left=129;top=425;right=259;bottom=448;dl=1;dt=1;edge=1;z=129};
-editTextPadding={cls="edit";text="-0,0,0,0 //左,上,右,下";left=513;top=425;right=676;bottom=448;dl=1;dt=1;edge=1;multiline=1;z=112};
-exampleButton={cls="plus";text="按钮";left=133;top=667;right=232;bottom=697;align="left";bgcolor=14935259;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=20}};iconText='\uF021';notify=1;tabstop=1;textPadding={left=39};z=139};
-exampleCheckbox={cls="plus";text="复选框";left=25;top=707;right=108;bottom=738;align="left";dl=1;dt=1;font=LOGFONT(h=-15);iconStyle={align="left";font=LOGFONT(h=-15;name='FontAwesome')};iconText='\uF0C8 ';notify=1;textPadding={left=24};z=137};
-exampleEdit={cls="plus";left=27;top=741;right=178;bottom=767;align="right";border={bottom=1;color=-6908266};dl=1;dt=1;editable=1;font=LOGFONT(h=-13);tabstop=1;textPadding={top=6;bottom=2};z=136};
-exampleLink={cls="plus";text="超链接";left=249;top=671;right=319;bottom=695;align="left";color=8388608;dl=1;dt=1;font=LOGFONT(h=-13);iconColor=2960685;notify=1;textPadding={left=5};z=141};
-exampleRadio={cls="plus";text="单选框";left=126;top=710;right=226;bottom=741;align="left";dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-15;name='FontAwesome')};iconText='\uF111 ';notify=1;textPadding={left=24};z=138};
-exampleTransButton={cls="plus";text="透明按钮";left=26;top=670;right=123;bottom=700;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconColor=2960685;iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=8}};iconText='\uF122';notify=1;textPadding={left=25};z=140};
-gbBd={cls="groupbox";text="边框色";left=377;top=38;right=496;bottom=228;bgcolor=16777215;dl=1;dt=1;edge=1;z=76};
-gbBdChecked={cls="groupbox";text="边框色(勾选后)";left=377;top=230;right=496;bottom=420;bgcolor=16777215;dl=1;dt=1;edge=1;z=87};
-gbBg={cls="groupbox";text="背景色";left=8;top=38;right=127;bottom=228;bgcolor=16777215;dl=1;dt=1;edge=1;z=2};
-gbBgChecked={cls="groupbox";text="背景色(勾选后)";left=8;top=230;right=127;bottom=420;bgcolor=16777215;dl=1;dt=1;edge=1;z=37};
-gbFg={cls="groupbox";text="前景色";left=131;top=37;right=250;bottom=227;bgcolor=16777215;dl=1;dt=1;edge=1;z=15};
-gbFgChecked={cls="groupbox";text="前景色(勾选后)";left=131;top=229;right=250;bottom=419;bgcolor=16777215;dl=1;dt=1;edge=1;z=48};
-gbTxtChecked={cls="groupbox";text="文本色(勾选后)";left=256;top=230;right=375;bottom=420;bgcolor=16777215;dl=1;dt=1;edge=1;z=59};
-gbTxtColor={cls="groupbox";text="文本色";left=254;top=38;right=373;bottom=228;bgcolor=16777215;dl=1;dt=1;edge=1;z=26};
-groupbox={cls="groupbox";text="范例";left=8;top=640;right=329;bottom=777;bgcolor=16777215;db=1;dl=1;dt=1;edge=1;z=135};
-groupbox9={cls="groupbox";text="效果预览";left=338;top=481;right=1112;bottom=751;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;edge=1;z=1};
-lbBorderPadding={cls="static";text="边框外边距:";left=39;top=546;right=124;bottom=578;align="right";disabled=1;dl=1;dt=1;transparent=1;z=101};
-lbBorderRadius={cls="static";text="边框圆角:";left=47;top=576;right=124;bottom=608;align="right";disabled=1;dl=1;dt=1;transparent=1;z=75};
-lbBorderWidth={cls="static";text="边框宽度:";left=69;top=601;right=124;bottom=633;align="right";disabled=1;dl=1;dt=1;transparent=1;z=108};
-lbCurrentState={cls="plus";left=446;top=10;right=735;bottom=32;bgcolor=16777215;border={color=-2171170;radius=11;width=1};color=9727;dl=1;dt=1;z=132};
-lbGradient={cls="static";text="渐变角度:";left=168;top=488;right=225;bottom=512;align="right";dl=1;dt=1;transparent=1;z=116};
-lbPadding={cls="static";text="内边距:";left=816;top=427;right=875;bottom=451;align="right";dl=1;dt=1;transparent=1;z=111};
-lbPreviewSize={cls="static";text="控件大小:";left=6;top=488;right=65;bottom=512;align="right";dl=1;dt=1;transparent=1;z=115};
-lbTextPadding={cls="static";text="文本边距:";left=444;top=427;right=508;bottom=448;align="right";dl=1;dt=1;transparent=1;z=113};
-lnkChkIconText={cls="plus";text="勾选图标文本:";left=178;top=453;right=263;bottom=474;align="right";color=16711680;dl=1;dt=1;transparent=1;z=72};
-lnkIconText={cls="plus";text="设置图标文本:";left=8;top=453;right=94;bottom=476;align="left";color=16711680;dl=1;dt=1;notify=1;transparent=1;z=71};
-plusMinimized={cls="plus";left=885;top=-36;right=1006;bottom=83;clipBk=false;font=LOGFONT(h=-13;name='FontAwesome');foreground="\.img\designPlus.png";hide=1;linearGradient=20;notify=1;repeat="center";z=122};
-plusPreview={cls="plus";left=429;top=595;right=579;bottom=645;db=1;dl=1;font=LOGFONT(h=-16);notify=1;z=4};
-static={cls="static";text="图标大小:";left=696;top=457;right=757;bottom=487;align="right";dl=1;dt=1;transparent=1;z=134};
-static3={cls="static";text="图标边距:";left=816;top=457;right=877;bottom=487;align="right";dl=1;dt=1;transparent=1;z=128};
-static4={cls="static";text="控件文本:";left=64;top=427;right=126;bottom=448;align="right";dl=1;dt=1;transparent=1;z=130};
-tbBorderPadding={cls="trackbar";left=123;top=539;right=308;bottom=569;bgcolor=16777215;disabled=1;dl=1;dt=1;max=100;min=0;ntk=1;z=100};
-tbBorderRadius={cls="trackbar";left=123;top=571;right=308;bottom=601;bgcolor=16777215;disabled=1;dl=1;dt=1;max=100;min=0;ntk=1;z=74};
-tbBorderWidth={cls="trackbar";left=123;top=603;right=308;bottom=633;bgcolor=16777215;disabled=1;dl=1;dt=1;max=100;min=0;ntk=1;z=107}
+bk={cls="bk";left=0;top=0;right=995;bottom=24;align="left";bgcolor=16777215;color=16777215;dl=1;dr=1;dt=1;forecolor=8026746;linearGradient=0;z=3};
+btnFont={cls="plus";text="选择字体";left=16;top=366;right=77;bottom=389;color=16711680;dl=1;dt=1;notify=1;z=112};
+btnOpenColorTable={cls="plus";text='\uF090 导出配色表';left=545;top=655;right=704;bottom=677;bgcolor=14935259;db=1;dr=1;font=LOGFONT(h=-13;name='FontAwesome');notify=1;z=126};
+btnUpdateForm={cls="plus";text='\uF08B 导出到窗体设计器选中控件';left=714;top=655;right=976;bottom=677;bgcolor=-3286072;db=1;dr=1;font=LOGFONT(h=-13;name='FontAwesome');forecolor=-4733773;notify=1;z=123};
+cBdActive={cls="plus";left=356;top=80;right=374;bottom=102;bgcolor=15193170;dl=1;dt=1;edge=1;z=85};
+cBdActiveChecked={cls="plus";left=356;top=241;right=374;bottom=263;bgcolor=5816524;dl=1;dt=1;edge=1;z=96};
+cBdDefault={cls="plus";left=356;top=26;right=374;bottom=48;bgcolor=16775369;dl=1;dt=1;edge=1;z=81};
+cBdDefaultChecked={cls="plus";left=356;top=186;right=374;bottom=208;bgcolor=13414549;dl=1;dt=1;edge=1;z=92};
+cBdDisabled={cls="plus";left=356;top=132;right=374;bottom=154;bgcolor=12430081;dl=1;dt=1;edge=1;z=89};
+cBdDisabledChecked={cls="plus";left=356;top=295;right=374;bottom=317;bgcolor=10581536;dl=1;dt=1;edge=1;z=100};
+cBdFocus={cls="plus";left=356;top=107;right=374;bottom=129;bgcolor=14074940;dl=1;dt=1;edge=1;z=87};
+cBdFocusChecked={cls="plus";left=356;top=268;right=374;bottom=290;bgcolor=10133792;dl=1;dt=1;edge=1;z=98};
+cBdHover={cls="plus";left=356;top=53;right=374;bottom=75;bgcolor=16773785;dl=1;dt=1;edge=1;z=83};
+cBdHoverChecked={cls="plus";left=356;top=214;right=374;bottom=236;bgcolor=9807820;dl=1;dt=1;edge=1;z=94};
+cBgActive={cls="plus";left=17;top=79;right=35;bottom=101;bgcolor=12378323;dl=1;dt=1;edge=1;z=13};
+cBgActiveChecked={cls="plus";left=17;top=241;right=35;bottom=263;bgcolor=6141424;dl=1;dt=1;edge=1;z=46};
+cBgDefault={cls="plus";left=17;top=26;right=35;bottom=48;bgcolor=11580047;dl=1;dt=1;edge=1;notify=1;z=9};
+cBgDefaultChecked={cls="plus";left=17;top=186;right=35;bottom=208;bgcolor=12576767;dl=1;dt=1;edge=1;z=42};
+cBgDisabled={cls="plus";left=17;top=132;right=35;bottom=154;bgcolor=14933183;dl=1;dt=1;edge=1;z=17};
+cBgDisabledChecked={cls="plus";left=17;top=295;right=35;bottom=317;bgcolor=22159;dl=1;dt=1;edge=1;z=50};
+cBgFocus={cls="plus";left=17;top=106;right=35;bottom=128;bgcolor=14935011;dl=1;dt=1;edge=1;z=15};
+cBgFocusChecked={cls="plus";left=17;top=268;right=35;bottom=290;bgcolor=2129597;dl=1;dt=1;edge=1;z=48};
+cBgHover={cls="plus";left=17;top=53;right=35;bottom=75;bgcolor=11766674;dl=1;dt=1;edge=1;z=11};
+cBgHoverChecked={cls="plus";left=17;top=214;right=35;bottom=236;bgcolor=9819132;dl=1;dt=1;edge=1;z=44};
+cFgActive={cls="plus";left=131;top=79;right=149;bottom=101;bgcolor=8882679;dl=1;dt=1;edge=1;z=24};
+cFgActiveChecked={cls="plus";left=131;top=240;right=149;bottom=262;bgcolor=7907412;dl=1;dt=1;edge=1;z=57};
+cFgDefault={cls="plus";left=131;top=25;right=149;bottom=47;bgcolor=14672639;dl=1;dt=1;edge=1;z=20};
+cFgDefaultChecked={cls="plus";left=131;top=185;right=149;bottom=207;bgcolor=12971428;dl=1;dt=1;edge=1;z=53};
+cFgDisabled={cls="plus";left=131;top=131;right=149;bottom=153;bgcolor=4408202;dl=1;dt=1;edge=1;z=28};
+cFgDisabledChecked={cls="plus";left=131;top=294;right=149;bottom=316;bgcolor=4027648;dl=1;dt=1;edge=1;z=61};
+cFgFocus={cls="plus";left=131;top=106;right=149;bottom=128;bgcolor=6645199;dl=1;dt=1;edge=1;z=26};
+cFgFocusChecked={cls="plus";left=131;top=267;right=149;bottom=289;bgcolor=4688384;dl=1;dt=1;edge=1;z=59};
+cFgHover={cls="plus";left=131;top=52;right=149;bottom=74;bgcolor=12040959;dl=1;dt=1;edge=1;z=22};
+cFgHoverChecked={cls="plus";left=131;top=213;right=149;bottom=235;bgcolor=9817192;dl=1;dt=1;edge=1;z=55};
+cPreviewBackground={cls="plus";left=332;top=464;right=637;bottom=631;db=1;dl=1;dt=1;z=6};
+cTxtActive={cls="plus";left=242;top=80;right=260;bottom=102;bgcolor=10263708;dl=1;dt=1;edge=1;z=35};
+cTxtActiveChecked={cls="plus";left=242;top=241;right=260;bottom=263;bgcolor=13994083;dl=1;dt=1;edge=1;z=68};
+cTxtDefault={cls="plus";left=242;top=26;right=260;bottom=48;bgcolor=0;dl=1;dt=1;edge=1;z=31};
+cTxtDefaultChecked={cls="plus";left=242;top=187;right=260;bottom=209;bgcolor=16762792;dl=1;dt=1;edge=1;z=64};
+cTxtDisabled={cls="plus";left=242;top=132;right=260;bottom=154;bgcolor=15132390;dl=1;dt=1;edge=1;z=39};
+cTxtDisabledChecked={cls="plus";left=242;top=295;right=260;bottom=317;bgcolor=9324544;dl=1;dt=1;edge=1;z=72};
+cTxtFocus={cls="plus";left=242;top=107;right=260;bottom=129;bgcolor=12895428;dl=1;dt=1;edge=1;z=37};
+cTxtFocusChecked={cls="plus";left=242;top=268;right=260;bottom=290;bgcolor=11626300;dl=1;dt=1;edge=1;z=70};
+cTxtHover={cls="plus";left=242;top=53;right=260;bottom=75;bgcolor=7171437;dl=1;dt=1;edge=1;z=33};
+cTxtHoverChecked={cls="plus";left=242;top=214;right=260;bottom=236;bgcolor=16624779;dl=1;dt=1;edge=1;z=66};
+cbAlign={cls="combobox";left=276;top=366;right=362;bottom=386;dl=1;dt=1;edge=1;items={"左对齐";"水平居中";"右对齐"};mode="dropdownlist";z=127};
+cbEditor={cls="combobox";left=243;top=393;right=370;bottom=413;dl=1;dt=1;edge=1;items={"禁止编辑";"嵌入edit";"嵌入richedit"};mode="dropdownlist";z=133};
+cbIconAlign={cls="combobox";left=477;top=424;right=563;bottom=444;dl=1;dt=1;edge=1;items={"左对齐";"水平居中";"右对齐"};mode="dropdownlist";z=121};
+cbIconVAlign={cls="combobox";left=565;top=424;right=651;bottom=444;dl=1;dt=1;edge=1;items={"顶对齐";"垂直居中";"底对齐"};mode="dropdownlist";z=122};
+cbIcons={cls="combobox";left=305;top=424;right=471;bottom=449;dl=1;dt=1;edge=1;font=LOGFONT(h=-16;name='FontAwesome');items={};mode="dropdown";z=125};
+cbVAlign={cls="combobox";left=364;top=366;right=450;bottom=386;dl=1;dt=1;edge=1;items={"顶对齐";"垂直居中";"底对齐"};mode="dropdownlist";z=128};
+chkBdActive={cls="plus";text="鼠标按下";left=373;top=80;right=449;bottom=102;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=84};
+chkBdActiveChecked={cls="plus";text="鼠标按下";left=373;top=242;right=449;bottom=264;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=95};
+chkBdDefault={cls="plus";text="默认状态";left=373;top=27;right=449;bottom=49;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=80};
+chkBdDefaultChecked={cls="plus";text="默认状态";left=373;top=187;right=449;bottom=209;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=91};
+chkBdDisabled={cls="plus";text="禁用状态";left=373;top=132;right=449;bottom=154;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=88};
+chkBdDisabledChecked={cls="plus";text="禁用状态";left=373;top=296;right=449;bottom=318;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=99};
+chkBdFocus={cls="plus";text="获得焦点";left=373;top=106;right=449;bottom=128;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=86};
+chkBdFocusChecked={cls="plus";text="获得焦点";left=373;top=269;right=449;bottom=291;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=97};
+chkBdHover={cls="plus";text="鼠标进入";left=373;top=53;right=449;bottom=75;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=82};
+chkBdHoverChecked={cls="plus";text="鼠标进入";left=373;top=214;right=449;bottom=236;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=93};
+chkBgActive={cls="plus";text="鼠标按下";left=35;top=80;right=111;bottom=102;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=12};
+chkBgActiveChecked={cls="plus";text="鼠标按下";left=35;top=242;right=111;bottom=264;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=45};
+chkBgDefault={cls="plus";text="默认状态";left=35;top=27;right=111;bottom=49;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';notify=1;textPadding={left=18};z=8};
+chkBgDefaultChecked={cls="plus";text="默认状态";left=35;top=187;right=111;bottom=209;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=41};
+chkBgDisabled={cls="plus";text="禁用状态";left=35;top=132;right=111;bottom=154;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=16};
+chkBgDisabledChecked={cls="plus";text="禁用状态";left=35;top=296;right=111;bottom=318;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=49};
+chkBgFocus={cls="plus";text="获得焦点";left=35;top=106;right=111;bottom=128;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=14};
+chkBgFocusChecked={cls="plus";text="获得焦点";left=35;top=269;right=111;bottom=291;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=47};
+chkBgHover={cls="plus";text="鼠标进入";left=35;top=53;right=111;bottom=75;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=10};
+chkBgHoverChecked={cls="plus";text="鼠标进入";left=35;top=214;right=111;bottom=236;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=43};
+chkBorderBottom={cls="plus";text="下边框";left=179;top=450;right=244;bottom=476;align="left";disabled=1;dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8 ';textPadding={left=17};z=108};
+chkBorderLeft={cls="plus";text="左边框";left=248;top=450;right=313;bottom=476;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8 ';textPadding={left=17};z=109};
+chkBorderRight={cls="plus";text="左边框";left=111;top=450;right=176;bottom=476;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8 ';textPadding={left=17};z=107};
+chkBorderTop={cls="plus";text="上边框";left=42;top=450;right=107;bottom=476;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8 ';textPadding={left=17};z=106};
+chkFgActive={cls="plus";text="鼠标按下";left=150;top=80;right=226;bottom=102;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=23};
+chkFgActiveChecked={cls="plus";text="鼠标按下";left=150;top=239;right=226;bottom=261;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=56};
+chkFgDefault={cls="plus";text="默认状态";left=150;top=27;right=226;bottom=49;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=19};
+chkFgDefaultChecked={cls="plus";text="默认状态";left=150;top=186;right=226;bottom=208;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=52};
+chkFgDisabled={cls="plus";text="禁用状态";left=150;top=132;right=226;bottom=154;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=27};
+chkFgDisabledChecked={cls="plus";text="禁用状态";left=150;top=292;right=226;bottom=314;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=60};
+chkFgFocus={cls="plus";text="获得焦点";left=150;top=106;right=226;bottom=128;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=25};
+chkFgFocusChecked={cls="plus";text="获得焦点";left=150;top=266;right=226;bottom=288;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=58};
+chkFgHover={cls="plus";text="鼠标进入";left=150;top=53;right=226;bottom=75;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=21};
+chkFgHoverChecked={cls="plus";text="鼠标进入";left=150;top=213;right=226;bottom=235;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=54};
+chkPreviewBackground={cls="plus";text="设置预览窗口背景色";left=331;top=653;right=493;bottom=679;align="left";db=1;dl=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';notify=1;textPadding={left=18};z=105};
+chkTxtActive={cls="plus";text="鼠标按下";left=261;top=80;right=337;bottom=102;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=34};
+chkTxtActiveChecked={cls="plus";text="鼠标按下";left=261;top=242;right=337;bottom=264;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=67};
+chkTxtDefault={cls="plus";text="默认状态";left=261;top=27;right=337;bottom=49;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=30};
+chkTxtDefaultChecked={cls="plus";text="默认状态";left=261;top=187;right=337;bottom=209;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=63};
+chkTxtDisabled={cls="plus";text="禁用状态";left=261;top=132;right=337;bottom=154;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=38};
+chkTxtDisabledChecked={cls="plus";text="禁用状态";left=261;top=296;right=337;bottom=318;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=71};
+chkTxtFocus={cls="plus";text="获得焦点";left=261;top=106;right=337;bottom=128;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=36};
+chkTxtFocusChecked={cls="plus";text="获得焦点";left=261;top=269;right=337;bottom=291;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=69};
+chkTxtHover={cls="plus";text="鼠标进入";left=261;top=53;right=337;bottom=75;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=32};
+chkTxtHoverChecked={cls="plus";text="鼠标进入";left=261;top=214;right=337;bottom=236;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=3}};iconText='\uF0C8';textPadding={left=18};z=65};
+clrPicker={cls="pick";left=465;top=26;right=971;bottom=411;bgcolor=16777215;dl=1;dr=1;dt=1;edge=1;z=102};
+editCheckedIconText={cls="edit";left=227;top=424;right=295;bottom=447;dl=1;dt=1;edge=1;z=76};
+editGradient={cls="edit";left=211;top=329;right=262;bottom=352;dl=1;dt=1;edge=1;multiline=1;z=120};
+editIconSize={cls="edit";left=718;top=424;right=768;bottom=447;dl=1;dt=1;edge=1;multiline=1;num=1;z=135};
+editIconText={cls="edit";left=80;top=424;right=148;bottom=447;dl=1;dt=1;edge=1;z=73};
+editIconTextPadding={cls="edit";text="-0,0,0,0 //左,上,右,下";left=836;top=424;right=971;bottom=447;dl=1;dt=1;edge=1;multiline=1;z=129};
+editPadding={cls="edit";text="0,0,0,0  //左,上,右,下";left=331;top=329;right=455;bottom=352;dl=1;dt=1;edge=1;multiline=1;z=113};
+editPreview={cls="richedit";left=657;top=464;right=970;bottom=631;db=1;dl=1;dr=1;dt=1;edge=1;hscroll=1;multiline=1;vscroll=1;z=101};
+editPreviewSize={cls="edit";text="150,50 //宽,高";left=51;top=329;right=144;bottom=352;dl=1;dt=1;edge=1;multiline=1;z=117};
+editText={cls="edit";text="测 试";left=134;top=366;right=267;bottom=389;dl=1;dt=1;edge=1;z=131};
+editTextPadding={cls="edit";text="-0,0,0,0 //左,上,右,下";left=81;top=391;right=236;bottom=414;dl=1;dt=1;edge=1;multiline=1;z=115};
+exampleButton={cls="plus";text="按钮";left=123;top=591;right=222;bottom=621;align="left";bgcolor=14935259;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=20}};iconText='\uF021';notify=1;tabstop=1;textPadding={left=39};z=140};
+exampleCheckbox={cls="plus";text="复选框";left=15;top=622;right=98;bottom=653;align="left";dl=1;dt=1;font=LOGFONT(h=-15);iconStyle={align="left";font=LOGFONT(h=-15;name='FontAwesome')};iconText='\uF0C8 ';notify=1;textPadding={left=24};z=138};
+exampleEdit={cls="plus";left=201;top=628;right=297;bottom=654;align="right";border={bottom=1;color=-6908266};dl=1;dt=1;editable=1;font=LOGFONT(h=-13);tabstop=1;textPadding={top=6;bottom=2};z=137};
+exampleLink={cls="plus";text="超链接";left=230;top=595;right=300;bottom=619;color=8388608;dl=1;dt=1;font=LOGFONT(h=-13);iconColor=2960685;notify=1;textPadding={left=5};z=142};
+exampleRadio={cls="plus";text="单选框";left=108;top=625;right=208;bottom=656;align="left";dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-15;name='FontAwesome')};iconText='\uF111 ';notify=1;textPadding={left=24};z=139};
+exampleTransButton={cls="plus";text="透明按钮";left=16;top=594;right=113;bottom=624;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconColor=2960685;iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=8}};iconText='\uF122';notify=1;textPadding={left=25};z=141};
+gbBd={cls="groupbox";text="边框色";left=349;top=5;right=455;bottom=161;bgcolor=16777215;dl=1;dt=1;edge=1;transparent=1;z=79};
+gbBdChecked={cls="groupbox";text="边框色(勾选后)";left=349;top=164;right=455;bottom=324;bgcolor=16777215;dl=1;dt=1;edge=1;z=90};
+gbBg={cls="groupbox";text="背景色";left=10;top=5;right=116;bottom=161;bgcolor=16777215;dl=1;dt=1;edge=1;z=5};
+gbBgChecked={cls="groupbox";text="背景色(勾选后)";left=10;top=164;right=116;bottom=324;bgcolor=16777215;dl=1;dt=1;edge=1;z=40};
+gbFg={cls="groupbox";text="前景色";left=123;top=4;right=229;bottom=160;bgcolor=16777215;dl=1;dt=1;edge=1;transparent=1;z=18};
+gbFgChecked={cls="groupbox";text="前景色(勾选后)";left=123;top=163;right=229;bottom=323;bgcolor=16777215;dl=1;dt=1;edge=1;z=51};
+gbTxtChecked={cls="groupbox";text="文本色(勾选后)";left=237;top=164;right=343;bottom=324;bgcolor=16777215;dl=1;dt=1;edge=1;z=62};
+gbTxtColor={cls="groupbox";text="文本色";left=235;top=5;right=341;bottom=161;bgcolor=16777215;dl=1;dt=1;edge=1;transparent=1;z=29};
+groupbox={cls="groupbox";text="范例";left=8;top=575;right=311;bottom=681;bgcolor=16777215;db=1;dl=1;dt=1;edge=1;z=1};
+groupbox2={cls="groupbox";text="文本";left=9;top=352;right=457;bottom=420;dl=1;dt=1;edge=1;transparent=1;z=2};
+groupbox9={cls="groupbox";text="效果预览";left=318;top=447;right=978;bottom=646;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;edge=1;z=4};
+lbBorderPadding={cls="static";text="边框外边距:";left=39;top=483;right=124;bottom=515;align="right";disabled=1;dl=1;dt=1;transparent=1;z=104};
+lbBorderRadius={cls="static";text="边框圆角:";left=47;top=513;right=124;bottom=545;align="right";disabled=1;dl=1;dt=1;transparent=1;z=78};
+lbBorderWidth={cls="static";text="边框宽度:";left=69;top=538;right=124;bottom=570;align="right";disabled=1;dl=1;dt=1;transparent=1;z=111};
+lbCurrentState={cls="plus";left=484;top=6;right=773;bottom=28;bgcolor=16777215;border={color=-2171170;radius=11;width=1};color=9727;dl=1;dt=1;z=134};
+lbGradient={cls="static";text="渐变角度:";left=149;top=331;right=206;bottom=355;align="right";dl=1;dt=1;transparent=1;z=119};
+lbPadding={cls="static";text="内边距:";left=267;top=333;right=317;bottom=354;align="right";dl=1;dt=1;transparent=1;z=114};
+lbPreviewSize={cls="static";text="大小:";left=4;top=331;right=46;bottom=355;align="right";dl=1;dt=1;transparent=1;z=118};
+lbTextPadding={cls="static";text="文本边距:";left=12;top=393;right=75;bottom=414;align="right";dl=1;dt=1;transparent=1;z=116};
+lnkChkIconText={cls="plus";text="勾选图标:";left=157;top=423;right=219;bottom=444;align="right";color=16711680;dl=1;dt=1;transparent=1;z=75};
+lnkIconText={cls="plus";text="选择图标";left=16;top=423;right=77;bottom=446;color=16711680;dl=1;dt=1;notify=1;transparent=1;z=74};
+plusMinimized={cls="plus";left=867;top=5;right=988;bottom=124;clipBk=false;font=LOGFONT(h=-13;name='FontAwesome');foreground="\.img\designPlus.png";hide=1;linearGradient=20;notify=1;repeat="center";z=124};
+plusPreview={cls="plus";left=412;top=524;right=562;bottom=574;db=1;dl=1;font=LOGFONT(h=-16);notify=1;z=7};
+static={cls="static";text="图标大小:";left=652;top=427;right=713;bottom=457;align="right";dl=1;dt=1;transparent=1;z=136};
+static3={cls="static";text="图标边距:";left=772;top=427;right=833;bottom=457;align="right";dl=1;dt=1;transparent=1;z=130};
+static4={cls="static";text="文本:";left=85;top=368;right=128;bottom=389;align="right";dl=1;dt=1;transparent=1;z=132};
+tbBorderPadding={cls="trackbar";left=123;top=476;right=308;bottom=506;bgcolor=16777215;disabled=1;dl=1;dt=1;max=100;min=0;ntk=1;z=103};
+tbBorderRadius={cls="trackbar";left=123;top=508;right=308;bottom=538;bgcolor=16777215;disabled=1;dl=1;dt=1;max=100;min=0;ntk=1;z=77};
+tbBorderWidth={cls="trackbar";left=123;top=540;right=308;bottom=570;bgcolor=16777215;disabled=1;dl=1;dt=1;max=100;min=0;ntk=1;z=110}
 )
 /*}}*/
 
@@ -915,17 +916,17 @@ winform.btnUpdateForm.oncommand = function(id,event){
 	
 	var rect = winform.plusPreview.getRect();
 	if(ctrlParam.left){
-		ctrlParam.right = ctrlParam.left + rect.width()
+		ctrlParam.right = ctrlParam.left + rect.width() / winform.dpiScaleX;
 	}
 	if(ctrlParam.top){
-		ctrlParam.bottom = ctrlParam.top + rect.height()
+		ctrlParam.bottom = ctrlParam.top + rect.height() / winform.dpiScaleY;
 	}
 	
 	var newText;
 	try{
 		newText = string.unescape(winform.editText.text)	
 	}
-	
+	 
 	var font = winform.plusPreview.getFont();
 	if(font.name == "Segoe UI"){
 		font.name = "Tahoma";
@@ -934,6 +935,7 @@ winform.btnUpdateForm.oncommand = function(id,event){
 		font.name = "Tahoma";
 	}
 	font.charset = null;
+	font.h = font.h / winform.dpiScaleY;
 	
 	if(!#ctrlParam.text){
 		ctrlParam.font = font;
@@ -1009,7 +1011,15 @@ winform.plusMinimized.onMouseDown = function(wParam,lParam){
     if(rc.bottom>rcWork.bottom){
     	rc.offset(0,rcWork.bottom-rc.bottom);
     }
+    if(rc.left<0){
+    	rc.offset(-rc.left,0);
+    } 
+     if(rc.top<0){
+    	rc.offset(0,-rc.top);
+    } 
+    
     winform.setRect(rc);
+    winform.redrawBackground();
     
 	winform.transparent(false);
 	winform.btnUpdateForm.show(4/*_SW_SHOWNOACTIVATE*/);
@@ -1545,7 +1555,7 @@ winform.exampleEdit.editBox.oncommand = function(id,event){
     }	
 }
 
-winform.exampleEdit.setCueBannerText("请输入");
+winform.exampleEdit.setCueBannerText("文本框");
 
 
 import win.image;

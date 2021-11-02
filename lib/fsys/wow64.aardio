@@ -11,7 +11,7 @@ disableRedirectionEx = function(cb){
 }
 
 try{	
-	if( ..process().isWow64() && ::Kernel32.api("Wow64DisableWow64FsRedirection") ){
+	if( _WIN_64 && ::Kernel32.api("Wow64DisableWow64FsRedirection") ){
     	var wow64DisableWow64FsRedirection = ::Kernel32.api( "Wow64DisableWow64FsRedirection", "bool(pointer &OldValue)");
     	var wow64RevertWow64FsRedirection = ::Kernel32.api( "Wow64RevertWow64FsRedirection", "bool(pointer oldValue)"); 
     	disableRedirection = function(proc,...){

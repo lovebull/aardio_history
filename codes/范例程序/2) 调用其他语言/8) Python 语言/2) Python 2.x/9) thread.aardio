@@ -1,4 +1,4 @@
-//B)后台线程
+//后台线程
 import win.ui;
 /*DSG{{*/
 var winform = win.form(text="aardio - 后台线程运行Python";right=1163;bottom=753)

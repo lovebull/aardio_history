@@ -10,6 +10,7 @@ isInstalled = function(minorVersion,buildNumber,architecture){
 	if(type.isString(minorVersion) ){
 		minorVersion = null;
 		
+		//VC2015版本:14.0.23026  VC2017版本:14.13.26020
 		if(minorVersion=="2017"){
 			minorVersion = 13;
 			if( !buildNumber || (buildNumber<26020) ) buildNumber = 26020;	
@@ -23,6 +24,7 @@ isInstalled = function(minorVersion,buildNumber,architecture){
 	if(!module) return;
 	::Kernel32.FreeLibrary(module);
 	
+	//也就是 vcruntime140.dll 的版本号
 	var reg = ..win.regReader("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\"+architecture);
 	if(!reg) return;
 

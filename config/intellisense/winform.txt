@@ -1,15 +1,21 @@
 ﻿/***intellisense() 
-!winform._embedObject = 嵌入OLE控件对象\n!embedObjectForm.
-!winform.createEmbed(.("类名",容器对象) = 嵌入COM控件,\n参数@1也可以指定一个已存在的COM对象,\n容器对象为可选参数,返回容器对象\n\n创建失败会抛出异常
-!winform.tryCreateEmbed(.("类名",容器对象) = 嵌入COM控件,\n参数@1也可以指定一个已存在的COM对象,\n容器对象为可选参数,\n\n成功返回容器对象,失败返回false,错误信息
+!winform._embedObject = 嵌入 COM 控件的容器对象\n!embedObjectForm.
+!winform.createEmbed( = 创建嵌入控件,返回控件容器对象,\n容器对象的 _object 成员是创建的 COM 对象,\n容器对象可通过添加成员函数响应 COM 对象事件，\n容器对象的主要作用是充当访问 COM 对象的中间代理对象。\n通常使用 util.metaProperty 为容器对象添加属性元表，\n属性元表可拦截属性、函数调用并调用 _object 对象,\n\ncreateEmbedEx 返回的容器已添加默认代理以直接访问 COM 对象
+!winform.createEmbed(.(clsId,embedObj) = 创建嵌入控件,返回控件容器对象,\n容器对象的 _object 成员是创建的 COM 对象,\n容器对象可通过添加成员函数响应 COM 对象事件，\n容器对象的主要作用是充当访问 COM 对象的中间代理对象,\n@clsId 指定控件 CLSID,\n可选在参数@2中指定 COM 对象绑定的容器对象\n\n此函数失败会抛出异常
+!winform.createEmbed(.(comObject,embedObj) = 嵌入 COM 控件,返回控件容器对象,\n容器对象的 _object 成员是传入的 COM 对象,\n容器对象可通过添加成员函数响应 COM 对象事件，\n容器对象的主要作用是充当访问 COM 对象的中间代理对象,\n@comObject 指定已创建成功的 COM 对象,\n可选在参数@2中指定 COM 对象绑定的容器对象\n\n此函数失败会抛出异常
+!winform.createEmbedEx( = 创建嵌入控件,返回控件容器对象,\n容器对象的 _object 成员是创建的 COM 对象,\n容器对象可通过添加成员函数响应 COM 对象事件，\n容器对象的主要作用是充当访问 COM 对象的中间代理对象。\n此函数返回的容器已添加元表并创建代理以直接访问 COM 对象
+!winform.createEmbedEx(.(clsId,embedObj) = 创建嵌入控件,返回控件容器对象,\n此函数返回的容器已添加元表并创建代理以直接访问 COM 对象,\n@clsId 指定控件 CLSID,如果控件不是自内存加载,\n则可省略 @clsId 并由 firstCoClassId函数自动获,\n可选在参数@2中指定 COM 对象绑定的容器对象\n\n此函数失败会抛出异常
+!winform.tryCreateEmbed( = 创建嵌入控件,返回控件容器对象,\n容器对象的 _object 成员是创建的 COM 对象,\n容器对象可通过添加成员函数响应 COM 对象事件，\n容器对象的主要作用是充当访问 COM 对象的中间代理对象。\n通常使用 util.metaProperty 为容器对象添加属性元表，\n属性元表可拦截属性、函数调用并调用 _object 对象,\n\ncreateEmbedEx 返回的容器已添加默认代理以直接访问 COM 对象
+!winform.tryCreateEmbed(.(clsId,embedObj) = 创建嵌入控件,返回控件容器对象,\n容器对象的 _object 成员是创建的 COM 对象,\n容器对象可通过添加成员函数响应 COM 对象事件，\n容器对象的主要作用是充当访问 COM 对象的中间代理对象,\n@clsId 指定控件 CLSID,\n可选在参数@2中指定 COM 对象绑定的容器对象\n\n成功返回容器对象,失败返回false,错误信息
+!winform.createEmbedEx() = !embedObjectForm.
 !winform.createEmbed() = !embedObjectForm.
 !winform.tryCreateEmbed() = !embedObjectForm.
-!embedObjectForm._form = COM控件容器窗口\n!winform.
-!embedObjectForm._object = COM控件对象
-!embedObjectForm._host = COM控件容器
-!embedObjectForm._host.close() = 关闭 
-!embedObjectForm._host.adjust() = 自动调整控件窗口大小
-!embedObjectForm._host.tranacc(.(MSG消息对象) = 解析快捷键,\n如果是快捷键返回真值
+!embedObjectForm._form = COM 控件宿主窗口,\n也就创建控件的构造参数中指定的 aardio 窗口对象\n也是控件窗口的上级父窗口,\n!winform.
+!embedObjectForm._object = COM 控件对象,\n通过此对象可以访问 COM 对象的成员函数和成员属性,\n 可改造容器对象并在内部调用 _object 以改进 COM 对象接口\n也可以通过指定容器对象的成员函数以响应 COM 对象的事件
+!embedObjectForm._host = COM 控件宿主对象
+!embedObjectForm._host.close() = 关闭对象
+!embedObjectForm._host.adjust() = 自动调整 COM 控件窗口大小
+!embedObjectForm._host.tranacc(.(MSG消息对象) = 解析 COM 控件 快捷键,\n如果是快捷键返回真值
 !embedObjectForm._host.doObjectVerb( _OLEIVERB__ ) = 执行指定的动词命令
 !winform.tooltipCtrl = 提示控件\n该控件需要导入win.ui.tooltip以此窗口为参数手动创建\n!win_ui_tooltip.
 !winform.hasBackground = 窗体是否自定义了背景色或背景图像
@@ -25,7 +31,7 @@
 !winform.onMouseActivate = @.onMouseActivate = function(hwndTop,hitTest,message){\n	return _MA___/*鼠标点击并且将要激活窗口时触发此事件\nhwndTop表示被激活的顶层窗口,\nhitTest参数请参考WM_NCHITTEST消息\nmessage为鼠标消息ID\n返回值的作用请参数MSDN*/\n}
 !winform.onMouseDown = @.onMouseDown  = function(wParam,lParam){\n	var x,y = win.getMessagePos(lParam);__/*在窗口按下鼠标左键触发此事件*/	\n}
 !winform.onMouseClick = @.onMouseClick = function(wParam,lParam){\n	var x,y = win.getMessagePos(lParam);__/*在窗口上单击并弹起鼠标左键触发此事件*/\n}
-!winform.onMouseDoubuleClick = @.onMouseDoubuleClick = function(wParam,lParam){\n	var x,y = win.getMessagePos(lParam);__/*在窗口上双击鼠标左键触发此事件*/\n}
+!winform.onMouseDoubleClick = @.onMouseDoubleClick = function(wParam,lParam){\n	var x,y = win.getMessagePos(lParam);__/*在窗口上双击鼠标左键触发此事件*/\n}
 !winform.onActivateApp = @.onActivateApp = function(activated,threadId){\n	if(activated){\n		__/*不同的应用程序窗口被激活时触发此事件\nactivated窗口是否激活,threadId是另一个交接激活状态的线程ID*/	\n	}\n}
 !winform.beforeSystemEndSesssion = @.beforeSystemEndSesssion = function(){\n	__/*即将关机执行此回调，不可执行耗时操作*/\n}
 !winform.toolbar = 工具条\n!toolbar.
@@ -114,25 +120,25 @@
 !winform.show(.(true) = 显示窗口
 !winform.show(.(false) = 隐藏窗口
 !winform.show(.(SW_->->->) =  可使用_SW_前缀的常量参数,\n应用程序第一个窗体将忽略窗体的最大化，最小化属性，\n使用 winform.show( 0x3/*_SW_MAXIMIZE*/ ) 最大化显示,\n使用winform.show( 0x6/*_SW_MINIMIZE*/ ) 最小化显示。
-!winform.getRect() = 窗口区块位置(::RECT结构体)\n!rect.
-!winform.getRect(true) = 窗口屏幕区块位置(::RECT结构体)  
-!winform.setRect(rc) = 设置窗口区块位置(::RECT结构体)  
-!winform.setRect(rc,true) = 设置窗口屏幕区块位置(::RECT结构体) 
-!winform.getClientRect() =  窗口客户区块位置(::RECT结构体)\n!rect.
+!winform.getRect() = 窗口区块位置（::RECT结构体）\n!rect.
+!winform.getRect(true) = 窗口屏幕区块位置（::RECT结构体）  
+!winform.setRect(rc) = 设置窗口区块位置（::RECT结构体）  
+!winform.setRect(rc,true) = 设置窗口屏幕区块位置（::RECT结构体） 调用此函数改变窗口大小后,\n应调用 redrawBackground 函数刷新窗口背景缓存
+!winform.getClientRect() =  窗口客户区块位置（::RECT结构体）\n!rect.
 !winform.center(.(目标窗口句柄) = 居中窗口,并调整以保证显示在可见范围内\n目标窗口句柄如果为空则取父窗口或所有者窗口,为0表示桌面
 !winform.font = 控件字体(::LOGFONT结构体)
-!winform.clientRect =  获取控件客户区块位置(::RECT结构体)
+!winform.clientRect =  获取控件客户区块位置（::RECT结构体）
 !winform.theme = 外观主题,例如\nwinform.theme = "Explorer"\nwinform.theme = false
-!winform.image = 窗口背景图像\n赋值可以为图片文件数据或路径\n也可以是位图句柄,位图句柄由窗体负责销毁\n取值时返回位图句柄 
+!winform.image = 窗口背景图像\n赋值可以为图片文件数据或路径\n也可以是位图句柄,位图句柄由窗体负责销毁\n取值时返回位图句柄\n\n用此属性赋值修改背景图像并不会刷新窗口背景,\n请在必要时调用 redrawBackground() 函数刷新
 !winform.bgcolor = 背景颜色
 !winform.setBitmap(__/*图片句柄*/) = 设置图片\n成功返回true,自动销毁原来的位图 
 !winform.setBitmap(__/*图片句柄*/,false) = 设置图片\n成功返回控件原来的位图句柄,\n必须调用::DeleteObject()函数销毁该句柄 
 !winform.getBitmap() = 返回窗体正在使用的背景位图句柄\n该句柄不得删除
 !winform.transparent(false) = 取消窗口透明
-!winform.transparent(true) = 启用分层窗口,不设置透明度
+!winform.transparent(true) = 启用分层窗口,不设置透明度\n设为分层窗口以后不应再改变窗口大小
 !winform.transparent(128,225) = 启用分层窗口,设置窗口透明度，\n参数(透明度,透明颜色)\n如果指定了透明颜色，透明度参数将被忽略
 !winform.close() = 关闭窗口\n注意不能在 onClose 事件内调用此函数
-!winform.loadForm("__/*请输入aardio文件路径*/") = 加载外部窗体文件\n可选增加其他参数传入加载的aardio文件
+!winform.loadForm("__/*请输入aardio文件路径*/") = 加载外部窗体文件,\n如果该窗体未用 return 语句返回非 null 值则直接返回创建的窗体，\n可选增加其他参数作为调用外部窗体代码的参数\n\ncustom 控件的 loadForm 函数会将窗体加载为子窗口且自动维护子窗口队列,\n并且 custom 控件会自动维护一个子窗口队列，\n显示一个子窗口其他子窗口就会隐藏（并未关闭或销毁）,\n一个子窗口关闭就会自动移出队列
 !winform.doModal(__/*请指定所有者窗口\n可省略此参数*/) = 此函数弹出模态对话框,\n可使用 endModal() 函数关闭模态对话框，\n调用endModal()函数的参数会被设置为 doModal() 函数的返回值。\n\n模态对话框显示在所有者窗口前面，\n并暂时禁用所有者窗口 - 直到此模态对话框被关闭。\n\n模态对话框会自己创建自己的消息循环，\n并阻止调用模态对话框的代码继续向后运行 - 直到此模态对话框被关闭。\n\n注意：\n最后一个win.form创建的非模态窗体被关闭时会主动调用 win.quitMessage()\n如果是使用 winform.doModal()函数弹出的模态对话框关闭时不会调用 win.quitMessage()\n也就是说模态对话框关闭时永远不会导致 win.loopMessage() 退出运行()创建的消息循环
 !winform.dialogResult = 模态对话框返回值
 !winform.continueModal = 模态对话框是否未关闭
@@ -183,11 +189,12 @@
 !winform.onMinimize = @.onMinimize = function(lParam){\n	return true;__/*用户点击最小化按钮触发此事件,\n这里返回true可阻止默认消息传递,取消最小化过程*/\n}
 !winform.onDrawBackground  = @.onDrawBackground = function(hdc,rc){\n    gdi.fillRect(hdc,0x00008C,rc.copy(,150));\n    gdi.fillRect(hdc,0x468C00,rc.copy(200));\n    \n    var bmp = com.picture.loadBitmap("~\extensions\wizard\project2\forms\images\winform.jpg");\n    gdi.drawBitmap(hdc,bmp,rc.move(200,150),140,140,100,225);\n   \n    var font = ::LOGFONT(weight=800;color=0xFF);\n    gdi.drawTextCenter(hdc,font,"改变窗口大小试试,任意位置贴图都可以支持九宫格",rc.move(120,150));\n    __/*窗口背景绘图时触发此事件,hdc为背景绘图设备,rc为绘图区块*/\n}
 !winform.onDrawBackgroundEnd = @.onDrawBackgroundEnd = function(hdc,rc){\n    __/*窗口背景重绘完成触发此事件*/\n}
-!winform.redrawBackground() = 刷新窗口背景缓存,\n此函数不宜过多调用,普通刷新且不需要刷新背景缓存时应改用redraw函数\n仅bk,bkplus等无窗口控件需要使用此函数刷新
+!winform.redrawBackground() = 刷新窗口背景缓存以及窗口内容,\n调用此函数后不需要再重复调用 redraw 函数,\n此函数不宜过多调用,普通刷新且不需要刷新背景缓存时应改用redraw函数,\n仅bk,bkplus等无窗口控件需要使用此函数刷新,\n调整窗口大小后需要使用此函数刷新窗口背景缓存
 !winform.onDirectDrawBackground = @.onDirectDrawBackground = function(hdc,graphics){\n    __/*作为子窗口使用时,可在此回调函数内直接在父窗口背景上绘图,\nhdc为父窗口绘图设备句柄,如果父窗口使用GDI+绘图则graphics为父窗口画布*/\n}
 !winform.reduce(array,callback,debounce) = @.reduce(\n	{__/*在这里指定要遍历处理每个元素的数组或表,\n并在回调函数中返回每次需要间隔的延时,以毫秒为单位,返回0或空值中断处理,\n回调参数为下一个元素的值和索引,处理完后回调参数为null,\n如果此时未返回null或0退出处理函数,将返回第一个元素继续遍历*/},\n	function(value,index){\n		if(value){\n			return 50\n		}\n	} \n)
 !winform.trackerGroup("__/*分组名*/") = 获取plus控件、或任何其他应用win.ui.tracker的控件创建的单选分组当前选定控件\n如果未创建任何分组,此函数不可使用
 !winform.getRoot() = 获取顶层父窗口，这个函数会查找 orphanWindow 的父窗口
+!winform._defWindowProc(hwnd,message,wParam,lParam) = 用于在 wndproc 回调中提前调用默认窗口回调函数,\n所有窗口和控件定义了 wndproc 回调以后会自动创建这个函数,\n调用此函数以后,wndproc 必须指定非 null 返回值,\n以避免再次重复调用默认回调函数
 !nmdr.hwndFrom = 来源句柄
 !nmdr.idFrom = 来源ID
 !nmdr.code = 通知码

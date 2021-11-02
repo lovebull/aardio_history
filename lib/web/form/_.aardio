@@ -669,9 +669,8 @@ namespace form {
 					jQuery = {
 						"/res/js/jQuery/jQuery.min.js";
 						"/view/js/jQuery/jQuery.min.js";
-						"http://libs.baidu.com/jquery/1.10.2/jquery.min.js";
-						"http://lib.sinaapp.com/js/jquery/1.10.2/jquery-1.10.2.min.js";
-						"http://code.jquery.com/jquery-1.10.2.min.js" 
+						"http://lib.sinaapp.com/js/jquery/1.12.4/jquery-1.12.4.min.js";
+						"http://code.jquery.com/jquery-1.12.4.min.js" 
 					}
 				}, ,"utf-8" ).jQuery; 
 			} 
@@ -1307,6 +1306,10 @@ document.links(1__) = 在所有指定了HREF 性的a对象和所area对象中指
 document.namespaces(1__) =  在所有namespace对象中指定索引的对象
 document.scripts(1__) = 在所有script对象中指定索引的对象
 document.styleSheets(1__) = 在styleSheet对象中指定索引的对象
+document.msFullscreenElement = 当前全屏节点,用于 web.form,\n未全屏则为 null,\n可用于判断当前是否全屏状态		
+document.fullscreenElement = 当前全屏节点,用于非 IE 内核浏览器,\n未全屏则为 null,\n可用于判断当前是否全屏状态
+document.onfullscreenchange(event) = @.onfullscreenchange = function (event) {\n	__/*页面请求全屏时触发此事件,适用于非IE内核浏览器,\nweb.form 应改用 document.addEventListener 注册 MSFullscreenChange 事件,\n可用 document.fullscreenElement 判断当前是否存在全屏节点*/\n}
+document.addEventListener = @.addEventListener("fullscreenchange", function (event) {\n      __/*在文档对象上添加事件,参数@1指定事件名,\n注意 window 在 document 外层,捕获阶段先触发，冒泡阶段后触发,\nIE9~IE11支持此函数,IE11已废弃attachEvent\nIE内核必须用MSFullscreenChange 替代 fullscreenchange*/\n}, false); 
 document.activeElement = 焦点对象 
 document.script = 可使用此对象直接调用页面脚本中的函数\n注意调用页面脚本函数时必须最少添加一个参数\n!jsGlobal. 
 document.createElement("script__") = 创建HTML节点\n可使有ele.appendChild() ele.insertBefore()等函数插入新节点

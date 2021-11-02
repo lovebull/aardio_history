@@ -7,6 +7,8 @@ custom={cls="custom";text="custom";left=16;top=15;right=744;bottom=415;db=1;dl=1
 )
 /*}}*/
 
+error("因 Flash 被全面封杀，此范例已失效，代码仅供参考",2)
+
 import com.flash;
 var flash = com.flash(winform.custom);
 flash.allowFullScreen = true;

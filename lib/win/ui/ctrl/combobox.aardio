@@ -257,6 +257,7 @@ threadCallable() = 开启此控件的跨线程调用功能
 orphanWindow(.(transparent,hwndBuddy) = 创建悬浮窗口,\n悬浮窗口仍然显示在原来的位置,\n悬浮窗口如影随形的跟随父窗口移动或改变大小,控件原来的固定边距等参数仍然有效\n此控件不建议指定参数
 sendMessage(.(msg,wParam,lParam) = 发送窗口消息\n此函数用法请参考 ::User32.SendMessage
 postMessage(.(msg,wParam,lParam) = 投递窗口消息到消息队列中\n此函数用法请参考 ::User32.PostMessage
+_defWindowProc(hwnd,message,wParam,lParam) = 用于在 wndproc 回调中提前调用默认消息回调函数,\n所有窗口和控件定义了 wndproc 回调以后会自动创建这个函数,\n调用此函数以后,wndproc 必须指定非 null 返回值,\n以避免再次重复调用默认回调函数
 oncommand(id,event) = @.oncommand= function(id,event){
     var text = owner.selText;
 	__/*响应事件，event比较常用的值：\n_CBN_SELCHANGE表示正在改变当前项,但下拉框还没有关闭\n_CBN_SELENDOK表示已改变选项且下拉框即将关闭\n注意事件中要用selText属性取新的值*/

@@ -7,9 +7,8 @@ txtMessage={cls="richedit";left=1277;top=285;right=1758;bottom=799;bgcolor=16777
 )
 /*}}*/
 
-import electron.runtime;//如果希望自动安装electron到系统目录,请先导入electron.runtime
-import electron.app;//导入electron扩展库
-var theApp = electron.app(winform);//创建electron进程
+import electron.app;
+var theApp = electron.app(winform);
 
 //启动主进程的 main.js
 theApp.jsMain =/**  

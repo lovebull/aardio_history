@@ -11,7 +11,7 @@ namespace ide{
     
 	getExtLibs = function(){
 		var strLibVers = ..string.load( "~\extensions\extlibver.table") or "{}";
-		return eval(strLibVers);
+		return eval(strLibVers) or {};
 	};
 	
 	requestLibInfo = function(libName){

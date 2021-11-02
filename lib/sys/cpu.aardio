@@ -1,5 +1,7 @@
 //cpu 处理器信息
-import process 
+import process;
+import com.wmi;
+ 
 namespace sys.cpu;
  
 var app = ..process();
@@ -100,21 +102,32 @@ var __rdtsc = app.asmCdecl(
 	'\xC3', //ret
 )
 
-getFrequence = function(){
+getFrequence = function(format){
 	var prio = app.getPriorityClass();
 	app.setPriorityClass(0x80/*_HIGH_PRIORITY_CLASS*/);
     var eax = __rdtsc( ::Kernel32.api( "Sleep", "void()")  ,0);
     app.setPriorityClass(prio);
-	return eax /(1000*500);
+	var v = eax /(1000*500);
+	if(format) v = ..math.round(v/1000,1) + " GHz";
+	return v;
 }
- 
+
+getInfoByWmi = function(){
+	return ..table.assign({
+		NumberOfCores = 1;
+		NumberOfLogicalProcessors = 1;
+	},..com.wmi.getProperties("win32_processor") );
+}
+
 /**intellisense(sys.cpu)
 getMaxExtFunction() = CPU的扩展信息最大查询索引
 getInfo = @.getInfo(1__/*查询索引*/,{ INT eax;INT ebx;INT ecx;INT edx } )
 getVender() = 返回制造商信息,以及CPU基础信息最大查询索引\nIntel会返回"GenuineIntel",\nAMD会返回"AuthenticAMD"
 getBrand() = 返回CPU商标信息 
-getFrequence() = 返回CPU频率
+getFrequence() = 返回表示 CPU 频率的数值,以 MHz 为单位
+getFrequence(true) = 返回表示 CPU 频率的友好格式的字符串,\n单位: GHz 小数位数：1
 getInfo() = !sys_cpu_info.
+getInfoByWmi() = 使用 WMI 接口类 win32_processor 查询处理器信息\n参考 https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-processor \n!sys_cpu_wmi_info.
 end intellisense**/
 
 /**intellisense(!sys_cpu_info)
@@ -122,4 +135,17 @@ eax = 整数
 ebx = 整数
 ecx = 整数
 edx = 整数
+end intellisense**/
+
+/**intellisense(!sys_cpu_wmi_info)
+DeviceID = 设备 ID
+Name = 设备名
+NumberOfCores = CPU 核心数
+NumberOfLogicalProcessors = CPU 逻辑核心数
+MaxClockSpeed = CPU 最大速度,单位 MHz,\n该值除 1000 可换算为单位 GHz
+CurrentClockSpeed = CPU 当前速度,单位 MHz,\n该值除 1000 可换算为单位 GHz\n使用 math.round 可以限定小数位数
+AddressWidth =  CPU 位宽,值为 32 或 64
+Manufacturer =  生产厂商,例如"GenuineIntel"
+Architecture =  指令集架构,x86 值为 0,x64 值为 9
+? = 参考 https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-processor
 end intellisense**/

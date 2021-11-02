@@ -14,7 +14,9 @@ version = {
 	BYTE productType;
 	BYTE reserved;
 } 
-::Kernel32.GetVersionExW( version );
+
+if( !_WINXP && ::Ntdll.RtlGetVersionW ) ::Ntdll.RtlGetVersionW(version);
+else ::Kernel32.GetVersionExW( version );
 
 namespace version{
 	if(csdVersion) csdVersion = ..string.str(csdVersion);
@@ -125,19 +127,25 @@ namespace version{
         	isWin10Later = true;
         }
 	} 
+	
+	displayVersion = majorVersion +"." + minorVersion;
 	format = function(){
-		var csd = #csdVersion ? csdVersion + " " : "";
-		return ..string.format("%d.%d %sBuild %d",majorVersion,minorVersion,csd,buildNumber ) 
+		return ..string.format("%s%s (OS Build %s)"
+			, #csdVersion ? name + " " + csdVersion : name
+			, (..win.versionEx || !_WIN10_LATER)? " Version " + displayVersion : ""
+			, updateBuildRevision? buildNumber + "." + updateBuildRevision : buildNumber 
+			) 
 	}
 }
 
 /*
 详细说明请参考MSDN 
-http://msdn.microsoft.com/en-us/library/windows/desktop/ms724833(v=vs.85).aspx
+https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-osversioninfoexW
 */
 
 /**intellisense(!winVersion)
 format() = 格式化为文本格式的版本号
+displayVersion = 用于显示的版本号,\n默认显示为主版本号 + "." + 副版本号\n\n如果导入了 win.versionEx：\nWin 10,Win 11 显示为4字符发行时间,\n前2位数字为年份,春季加H1,秋季加H2
 majorVersion = 操作系统的主版本号\n注意 Windows 11 的主版本号仍然是 10
 minorVersion = 操作系统的副版本号
 buildNumber = 操作系统的构建版本号

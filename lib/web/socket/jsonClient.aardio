@@ -60,6 +60,7 @@ class jsonClient{
 
     				if(repData.id) {
     					if( owner.sendJson( {
+    					    @{ _defined = {"result"}; _type="object"};
     						error = err;
 							result = result;
 							id = repData.id;

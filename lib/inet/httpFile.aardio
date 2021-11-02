@@ -33,11 +33,21 @@ class httpFile {
      		||  ..fsys.path.eofBackslash(path) 
      		|| !(  ..io.exist(path)  ||  ..string.match(path,"\.[^\\/.]+$")  ) 
      		){ 
-     		if( this.session.head(this.url) ){
-     			var filename = this.session.readHeaderContent()[["disposition"]][["filename"]];
-     			if( filename ) path = ..io.joinpath(  path,filename );
+     		
+     		if(!this.filename){
+     			if( this.session.head(this.url) ){
+     				this.filename = this.session.readHeaderContent()[["disposition"]][["filename"]];
+     			}
+     			
+     			if(!this.filename) this.filename = ..inet.url.getFileName(this.url);
      		}
+     		
+     		path = ..io.joinpath(  path,this.filename );
      	}
+     	else {
+     		this.filename = ..io.splitpath(path).file;
+     	}
+     	
      	this.path = ..io.fullpath(path);
      	
      	if( ! ..fsys.createParentDir(path) ){
@@ -56,16 +66,29 @@ class httpFile {
      	this.modified = false;  
 		var method = postData?"POST":"GET"
 		
-		this.file = ..io.open(path,"a+b" )
-		if(!this.file) return null,'创建文件失败,请指定正确的存储路径';
-			
-		this.file.seek("end")
-		var fileSize = this.file.seek();
+		var fileSize = 0;
+		if(!test){
+			this.file = ..io.open(path,"a+b" )
+			if(!this.file) return null,'创建文件失败,请指定正确的存储路径';
+				
+			this.file.seek("end")
+			fileSize = this.file.seek();	
+		}
+		else {
+			this.file = ..io.open(path,"rb" )
+			if(this.file){
+				this.file.seek("end")
+				fileSize = this.file.seek();
+				this.file.close();
+				this.file = null;
+			}
+		}
+		
 		var rangeInfoOld;
 		
 		var http = this.session;
 		if(!http.beginRequest(this.url,method,referer,accept,flags) ){
-			this.file.close();
+			if(!test) this.file.close();
 			return null,"请求失败";
 		}
 		http.writeHeader(headers)
@@ -79,7 +102,7 @@ class httpFile {
      				if( fileSize == rangeInfoOld.contentLength ) { //修正:12030错误
      					var ok,err,errCode  = http.send(postData)  ;
      					if(!ok){
-							this.file.close(); 
+							if(!test) this.file.close(); 
 							http.endRequest();
 							return null,err,errCode;
 						}
@@ -91,7 +114,7 @@ class httpFile {
 						else modified = rangeInfoNew.lastModified != rangeInfoOld.lastModified;
 						
 						if( !modified ){
-							this.file.close();
+							if(!test) this.file.close();
 							http.endRequest();
 							this.contentLength = fileSize;
 							this.complete = true;
@@ -100,7 +123,7 @@ class httpFile {
 						
 						http.endRequest();
 						if(!http.beginRequest(this.url,method,referer,accept,flags) ){
-							this.file.close(); 
+							if(!test) this.file.close(); 
 							return null,"请求失败";
 						}
 						http.writeHeader(headers)
@@ -117,7 +140,7 @@ class httpFile {
 		ok,err,errCode  = http.send(postData)  
 
 		if(!ok){
-			this.file.close(); 
+			if(!test) this.file.close(); 
 			http.endRequest();
 			return null,err,errCode
 		} 
@@ -136,7 +159,7 @@ class httpFile {
 
 				if(/* ! this.contentLength || */ 
 					!modified && ( this.contentLength == fileSize) ){
-					this.file.close()  
+					if(!test) this.file.close()  
 					http.endRequest();
 					this.contentLength = fileSize;
 					this.complete = true;
@@ -146,7 +169,6 @@ class httpFile {
 
 			this.modified = true;
 			if( test  ){  
-				this.file.close();
 				http.endRequest();
 				return false/*需要下载*/;
 			}
@@ -160,15 +182,14 @@ class httpFile {
 		} 
 		elseif( this.statusCode == 206 ) { 
 			rangeInfoNew.contentLength = this.contentLength + fileSize
-			if( test  ){  
-				this.file.close();
+			if( test  ){ 
 				http.endRequest();
 				return false/*需要续传*/;
 			}
 		}
 		elseif( this.statusCode == 412 ){
 			//precondition failed,文件已变更
-			this.file.close(); 
+			if(!test) this.file.close(); 
 			http.endRequest();
 			this.removeResumeFile();
 			this.modified = true;
@@ -176,7 +197,7 @@ class httpFile {
 			return this.download( headers,referer,accept,flags,postData); 
 		} 
 		elseif( this.statusCode == 416 ){
-			this.file.close();
+			if(!test) this.file.close();
 			http.endRequest();
 			if( fileSize>0 && rangeInfoOld ){ 
 				this.contentLength = fileSize;
@@ -186,7 +207,7 @@ class httpFile {
      		return null,"下载遇到错误, HTTP状态码:" + this.statusCode;
 		} 
 		else {
-			this.file.close();
+			if(!test) this.file.close();
 			http.endRequest();
 			return null,"下载遇到错误, HTTP状态码:" + this.statusCode;
 		}
@@ -267,6 +288,7 @@ inet.httpFile() = !inet_file.
 !inet_file.session = HTTP连接对象\n!inet_http.
 !inet_file.resumePath = 续传文件路径,\n可在调用download函数以前修改
 !inet_file.path = 存储路径,\n可在调用download函数以前修改
+!inet_file.filename = 存储文件名,\n仅在存储路径为目录时有效,\n可在调用download函数以前修改,\n如果未指定则在调用 test 或 download 函数时自动获取
 !inet_file.test(.(HTTP头,引用网址,accept,flags,postData) = 检测是否已下载最新文件\n已下载文件未变更返回true\n需要下载或续传返回false,下载错误返回null以及错误信息
 !inet_file.download(.(HTTP头,引用网址,accept,flags,postData) = 下载文件,所有参数都是可选参数.\n下载成功返回true,\n文件已下载成功无需重新下载返回true,错误信息,\n下载失败返回null以及错误信息\n取消返回false,无错误信息\n\n可通过complete属性检测本次下载文件是否成功 
 !inet_file.statusCode = HTTP状态码

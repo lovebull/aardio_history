@@ -1,4 +1,4 @@
-//WMI监视进程
+//监视进程
 import win.ui;
 /*DSG{{*/
 var winform = win.form(text="使用WMI监视进程打开关闭事件";right=759;bottom=469)
@@ -7,15 +7,10 @@ edit={cls="edit";left=16;top=16;right=744;bottom=448;edge=1;multiline=1;z=1}
 )
 /*}}*/
 
-var creationEvent = com.CreateObject( "WbemScripting.SWbemSink")
-/*
- * 其他可用 com.CreateObject() 创建的WMI对象：
- * WbemScripting.SWbemDateTime";"WbemScripting.SWbemLocator";
- * WbemScripting.SWbemObjectPath";"WbemScripting.SWbemNamedValueSet";
- * WbemScripting.SWbemRefresher";"WbemScripting.SWbemLastError"
- */
+import com.wmi;
+var wmi = com.wmi();
 
-com.Connect (creationEvent,{ 
+var creationEvent = com.wmi.sink(
 	OnObjectReady = function(objObject, objAsyncContext) {
 		var target = objObject.TargetInstance ();
 		winform.edit.print("创建进程. ",target.Name(),"进程ID:" + target.ProcessId) 
@@ -24,21 +19,20 @@ com.Connect (creationEvent,{
 	OnCompleted = function(objObject, objAsyncContext) {
 		winform.edit.print("操作已完成")
 	};
-})
+)
+wmi.ExecNotificationQueryAsync(creationEvent
+	, "SELECT * FROM __InstanceCreationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_Process'")
 
-var deletionEvent = com.CreateObject( "WbemScripting.SWbemSink")
-com.Connect (deletionEvent,{ 
+var deletionEvent = com.wmi.sink(
 	OnObjectReady = function(objObject, objAsyncContext) {
 		winform.edit.print("关闭进程. ",objObject.TargetInstance ().Name())
 	}; 
 	OnCompleted = function(objObject, objAsyncContext) {
 		winform.edit.print("操作已完成") 
 	}
-})
+)
+wmi.ExecNotificationQueryAsync(deletionEvent
+	, "SELECT * FROM __InstanceDeletionEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_Process'")
 
-var wmiService = com.GetObject("winmgmts:{impersonationLevel=Impersonate}!\\.\root\cimv2")
-wmiService.ExecNotificationQueryAsync(creationEvent, "SELECT * FROM __InstanceCreationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_Process'")
-wmiService.ExecNotificationQueryAsync(deletionEvent, "SELECT * FROM __InstanceDeletionEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_Process'")
-
-winform.show() 
+winform.show();
 win.loopMessage();

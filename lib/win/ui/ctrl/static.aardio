@@ -48,9 +48,15 @@ static._metaProperty = metaProperty( )
 !static.translateAccelerator = @.translateAccelerator = function(msg){ \n	__/*返回是否快捷键*/\n} 
 !static.adjust = @.adjust = function( cx,cy,wParam ) {	 \n	__ \n};  
 !static.adjust() = 调整窗口 - 自定义事件函数
-!static._embedObject = 嵌入OLE控件对象\n!embedObject.
-!static.createEmbed(.("类名",容器对象) = 嵌入COM控件,\n参数@1也可以指定一个已存在的COM对象,\n容器对象为可选参数,返回容器对象\n\n创建失败会抛出异常
-!static.tryCreateEmbed(.("类名",容器对象) = 嵌入COM控件,\n参数@1也可以指定一个已存在的COM对象,\n容器对象为可选参数,\n\n成功返回容器对象,失败返回false,错误信息
+!static._embedObject = 嵌入 COM 控件的容器对象\n!embedObject.
+!static.createEmbed( = 创建嵌入控件,返回控件容器对象,\n容器对象的 _object 成员是创建的 COM 对象,\n容器对象可通过添加成员函数响应 COM 对象事件，\n容器对象的主要作用是充当访问 COM 对象的中间代理对象。\n通常使用 util.metaProperty 为容器对象添加属性元表，\n属性元表可拦截属性、函数调用并调用 _object 对象,\n\ncreateEmbedEx 返回的容器已添加默认代理以直接访问 COM 对象
+!static.createEmbed(.(clsId,embedObj) = 创建嵌入控件,返回控件容器对象,\n容器对象的 _object 成员是创建的 COM 对象,\n容器对象可通过添加成员函数响应 COM 对象事件，\n容器对象的主要作用是充当访问 COM 对象的中间代理对象,\n@clsId 指定控件 CLSID,\n可选在参数@2中指定 COM 对象绑定的容器对象\n\n此函数失败会抛出异常
+!static.createEmbed(.(comObject,embedObj) = 嵌入 COM 控件,返回控件容器对象,\n容器对象的 _object 成员是传入的 COM 对象,\n容器对象可通过添加成员函数响应 COM 对象事件，\n容器对象的主要作用是充当访问 COM 对象的中间代理对象,\n@comObject 指定已创建成功的 COM 对象,\n可选在参数@2中指定 COM 对象绑定的容器对象\n\n此函数失败会抛出异常
+!static.createEmbedEx( = 创建嵌入控件,返回控件容器对象,\n容器对象的 _object 成员是创建的 COM 对象,\n容器对象可通过添加成员函数响应 COM 对象事件，\n容器对象的主要作用是充当访问 COM 对象的中间代理对象。\n此函数返回的容器已添加元表并创建代理以直接访问 COM 对象
+!static.createEmbedEx(.(clsId,embedObj) = 创建嵌入控件,返回控件容器对象,\n此函数返回的容器已添加元表并创建代理以直接访问 COM 对象,\n@clsId 指定控件 CLSID,如果控件不是自内存加载,\n则可省略 @clsId 并由 firstCoClassId函数自动获,\n可选在参数@2中指定 COM 对象绑定的容器对象\n\n此函数失败会抛出异常
+!static.tryCreateEmbed( = 创建嵌入控件,返回控件容器对象,\n容器对象的 _object 成员是创建的 COM 对象,\n容器对象可通过添加成员函数响应 COM 对象事件，\n容器对象的主要作用是充当访问 COM 对象的中间代理对象。\n通常使用 util.metaProperty 为容器对象添加属性元表，\n属性元表可拦截属性、函数调用并调用 _object 对象,\n\ncreateEmbedEx 返回的容器已添加默认代理以直接访问 COM 对象
+!static.tryCreateEmbed(.(clsId,embedObj) = 创建嵌入控件,返回控件容器对象,\n容器对象的 _object 成员是创建的 COM 对象,\n容器对象可通过添加成员函数响应 COM 对象事件，\n容器对象的主要作用是充当访问 COM 对象的中间代理对象,\n@clsId 指定控件 CLSID,\n可选在参数@2中指定 COM 对象绑定的容器对象\n\n成功返回容器对象,失败返回false,错误信息
+!static.createEmbedEx() = !embedObject.
 !static.createEmbed() = !embedObject.
 !static.tryCreateEmbed() = !embedObject.
 !static.hide = 控件是否隐藏
@@ -123,6 +129,7 @@ static._metaProperty = metaProperty( )
 !static.reduce(array,callback,debounce) = @.reduce(\n	{__/*在这里指定要遍历处理每个元素的数组或表,\n并在回调函数中返回每次需要间隔的延时,以毫秒为单位,返回0或空值中断处理,\n回调参数为下一个元素的值和索引,处理完后回调参数为null,\n如果此时未返回null或0退出处理函数,将返回第一个元素继续遍历*/},\n	function(value,index){\n		if(value){\n			return 50\n		}\n	} \n)
 !static.enableDpiScaling(false) = 禁用DPI自动缩放,\n不指定参数启用DPI自动缩放,默认已启用
 !static.getRoot() = 获取顶层父窗口，这个函数会查找 orphanWindow 的父窗口
+!static._defWindowProc(hwnd,message,wParam,lParam) = 用于在 wndproc 回调中提前调用默认消息回调函数,\n所有窗口和控件定义了 wndproc 回调以后会自动创建这个函数,\n调用此函数以后,wndproc 必须指定非 null 返回值,\n以避免再次重复调用默认回调函数
 ?win.ui.ctrl.static  =!static.
 win.ui.ctrl.static() = 静态文本控件\n!static.
 win.ui.ctrl.static = 静态文本控件支持库

@@ -10,7 +10,7 @@ class markdown{
 				kernelLibName = fullpath;
 				fullpath = "kernel";
 			}
-			else{
+			elseif(fullpath!="ide"){
 				if( fullpath == "win.form" ) fullpath = "win.ui";
 				
 				if( !..io.exist(fullpath) && ..string.match(fullpath,"^[a-zA-Z][\w\.]+$") ){

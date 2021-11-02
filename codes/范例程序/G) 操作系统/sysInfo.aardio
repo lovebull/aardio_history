@@ -1,29 +1,66 @@
-//获取操作系统信息
+//系统版本信息
+//相关范例: 范例\COM 组件\WMI\获取系统信息;范例\操作系统\硬件信息\查询硬件信息  
 import console;
-import process;
+import win.version;
+import win.versionEx;//win.versionEx 指向 win.version 并增加了部分版本信息
 import sys.info;
+import process;
 
-import win.versionEx;
-if(win.versionEx.isWin10ReleaseLater(1703) && !win.versionEx.isWin11Later){
-	console.log("当前系统版本大于或等于 Win 10 1703")
-	console.printf("%s %s(OS Build %d,%d)"
-		,win.versionEx.productName
-		,win.versionEx.releaseId
-		,win.versionEx.buildNumber
-		,win.versionEx.updateBuildRevision 
-		)
-}
-else {
-	console.log(win.versionEx.name)
-}
+//用 win.version 获取系统版本
+//console.dumpJson(win.version);
+console.log( win.version.format() ); //format 函数用于返回格式类似 winver 的版本信息
+console.more(1,true);
 
-if( win.versionEx.majorVersion >= 6 ){
-	var result = {int type}
-	var ret = Kernel32.GetProductInfo(win.versionEx.majorVersion,..win.versionEx.minorVersion,0,0,result);
-	console.dump(result);//请自行搜索相关资料
-}
+//使用 aardio 提供的全局常量检测系统版本，这种方法最快
+console.log( _WIN10_LATER ? "WIN10以上系统" : "WIN10以下系统")
+console.log( _WIN7_LATER ? "WIN7以上系统" : "WIN7以下系统")
+console.log( _WINXP ? "WIN XP" : "XP以上系统")
+console.log( _WINE ? "WINE" : "非 WINE 环境")
+console.more(1,true);
 
-console.log( "是否64位", process().isWow64(),sys.info().isX64() );
+/*
+import win.versionVerify;
+console.log( win.versionVerify.isWin11Later() );
+*/
+
+console.log("用 NetWkstaGetInfo 获取系统版本")
+::NetApi32 :=  raw.loadDll("NetApi32")
+var info = {pointer ptr}
+::NetApi32.NetWkstaGetInfo( null,100,info) 
+var versionInfo = raw.convert(info.ptr,{
+  INT platformId; // PLATFORM_ID_NT 500 总是这个值
+  ustring computername;
+  ustring langroup;
+  INT verMajor;
+  INT verMinor;
+});
+console.dumpJson(versionInfo);
+console.more(1,true);
+
+console.log("用 RtlGetNtVersionNumbers 获取系统版本")
+var getVersionNumbers = function(){
+	var ret,major,minor,build = ::Ntdll.RtlGetNtVersionNumbers({INT value},{INT value},{INT value})
+	return major.value,minor.value,build.value & 0xFFFF;//buildNumber高位总是0xF000,无意义
+}
+console.log( getVersionNumbers() )
+console.more(1,true)
+
+console.log("用 KUSER_SHARED_DATA 获取系统版本")
+var shareDataVersion  = raw.convert( topointer(0x7FFE0000+0x260), { 
+	INT NtBuildNumber;
+	int NtProductType;
+	BYTE ProductTypeIsValid;
+	BYTE Reserved0;
+	WORD NativeProcessorArchitecture;
+	INT NtMajorVersion;
+	INT NtMinorVersion;  
+} )
+
+console.dumpJson(shareDataVersion.NtMajorVersion 
+		+ "." + shareDataVersion.NtMinorVersion
+		+ "." + shareDataVersion.NtBuildNumber
+	)
+console.more(1,true)
 
 if( 1 == ::Kernel32.GetFirmwareEnvironmentVariableW(
 	"","{00000000-0000-0000-0000-000000000000}",null,0) 
@@ -34,9 +71,7 @@ else {
 	console.log("系统使用UEFI启动")
 }
 
-console.more(1)
-
-console.dump(win.versionEx);
+console.more(1) 
 
 ::Secur32 := raw.loadDll("Secur32")
 getUserNameEx = function(format){ 
@@ -49,26 +84,15 @@ console.log("登录用户名：",sys.getUserName())
 console.log("登录用户显示名称(Full Name / Display Name)：",getUserNameEx(3/*NameDisplay*/))
 console.log("登录用户域名称：",getUserNameEx(2/*NameSamCompatible*/))
 
-import process.popen;
+import com.wmi;
 import win.reg;
 getProductKey = function(){
-	var cmd = process.popen.cmd("wmic path softwarelicensingservice get OA3xOriginalProductKey"); 
-	if(cmd){
-		var str = cmd.read(-1);
-		if(str && string.trim(str)!="OA3xOriginalProductKey"){
-			return str;
-		}
-		
-		cmd.close();
-	}
-	
-	var reg = win.regWow64("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform")
-	if(reg){
-		var str = reg.queryValue("BackupProductKeyDefault")
-		reg.close()
-		return str;
-	}
-	
+ 
+	var productKey = com.wmi.get("softwarelicensingservice","OA3xOriginalProductKey");
+	if(productKey) return productKey;
+
+	return win.reg.queryWow64( "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform"
+		,"BackupProductKeyDefault" ) 
 }
 
 console.log("安装序列号" ,getProductKey() );

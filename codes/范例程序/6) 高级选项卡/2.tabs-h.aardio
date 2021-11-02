@@ -20,6 +20,16 @@ import win.ui.tabs;
 var tbs = win.ui.tabs(winform.nav1,winform.nav2,winform.nav3,winform.nav4,winform.nav5,winform.nav6,winform.nav7)
 tbs.margin = 0;
 
+/*
+高级选项卡自动查找附近合适的 custom 控件作为页面容器控件,
+页面容器控件用于加载子窗口,优先选择未禁用、未隐藏、未设置透明的 custom 控件。
+
+垂直选项卡应在右侧放置 custom 控件作为选项页面容器,
+水平选项卡应在下侧放置 custom 控件作为选项页面容器。
+
+也可以用代码 tbs.container = winform.custom 直接指定页面容器控件。
+*/
+
 var urls = {
 	"https://chinese.freecodecamp.org/learn/responsive-web-design/";
 	"https://chinese.freecodecamp.org/learn/javascript-algorithms-and-data-structures/";

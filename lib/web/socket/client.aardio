@@ -103,6 +103,7 @@ class client{
 		this.socket.onClose = function(err){
 			if( this.socket == owner ){
 				this.readyState = 2;
+				this.recvMessage = null;
 				
 				if( this.onClose ) {
 					if(err){
@@ -480,8 +481,8 @@ connect("ws://__") = 重新连接到WebSocket服务端\n参数指定WebSocket服
 waitForConnected(.(关联窗口句柄,超时) = 等待连接到WebSocket服务端\n所有参数可选,超时以毫秒为单位,\n\n连接成功返回true,失败返回false或null
 url = 上次成功连接的网址\n也可以用于指定下次连接的默认网址
 close() = 关闭连接\n可选增加2个参数指定发送给服务器的关闭帧附加数据:\n参数@1为数值类型的错误代码,参数@2为字符串类型错误描述
-send(__) = 发送数据,支持字符串或缓冲区(buffer)、结构体\n字符串作为UTF8文本类型发送,其他以二进制类型发送，\n成功返回true
-sendData(.(data,opcode,fin,mask,rsv1,rsv2,rsv3) = 发送WebSocket数据包\n参数@1支持支持字符串或缓冲区(buffer)、结构体\n除参数@1以外,所以参数可选\n一般应当调用send函数，而不是调用sendData函数\n\n如果一定要使用这个函数,请阅读此函数源码,以及WebSocket协议相关说明
+send(__) = 发送数据,支持字符串或 buffer、结构体\n字符串作为UTF8文本类型发送,其他以二进制类型发送，\n成功返回true
+sendData(.(data,opcode,fin,mask,rsv1,rsv2,rsv3) = 发送WebSocket数据包\n参数@1支持支持字符串或 buffer、结构体\n除参数@1以外,所以参数可选\n一般应当调用send函数，而不是调用sendData函数\n\n如果一定要使用这个函数,请阅读此函数源码,以及WebSocket协议相关说明
 onOpen = @.onOpen = function(){
 	??.send("已连接到WebSocket服务");
 }

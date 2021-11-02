@@ -141,7 +141,7 @@ win.ui.grid() = !win_ui_grid.
 !win_ui_grid.onEditEnd(iItem,iSubItem) = @.onEditChanged = function(iItem,iSubItem){
 	__/*控件完成编辑*/
 }
-!win_ui_grid.onSortColumn(cloumn,desc) = @.onSortColumn = function(cloumn,desc){
+!win_ui_grid.onSortColumn(column,desc) = @.onSortColumn = function(column,desc){
 	__/*点击列排序时回调此函数\n@column参数为列序号，1为首列，@desc参数指定是否倒序\n返回true排序，否则不排序*/
 	return true;
 } 

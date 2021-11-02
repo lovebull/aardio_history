@@ -36,7 +36,7 @@ mainForm.btnExecute2.oncommand = function(id,event){
 		"批处理启动参数2"; //批处理使用 %2 接收第一个参数
 	})
 	
-	mainForm.btnExecute.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250';text=''}
+	mainForm.btnExecute2.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250';text=''}
 	
 	//out 用于接收批处理的标准输出
 	//err 用于接收批处理的错误输出
@@ -45,7 +45,7 @@ mainForm.btnExecute2.oncommand = function(id,event){
 	mainForm.editResult.print(out,err);
 	prcs.close();
 	
-	mainForm.btnExecute.disabledText = null;	
+	mainForm.btnExecute2.disabledText = null;	
 }
 
 import style;

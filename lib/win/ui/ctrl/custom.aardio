@@ -2,9 +2,8 @@
 namespace win.ui.ctrl; 
 class custom { 
 	ctor(parent,tParam){
-		if(tParam.bkImage){
-			tParam.image = tParam.bkImage;
-			if(!tParam.repeat){
+		if(tParam.bkImage || (tParam.repeat == "stretch")){ 
+			if(!tParam.repeat || !tParam.bkImage ){ 
 				..table.mix(tParam,{
 					bkTop = 0;
 					bkLeft = 0;

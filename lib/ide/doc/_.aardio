@@ -50,8 +50,15 @@ class doc{
     		this.fileName = "global";
     		return this;
     	}
-        
-        var str = ..string.load(path);
+    	
+        var str;
+        if(path == "ide"){
+            str = ..string.load("~\extensions\ide.aardio"); 
+    	}
+    	else {
+    		str = ..string.load(path);
+    	}
+    	
         if(!str) return;
         
         path = ..io.fullpath(path);
@@ -79,7 +86,6 @@ class doc{
                 this.fileName = "global";
             }
             
-            
             libPath = ..string.trim(libPath,"\/");
             this.libPath = ..string.replace(libPath,"[/\\]",".") ;
             if(this.libPath == "win.ui"){
@@ -87,21 +93,20 @@ class doc{
     				,..string.load("~\config\intellisense\winform.txt"),""); 
             }
             elseif(this.libPath == "sqlite"){
-            	this.sections[""] = createList( this
-    				,..string.load("~\lib\sqlite\base.aardio"),""); 
+                str = ..string.concat(str,'\r\n',..string.load("~\lib\sqlite\base.aardio")); 
+       			if(!str) return;  
             }
-           	
+            elseif( (this.libPath == "web.kit.form") || (this.libPath="web.kit.layeredWindow") ){
+                 str = ..string.concat(str,'\r\n',..string.load("~\lib\web\kit\view.aardio")); 
+            }
+            elseif( (this.libPath == "web.blink.form") || (this.libPath="web.blink.layeredWindow") ){
+                 str = ..string.concat(str,'\r\n',..string.load("~\lib\web\blink\view.aardio")); 
+            }
             
             for star,path,content in ..string.gmatch( str,"/(**)intellisense\((.*?)\)(.+?)end intellisense\1/") { 
                 path = camelObjectName(path);
                 this.sections[path] = ..table.mix(createList( this,content,path),this.sections[path]); 
-            }
-            
-            if( (this.libPath == "web.kit.form") || (this.libPath="web.kit.layeredWindow") ){
-            	this.sections["web.kit.view"] = createList( this
-    				,..string.load("~\lib\web\kit\view.aardio"),"webKitViewObject"); 
-            }
-            
+            } 
         }
         else {
             this.filePath = path;
@@ -283,7 +288,10 @@ namespace doc{
         
                 if( path ){
                     if(!this.sections[path] ) this.sections[path] = {};
-                    this.sections[path][k] = v;
+                  
+                    var v1 = this.sections[path][k];
+                    if(!v1)this.sections[path][k] = v;
+                    elseif(type(v1)=="string") this.sections[path][k]= ..string.concat(v1,'\r\n\r\n',v);
                     continue;
                 }
             }
@@ -298,7 +306,10 @@ namespace doc{
             if(kpath && (kpath!="global")){
             	if( kpath ){
                     if(!this.sections[kpath] ) this.sections[kpath] = {};
-                    this.sections[kpath][k] = v;
+                    
+                    var v1 = this.sections[kpath][k];
+                    if(!v1)this.sections[kpath][k] = v;
+                    elseif(type(v1)=="string") this.sections[kpath][k]= ..string.concat(v1,'\r\n\r\n',v);
                     continue;
                 }
             }
@@ -308,7 +319,10 @@ namespace doc{
             	if( ..string.indexOf(intellisense,kpath + ".") ){ 
             		if( kpath ){
                     	if(!this.sections[kpath] ) this.sections[kpath] = {};
-                    	this.sections[kpath][k] = v;
+                    	
+                    	var v1 = this.sections[kpath][k];
+                    	if(!v1)this.sections[kpath][k] = v;
+                    	elseif(type(v1)=="string") this.sections[kpath][k]= ..string.concat(v1,'\r\n\r\n',v);
                     	continue;
                 	}
             	}
@@ -322,9 +336,11 @@ namespace doc{
                 this.const[k]=trim( v ); 
             }
             
-           
-            if(!list[[k]])list[[k]] = v;
-            
+            var v1 = list[[k]];
+            if(!v1)list[[k]] = v;
+            elseif(type(v1)=="string" && k[1]!='_'#) {
+            	list[[k]] = ..string.concat(v1,'\r\n\r\n',v);
+            } 
         }
         
         return list;

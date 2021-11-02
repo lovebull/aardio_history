@@ -19,7 +19,7 @@ ws.Runtime.enable();
 
 //通过远程调试协议打开指定网页     
 ws.Page.navigate(
-    url = "http://www.baidu.com";
+    url = "https://www.example.com/";
 ).end = function(result,err){
    
 } 

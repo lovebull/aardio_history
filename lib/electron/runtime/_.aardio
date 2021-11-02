@@ -2,7 +2,7 @@
 import inet.http;
 
 if( !_WIN7_LATER ){
-	error("Electron组件到少要求Win7/Win2008 R2或之后的操作系统",2)
+	error("Electron组件到少要求 Win7/Win2008 R2 或之后的操作系统",2)
 }
 
 namespace electron.runtime; 
@@ -28,8 +28,33 @@ if( !..io.exist(path) ){
 
 if(..io.exist(pathdll))  path =   pathdll;
 
+/**details(说明)
+Electron 开发的软件不必要地重复打包了相同的、臃肿的运行时，
+这在网络上招致了众多用户的批评，试想每个小软件都带着这么大的 Electron 多么糟糕，
+首先是一般开发者不具有这样的服务器带宽，而且也不能愉快地把软件扔到桌面，方便地复制、移动位置。
+更不要说在网络上快速分享转发给别人了。
+
+然而用 electron.runtime 可以生成体积极小的绿色 EXE，软件运行瞬间就可以准备好 Electron，
+开发多个不同的软件可以共享相同的运行时，避免了空间、带宽的浪费。
+
+这种共享运行时的方式已经越来越流行并广受欢迎，例如微软 WebView2 就是共享运行时，
+Electron 他大哥 Chrome 就是使用一个很小的引导 EXE 二次下载安装。
+
+但是：
+electron.runtime 只是可选的功能，
+只要在创建 electron.app 对象时指定 ELectron 的路径参数，electron.runtime 就会被忽略。
+Electron 也并不是被作为一种共享运行时而开发的，我们不清楚这样是不是有什么潜在的问题。
+
+electron.runtime 使用的是原版 Electron 并没有经过修改，
+但 Electron 升级经常会有一些不兼容的改动，不建议大家使用未经过测试的 Electron 版本。
+
+如果没有特殊原因 aardio 建议大家尽可能优先使用微软的 WebView2（也就是 aardio 标准库里的 web.view ）。
+WebView2 稳定、强大、性能强悍、接口简洁并且可以生成极小的EXE，WebView2 基于系统共享的运行时，Win11 已经自带，
+并支持 Win7、Win10, 已被部署在超 2亿台电脑上。
+end details**/
+
 /**intellisense()
-electron.runtime = 在使用electron以前首先导入此支持库,\n可检测electron是否存在,如果没有找到会自动下载electron.\n\n发布EXE时可自动复制运行库到发布目录下,\n并在生成EXE时自动运行asar打包工具打包electron主进程代码
-electron.runtime.path = electron.exe路径,如果这里指定了路径,\n那么electron.app的参数中可以省略不指定electron.exe路径
-electron.runtime.chromeVersion = 对应的chrome内核版本
+electron.runtime = 此支持库不需要在调用代码中导入,\n\n如果创建 electron.app 对象时没有指定 Electron 路径,\n就会默认加载 electron.runtime 使用共享的 Electron 运行时,\n首次运行如果未检测到 Electron 运行时会自动下载安装,速度非常快,\n支持生成极小的绿色 EXE 文件，可以方便的复制、移动、分享,\n\n如果创建 electron.app 对象时指定 ELectron 的路径参数，\nelectron.runtime 就会被忽略。
+electron.runtime.path = electron.runtime 使用的 Electron.exe 路径
+electron.runtime.chromeVersion = electron.runtime 使用的 Electron.exe 对应的 Chrome 浏览器版本
 end intellisense**/

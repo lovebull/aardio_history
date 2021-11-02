@@ -12,6 +12,14 @@ if(!io.exist("\Project1.dll")){
 var delphiDll = raw.loadDll("\Project1.dll");
 class win.ui.ctrl.delphiForm{
 	ctor(parent,tParam){
+		/*
+		aardio 可以免声明直接调用 API 函数（当然先声明API也是可以的，先声明可以支持更多的参数类型），
+		所有结构体(传址)、字符串、字节数组(raw.buffer)、不大于32位的整数、64位无符号整数（math.size64）
+		都可以直接作为调用参数，不需要指定类型，更可通过尾标语法指定返回值的类型以及是否对字符串进行 UTF-16 自动转换。
+		
+		相关范例：「 aardio 范例 / 调用其他语言 / C语言 」
+		相关文档：《 aardio 用户手册 / 函数库 / 核心库 / raw 库 / 不声明调用API 》
+		*/
 		this.hwnd = delphiDll.CreateForm(parent.hwnd);
 	};
 	@..win.ui.ctrl.metaProperty()

@@ -227,7 +227,7 @@ class viewForm{
 	}
 	
 	
-	this.colorView.onItemDoubuleClick = function(index,rgb,argb,name,ename){
+	this.colorView.onItemDoubleClick = function(index,rgb,argb,name,ename){
     	if(this.continueModal){
     		this.endModal(argb);
     	} 

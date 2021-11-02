@@ -14,7 +14,7 @@ class dirWatcher{
 			,0x3/*_OPEN_EXISTING*/
 			,0x2000000/*_FILE_FLAG_BACKUP_SEMANTICS*/ );
 		
-		//缓冲区必须32位对齐,不可大于64KB	
+		//buffer 必须32位对齐,不可大于64KB	
 		var buffer = ..raw.buffer(0x10000/*64KB*/); 
 	};
 	readDirectoryChanges = function( flags = 0x5F/*_FILE_NOTIFY_CHANGE_NORMAL_ALL*/,subTree=true){ 

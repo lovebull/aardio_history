@@ -669,6 +669,7 @@ win.ui.ctrl.richedit() = 多功能文本框控件\n!richedit.
 !richedit.showWarningTip(.(title,text,large) = 在输入光标处显示汽泡提示,使用警告图标,\n@title参数指定标题,\n@text参数指定文本,\nlarge指定是否使用大图标，可省略，\n此函数仅支持edit控件，不支持richedit控件
 !richedit.showErrorTip(.(title,text,large) = 在输入光标处显示汽泡提示,使用错误图标,\n@title参数指定标题,\n@text参数指定文本,\nlarge指定是否使用大图标，可省略，\n此函数仅支持edit控件，不支持richedit控件
 !richedit.getRoot() = 获取顶层父窗口，这个函数会查找 orphanWindow 的父窗口
+!richedit._defWindowProc(hwnd,message,wParam,lParam) = 用于在 wndproc 回调中提前调用默认消息回调函数,\n所有窗口和控件定义了 wndproc 回调以后会自动创建这个函数,\n调用此函数以后,wndproc 必须指定非 null 返回值,\n以避免再次重复调用默认回调函数
 !TextDocument.tomTrue = 真值
 !TextDocument.tomFalse = 假值
 !TextDocument.tomToggle = 切换原来的值

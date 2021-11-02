@@ -1,7 +1,8 @@
 ﻿//弹性数组 
-
-var code = /** 
+import tcc; 
+tcc.build( "/.flexible_array.dll").code = /** 
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct{
 	int length;
@@ -19,16 +20,9 @@ __declspec(dllexport) void freeTestStruct(TestStruct* p){
 	free(p);
 } 
 **/
-	
-import tcc; 
-var vm = tcc();
-vm.output( "/.flexible_array.dll", code ) //编译C源码,生成DLL
-vm.close(); 
 
 //加载生成的DLL
 var dll = raw.loadDll( "/.flexible_array.dll",,"cdecl" );
-
-import console; 
 
 //方法1
 var pStruct = dll.createTestStructP();
@@ -37,6 +31,8 @@ var struct = raw.convert(pStruct,{
 	int length;
 	BYTE bytes[] = {length=header.length}
 }); 
+
+import console; 
 console.log( string.pack( struct.bytes ) );
 
 dll.freeTestStruct(pStruct);
@@ -59,5 +55,3 @@ console.log( str );
 dll.freeTestStruct(pStruct);
 	
 console.pause(true);
-	
-	

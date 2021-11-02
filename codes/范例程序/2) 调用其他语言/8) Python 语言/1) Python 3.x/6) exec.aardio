@@ -1,9 +1,9 @@
-//6)HTTP服务器
+//HTTP服务器
 import console;
 console.open();
 console.setTitle("http.server")
 
-import py; 
+import py3; 
 pyCode = /** 
 import http.server
 import socketserver
@@ -20,5 +20,5 @@ import process;
 process.execute("http://localhost:8082")
 import fsys;
 fsys.setCurDir("/");//设置HTTP服务器根目录  
-py.exec( pyCode )
+py3.exec( pyCode )
  console.open()

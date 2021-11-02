@@ -32,10 +32,13 @@ namespace web.sciter.behavior.webbrowser {
 		if( #homepage ) wb.go(  scOwner.getCustomAttribute("homepage"))   
 		
 		scOwner.sendEvent("onBrowserCreated",1); 
-	}
+	};
 	onDetach = function( scOwner ){
 		scOwner.delCtrl();
-	}
+	};
+	onSize = function (ltOwner) { 
+		ltOwner.adjustCtrl(); 
+	};
 }
 
 //在HTML中引用的控件,需要使用 import 语句导入 aardio 

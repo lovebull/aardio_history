@@ -154,9 +154,12 @@ namespace string{
 		return ( replace(s,"\N+",lambda(line) replace(line,p,r,c) ) ); 
 	};
 	removeBom = function(s){
-		if(s && s[1] == 0xEF  && s[2] == 0xBB && s[3] == 0xBF){
-			return right(s,-4); 
-		}	
+		if(!s) return s;
+		var c1 = s[1];
+		
+		if(c1 == 0xEF && s[2] == 0xBB && s[3] == 0xBF) return right(s,-4);
+		elseif(c1 == 0xFF && s[2] == 0xFE) return fromto(right(s,-3),1200,65001);  
+		elseif(c1 == 0xFE && s[2] == 0xFF) return romto(right(s,-3),1201,65001);  
 		return s;
 	};
 	subUnicode = sliceUnicode;
@@ -194,5 +197,5 @@ repline( = 按行替换字符串,返回替换后的字符串,\n此函数仅返�
 repline(.(源字符串,模式串,替换串,替换次数) = 模式串用于匹配所有的单行文本,\n替换串与 string.replace 用法相同\n替换次数指的也是每一行内部进行替换的最大次数,不指定则不限制
 repline(.(源字符串,模式串,替换函数,替换次数) = 模式串用于匹配所有的单行文本,\n替换函数与 string.replace 用法相同\n,\n替换次数指的也是每一行内部进行替换的最大次数,不指定则不限制
 repline(.(源字符串,模式串,替换表,替换次数) = 模式串用于匹配所有的单行文本,\n替换表与 string.replace 用法相同\n,\n替换次数指的也是每一行内部进行替换的最大次数,不指定则不限制
-removeBom(.(字符串) = 如果字符串开始为UTF8 BOM，则返回移除该BOM的字符串。\n否则直接返回参数
+removeBom(.(字符串) = 如果字符串开始为UTF8 BOM，则返回移除该 BOM 的字符串。\n如果字符串开始为 UTF-16 BOM,则移除 BOM 并返回转换为 UTF-8 编码的字符串,\n否则直接返回参数
 end intellisense**/

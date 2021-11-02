@@ -1,7 +1,7 @@
 import fonts.fontAwesome;
 import win.ui;
 /*DSG{{*/
-mainForm = win.form(text="${PROJECTNAME}";right=1040;bottom=642;bgcolor=15793151;border="none")
+mainForm = win.form(text="${PROJECTNAME}";right=1040;bottom=642;bgcolor=16777215;border="none")
 mainForm.add(
 caption={cls="bkplus";text="${PROJECTNAME}";left=35;top=12;right=160;bottom=30;color=${templateColor_caption_color};dl=1;dt=1;font=LOGFONT(h=-16);z=5};
 custom={cls="custom";left=0;top=40;right=1040;bottom=643;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;z=1};

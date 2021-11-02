@@ -1,3 +1,4 @@
+//读写进程管道
 import win.ui;
 /*DSG{{*/
 var winform = win.form(text="管道演示";right=495;bottom=431;parent=...)
@@ -15,7 +16,13 @@ winform.btnPing.oncommand = function(id,event){
 	
 	thread.invoke(
 		function(winform){
-			
+			 
+			/*
+			进程管道相关范例目录：
+			范例 \ 文件操作 \ 进程管道
+			范例 \ 自动化 \ 进程操作 \ 进程管道
+			范例 \ 调用其他语言  \批处理与命令行
+			*/
 			import process.popen;
 			var prcs = process.popen("findstr",winform.edit.text); 
 			

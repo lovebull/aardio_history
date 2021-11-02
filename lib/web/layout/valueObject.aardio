@@ -85,17 +85,17 @@ namespace valueObject {
 		getString = function(){ 
 			var re,p, n = ValueStringData(owner, null, 0);
 			if( re==0/*_HL_HV_OK*/  ){
-				return (( p && n) ? fromUnicode(p,,true) : "") ;
+				return (( p && n) ? fromUnicode(p,,true) : "");
 			}
 		}
 		setString = function( v ){
 			v = toUnicode(v); 
-			return ValueStringDataSet(owner, v, #v/2, 0)==0/*_HL_HV_OK*/  ;  
+			return ValueStringDataSet(owner, v, #v/2, 0)==0/*_HL_HV_OK*/;  
 		};
 		getBinary = function(){
-			var re,p,n = ValueBinaryData(owner,null,0)
-			if(re==0/*_HL_HV_OK*/){
-				return ..raw.tostring(p,1,n) ;
+			var re,p,n = ValueBinaryData(owner,null,0);
+			if(re==0/*_HL_HV_OK*/ && p){
+				return ..raw.buffer(n,p);
 			} 
 		};
 		setBinary = function(bin,len){
@@ -167,7 +167,7 @@ namespace valueObject {
 		};
 		getValue = function(){
 			var re,ht,units= ValueType( owner,0,0 ); 
-      		unitName = VALUE_UNIT_TYPE[units]; 
+      		var unitName = VALUE_UNIT_TYPE[units]; 
       		
       		if( ht = 5/*_HL_T_STRING*/ ){
 				return owner.getString();
@@ -208,13 +208,16 @@ namespace valueObject {
 				} 
     			return m;
 			}
+			elseif(  ht = 0xC/*_HL_T_BYTES*/ ){
+      			return owner.getBinary();
+      		}
 		}
-		setValue = function(v,units,dataType){  
+		setValue = function(v,units,dataType){
       		var ta = type(v); 
-      		if( ta == type.string ){
+      		if( ta == "string" ){
       			owner.setString(v);
       		}
-      		elseif( ta == type.number ){
+      		elseif( ta == "number" ){
       			if( type(units) == type.string ){
       				units = VALUE_UNIT_TYPE[units];
       			}; 
@@ -243,10 +246,10 @@ namespace valueObject {
       				owner.setLong64(v,units)
       			} 
       		}
-      		elseif( ta == type.boolean ){
+      		elseif( ta == "boolean" ){
       			ValueIntDataSet(owner, v?1:0, 2/*_HL_T_BOOL*/, 0); 
       		}
-      		elseif( ta ==  type.table ){ 
+      		elseif( ta ==  "table" ){ 
       			
       			if( ( v@ == _metaProperty ) && ( v._struct == owner._struct ) ){
       				ValueCopy(owner,v);
@@ -255,7 +258,7 @@ namespace valueObject {
       				owner.setTime( v );
       			}
       			else{
-      				if( #v ){
+      				if( ..table.isArray(v) ){
       					for(i=1;#v;1){
       						ValueNthElementValueSet( owner,i-1,valueObject_t( v[i] ) );
       					} 
@@ -265,12 +268,13 @@ namespace valueObject {
       						ValueSetValueToKey(owner,valueObject_t(name),valueObject_t(value)); 
       					}
       				}
-      				
-      				//error("错误的参数类型",2);
       			}
       		}
-      		elseif( ta ==  type.null ){ 
+      		elseif( ta ==  "null" ){ 
       			ValueClear(owner);
+      		}
+      		elseif( ta  == "buffer" ){
+      			owner.setBinary(v);
       		}
       		else {
       			error("错误的参数类型",2)
@@ -380,6 +384,8 @@ web.layout.valueObject() = !web_layout_value.
 !web_layout_value.setLong64(__/*数值*/) = 写入长整型数值 
 !web_layout_value.getValue() = 返回字符串值、数值、时间值
 !web_layout_value.setValue(.(值,单位,类型) = 写入字符串值、数值、时间值\n参数2,参数3为可选参数
+!web_layout_value.getBinary() = 返回 buffer 类型字节数组\n零长度数组返回 null
+!web_layout_value.setBinary(.(buffer,len) = 设置二进制字节数组,\n如果参数@1是buffer、字符串,可选用参数@2指定长度,\n如果参数@1是指针,则必须指定长度 
 !web_layout_value.length = 数组长度
 !web_layout_value.value = 读取或写入字符串值、数值、时间值
 !web_layout_value.stringify() = 转换并返回字符串

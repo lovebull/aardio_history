@@ -658,7 +658,7 @@ colorStringify = function(c,rgba){
 }
 
 /**intellisense(gdi) 
-getDpiScale(.(hdc,hwnd) = 获取屏幕DPI缩放系数,\n参数可选
+getDpiScale(.(hdc,hwnd) = 获取屏幕DPI缩放系数,\n参数可选,\n返回2个表示百分比的小数值,1表示100%,\n第一个返回值为 x 轴缩放,第二个返回值为 y 轴缩放,\n2个返回值通常都是一样的
 getDpi(.(hdc,hwnd) = 获取屏幕DPI,即每英寸像素点数,\n参数可选
 drawBitmap( = 九宫格贴图
 drawBitmap(.(hdc,位图句柄,rect,t,r,b,l) = 在目标DC上绘图\nt,r,b,l依次为上、右、下、左九宫格切图,\n如果不指定r,t,b,l则显示原图不拉伸\nr,t,b,l都为0则直接拉伸全图

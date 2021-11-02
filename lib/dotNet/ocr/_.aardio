@@ -83,6 +83,14 @@ class ocr{
 		var result = this.detectBuffer(bmp.saveToBuffer("*.jpg"))
 		return result;	
 	};
+	detectImagePath = function(path){
+		var bmp = ..gdip.bitmap(path);
+		if(bmp){
+			var ret = this.detectBitmap(bmp);
+			bmp.dispose();
+			return ret;
+		}
+	};
 	detectScreen = function(hwnd,x,y,cx,cy){
 		if(hwnd && ! ::User32.IsWindow(hwnd) ){error("错误的窗口句柄",2)}
 		
@@ -229,11 +237,13 @@ detectBitmap(__) = 传入 gdip.bimap 对象并识别文字,\n返回识别结果�
 detectScreen(.(hwnd,x,y,cx,cy) = 自屏幕截图并识别文字,\n所有参数可选,可选用 @hwnd 参数指定窗口句柄,\n可选用 @x,y@ 参数指定坐标\n可选用 @cx,@cy 指定宽度和高度,\n返回识别结果对象
 detectWindow(.(hwnd,x,y,cx,cy) = 自窗口后台截图并识别文字,\n所有参数可选,可选用 @hwnd 参数指定窗口句柄,\n可选用 @x,y@ 参数指定坐标\n可选用 @cx,@cy 指定宽度和高度,\n返回识别结果对象
 detectClient(.(hwnd,x,y,cx,cy) = 自窗口客户区后台截图并识别文字,注意截图范围越小结果越准确,\n必须用 @hwnd 参数指定窗口句柄,\n可选用 @x,y@ 参数指定坐标\n可选用 @cx,@cy 指定宽度和高度,\n返回识别结果对象
+detectImagePath(.(path) = 自图像文件识别文字,\n参数指定图像文件路径 
 detectBuffer() = !stdDotNetOrcResult.
 detectBitmap() = !stdDotNetOrcResult.
 detectScreen() = !stdDotNetOrcResult.
 detectWindow() = !stdDotNetOrcResult.
 detectClient() = !stdDotNetOrcResult.
+detectImagePath() = !stdDotNetOrcResult.
 waitClient(.(hwnd,text,miniSimilar,timeout,hwndWait) = 等待@hwnd参数指定的窗口上出现@text指定的文本,\n@miniSimilar指定最小相似度,可选参数,默认为 0.6,\n@timeout 为可选的超时参数,单位毫秒,\n可选用 @hwndWait 指定等待窗口句柄,不指定则默认值为 @hwnd,\n成功返回true
 waitClickClient(.(hwnd,text,miniSimilar,timeout,hwndWait) = 等待@hwnd参数指定的窗口,查找并点击@text指定的文本,\n@miniSimilar指定最小相似度,可选参数,默认为 0.6,\n@timeout 为可选的超时参数,单位毫秒,\n可选用 @hwndWait 指定等待窗口句柄,不指定则默认值为 @hwnd,\n成功返回true
 clickClient(.(hwnd,text,miniSimilar) = 在@hwnd参数指定的窗口上查找并点击@text指定的文本,\n@miniSimilar指定最小相似度,可选参数,默认为 0.5,\n成功返回true

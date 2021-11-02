@@ -1,8 +1,5 @@
 //模拟自动化
- 
-import electron.runtime;
 import electron.app;
-
 var app = electron.app();
 
 //这是启动electron主进程的main.js

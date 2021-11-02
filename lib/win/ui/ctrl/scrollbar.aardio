@@ -4,23 +4,20 @@ namespace win.ui.ctrl;
 
 class scrollbar{
     ctor(parent,tParam){ 
-    	if(tParam){ 
-			
-			if(!tParam.horz) 
-				tParam.style |= 0x1/*_SBS_VERT*/   
-				
+    	if(tParam){
+			if(!tParam.horz) tParam.style |= 0x1/*_SBS_VERT*/;   
+			this.scrollMessage = tParam.horz ? 0x114/*_WM_HSCROLL*/ : 0x115/*_WM_VSCROLL*/;	
 			this._bar = 0x2/*_SB_CTL*/
 		} 
+		
+		this.line = 1;
+		this.wheelLines = 3;
     }
 	@_metaProperty;
 } 
 
 namespace scrollbar{
-	SetScrollPos= ::User32.api("SetScrollPos","bool(int hWnd,int bar,int pos,bool redraw)");
-	GetScrollPos= User32.api("GetScrollPos","int(int hWnd,int bar)"); 
-	ShowScrollBar= User32.api("ShowScrollBar","bool(int hWnd,int bar,bool show)");
-	EnableScrollBar= User32.api("EnableScrollBar","bool(int hWnd,INT flags,INT arrows)");
-	
+
 	class INFO {
   		INT cbSize = 28;
   		INT fMask = 0;
@@ -32,28 +29,46 @@ namespace scrollbar{
 	} 
 
 	_metaProperty = ..win.ui.ctrl.metaProperty( 
+	
+		scrollWindowTo = function(pos,rect,clipRect){
+			if(owner._bar === 1/*_SB_VERT*/){
+				::User32.ScrollWindow(owner.hwnd,0, owner.pos - pos,rect,clipRect); 
+			}
+			elseif(owner._bar ===  0/*_SB_HORZ*/){
+				::User32.ScrollWindow(owner.hwnd,owner.pos - pos,0,rect,clipRect); 
+			}
+			else {
+				error("仅窗口滚动条支持此函数",2)
+			}
+			
+			::User32.SetScrollPos(owner.hwnd,owner._bar,pos,true); 
+		};
+		updateWheelLines = function(){
+			var r,wheelLines = ::User32.SystemParametersInfo(0x68/*_SPI_GETWHEELSCROLLLINES*/,0,{INT v},0);
+		 	owner.wheelLines = wheelLines.v;
+		 	return owner.wheelLines;
+		};
 		pos = {
 			_get = function(){ 
-				return  GetScrollPos(owner.hwnd,owner._bar)
+				return ::User32.GetScrollPos(owner.hwnd,owner._bar)
 			};
 			_set = function( v ){
-				redraw = v>=0;
-				SetScrollPos(owner.hwnd,owner._bar,..math.abs(v),true); 
+				::User32.SetScrollPos(owner.hwnd,owner._bar,..math.abs(v),v>=0); 
 			};  
 		};
 		show = function(s){
 			if( s === null ) s = true;
-			return ShowScrollBar(owner.hwnd,owner._bar,!!s);
+			return !!::User32.ShowScrollBar(owner.hwnd,owner._bar,!!s);
 		};
 		enable = function(flag){
-			return EnableScrollBar(owner.hwnd,owner._bar,flag:0);
+			return ::User32.EnableScrollBar(owner.hwnd,owner._bar,flag:0);
 		};
 		setRange = function(min,max,page,redraw){
 			return owner.setInfo( {fMask=0x1/*_SIF_RANGE*/|0x2/*_SIF_PAGE*/;min=min;max=max;page=page},redraw);  
 		};
 		getRange = function(){
-			var info = owner.getInfo({fMask=0x1/*_SIF_RANGE*/|0x2/*_SIF_PAGE*/});
-			if( info ) return info.min,info.max,info.page;
+			var info = owner.getInfo({fMask=0x1/*_SIF_RANGE*/|0x2/*_SIF_PAGE*/|0x4/*_SIF_POS*/});
+			if( info ) return info.min,info.max,info.page,info.pos;
 		}; 
 		getInfo = function(info){
 			var info = ..table.assign( INFO(),info );
@@ -76,9 +91,15 @@ namespace scrollbar{
 /***intellisense() 
 !scrollbar.cls = 设计时类名
 !scrollbar.className = 运行时类名
+!scrollbar.adjustWindow() = 仅绑定窗口的滚动条此函数有效,\窗口调整大小时必须使用此函数重新滚动窗口到滚动条当前位置
+!scrollbar.scrollWindowTo(.(pos,rect,clipRect) = 仅绑定窗口的滚动条此函数有效,\n@pos 参数指定滚动条绝对位置,\n可选用 @rect 传入 ::RECT 结构体指定滚动区块,,\n可选用 @clipRect 传入 ::RECT 结构体指定剪切区块
+!scrollbar.scrollMessage = 滚动条消息ID\n水平滚动条为 _WM_HSCROLL,\n垂直滚动条为 _WM_HSCROLL
 !scrollbar.pos = 获取或设置滚动按钮的当前位置\n如果赋值为负数、可禁止窗口重绘
+!scrollbar.line = 行高
+!scrollbar.updateWheelLines() = 返回系统设置的鼠标滚轮滚动行数,\n并更新 wheelLines 的值
+!scrollbar.wheelLines = 鼠标滚轮滚动行数,默认值为 3\n调用 updateWheelLines 函数可获取系统设置并更新该值
 !scrollbar.setRange(1,100) = 设置滚动条范围
-!scrollbar.getRange() = 返回两个数值\n表示滚动条范围 
+!scrollbar.getRange() = 返回 4 个数值\n分别为 min,max,page,current,\nmin 为滚动条范围最小值,\nmax 为滚动条范围最大值,\npage为分页大小,\ncurrent 为滚动条当前位置 
 !scrollbar.enable( _ESB___ ) = 激活一个或两个滚动条箭头或是使其失效
 !scrollbar.hwnd = 控件句柄
 !scrollbar.id = 控件ID 

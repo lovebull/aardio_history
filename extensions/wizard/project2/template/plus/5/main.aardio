@@ -73,7 +73,7 @@ mainForm.onMouseDown  = function(wParam,lParam){
 	mainForm.hitCaption();
 }
 
-mainForm.onMouseDoubuleClick = function(wParam,lParam){
+mainForm.onMouseDoubleClick = function(wParam,lParam){
 	mainForm.titlebarMax.oncommand();
 }
 

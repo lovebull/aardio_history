@@ -70,6 +70,6 @@ namespace resizeBorder{
 }
 
 /**intellisense()
-win.ui.resizeBorder = 无边框窗口添加拖动边框
+win.ui.resizeBorder = 无边框窗口添加拖动边框\n建议改用 win.ui.shadow 实现相同功能，细节请参考 win.ui.shadow 文档
 win.ui.resizeBorder(.(窗口对象,边框大小) = 参数@2可省略,默认为5
 end intellisense**/

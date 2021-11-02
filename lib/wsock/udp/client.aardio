@@ -171,9 +171,21 @@ class client {
 	}
 }
 
+namespace client{
+    
+    testBindPort = function(port,ip){
+    	var s = ..wsock.udp.client();
+		var f = s.bind(ip,port ) 
+		s.close(); 
+		return f;
+    }  
+}
+
+
 /**intellisense()
 wsock.udp.client = udp客户端支持库
 wsock.udp.client() = 创建udp客户端\n!udp_client.
+wsock.udp.client.testBindPort(.(port,ip) = 检查参数指定的端口号是否空闲\n如果不写IP，则默认设为"0.0.0.0"
 !udp_client.bind(.(IP,端口) = 绑定IP端口\n如果不指定IP则默认获取内网IP作为参数
 !udp_client.setBroadcast(true) = 允许广播
 !udp_client.getRemoteAddress() = 最后最后发送或接收的sockaddr_in结构体\n!sockaddr_in.

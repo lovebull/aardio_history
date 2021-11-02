@@ -104,7 +104,7 @@ crypt.hash() = !crypt_hash.
 !crypt_hash.getHexValue() = 返回十六进制哈希值(大写)
 !crypt_hash.getHexValue(false) = 返回十六进制哈希值(小写)
 !crypt_hash.hashData(__/*字符串*/) = 计算哈希值
-!crypt_hash.hashBuffer(.(缓冲区指针,长度) = 缓冲区指针必须�raw.bufferc()创建的托管指针\n长度为可选参数
+!crypt_hash.hashBuffer(.(buffer,长度) =  参数@1 必须是 raw.buffer 创建的 buffer 对象,\n长度为可选参数
 !crypt_hash.deriveKey(.(算法ID,选项) = 从哈希表中派生密钥,\n参数可选,算法ID默认为_CALG_RC4,选项默认为0\n密钥自动绑定到CSP密钥容器对象\n该函数无返回值
 !crypt_hash.sign(.(keySpec,flags) = 返回签名\n可选用 @keySpec 参数中指定密钥类型,\n@flags 不必指定,默认为_AT_SIGNATURE\n导入密钥时请改为_AT_KEYEXCHANGE
 end intellisense**/

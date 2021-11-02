@@ -1,4 +1,4 @@
-//external服务器
+//external 服务器
 import win.ui;
 /*DSG{{*/
 var winform = win.form(text="RPC 服务端 - 支持任意本地网页调用 aardio 函数";right=759;bottom=469)

@@ -57,6 +57,11 @@ class popen{
 		
 		..table.gc(this,"close");
 	}};
+	textMode = function(o,i){
+		this.stdOut.mode( o ? 0x4000/*_O_TEXT*/ : 0x8000/*_O_BINARY*/);
+		this.stdErr.mode( o ? 0x4000/*_O_TEXT*/ : 0x8000/*_O_BINARY*/);
+		this.stdIn.mode( i ? 0x4000/*_O_TEXT*/ : 0x8000/*_O_BINARY*/);
+	};
 	write = function(...){ 
 		if( this.stdIn ){
 			for i,arg in ..table.eachArgs({...}){
@@ -115,6 +120,21 @@ class popen{
 		}
 
 		return ..table.unpackArgs(out);
+	};
+	lines = function(pattern){
+		if(!pattern) return function(){
+			var l = this.read() 
+			if(l) return ..string.trimright(l);
+		}
+
+		return function() {
+			while( var l = this.read() ) {
+				l = ..string.trimright(l);
+				if(..string.find(l,pattern)){
+					return ..string.match(l,pattern);
+				}
+			}
+		}
 	};
 	readErr = function(...){
 		if(!this.stdErr){
@@ -318,10 +338,14 @@ class popen{
 			this.process.free();
 			this.process = null;
 		}
-	}  
+	};
+	@_meta; 
 }
 
 namespace popen{
+	_meta = {_topointer = lambda() owner.process} 
+	is  = lambda(v) v@ ==_meta;
+	
 	CreatePipe = ::Kernel32.api( "CreatePipe", "bool(pointer& hRead,pointer& hWrite,struct attributes,INT size)");
 	SetHandleInformation = ::Kernel32.api( "SetHandleInformation", "bool(pointer object,INT mask,INT flags)");
 	PeekNamedPipe = ::Kernel32.api( "PeekNamedPipe", "bool(pointer pipe,pointer buf,INT size,INT &read,INT & total,INT & leftMsg)");
@@ -381,6 +405,7 @@ process.popen.ps(.(命令行参数,->->->) = 创建进程执行PowserShell命令
 process.popen.wsl(.(命令行参数,->->->) = 创建进程执行 WSL 命令,并支持管道读写,\n命令行参数可以是一个数组、一个或多个字符串参数,\n如果第一个命令行参数包含换行,则替换为命令行分隔符&&,\n数组或多个命令行参数调用 process.joinArguments 合并,\n不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号
 process.popen.bind64( = 禁用 64 位重定向绑定并返回执行命令行的函数,\n该函数的命令行参数可以是一个数组、一个或多个字符串参数,\n如果第一个命令行参数包含换行,则替换为命令行分隔符&&,\n数组或多个命令行参数调用 process.joinArguments 合并,\n不在双引号内、且包含空白或需要转义的参数转义处理后首尾添加双引号
 process.popen.bind64(fileName,codepage) = fileName 指定要执行的命令文件名,codepage 指定代码页
+process.popen.is(__) = 传入参数是否 process.popen 对象
 process.popen() = !process_popen.
 process.popen.cmd() = !process_popen.
 process.popen.cmd64() = !process_popen.
@@ -388,7 +413,8 @@ process.popen.wow64() = !process_popen.
 process.popen.ps() = !process_popen.
 process.popen.detached() = !process_popen.
 !process_popen.codepage = 进程输入输出使用的代码页,默认为0
-!process_popen.read() = 从当前位置,向后读取下一行
+!process_popen.textMode(.(output,input) = 参数 @output 指定进程输出是否使用文本模式\n参数 @input 指定进程输入是否使用文本模式\n输入输出默认都是二进制模式\n\n文本模式下'\x1A'(CTRL+Z),'\0'表示终止文本,\n并且读入时自动转换回车换行为换行,\n写出时自动转换换行符为回车换行
+!process_popen.read() = 从当前位置,向后读取下一行\n默认为二进制模式,行尾可能有回车符号,\n可使用 textMode 函数修改
 !process_popen.read("%s") = 从当前位置,向后读取下一行\n支持多参数
 !process_popen.read("%d") = 从当前位置,向后读取下一个数值\n支持多参数
 !process_popen.read(-1) = 向后读取到文件尾部\n负数表示从文件尾部倒计数位置\n如果第一个参数为-1，则自动调用 writeClose 关闭输出流,\n支持多参数
@@ -396,10 +422,13 @@ process.popen.detached() = !process_popen.
 !process_popen.each( 间隔时间,超时时间 ) = @for( all,out,err in ??.each() ){
     io.stdout.write( out,err );__/*读取进程输出直到进程关闭*/
 }
-!process_popen.beforeClose = @.beforeClose = function(){
-	owner.process.terminate();__/*释放管道以前触发此事件,可强制关闭进制*/
+!process_popen.lines(模式表达式) = @for i,k,v in ??.lines("^(\s*)(\S.*?)[\s.]*\:(.*)"){
+	__/*按行读取进程输出,\n移除每行尾部的空白字符,\n如果指定模式表达式,则返回匹配结果,\n否则直接返回当前读取的文本*/
 }
-!process_popen.logger = 指定logResponse的默认回显对象\n该对象必须有log或write成员函数用于输出回显\nlogger 对象用于logResponse 时将同步获取输出并等待进程结束
+!process_popen.beforeClose = @.beforeClose = function(){
+	owner.process.terminate();__/*释放管道以前触发此事件,可强制关闭进程*/
+}
+!process_popen.logger = 指定 logResponse 的默认回显对象\n该对象必须有log或write成员函数用于输出回显\nlogger 对象用于logResponse 时将同步获取输出并等待进程结束
 !process_popen.logResponse( = 回显进程的标准输出以及错误输出
 !process_popen.logResponse(.(回显函数,间隔时间) = 自动同动获取进程输出,并直到进程结束,所有参数可省略,\n如果之前定义了logger成员对象，则调用logger输出进程回显\n未指定logger对象则默认回显到控制台
 !process_popen.logResponse(.(异步回显文本框,间隔时间) = 不会阻塞并等待进程结束,\n而是在传入文本框控件上创建定时器异步回显进程输出,\n回显文本框必须指定edit或richedit控件,间隔时间可省略
@@ -413,13 +442,13 @@ process.popen.detached() = !process_popen.
 !process_popen.print(__) = 清空标准输出然后写数据\n多个参数中间添加空格,尾部添加换行
 !process_popen.printf(__) = 清空标准输出然后写数据\n调用string.format函数格式化全部参数,尾部添加换行
 !process_popen.write(__) = 写数据,支持一个或多个参数
-!process_popen.writeClose(__) = 写数据并关闭进程输入流,可选指定一个或多个参数\n不指定参数则直接关闭输入流\n注意:有些进程会一直等待输入流关闭再继续下一下操作
-!process_popen.waitOne() = 等待进程关闭,不阻塞UI消息循环,可选使用一个毫秒值参数设定超时\n超时或失败返回 null,\n进程已退出则返回值1为true,返回值2为标准输出,返回值3为错误输出,返回值4为退出代码
+!process_popen.writeClose(__) = 写数据并关闭进程输入流,\n可选指定一个或多个参数\n不指定参数则直接关闭输入流\n注意:有些进程会一直等待输入流关闭再继续下一下操作
+!process_popen.waitOne() = 等待进程关闭,不阻塞UI消息循环,\n可选使用一个毫秒值参数设定超时\n超时或失败返回 null,\n进程已退出则返回值1为true,返回值2为标准输出,\n返回值3为错误输出,返回值4为退出代码
 !process_popen.wait() = 等待进程关闭,可选使用一个毫秒值参数设定超时\n超时或失败返回 null,\n进程退出则返回值1为true,返回值2为标准输出,返回值3为错误输出,返回值4为退出代码
 !process_popen.getExitCode() = 该函数调用成功有两个返回值:进程退出代码,进程是否已退出
 !process_popen.close() = 释放对象
 !process_popen.terminate() = 强制关闭进程并释放进程对象
-!process_popen.assignToJobObject(.(hJob) = 绑定到作业对象,成功返回true\n作业对象示例请参考标准库process.job.limitKill的源码
+!process_popen.assignToJobObject(.(process->job->limitKill) = 绑定到作业对象,成功返回true\n作业对象示例请参考标准库 process.job.limitKill 的源码
 !process_popen.ctrlEvent(0)=发送Ctrl+C(SIGINT信号)\n信号将传递到与目标进程控制台连接的所有非分离控制台进程\n64位目标进程会导致当前控制台暂时关闭
 !process_popen.ctrlEvent(1)=发送Ctrl+Break(SIGBREAK信号)\n信号将传递到与目标进程控制台连接的所有非分离控制台进程\n64位目标进程会导致当前控制台暂时关闭
 !process_popen.process = !process.

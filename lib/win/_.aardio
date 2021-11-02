@@ -574,15 +574,15 @@ toScreen(__/*输入窗口句柄*/,x,y) = 将坐标转换为屏幕坐标\n::POINT
 toClient(__/*输入窗口句柄*/,x,y) = 将坐标转换为客户坐标\n::POINT结构体请直接使用::ScreenToClient
 toScreenRect(__/*输入窗口句柄*/,rc) = 将::RECT结构体转换为屏幕坐标
 toClientRect(__/*输入窗口句柄*/,rc) = 将::RECT结构体转换为客户坐标
-getRect(__/*输入窗口句柄*/) = 返回窗体相对坐标位置\n对于顶层窗口则等同于屏幕绝对坐标位置 
-getRect(__/*输入窗口句柄*/,true) = 返回窗体屏幕坐标位置\n返回值为::RECT结构体
-setRect(__/*输入窗口句柄*/,rc) = 设置窗口相对坐标位置
-setRect(__/*输入窗口句柄*/,rc,true) = 设置窗口屏幕绝对坐标位置
-getClientRect(__/*输入窗口句柄*/) = 获取窗口客户区的坐标\n不包括边框等
-setPos(.(窗口句柄,x坐标,y坐标,宽,高,插入位置,选项) = 调整窗口位置或排序,除句柄外所有参数可选\n同时指定x,y坐标则移动位置\n同时指定宽高则改变大小\n指定插入位置<句柄或_HWND前缀常量>则调整Z序\n选项不用指定，可参考此函数源码了解细节
-getPos(__/*输入窗口句柄*/) = 返回相对坐标x,y,宽,高
-getPos(__/*输入窗口句柄*/,true) = 返回屏幕坐标x,y,宽,高
-getClientPos(__/*输入窗口句柄*/) = 返回客户区相对窗口的坐标x,y,宽,高
+getRect(__/*输入窗口句柄*/) = 返回窗体相对坐标位置矩形区块\n对于顶层窗口则等同于屏幕绝对坐标位置矩形区块 
+getRect(__/*输入窗口句柄*/,true) = 返回窗体屏幕坐标位置矩形区块\n返回值为 ::RECT 结构体
+setRect(__/*输入窗口句柄*/,rc) = 设置窗口相对坐标位置矩形区块
+setRect(__/*输入窗口句柄*/,rc,true) = 设置窗口屏幕绝对坐标位置矩形区块
+getClientRect(__/*输入窗口句柄*/) = 获取窗口客户区的坐标位置矩形区块\n不包括边框等
+setPos(.(窗口句柄,x坐标,y坐标,宽,高,插入位置,选项) = 调整窗口坐标位置或排序,除句柄外所有参数可选\n同时指定x,y坐标则移动位置\n同时指定宽高则改变大小\n指定插入位置<句柄或_HWND前缀常量>则调整Z序\n选项不用指定，可参考此函数源码了解细节
+getPos(__/*输入窗口句柄*/) = 返回相对坐标 x,y,宽,高
+getPos(__/*输入窗口句柄*/,true) = 返回屏幕坐标 x,y,宽,高
+getClientPos(__/*输入窗口句柄*/) = 返回客户区相对窗口的坐标 x,y,宽,高
 getPlacement(__/*输入窗口句柄*/) = 可省略参数\n返回WINDOWPLACEMENT结构体\n包含窗口最大化、最小化、还原状态的位置信息
 getPlacement() = !WINDOWPLACEMENT.
 getScreen() = 返回屏幕宽度、高度
@@ -602,7 +602,7 @@ msgbox = function(str,title,style,hwndOwner){
    if(!hwndOwner)
     	style |= 0x2000/*_MB_TASKMODAL*/
     
-   if( type(str) == type.table) str = ..table.tostring(str);	
+   if( type(str) == type.table && !(str@ ? str@._tostring)) str = ..table.tostring(str);	
    return  messageBox( hwndOwner : 0, tostring( str ) ,tostring( title ),style | 0x10000/*_MB_SETFOREGROUND*/ );
 }
 msgboxTest = function(str,title ,hwndOwner){

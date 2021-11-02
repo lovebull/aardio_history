@@ -45,7 +45,7 @@ class stream{
 			elseif( l < 0 ) return;	
 		}
 		else{
-			if(t!="pointer") error("参数@1必须指定缓冲区指针",2);
+			if(t!="pointer") error("参数@1必须指定buffer",2);
 			if(!l) error("无效的长度参数@2",2);
 		}
 			
@@ -83,7 +83,7 @@ class stream{
 string.stream(.(文件路径) = 支持资源文件,\n参数也可以是普通字符串内容,\n创建的流是只读的
 string.stream() = !stdStringStream.
 !stdStringStream.read(.(长度) = 读取内容,返回字符串
-!stdStringStream.readBuffer( = 读取数据到缓冲区,成功返回读取长度,失败返回null
-!stdStringStream.readBuffer(.(缓冲区指针,读取长度) = 直接读数据到内存\n参数@1可以是缓冲区,或内存指针,\n如果是指针则必须指定读取长度,否则长度参数可选\n成功返回读取长度
+!stdStringStream.readBuffer( = 读取数据到 buffer ,成功返回读取长度,失败返回null
+!stdStringStream.readBuffer(.(buffer,读取长度) = 直接读数据到内存\n参数@1可以是 buffer 对象,或内存指针,\n如果是指针则必须指定读取长度,否则长度参数可选\n成功返回读取长度
 !stdStringStream.seek(.(偏移数值,"set") = 移动流指针,\n参数@2为以下值:\n"set":相对文件开始:\n"end":相对文件尾:\n"cur":相对当前位置
 end intellisense**/

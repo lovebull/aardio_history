@@ -116,6 +116,10 @@ class accObject{
 					continue;
 				}
 				
+				if(#options.role && !..string.match(accChild.roleText():"",options.role ) ){
+					continue;
+				}
+				
 				if(#options.value && !..string.match(accChild.value():"",options.value) ){
 					continue;
 				}

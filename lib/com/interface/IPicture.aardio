@@ -170,7 +170,7 @@ PrintClient() = !RawIPicture.
 end intellisense**/
 
 /**intellisense()
-!RawIPicture.saveToBuffer(.(saveMemCopy) = 保存图像到缓冲区，只能保存为bmp格式，\nsaveMemCopy指定是否保存内存副本,默认为true
+!RawIPicture.saveToBuffer(.(saveMemCopy) = 保存图像到 buffer 对象，只能保存为 bmp 格式，\nsaveMemCopy指定是否保存内存副本,默认为true
 !RawIPicture.saveAsFile(.(stream,saveMemCopy) = 保存图像，成功返回保存大小，\n只能保存为bmp格式，\nstream参数可以是 fsys.stream 对象或 *.bmp 文件路径，\naveMemCopy指定是否保存内存副本，默认为true
 !RawIPicture.pictureChanged() = 图像是否已被修改
 !RawIPicture.selectPicture(.(hDCIn) = 选择绘图设备\n成功返回原设备,以及位图句柄

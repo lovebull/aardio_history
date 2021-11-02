@@ -64,7 +64,7 @@ fieldTimeMeta = ..string.template();
 fieldTimeMeta.template = /*
 	${varName} = {
 		_get = function(){ 
-			return owner._getTmeValue(${fieldIndex},"%Y-%m-%d %H:%M:%S");
+			return owner._getTimeValue(${fieldIndex},"%Y-%m-%d %H:%M:%S");
 		}
 		_set = function( value ){
 			return owner._setTimeValue(${fieldIndex}, value,"%Y-%m-%d %H:%M:%S");

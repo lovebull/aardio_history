@@ -65,6 +65,7 @@ altDown = function(hwnd,k){
 altUp = function(hwnd,k){
 	return up(hwnd,k,true)
 }
+
 altClick = function(hwnd,k){
 	return click(hwnd,k,true)
 }
@@ -75,6 +76,8 @@ combine = function(hwnd,...){
 	for(i=1;#arg ){
 		down(hwnd,arg[i]) 
 	}
+	
+	..key.setState(true,...)
 	for(i=1;#arg ){
 		up(hwnd,arg[i]) 
 	} 

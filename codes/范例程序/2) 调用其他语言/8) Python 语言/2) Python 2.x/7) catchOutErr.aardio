@@ -1,4 +1,4 @@
-//7)捕获标准输出
+//捕获标准输出
 import console;
 import py2;
 

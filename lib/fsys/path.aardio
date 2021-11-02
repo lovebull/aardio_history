@@ -35,9 +35,9 @@ canonicalize = function(path,lng=true){
 
 ischild = function(dir,path){
  	if(!(dir&&path) ) return;
- 	dir = canonicalize(dir,true);
+ 	dir = addBackslash(canonicalize(dir,true));
  	path = canonicalize(path,true);
- 	return ..string.startWith(path,dir,true);
+ 	return path ? ..string.startWith(path,dir,true);
 };
 
 long = function(path){
@@ -153,7 +153,7 @@ append = ..io.joinpath;
 
 /**intellisense(fsys.path) 
 long(.(路径) = 转为长路径
-short(.(路径) = 转为短路径
+short(.(路径) = 转为短路径\n如果文件不存在,返回空值,\n短文件名指向会因实际文件数变更,所以不能把短路径存入数据库\n\n存在特定文件目录无法获取短路径且返回包含空格的长路径的可能性\n如无必要，不建议使用或依赖此函数，正确使用 process 等可以自动\n转义路径参数中的空格。
 isDir(.(路径) = 如果文件路径存在并且是一个目录,\n或者路径路径以斜杠、反斜杠结束返回真
 cmp(.(路径,比较路径) = 比较两个路径是否指向同一位置,\n任何一个参数为null时返回-1,\n返回值意义与 string.cmp()函数相同,\n路径相同则返回0,注意在条件表达式中为false\n\n更准确的检测相同或不同的路径是否指向同一真实文件,\n应使用fsys.fileInfo函数
 compact(.(文件路径,显示像素宽度) = 截断路径来适合一定数目的像素

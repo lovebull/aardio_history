@@ -893,6 +893,8 @@ winform.tvKernel.insertItem( {
         {  text = "fiber" };
         {  text = "raw" };
         {  text = "io" };
+        {  text = "debug" };
+        {  text = "ide" };
     }
  ) 
  

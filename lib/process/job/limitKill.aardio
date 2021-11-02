@@ -1,8 +1,8 @@
 ﻿import process;
 namespace process.job;
 
-var limitKillCtor;
-limitKillCtor = class {
+var limitKillJob;
+limitKillJob = class {
 	ctor(){
 		this.handle = ::Kernel32.CreateJobObjectP( null,null); 
 		if( !this.handle ) return null;
@@ -55,6 +55,10 @@ limitKillCtor = class {
 			var result ={bool v}
 			::Kernel32.IsProcessInJob(p,this.handle,result);
 		}
+		elseif(p[["assignToJobObject"]] ){
+			var result ={bool v}
+			::Kernel32.IsProcessInJob(p,this.handle,result);
+		}
 		else {
 			error("参数类型错误",2)
 		}
@@ -73,7 +77,10 @@ limitKillCtor = class {
 		elseif(type(p)==type.pointer){
 			r = ::Kernel32.AssignProcessToJobObjectB(this.handle,p);
 		}
-		else {
+		elseif(p[["assignToJobObject"]]){
+			p.assignToJobObject(this.handle);
+		} 	
+		else{
 			error("参数类型错误",2)
 		}
 		
@@ -82,12 +89,12 @@ limitKillCtor = class {
 	@{
 		_topointer = lambda() this.handle;
 		_call = function(){
-			return limitKillCtor();
+			return limitKillJob();
 		} 
 	}
 }
 
-limitKill = limitKillCtor();
+limitKill = limitKillJob();
 
 /**intellisense()
 process.job.limitKill = 使用子进程对象的 assignToJobObject 函数绑定此对象,\n则进程退出时子进程自动终止\n!processJobLimitKill.
@@ -95,6 +102,6 @@ process.job.limitKill() = 创建新的 process.job.limitKill 作业对象\n!proc
 end intellisense**/
 
 /**intellisense(!processJobLimitKill)
-isIn(.(processId) = 判断参数指定的进程是否属于当前作业对象,\n参数可以指定使用数值指定进程ID，或使用指针指定进程句柄
-assignProcess(.(processId) = 将参数指定的进程绑定当前作业对象,\n参数可以指定使用数值指定进程ID，或使用指针指定进程句柄
+isIn(.(processId) = 判断参数指定的进程是否属于当前作业对象,\n参数可以指定使用数值指定进程ID，或使用指针指定进程句柄,\n也可以传入 process 或 process.popen 对象
+assignProcess(.(processId) = 将参数指定的进程绑定当前作业对象,\n参数可以指定使用数值指定进程ID，或使用指针指定进程句柄,\n也可以传入 process 或 process.popen 对象
 end intellisense**/

@@ -74,9 +74,7 @@ namespace atlax {
 !atlAxWin.translateAccelerator = @.translateAccelerator = function(msg){ \n	__/*返回是否快捷键*/\n} 
 !atlAxWin.adjust = @.adjust = function( cx,cy,wParam ) {	 \n	__ \n};  
 !atlAxWin.adjust() = 调整窗口 - 自定义事件函数
-!atlAxWin._embedObject = 嵌入OLE控件对象\n!embedObject.
-!atlAxWin.createEmbed(.("类名",容器对象) = 嵌入OLE控件,\n容器对象哦可选参数,返回容器对象,
-!atlAxWin.createEmbed() = !embedObject.
+!atlAxWin._embedObject = 嵌入 COM 控件的容器对象\n!embedObject.
 !atlAxWin.hide = 控件是否隐藏
 !atlAxWin.disabled = 是否禁用
 !atlAxWin.left = 左侧坐标
@@ -120,6 +118,7 @@ namespace atlax {
 !atlAxWin.getControl() = 返回com控件对象\naardio默认会尝试将atlax创建控件自身注册为默认事件接口
 !atlAxWin.getControlTypeName() = 返回COM接口名
 !atlAxWin.getControlClsId() = 返回COM对象类名
+!atlAxWin._defWindowProc(hwnd,message,wParam,lParam) = 用于在 wndproc 回调中提前调用默认消息回调函数,\n所有窗口和控件定义了 wndproc 回调以后会自动创建这个函数,\n调用此函数以后,wndproc 必须指定非 null 返回值,\n以避免再次重复调用默认回调函数
 ?win.ui.ctrl.atlaxwin  =!atlAxWin.
 win.ui.ctrl.atlax() = 静态文本控件\n!atlAxWin.
 win.ui.ctrl.atlax = 静态文本控件支持库

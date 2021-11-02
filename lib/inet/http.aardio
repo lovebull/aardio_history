@@ -674,10 +674,12 @@ namespace http{
 	readFileBuffer = ..inet.file.readBuffer;
 	writeFileBuffer = ..inet.file.writeBuffer;
 	
-	isAlive = function(...){ 
+	isAlive = function(...){
 		var http = ..inet.http(...);
+		http.disableRedirects();
 		http.setTimeouts(1000,1000,1000);
-		var alive = http.get("http://www.msftconnecttest.com/connecttest.txt")=="Microsoft Connect Test";
+		var alive = http.get("http://www.msftncsi.com/ncsi.txt")=="Microsoft NCSI";//NCSI(Network Connectivity Status Indicator) 
+		if(!alive) alive = http.get("http://www.msftconnecttest.com/connecttest.txt")=="Microsoft Connect Test";
 		http.close();	
 		return alive;
 	}
@@ -729,8 +731,8 @@ inet.http() = !inet_http.
 !inet_http.beginSendData(数据长度) = 发送请求,参数为待上传的数据总长度,默认为0\n失败返回:null,错误信息,错误代码
 !inet_http.endSendData() = write()函数写完所有上传数据以后,\n必须调用此函数结束上传,\n成功返回: true,状态码,文件长度\n出错返回:null,错误信息,错误代码\n注意只有在调用此函数以后,才能使用其他读写HTTP头的函数.
 !inet_http.writeData(上传数据) = 上传文件数据,支持一个或多个参数,\n返回写入数据的总长度,失败返回空或0\n调用此函数前必须调用beginSendData()\n写完所有数据后 必须调用 endSendData();
-!inet_http.writeBuffer(.(缓冲区指针,写入长度) = 上传文件数据\n参数一必须是使用raw.malloc()函数创建的缓冲区指针\n长度参数可选,默认为缓冲区长度
-!inet_http.readBuffer(.(缓冲区指针,写入长度) = 下载文件数据\n参数一必须是使用raw.malloc()函数创建的缓冲区指针\n长度参数可选,默认为缓冲区长度
+!inet_http.writeBuffer(.(buffer,写入长度) = 上传文件数据\n参数一必须是使用 buffer 对象\n长度参数可选,默认为缓冲区长度
+!inet_http.readBuffer(.(buffer,写入长度) = 下载文件数据\n参数一必须是使用 buffer 对象\n长度参数可选,默认为缓冲区长度
 !inet_http.bufferSize = 默认缓冲区大小\n默认为10KB
 !inet_http.eachReadBuffer(缓冲区,长度) = @var buffer = .raw.bufferc( 1024 * 10 );\nfor( size in ??.eachReadBuffer( buffer ) ){ 
 	__ 

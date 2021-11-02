@@ -86,9 +86,8 @@ namespace metaProperty {
  			};
  			capture = { 
 				_set = function( v ){ 
-					if(v)
-						..win.setCapture(owner[["hwnd"]])
-					else 
+					if(v) ..win.setCapture(owner[["hwnd"]])
+					else if(::User32.GetCapture()==owner.hwnd)
 						..win.releaseCapture(); 
 				} 	
 				_get = function(){
@@ -99,7 +98,9 @@ namespace metaProperty {
 				_get = function(){ 
 					return ..win.getText( owner[["hwnd"]] );
 				}
-				_set = function(v){
+				_set = function(v){ 
+					if( owner[["setText"]] ) return owner.setText(v);
+					
 					..win.setText( owner[["hwnd"]],v !== null ? tostring(v) : "" );  
 					var transParent = owner[["transparent"]];
 					if( transParent === null ){
@@ -201,7 +202,7 @@ namespace metaProperty {
 					if( p && p._ctrlHwnd[owner.hwnd] ){
 						
 						p._ctrlHwnd[owner.hwnd]=null;
-						p._ctrlId[owner.id]=null;
+						if(owner.id) p._ctrlId[owner.id]=null;
 						p._ctrlAutoResize[owner.hwnd]=null;
 						
 				
@@ -332,7 +333,12 @@ namespace metaProperty {
 						}
 						return  ::CallWindowProc( this._wndproc_c_prev,  hwnd,message, wParam , lParam ); 
 					}
-					owner[["_wndproc_c"]] = ..raw.tostdcall( wndproc , "addr(addr,INT,ADDR,addr)",owner)
+					
+					owner[["_defWindowProc"]] = function(hwnd, message, wParam , lParam){
+	    				return ::CallWindowProc(this._wndproc_c_prev, hwnd, message, wParam , lParam);
+	    			}; 
+	    			
+					owner[["_wndproc_c"]] = ..raw.tostdcall( wndproc , "addr(addr,INT,ADDR,addr)",owner);
 					owner._wndproc_c_prev =  ::SetWindowPointer(owner[["hwnd"]],0xFFFFFFFC/*_GWL_WNDPROC*/,  owner[["_wndproc_c"]]  ); 
 				};
 				_get = function(){
@@ -830,7 +836,16 @@ namespace metaProperty {
 					
 					if( !owner["_parentForm"] //orphanWindow 
 						){
+						var placement;
 						var x,y,cx,cy = owner.getPos();
+						if(..win.isZoomed(owner.hwnd)||..win.isIconic(owner.hwnd)){
+							placement = ..win.getPlacement(owner.hwnd);
+							x,y,cx,cy = placement.rcNormalPosition.xywh(); 
+						}
+						else {
+							x,y,cx,cy = owner.getPos();
+						}
+						
 						var cx2 = ( cx / origScaleX ) * scaleX;
 						var cy2 = ( cy / origScaleY ) * scaleY;
 						var x2 = x -(cx2 - cx)/2;
@@ -846,7 +861,13 @@ namespace metaProperty {
 							if( ( y == 0 ) || ( y2 <0 && y>0 ) ){y2 = 0;}
 						}
 						
-						owner.setPos(x2,y2, cx2,cy2 );
+						if(!placement){
+							owner.setPos(x2,y2, cx2,cy2 );
+						}
+						else {
+							placement.rcNormalPosition.setPos(x2,y2,cx2,cy2);
+							placement.update(owner.hwnd)
+						} 
 					}
 				}
 				
@@ -1083,6 +1104,18 @@ namespace metaProperty {
 					try{ sink, cookie = ..com.Connect(embedObject._object, embedObject ) } 
 				}
 				return embedObject,sink,cookie;
+			};
+			createEmbedEx = function(winform,clsId,iid){
+				var embed = owner.createEmbed(winform,clsId,iid);
+				embed@ = {
+					_get = embed._object;
+					_set = function(k,v){ 
+						if(type(v) === "function") owner[[k]] = v;
+						else owner._object[k] = v; 
+					}
+				};
+				
+				return embed;
 			};
 			publish = function(name,...){
 				..publish(name,...)

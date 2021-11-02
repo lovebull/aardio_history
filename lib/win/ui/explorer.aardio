@@ -88,9 +88,9 @@ class explorer{
 			var filename;
 			for(i=1;#dirs){
 				filename = dirs[i];
-    			var sfi = getInfo(dirs[ filename ]	, 0x10/*_SHGFI_USEFILEATTRIBUTES*/ | 0x4000/*_SHGFI_SYSICONINDEX*/);
+    			var sfi = getInfo(dirs[ filename ],0x4000/*_SHGFI_SYSICONINDEX*/);
 				tvItem.textPtr = toUnicode( filename ); 
-        		tvItem.cChildren = 1; //The item has one or more child items
+        		tvItem.cChildren = 1;
         		tvItem.iImage = sfi.iIcon;
         		tvItem.iSelectedImage = sfi.iIcon; 
         		inst.hInsertAfter = ::SendMessageByStruct(treeview.hwnd,0x1132/*_TVM_INSERTITEMW*/,0,inst );
@@ -99,7 +99,7 @@ class explorer{
     		tvItem.mask = tvItem.mask &~0x40;
     		for(i=1;#files){
     			filename = files[i];
-    			var sfi = getInfo(files[filename]	,0x10/*_SHGFI_USEFILEATTRIBUTES*/ | 0x4000/*_SHGFI_SYSICONINDEX*/); 
+    			var sfi = getInfo(files[filename],0x4000/*_SHGFI_SYSICONINDEX*/); 
 				tvItem.textPtr = toUnicode(filename);
         		tvItem.iImage = sfi.iIcon; 
         		tvItem.iSelectedImage = sfi.iIcon; 

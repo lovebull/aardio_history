@@ -3,7 +3,7 @@ import util.metaProperty;
 namespace win;
 
 class guid{
-	ctor(d1,d2,d3,d4,...){
+	ctor(d1,d2,d3,d4,...){ 
 		if(type.isString(d1)){
 			return ..win.guid.fromString(d1);
 		}
@@ -37,6 +37,8 @@ namespace guid{
 			return !(owner.Data1  || owner.Data2  || owner.Data3 || #owner.Data4); 
 		};
 		_tostring = function(lower,clsId) {
+			if(type(lower)==="string") return..string.format(lower,owner.unpack() );
+			
 			var ps = {ptr p};
 			var re = Rpcrt4.UuidToString(owner,ps)
 			if( ps.p ){
@@ -78,8 +80,14 @@ namespace guid{
 				return str;  
 			};
 		};
+		unpack = function(){
+			return owner.Data1,owner.Data2,owner.Data3,
+		   		owner.Data4[1],owner.Data4[2],owner.Data4[3],owner.Data4[4],
+		   		owner.Data4[5],owner.Data4[6],owner.Data4[7],owner.Data4[8]	
+		};
 	)
-
+	_metaProperty.toString = _metaProperty._tostring;
+	
 	create = function() { 
 		return ..win.guid().create();	 
 	};
@@ -104,8 +112,8 @@ namespace guid{
 
 /**intellisense()
 win.guid.create() = 创建 GUID 结构体并初始化为唯一值\n!win_guid.
-win.guid() = 创建 GUID 结构体,初始化为空值,\n此对象可以使用 tostring 函数转换为大写字符串,\ntostring 参数@1指定是否小写,参数@2指定是否添加大括号\n!win_guid.
-win.guid(.(数值,数值,数值,'\x00\x00\x00\x00\x00\x00\x00\x00') = 创建GUID结构体\n参数@4也可以用8个表示字节码的数值参数替代
+win.guid() = 创建 GUID 结构体,初始化为空值,\n此对象可以使用 tostring 函数转换为大写字符串,\ntostring 参数@2指定是否小写,参数@3指定是否添加大括号,\ntostring 参数@2 也可用字符串指定11个数值参数的格式化串,\n!win_guid.
+win.guid(.(数值,数值,数值,'\x00\x00\x00\x00\x00\x00\x00\x00') = 创建GUID结构体\n参数@4也可以改为包含8个字节数值的数组或者展开为8个数值参数
 win.guid(.("GUID、CLSID、ProgID等") =  字符串转换为 GUID,\n参数支持ProgID,CLSID,GUID,\n失败返回null空值
 win.guid.fromString("__/*可输入 ProgID,CLSID,GUID*/") = 字符串转换为 GUID\n参数支持ProgID,CLSID,GUID,\n失败返回null空值\n\n注意 win.guid 对象可以使用 tostring 函数转换为字符串,\ntostring 参数@1指定是否小写,参数@2指定是否添加大括号,\n!win_guid.
 win.guid.toProgId("__/*请输入GUID*/") = GUID转换为字符串格式的 ProgId\n失败返回null空值
@@ -114,10 +122,14 @@ win.guid.valid() = !win_guid.
 !win_guid.Data1 = INT类型
 !win_guid.Data2 = WORD类型
 !win_guid.Data3 = WORD类型
-!win_guid.Data4 = 字符串值
+!win_guid.Data4 = 字符串值,也可以指定包含多个字节值的数组
+!win_guid.unpack() = 转换并返回 11 个数值
 !win_guid.hex() = 转换为16进制格式\n返回值可以置入单引号转义字符串内使用
 !win_guid.isNull() = 是否等于GUID_NULL，也就是结构体内存的所有字节值为0
 !win_guid.create() = 初始化为唯一值，返回自身\n!win_guid.
-!win_guid.fromString("__/*请输入ProgID*/") = 字符串转换为GUID结构体,返回自身,\n可使用tostring函数将GUID结构体重新转换为字符串\n!win_guid.
+!win_guid.fromString("__/*请输入ProgID*/") = 字符串转换为 GUID 结构体,返回自身,\n也可以直接写到 win.guid 参数中,\n可使用 tostring 函数将 GUID 结构体重新转换为字符串\ntostring 参数@2指定是否小写,参数@3指定是否添加大括号,\ntostring 参数@2 也可用字符串指定11个数值参数的格式化串\n!win_guid.
+!win_guid.toString( = 转换为字符串,也支持通过 tostring 自动调用此函数
+!win_guid.toString(.(是否小写,是否添加大括号) = 转换为字符串,生成格式:\n00000000-0000-0000-0000-000000000000
+!win_guid.toString(.("%08X%04X%04X%02X%02X%02X%02X%02X%02X%02X%02X") = 转换为字符串,自定义 11 个数值参数的格式化串
 !win_guid.toProgId() = CLSID转换为ProgId,返回字符串 
 end intellisense**/

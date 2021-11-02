@@ -158,9 +158,9 @@ com.interface.IMultiLanguage2.Create() = 创建 CMultiLanguage对象并获取IMu
 end intellisense**/
 
 /**intellisense(!IMultiLanguage2)
-detectInputCodepage(.(字符串,最大返回个数,选项,优选代码页) = 检测输入数据的代码页\n参数@1可以是任意编码的字符串或buffer类型缓冲区,\n其他参数可选\n\n返回值是一个数组,每个数组包含一个描述代码页信息的结构体
+detectInputCodepage(.(字符串,最大返回个数,选项,优选代码页) = 检测输入数据的代码页\n参数@1可以是任意编码的字符串或 buffer 对象,\n其他参数可选\n\n返回值是一个数组,每个数组包含一个描述代码页信息的结构体
 detectInputCodepageInStream(.(流对象,最大返回个数,选项,优选代码页) = 检测输入数据的代码页\n参数@1可以是任意编码 fsys.stream等任何兼容IStream接口的对象,\n其他参数可选\n\n返回值是一个数组,每个数组包含一个描述代码页信息的结构体
-detectInputCodepageEx(__) = 检测输入数据库的代码页，成功直接返回数值\nn参数@1可以是任意编码的字符串或buffer类型缓冲区
+detectInputCodepageEx(__) = 检测输入数据库的代码页，成功直接返回数值\nn参数@1可以是任意编码的字符串或 buffer 对象
 detectInputCodepageInStreamEx(__) =检测输入数据的代码页,检测输入数据库的代码页，成功直接返回数值\n参数@1可以是任意编码 fsys.stream等任何兼容IStream接口的对象,
 getCodePageDescription(.(codepage,lcid) = 返回代码页描述文本,\n参数@1指定代码页,可选用参数@2指定语言ID
 getCodePageInfo(.(codepage,lcid) = 返回代码页的详细信息,\n参数@1指定代码页,可选用参数@2指定语言ID

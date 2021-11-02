@@ -1,5 +1,4 @@
-﻿//默认库源代码
-namespace zlib;
+﻿namespace zlib;
 
 ZLIB_VERSION = "1.2.7"; 
 var dll = ..raw.loadDll(  ..io.exist("~/lib/zlib/.res/zlibwapi.dll") : 
@@ -369,8 +368,8 @@ zlib.gzFile() = !gzFile.
 !gzFile.seek(.("cur",偏移值) = 在未压缩数据内移动指针位置,\n参数2为相对于当前位置的偏移值,\n返回指针位置
 !gzFile.seek(.("set",偏移值) = 在未压缩数据内移动指针位置,\n参数2为相对于文件开始处的偏移值,\n返回指针位置
 !gzFile.write({int data=1234}) = 压缩结构体并写入到压缩文件
-!gzFile.readBuffer(.(缓冲区指针,读取长度) = 参数必须是使用raw.malloc()函数创建的缓冲区指针\n长度参数可选,默认为缓冲区长度\n返回成功解压的字节长度
-!gzFile.writeBuffer(.(缓冲区指针,写入长度) = 压缩并写入到压缩文件\n参数一必须是使用raw.malloc()函数创建的缓冲区指针\n长度参数可选,默认为缓冲区长度. 
+!gzFile.readBuffer(.(buffer,读取长度) = 参数必须是使用 buffer 对象\n长度参数可选,默认为缓冲区长度\n返回成功解压的字节长度
+!gzFile.writeBuffer(.(buffer,写入长度) = 压缩并写入到压缩文件\n参数一必须是使用 buffer 对象\n长度参数可选,默认为缓冲区长度. 
 !gzFile.close() = 关闭文件
 end intellisense**/
 

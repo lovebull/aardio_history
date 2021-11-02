@@ -4,7 +4,7 @@ import win.ui.menu;
 /*DSG{{*/
 var winform = win.form(text="进程管理器";right=962;bottom=430;parent=...)
 winform.add(
-btnKillChecked={cls="plus";text='\uF2D3 结束所有勾选的进程';left=125;top=6;right=321;bottom=38;bgcolor=-5197169;dl=1;dt=1;font=LOGFONT(h=-15;name='FontAwesome';charset=0);z=4};
+btnKillChecked={cls="plus";text='\uF2D3 结束所有勾选的进程';left=125;top=6;right=321;bottom=38;bgcolor=-5197169;dl=1;dt=1;font=LOGFONT(h=-15;name='FontAwesome';charset=0);notify=1;z=4};
 btnKillSelected={cls="plus";text='\uF2D4 结束当前选中进程';left=625;top=383;right=821;bottom=413;bgcolor=-5197169;db=1;dr=1;font=LOGFONT(h=-15;name='FontAwesome';charset=0);notify=1;z=3};
 btnSearch={cls="plus";text='\uF002 查找进程';left=742;top=7;right=903;bottom=37;bgcolor=-5197169;dr=1;dt=1;font=LOGFONT(h=-15;name='FontAwesome';charset=0);notify=1;z=6};
 chkAll={cls="checkbox";text="全选";left=42;top=12;right=110;bottom=35;dl=1;dt=1;z=5};
@@ -218,17 +218,16 @@ winform.btnKillSelected.oncommand = function(id,event){
 }
 
 winform.btnKillChecked.oncommand = function(id,event){
-    var checked = winform.chkAll.checked
-	for hItem in winform.listview.each(){
-		var pid = tonumber( winform.listview.getItemText(hItem,1) )
+    
+	for hItem,pid in winform.listview.eachChecked(1){
+		var pid = tonumber( pid )
     	if(pid){
         	var prcs = process(pid)
         	if(prcs) prcs.terminate()
+        	winform.listview.delItem(hItem)
     	}
 	}
-	winform.listview.clear();
 }
-
 
 winform.show() 
 win.loopMessage();

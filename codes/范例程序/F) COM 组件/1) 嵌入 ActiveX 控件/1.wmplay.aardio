@@ -1,0 +1,55 @@
+//嵌入播放器控件
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="mediaplayer 视频播放器控件";right=896;bottom=662)
+winform.add(
+btnDump={cls="button";text="显示成员";left=697;top=621;right=785;bottom=648;db=1;dr=1;z=4};
+btnFullscreen={cls="button";text="全屏";left=599;top=621;right=687;bottom=648;db=1;dr=1;z=5};
+btnPlay={cls="button";text="播放";left=404;top=621;right=492;bottom=648;db=1;dr=1;z=2};
+btnStop={cls="button";text="停止";left=502;top=621;right=590;bottom=648;db=1;dr=1;z=3};
+custom={cls="custom";left=32;top=16;right=880;bottom=601;bgcolor=0;db=1;dl=1;dr=1;dt=1;edge=1;z=1}
+)
+/*}}*/
+
+/*
+winform.custom.createEmbed() 或者 
+winform.custom.createEmbedEx() 返回的是控件容器，控件容器的 _object 才是 COM 控件对象。
+createEmbedEx() 会在容器对象上添加一个简单的元表与简单的代理功能，
+当访问容器对象时简单的转而调用 COM 对象，如不需要这个功能改用 createEmbed() 函数即可。
+
+1、容器对象可作为访问 COM 对象的代理对象，
+通常我们会使用 util.metaProperty 在容器对象上创建属性元表，
+以拦截读写属性和函数调用并转而调用 _object 对象（COM对象），更好地定制 COM 对象接口。
+
+2、容器对象还是 COM 对象的默认事件监听器，
+添加事件只要简单地指定容器对象的成员函数即可。
+*/
+var wmplay = winform.custom.createEmbedEx("WMPlayer.OCX");   
+wmplay.Url  = "http://download.aardio.com/demo/video.aardio"
+wmplay.stretchToFit = true; //https://docs.microsoft.com/zh-cn/windows/win32/wmp/object-model-reference-for-scripting  
+
+winform.btnStop.oncommand = function(id,event){ 
+    wmplay.controls.stop() 
+}
+
+winform.btnPlay.oncommand = function(id,event){ 
+    wmplay.controls.play()
+}
+
+winform.btnFullscreen.oncommand = function(id,event){
+	winform.custom.fullscreen();
+}
+
+import web.form;
+winform.btnDump.oncommand = function(id,event){
+    var frmWeb = win.form(text="com.DumpTypeInfo(wmplay._object)";right=590;bottom=594;parent=winform);
+    
+    var wb = web.form(frmWeb);
+    wb.html = `<!doctype html><html><head><meta charset="utf-8"></head><body><pre>`
+    	+ com.DumpTypeInfo(wmplay._object) +`</pre>`;
+    	
+    frmWeb.doModal()
+}
+
+winform.show(true);
+win.loopMessage();

@@ -100,7 +100,10 @@ namespace table{
 	
 		return r;
 	}; 
-	getByNamespace = function(k,t){
+	flat = function(a,d = 1) {
+   		return d ? reduce(a,lambda(r,v) append(r,isArray(v) ? flat(v,d-1):{v}),{}) : a
+  	};
+  	getByNamespace = function(k,t){
 		if(!t){ t = ..global; }
 		var p,m = ..string.match(k,"\.*(.+)(%\[\])$");
 		if( m )
@@ -202,7 +205,7 @@ namespace table{
     	} 
 	};
 	len = function(a){
-		var lm,lf,la = a@[["length"]],a.length,#a; 
+		var lm,lf,la = a@[["length"]] || a@[["len"]],a.length,#a; 
 		if( type(lm) == "function") lm = invoke(lm,a);
 		if( type(lm) == "number") la = ..math.max(lm,la);
 		if( ( lf !== null ) && (type(lf)=="number")) la = ..math.max(lf,la);  
@@ -293,6 +296,15 @@ namespace table{
 		o[["_gc"]] = gd;
 		return o;
 	}; 
+	gcOnly = function(func){
+		var d;
+		d = ..gcdata(_gc = function(){d = false; });
+		
+		return function(){
+			if(d!==false) return;
+			invoke(func,owner);
+		}
+	};
 	create = function(p,...){
 		return assign( p ? { @{_get=p} } : {},...);
 	};
@@ -310,7 +322,7 @@ len(.(数组) = 获取数组长度\n在数组本身的长度,数组的length属�
 define(.(表对象,->->->) = 预定义一个或多个键名\n即使对应键的值为null,仍然在eachName迭代器中显示出来\n注意该迭代器的预定排序对null值无效,\n此函数在对象的元表中_define元属性添加键名,如果_define已经定义为函数对象则会失败\ntable.eachName,webs.json等自动支持_define元属性
 define(.(表对象) = 清空预定义键名
 keys(.(表对象,排序函数,优先前排键名) = 获取表中的所有字符串类型的键名,不包含_struct\n\n如果元表中定义了_keys元方法,则调用该方法获取全部自定义键名取代表本身的键名列表\n_keys元方法可以是一个键名数组，或者是返回键名数组的函数,\n\n如果元表中定义了_defined元方法,则使用该方法获取允许为null的键值,\n_defined可以是一个键名数组，或者是返回键名数组的函数,_defined返回的键,\n名数组不会覆盖表本身的键名数组或者_keys元方法定义的数组,仅起到键名占位的作用,\n\n可选指定键名排序函数,如果不指定则使用默认字典序排序,\n可选使用参数@3预定优先排序在最前面的键名数组
-eachIndex(数组) = @for i,v in table.eachIndex(__/*数组对象\n按数组索引大小顺序遍历数组\n支持使用对象的length属性,_length元方法确定数组的长度,\n支持对象使用_startIndex元属性自定义下标*/){
+eachIndex(数组) = @for i,v in table.eachIndex(__/*指定数组对象\n按数组索引大小顺序遍历数组\n支持使用表对象的 length 属性,_length 元方法确定数组的长度,\n支持表对象使用 _startIndex 元属性自定义下标\n如果是普通的纯数组不需要用到这些功能,\n改用计数 for 循环会更快*/){
 	
 }
 eachName(表对象,排序函数,预定定前排键名) = @for k,v in ??.eachName(__/*使用表中的键排序并遍历所有键值对\n参数: @1表对象, @2排序函数, @3排序表\n调用table.keys获取排序后的键名,支持_keys,_defined元方法\n所有参数用法与table.keys相同*/){
@@ -338,7 +350,9 @@ mix(.(对象,任意多个混入对象) = 参数@1为空则创建新表,\n使用�
 create(.(原型对象,任意多个混入对象) = 创建表对象,\n如果指定了原型表,则返回对象使用_get元方法指向该原型表,\n返回表对象可以共享原型表中的成员,但不会复制并存储原型表的成员\n\n如果指定了混入对象,则会将混入对象的成员实际复制到返回的表对象内,\n混入规则与table.minix一致,按参数顺序从前向后混入,\n忽略已存在的只读成员
 gc(.(table对象,析构函数)  = 指定析构函数,返回参数@1\n注意析构函数不应抛出异常.\n函数返回table对象自身
 gc(.(table对象,"析构函数名") =  指定析构函数名,返回参数@1\n函数名可以是之后创建的成员函数.\n如果指定的成员函数在析构时为逻辑false或null值,则忽略析构.\n注意析构函数不应抛出异常
-gc( = 添加对象在销毁前执行的析构函数 
+gc( = 添加对象在销毁前执行的析构函数\n按调用 table.gc 顺序的逆序析构对象,\n最后调用 table.gc 标记的对象会最先执行析构函数
+gcOnly( = 创建一个被保护的对象析构函数,\n此析构函数只会在对象被自动回收时自动触发,\n主动调用此析构函数将被忽略
+gcOnly(.(dtor) = @dtor 参数指定使用 table.gc 标记的析构对象的析构函数,\n此函数将返回一个新的用于覆盖原析构函数的函数,\n应将返回的析构函数重新赋值为对象的同名析构函数
 getByNamespace(.("表内名字空间路径->名字[2]",表对象) = 返回两个值:名字路径指向对象,该对象所在的表.\n参数一为表内名字空间路径,参数二可选指定查找路径的表对象,\n默认在global全局对象内查找路径
 setByNamespace(.("表内名字空间路径->名字[]",新值,表对象) = 参数一指定表内名字空间路径,如果不存在则则创建此表内名字空间,\n参数二指定需要设置的值,如果不指定则创建空表并赋值,\n参数三可选指定一个表对象,默认为global全局对象
 unpackArgs(.(args) = 从索引1到最大索引返回所有元素值,包含中间的null值
@@ -351,7 +365,9 @@ mapDeep(表) = @.mapDeep(__/*应用后面的回调函数计算新值并返回新
 every(表) = @.every(__/*调用后面的回调函数计算表的每个值是否符合条件*/,function(v,k){\n	\n})
 some(表) = @.some(__/*调用后面的回调函数计算表的任意某个值是否符合条件*/,function(v,k){\n	\n})
 filter(数组) = @.filter(__/*调用后面的回调函数筛选并返回新数组\n回调函数返回真值时添加该值到新数组中*/,function(v,index){\n	\n})
-removeByValue(.(数组,值) = 在数组中查找指定值并移除第一个找到的非null值,\n如果移除了元素则返回该元素之前的索引,\n如果参数@2为null，则清除所有null值
-removeByValue(.(数组,值,true) = 在数组中查找指定值并将找到的值全部移除,\n如果参数@2为null，则使用table.range函数取最大索引，\n这会导致最大索引前的所有null值都作为数组元素处理，\n建议查看此函数源码以避免错误使用导致性能降低。
+removeByValue( = 在数组中查找指定值并移除指定值,\n此函数无返回值。
+removeByValue(.(数组,值) = 在数组中查找指定值,\n并移除第一个找到的非null值,\n如果移除了元素则返回移除元素的索引,\n\n如果参数@2为null，则清除所有null值。\n\n此函数无返回值。
+removeByValue(.(数组,值,true) = 在数组中查找指定值并将找到的值全部移除,\n如果参数@2为 null，则使用 table.range 函数取最大索引，\n这会导致最大索引前的所有null值都作为数组元素处理，\n建议查看此函数源码以避免错误使用导致性能降低。\n\n此函数无返回值。
 clear() = 清空表中的所有值
+flat(.(array,depth) = 展开@array 参数指定的数组中嵌套的数组并返回新数组,\n可选用 @depth 参数指定要允许展开的嵌套深度,默认值为1
 end intellisense**/  

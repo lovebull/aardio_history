@@ -12,8 +12,8 @@ namespace fastcgi.iisInstall{
 		return;
 	}
 
-    var appDomain = ..dotNet.clr().createAppDomain();
-	var serverManager = appDomain.load("Microsoft.Web.Administration").createInstance("ServerManager");
+    var appDomain = ..dotNet.appDomain();
+	var serverManager = appDomain.load("Microsoft.Web.Administration").new("ServerManager");
 
 	var domain = ..console.getText( '请输入启用 FastCgiModule（aardio）的网站，直接回车安装到所有网站\n：' )
 	domain = ..string.trim(domain);
@@ -23,7 +23,6 @@ namespace fastcgi.iisInstall{
 		try{
 			var config = serverManager.GetWebConfiguration(domain);
 			var handlersSection = config.GetSection("system.webServer/handlers");
-			
 			var handlersCollection = handlersSection.GetCollection();
 			
 			var updateSite = function(){
@@ -84,7 +83,7 @@ namespace fastcgi.iisInstall{
 
 	}
 	 
-	if(..process().isWow64()){
+	if(_WIN_64){
 		var appPools = serverManager.ApplicationPools;
 		for(i=1;appPools.Count;1){
 			var pool = appPools.Item[i-1]
@@ -112,7 +111,6 @@ namespace fastcgi.iisInstall{
 */
 	
 	serverManager.CommitChanges(); 
-	appDomain.unload();
 	
 	..fsys.acl.icacls( ..io._exedir,"/T","/grant","NT AUTHORITY\IUSR:RXM");
 	..fsys.acl.icacls( ..io._exedir,"/T","/grant","BUILTIN\IIS_IUSRS:RXM");

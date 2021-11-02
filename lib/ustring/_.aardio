@@ -271,6 +271,7 @@ pack = fromCharCode;
 unpack = charCode;
 /**intellisense()
 ustring = Unicode - UTF16编码字符串函数库
+::Msvcrt := VC6运行库,所有操作系统都自带的系统 DLL,\nconsole,ustring,string.builder 等标准库加载了此 DLL,\n\n加载此 DLL的正确写法为:\n::Msvcrt := ..raw.loadDll("Msvcrt.dll",,"cdecl"),\n!dllmodule.
 end intellisense**/
 
 /**intellisense(ustring)

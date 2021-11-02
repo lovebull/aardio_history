@@ -145,11 +145,12 @@ clearInputBuffer = function(){
 }
 
 var moreLines = 1;
-more = function(count){
+more = function(count,cls){
 	count = count : 1;
 	moreLines = moreLines % count;
 	if(!moreLines){
 		pause(,"-- 请按任意键显示更多 ---","---------- More -----------");
+		if(cls) clearScreen();
 	}
 	moreLines++;
 };
@@ -779,7 +780,7 @@ writeBack(__) = 控制台输出字符串并覆盖最后显示的等长字符\n�
 fullscreen() = 控制台窗口全屏切换
 modifyMode(.(输入输出句柄,移除模式,添加模式) = 设置控制台的显示模式\n参数用法参考 WINAPI SetConsoleMode\n参数@1如果省略则默认为标准输出句柄\n成功返回当前模式,失败返回null
 debug("__") = 使用标准错误输出流(io.stderr)输出，可以重定向，\n用法类似io.print,该函数在开发环境中会自动打开控制台\n发布后的程序不会自动打开控制台
-more(__/*分页大小*/) = 用于在循环语句中分页显示\n省略参数时则参数默认为1
+more(__/*分页大小*/) = 用于在循环语句中分页显示\n省略参数时则参数默认为1\n如果参数@2为true，则先清除控制台已显示的内容。
 askYesNo("按Y键继续,按N键取消") = 等待用户按Y或N键
 kbHit() = 检测键盘有没有输入
 peek() = 测试键盘有没有输入\n有则读取并返回keyEvent对象,否则返回空\n!console_kbevent.

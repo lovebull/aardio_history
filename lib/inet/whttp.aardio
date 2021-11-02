@@ -788,8 +788,8 @@ inet.whttp(.("UserAgent","HTTP://代理服务器IP:端口","绕过代理主机",
 !inet_whttp.send(.(上传数据) = 参数可选,调用beginSendData(上传数据),然后调用endSendData()\n成功返回: true,状态码,文件长度\n出错返回:null,错误信息,错误代码
 !inet_whttp.endSendData() = wirte()函数写完所有上传数据以后,\n必须调用此函数结束上传,\n成功返回: true,状态码,文件长度\n出错返回:null,错误信息,错误代码
 !inet_whttp.writeData(上传数据) = 上传文件数据,支持一个或多个参数,\n返回写入数据的总长度,失败返回空或0\n调用此函数前必须调用beginSendData()\n写完所有数据后 必须调用 endSendData();
-!inet_whttp.writeBuffer(.(缓冲区指针,写入长度) = 上传文件数据\n参数一必须是使用raw.malloc()函数创建的缓冲区指针\n长度参数可选,默认为缓冲区长度. 
-!inet_whttp.readBuffer(.(缓冲区指针,写入长度) = 下载文件数据\n参数一必须是使用raw.malloc()函数创建的缓冲区指针\n长度参数可选,默认为缓冲区长度
+!inet_whttp.writeBuffer(.(buffer,写入长度) = 上传文件数据\n参数一必须是使用 buffer 对象\n长度参数可选,默认为缓冲区长度. 
+!inet_whttp.readBuffer(.(buffer,写入长度) = 下载文件数据\n参数一必须是使用 buffer 对象\n长度参数可选,默认为缓冲区长度
 !inet_whttp.bufferSize = 默认缓冲区大小\n默认根据下载速度自动调整该大小
 !inet_whttp.eachReadBuffer(缓冲区,长度) = @var buffer = .raw.bufferc( 1024 * 10 );\nfor( size in ??.eachReadBuffer( buffer ) ){ 
 	__

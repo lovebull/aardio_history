@@ -8,38 +8,27 @@ class listview{
 		this = ..win.ui.ctrl.listview();
 		this.hwnd = hwnd;
 		
-		threadId,processId = ..win.getThreadProcessId(this.hwnd )
-		process = ..process( processId ) 
-		var process = process;
-		 
-		var SendMessageByStruct_c = function(hwnd,message,wParam,lParam){
-			var lParam_c = process.writeStruct(,lParam);
-			if( !lParam_c ) return 0;
-			
-			var ret = ::User32.SendMessageW(hwnd,message,wParam,lParam_c)
-			process.readStruct( lParam_c,lParam)
-			process.mfree( lParam_c );
-			return ret;
-		}
+		var threadId,processId = ..win.getThreadProcessId(this.hwnd )
+		this.process = ..process( processId )
+		this.threadId = threadId;
 		
 		var LVITEM,LVCOLUMN,LVFINDINFO = LVITEM64,LVCOLUM64,LVFINDINFO64;
-		if( process.isWow64() ){
+		if( this.process.isWow64() ){
 			LVITEM = LVITEM32;
 			LVCOLUMN = LVCOLUMN32;
 			LVFINDINFO = LVFINDINFO32;
-		} 
-		
+		}
 	};
 	getItemText = function ( row,col=1,len=100 ) {
     	var item = LVITEM();
     	item.mask = 0x1/*_LVIF_TEXT*/;
     	item.iSubItem = col-1;
-    	item.text =  process.malloc( len * 2 ) ; //在对方进程分配内存
+    	item.text =  this.process.malloc( len * 2 ) ; //在对方进程分配内存
     	item.cchTextMax = len  
     	
-    	var len = SendMessageByStruct_c(owner.hwnd, 0x1073/*_LVM_GETITEMTEXTW*/, row-1, item);  
-    	var str = process.readStringUtf16(item.text,len)
-    	process.mfree( item.text );   
+    	var len = this.process.sendMessage(owner.hwnd, 0x1073/*_LVM_GETITEMTEXTW*/, row-1, item);  
+    	var str = this.process.readStringUtf16(item.text,len)
+    	this.process.mfree( item.text );   
     	return str;
 	}
 	setItemText = function (text,row=1,col=1 ) {
@@ -48,16 +37,16 @@ class listview{
 		row--;
 		if(type(text)!="table"){
 			item.iSubItem = col - 1;
-			item.text = process.writeStringUtf16(  ,text,#text + 1 );
-			var ret = SendMessageByStruct_c(owner.hwnd, 0x1074/*_LVM_SETITEMTEXT*/, row, item);
-			process.mfree( item.text );  
+			item.text = this.process.writeStringUtf16(  ,text);
+			var ret = this.process.sendMessage(owner.hwnd, 0x1074/*_LVM_SETITEMTEXT*/, row, item);
+			this.process.mfree( item.text );  
 		}
 		else{
 			for (i = 1; #text) {
 				item.iSubItem = i-1; 
-				item.text = process.writeStringUtf16(  ,text[i],#text[i] + 1 )
-				SendMessageByStruct_c(owner.hwnd, 0x1074/*_LVM_SETITEMTEXT*/, row, item);
-				process.mfree( item.text );  
+				item.text = this.process.writeStringUtf16(  ,text[i] )
+				this.process.sendMessage(owner.hwnd, 0x1074/*_LVM_SETITEMTEXT*/, row, item);
+				this.process.mfree( item.text );  
 			}
 		} 
 	}
@@ -65,18 +54,18 @@ class listview{
 		rc := ::RECT();
 		if(col){ rc.top = col-1; }
 		rc.left = code;  
-		var ret = SendMessageByStruct_c(owner.hwnd,(col!==null)?0x1038/*_LVM_GETSUBITEMRECT*/ : 0x100E/*_LVM_GETITEMRECT*/,(row : owner.selIndex)-1,rc); 
+		var ret = this.process.sendMessage(owner.hwnd,(col!==null)?0x1038/*_LVM_GETSUBITEMRECT*/ : 0x100E/*_LVM_GETITEMRECT*/,(row : owner.selIndex)-1,rc); 
 		return rc;
 	};
 	findItem = function(str,start=-1,sub=true,wrap=true){
 		var info = LVFINDINFO()  
-		info.psz  = process.writeStringUtf16( ,str,#str + 1 ); 
+		info.psz  = this.process.writeStringUtf16( ,str); 
 			
 		info.flags  = 2/*_LVFI_STRING*/ 
 		if(sub) info.flags |= 4/*_LVFI_SUBSTRING*/ 
 		if(wrap) info.flags |= 0x20/*_LVFI_WRAP*/
-		var ret = SendMessageByStruct_c(owner.hwnd,0x1053/*_LVM_FINDITEM*/,start,info) + 1;
-		process.mfree( info.psz );  
+		var ret = this.process.sendMessage(owner.hwnd,0x1053/*_LVM_FINDITEM*/,start,info) + 1;
+		this.process.mfree( info.psz );  
 		return ret;
 	};
 	hitTest = function(x,y,screen=false){
@@ -87,7 +76,7 @@ class listview{
 		var hinfo = ..win.ui.ctrl.listview.LVHITTESTINFO();
 		if(screen) x,y = ..win.toClient(owner.hwnd,x,y)
 		hinfo.pt.x = x; hinfo.pt.y = y; 
-		if( SendMessageByStruct_c(owner.hwnd,0x1012/*_LVM_HITTEST*/,0,hinfo) )
+		if( this.process.sendMessage(owner.hwnd,0x1012/*_LVM_HITTEST*/,0,hinfo) )
 			return hinfo.iItem,hinfo.iSubItem,hinfo.flags;
 	};
 	setItemState = function(row,state=0,mask){
@@ -95,17 +84,17 @@ class listview{
 		item.mask = 0x8/*_LVIF_STATE*/; 
 		item.stateMask = mask===null?state:mask;
 		item.state = state
-		return SendMessageByStruct_c(owner.hwnd, 0x102B/*_LVM_SETITEMSTATE*/, row-1, item); 
+		return this.process.sendMessage(owner.hwnd, 0x102B/*_LVM_SETITEMSTATE*/, row-1, item); 
 	}
 	setTileViewInfo = function(inf){
 		if(! inf[["rcLabelMargin"]])
 			error("参数不是合法的LVTILEVIEWINFO()结构体",2)
 			
-		SendMessageByStruct_c(owner.hwnd,0x10A2/*_LVM_SETTILEVIEWINFO*/,0,inf);
+		this.process.sendMessage(owner.hwnd,0x10A2/*_LVM_SETTILEVIEWINFO*/,0,inf);
 	}
 	getTileViewInfo = function(){
 		var inf = ..win.ui.ctrl.listview.LVTILEVIEWINFO();
-		SendMessageByStruct_c(owner.hwnd,0x10A3/*_LVM_GETTILEVIEWINFO*/,0,inf);
+		this.process.sendMessage(owner.hwnd,0x10A3/*_LVM_GETTILEVIEWINFO*/,0,inf);
 		return inf;
 	}  
 	getColumn= function(col,ind){
@@ -125,13 +114,13 @@ class listview{
 			if( ! col.cchTextMax )
 				col.cchTextMax = 100;
 				
-			col.text = process.malloc(col.cchTextMax)
+			col.text = this.process.malloc(col.cchTextMax)
 		}    
 		
-		if( SendMessageByStruct_c(owner.hwnd, 0x105F/*_LVM_GETCOLUMNW*/, ind - 1, col) ){ 
+		if( this.process.sendMessage(owner.hwnd, 0x105F/*_LVM_GETCOLUMNW*/, ind - 1, col) ){ 
 			if(col.text){ 
-				var str = process.readStringUtf16(col.text,col.cchTextMax)
-    			process.mfree( col.text  );   
+				var str = this.process.readStringUtf16(col.text,col.cchTextMax)
+    			this.process.mfree( col.text  );   
     			col.text = ..string.str(str);
 			};
 			return col;
@@ -151,11 +140,11 @@ class listview{
 		if(!col.mask)return;
 		
 		if( col.text ){
-			col.text = process.writeStringUtf16( ,col.text ,#col.text  + 1 ); 
+			col.text = this.process.writeStringUtf16( ,col.text); 
 		}
-		var ret = SendMessageByStruct_c(owner.hwnd, 0x101A/*_LVM_SETCOLUMN*/, col.iSubItem, col); 
+		var ret = this.process.sendMessage(owner.hwnd, 0x101A/*_LVM_SETCOLUMN*/, col.iSubItem, col); 
 		if(col.text){  
-    		process.mfree( col.text  );    
+    		this.process.mfree( col.text  );    
 		};
 		return ret;
 	};
@@ -180,11 +169,11 @@ class listview{
 		lvColumnUpdateMask(col); 
 		
 		if( col.text ){
-			col.text = process.writeStringUtf16( ,col.text ,#col.text  + 1 ); 
+			col.text = this.process.writeStringUtf16( ,col.text); 
 		}
-		var ret = SendMessageByStruct_c(owner.hwnd, 0x1061/*_LVM_INSERTCOLUMNW*/,ind - 1, col);
+		var ret = this.process.sendMessage(owner.hwnd, 0x1061/*_LVM_INSERTCOLUMNW*/,ind - 1, col);
 		if(col.text){  
-    		process.mfree( col.text  );    
+    		this.process.mfree( col.text  );    
 		};
 		
 		if( width < 0 ){
@@ -203,7 +192,7 @@ class listview{
 			if( ! item.cchTextMax )
 				item.cchTextMax = 100;
 				
-			item.text = process.malloc(item.cchTextMax)
+			item.text = this.process.malloc(item.cchTextMax)
 		} 
 		
 		if(!item.iItem){
@@ -214,13 +203,13 @@ class listview{
 		item.iItem--;
 		item.iSubItem--;
 		
-		if( SendMessageByStruct_c(owner.hwnd,0x1005/*_LVM_GETITEM*/,0,item) ){ 
+		if( this.process.sendMessage(owner.hwnd,0x1005/*_LVM_GETITEM*/,0,item) ){ 
 			item.iItem++;
 			item.iSubItem++;
 			
 			if(item.text){ 
-				var str = process.readStringUtf16(item.text,item.cchTextMax)
-    			process.mfree( item.text  );   
+				var str = this.process.readStringUtf16(item.text,item.cchTextMax)
+    			this.process.mfree( item.text  );   
     			item.text = ..string.str(str);
 			};
 			return item;
@@ -241,11 +230,11 @@ class listview{
 		lvItemUpdateMask(item);
 		
 		if( item.text ){
-			item.text = process.writeStringUtf16( ,item.text ,#item.text  + 1 ); 
+			item.text = this.process.writeStringUtf16( ,item.text); 
 		}
-		var ret = !!( SendMessageByStruct_c(owner.hwnd,0x1006/*_LVM_SETITEM*/,0,item) ) 
+		var ret = !!( this.process.sendMessage(owner.hwnd,0x1006/*_LVM_SETITEM*/,0,item) ) 
 		if(item.text){  
-    		process.mfree( item.text  );    
+    		this.process.mfree( item.text  );    
 		};
 		
 		item.iItem++;
@@ -284,11 +273,11 @@ class listview{
 		lvItemUpdateMask(item); 
 		
 		if( item.text ){
-			item.text = process.writeStringUtf16( ,item.text ,#item.text  + 1 ); 
+			item.text = this.process.writeStringUtf16( ,item.text); 
 		}
-		var rowIndex = SendMessageByStruct_c(owner.hwnd, 0x104D/*_LVM_INSERTITEM*/, 0, item);
+		var rowIndex = this.process.sendMessage(owner.hwnd, 0x104D/*_LVM_INSERTITEM*/, 0, item);
 		if(item.text){  
-    		process.mfree( item.text  );    
+    		this.process.mfree( item.text  );    
 		};
 		
 		if ( textList ) { 
@@ -297,11 +286,11 @@ class listview{
 				item.iSubItem = i - 1;
 				item.text = textList[i];
 				if( item.text ){
-					item.text = process.writeStringUtf16( ,item.text ,#item.text  + 1 ); 
+					item.text = this.process.writeStringUtf16( ,item.text ); 
 				}
-				SendMessageByStruct_c(owner.hwnd, 0x1074/*_LVM_SETITEMTEXT*/, rowIndex, item);
+				this.process.sendMessage(owner.hwnd, 0x1074/*_LVM_SETITEMTEXT*/, rowIndex, item);
 				if(item.text){  
-    				process.mfree( item.text  );    
+    				this.process.mfree( item.text  );    
 				};
 			}
 		}
@@ -343,7 +332,7 @@ namespace listview{
   		struct pt = ::POINT();
   		INT vkDirection;
 	} 
-	if( ..process().isWow64() ){  
+	if( _WIN_64 ){  
 		LVITEM64 = class {  
     		INT    mask = 0; 
     		int    iItem = 1;  

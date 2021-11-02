@@ -109,8 +109,13 @@ class taskScheduler {
 				continue;
 			}
 			 
-			for(k,v in task.time ){  
-				if( now[k] != v ){  task.pending = true; continue 2; } 
+			for(k,v in task.time ){
+				if( type(v) === "table" ){
+					if(!..table.find(v,now[k])) { task.pending = true; continue 2;}
+				}
+				elseif( now[k] != v ){  
+					task.pending = true; continue 2; 
+				} 
 			}  
 			
 			if(task.time && task.lastRunTime ){
@@ -167,11 +172,12 @@ win.taskScheduler() = !win_taskScheduler.
 !win_taskScheduler.create() = !win_taskSchedulerTask.
 !win_taskSchedulerTask.enabled = 是否允许执行
 !win_taskSchedulerTask.time = @.time = { 
-	second =  秒 __/*请指定准时启动任务的时间字段值\n不作为条件匹配的时间字段不用指定\n即使任务在启动时间内完成也不会重新启动任务*/;
+	second =  秒 __/*请指定准时启动任务的时间字段值,\n可以指定数值,也可以用数组指定多个值,\n不作为条件匹配的时间字段不用指定\n即使任务在启动时间内完成也不会重新启动任务*/;
 	minute = 分钟 ; 
 	hour = 小时 ;
 	day = 日 ;
 	month = 月 ;
+	dayofweek = {1,2,3,4,5,6,0}
 }
 !win_taskSchedulerTask.interval = @.interval = { 
 	second = 间隔秒数 __/*请指定间隔执行的时间字段值*/;

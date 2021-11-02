@@ -31,6 +31,7 @@ import win.ui.ctrl.syslink;
 import win.ui.ctrl.ipaddress;
 import win.ui.ctrl.bk;
 import win.ui.ctrl.bkplus;
+import win.ui.ctrl.close;
 /*}}*/
 
 namespace factory{
@@ -55,7 +56,7 @@ namespace factory{
 		if( tParam.transparent ) tParam.exstyle |= 0x20/*_WS_EX_TRANSPARENT*/; 
 
 		if(!tParam.cls) return;
-		tParam.friendClassName  = tParam.cls;//记录原始类名 
+		tParam.$friendClassName  = tParam.cls;//记录原始类名 
 					
 		var cls = ..win.ui.ctrl[tParam.cls];
 		if(!cls) cls = ..table.getByNamespace(tParam.cls,..win.ui.ctrl); 
@@ -73,8 +74,7 @@ namespace factory{
 		elseif( ..string.endWith(tParam.cls,".aardio",true) ){
 			var parent = tParam.parent;
 			tParam.parent = null;
-			tParam.friendClassName="custom"; 
-			
+			 
 			var frmCreate;
 			var frm =  ..win.loadForm(tParam.cls,function(tParam2){
 			tParam2.parent = parent ;
@@ -93,6 +93,7 @@ namespace factory{
 			}
 			tParam.cls="custom";
 			tParam2.tParam=tParam;
+			
 			frmCreate =  ..win.form(tParam2);
 			return frmCreate;	
 		},parent);
@@ -111,8 +112,12 @@ namespace factory{
 		obj.tParam = null;
 		
 		obj[["className"]] = tParam.cls;
-		obj[["cls"]] = tParam.friendClassName
-		tParam.cls = tParam.friendClassName //恢复友好类名
+		
+		if(tParam.$friendClassName){
+			obj[["cls"]] = tParam.$friendClassName;
+			tParam.cls = tParam.$friendClassName;	
+			tParam.$friendClassName = null;		
+		}
 		
 		//记录控件窗口原始大小(以计算自动调整的比例)
 		obj._defRect = ::RECT( tParam.left,tParam.top,tParam.right,tParam.bottom);

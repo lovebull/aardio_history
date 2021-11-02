@@ -300,8 +300,8 @@ edit._metaProperty =  metaProperty(
 	log = function( ...){ 
 		var s = ..string.concat(owner.text, ... );
 		var len = ..string.len(s);
-		var limit = owner.limit; 
-		if( len > limit ){  
+		var limit = owner.limit;  
+		if( (limit > 0) && (len > limit) ){  
 			s = ..string.right(s,- ( len - limit + 1 ),true );  
 		}
 		owner.text = s; 
@@ -633,6 +633,7 @@ edit._metaProperty =  metaProperty(
 !edit.showErrorTip(.(title,text,large) = 在输入光标处显示汽泡提示,使用错误图标,\n@title参数指定标题,\n@text参数指定文本,\nlarge指定是否使用大图标，可省略
 !edit.showErrorTip(.(text) = 在输入光标处显示汽泡提示,使用错误图标,\n@text参数指定文本
 !edit.getRoot() = 获取顶层父窗口，这个函数会查找 orphanWindow 的父窗口
+!edit._defWindowProc(hwnd,message,wParam,lParam) = 用于在 wndproc 回调中提前调用默认消息回调函数,\n所有窗口和控件定义了 wndproc 回调以后会自动创建这个函数,\n调用此函数以后,wndproc 必须指定非 null 返回值,\n以避免再次重复调用默认回调函数
 ?win.ui.ctrl.edit  =!edit.
 win.ui.ctrl.edit() = 文本框控件\n!edit.
 win.ui.ctrl.edit = 文本框控件支持库

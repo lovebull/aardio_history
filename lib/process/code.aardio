@@ -86,7 +86,7 @@ namespace code{
 			var http = inet.http();
 			
 			var os;
-			if(..process().isWow64()){
+			if( _WIN_64 ){
 				if(..process.admin.isRunAs()){
 					os = "win32-x64"
 				}

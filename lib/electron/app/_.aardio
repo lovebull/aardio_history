@@ -6,6 +6,7 @@ import string.aasdl;
 import fsys;
 import fsys.res;
 import process;
+import process.job.limitKill;
 
 namespace electron;
 
@@ -232,7 +233,7 @@ class app{
 		else {..table.push(this.$readyCallbacks,proc);} 
 	};
 	indexReady = function(proc){
-		if(this.$indexReady){proc();}
+		if(this.$indexReadySocket){proc(this.$indexReadySocket);}
 		else {..table.push(this.$indexReadyCallbacks,proc);} 
 	};
 	startLoopMessage= function(startEnviron){
@@ -277,18 +278,22 @@ class app{
 			}); 	
 		}
 		else {
+			var transparent = startEnviron.transparent || startEnviron.browserWindow[["transparent"]];
 			startEnviron.browserWindow = ..table.mix(startEnviron.browserWindow,{
-        		resizable = true;
+        		resizable = !transparent;
+        		frame = !transparent;
         		center = true;
+        		transparent = transparent;
         		width = 1024;
 				minWidth = 800;
 				height = 760;
 				minHeight= 600;
         		autoHideMenuBar = true; // 按ALT还是会显示 
-        		backgroundColor =  '#ffffff';
+        		backgroundColor =  transparent ? '#00000000': '#ffffff';
         		title = this.windowTitle;
 			}); 
 		}
+		
 		startEnviron.title = this.windowTitle;
 		
 		if(startEnviron.extensions){
@@ -305,14 +310,14 @@ class app{
 		var hwndChromeX,hwndChromeY;
 		this.external = ..table.assign( this.external,{ 
 			$onUrlReady = function($,url){
-				if(!this.$indexReady){
-					this.$indexReady = true;
+				if(!this.$indexReadySocket){
+					this.$indexReadySocket = $;
 					if( this.onIndexReady ) this.onIndexReady();
 					
 					var $indexReadyCallbacks = this.$indexReadyCallbacks;
 					for(i=1;#$indexReadyCallbacks;1){
 						var p = $indexReadyCallbacks[i]
-						p();
+						p($);
 					}
 					this.$indexReadyCallbacks = {};					
 				} 
@@ -589,6 +594,8 @@ class app{
 		);
 	 
 		if(!this.process) error(err,2); 
+		this.process.assignToJobObject(..process.job.limitKill);
+		
 		this.chromeProcessId = this.process.id;
 		this.chromeThreadId = this.process.tid;
 		this.startEnviron = startEnviron;
@@ -674,7 +681,7 @@ external = @.external = {
 }
 getActiveSocket() = 获取RPC服务端当前活动套接字句柄\n,任何触发消息处理、异步套接字处理程序的代码都有可能改变这个函数的返回值\n任何时候都不推荐使用此函数\n\n更好的替代方案是在RPC函数名前添加$字符,用于通知aardio在回调参数中添加$参数\n回调$参数可以稳定可靠的获取当前套接字
 ready = @.ready(\n	function(hwndChrome){\n		__/*保证在electron主窗口准备就绪后立即执行此回调函数\n可重复添加此回调，并保证按添加的前后顺序调用*/\n	} \n)
-indexReady = @.indexReady(\n	function(){\n		__/*如果加载startEnviron.indexUrl已完成,\n并且页面上的DOM内容、aardio模块都已准备就绪,\n将立即执行在此注册的回调函数,\n可重复添加回调，并保证按添加的前后顺序调用且仅调用一次*/\n	} \n)
+indexReady = @.indexReady(\n	function($){\n		__/*如果加载startEnviron.indexUrl已完成,\n并且页面上的DOM内容、aardio模块都已准备就绪,\n将立即执行在此注册的回调函数,\n可重复添加回调，并保证按添加的前后顺序调用且仅调用一次\n参数 $ 为触发此事件的网页RPC客户端套接字句柄*/\n	} \n)
 onReady() = @.onReady = function(){
 	__/*electron已创建主窗口\nnode.js主进程内aardio/electron交互接口已准备就绪*/
 }

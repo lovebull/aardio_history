@@ -16,6 +16,17 @@ import win.ui.tabs;
 //至少要添加2个创建好的选项卡(作为设计模板,创建成功后可清除)
 var tbs = win.ui.tabs(winform.strip2,winform.strip1);
 
+/*
+高级选项卡自动查找附近合适的 custom 控件作为页面容器控件,
+页面容器控件用于加载子窗口,优先选择未禁用、未隐藏、未设置透明的 custom 控件。
+
+垂直选项卡应在右侧放置 custom 控件作为选项页面容器,
+水平选项卡应在下侧放置 custom 控件作为选项页面容器。
+
+也可以用代码 tbs.container = winform.custom 直接指定页面容器控件。
+关于子窗口容器请参考范例： "范例程序\4) Windows 窗口\1) 自定义控件\3) container.aardio"
+*/
+
 //指定选项卡的外观样式
 tbs.skin(
     background = {  

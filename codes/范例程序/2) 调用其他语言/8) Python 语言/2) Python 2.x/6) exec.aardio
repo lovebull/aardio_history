@@ -1,4 +1,4 @@
-//6)HTTP服务器
+//HTTP服务器
 import console;
 console.setTitle("SimpleHTTPServer（python3里是http.server）")
 

@@ -30,7 +30,7 @@ class installer{
 						}  
 					);
 				}
-				elseif(x64exe && ..process().isWow64() ){
+				elseif(x64exe && _WIN_64 ){
 					installer = ..io.joinpath(extraDir,x64exe);
 				}
 				else{

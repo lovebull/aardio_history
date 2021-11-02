@@ -299,24 +299,26 @@ class plus {
 				 		var bx,by,bcx,bcy;
 				 		if( r > 1 ) r = 1;
 				 		if( w > h ){
-				 			var p = this.foreLeft + this.foreRight; 
+				 			var foreRight = this.foreRight*dpiScaleX;
+				 			var p = (this.foreLeft*dpiScaleX) + (foreRight); 
 				 			rc.right = rc.left + (w - p) * r + p;
 				 			if(rcText && this.align == "right") rcText.width = rc.right - rcText.x;
 				 			bx,by,bcx,bcy = 0,rc.top,width,rc.bottom-rc.top; 
 				 				
 				 			if( (!hasForeground) && this.foreRight){
-								var left = rc.right- this.foreRight;
-								rcTrackBar = ::RECT(left,0,left+this.foreRight,height); 	
+								var left = rc.right - (foreRight);
+								rcTrackBar = ::RECT(left,0,left+foreRight,height); 	
 							} 
 				 		}
 				 		else {
-				 			var p = this.foreTop + this.foreBottom;
+				 			var foreTop = this.foreTop*dpiScaleY;
+				 			var p = foreTop + this.foreBottom*dpiScaleY;
 				 			rc.top = rc.bottom - ( h - p) * r - p ;
 				 			if(rcText && this.valign == "top") { rcText.y = rc.top; rcText.height = rc.bottom - rc.top; };
 				 			bx,by,bcx,bcy = rc.left,0,rc.right-rc.left,height; 
 				 			
 				 			if((!hasForeground) && this.foreTop){ 
-								rcTrackBar = ::RECT(0,rc.top,width,rc.top+this.foreTop);
+								rcTrackBar = ::RECT(0,rc.top,width,rc.top+foreTop);
 							}
 				 		}
 				 		
@@ -1483,7 +1485,7 @@ namespace plus {
 					var rc = owner.getClientRect(); 
 					var min = owner[["(progress-min)"]];
 					var range = owner[["(progress-range)"]]; 
-					var p = owner.foreLeft + owner.foreRight/2;
+					var p = (owner.foreLeft*dpiScaleX) + (owner.foreRight*dpiScaleX)/2;
 					var left = rc.left + owner.paddingLeft*dpiScaleX;  
 					var pos = x > owner.paddingLeft*dpiScaleX  ? ..math.ceil( range * ( ( x - (owner.paddingLeft*dpiScaleX) - p ) 
 						/ (rc.right - owner.paddingLeft*dpiScaleX  - owner.paddingRight*dpiScaleX  - p  ) ) )  : 0;
@@ -1505,8 +1507,8 @@ namespace plus {
 					var min = owner[["(progress-min)"]];
 					var range = owner[["(progress-range)"]];
 				 
-					var bottom = rc.bottom - owner.paddingBottom *dpiScaleY- owner.foreBottom;  
-					var p = owner.paddingTop*dpiScaleY + (owner.foreTop)/2;
+					var bottom = rc.bottom - owner.paddingBottom *dpiScaleY - (owner.foreBottom*dpiScaleY);  
+					var p = owner.paddingTop*dpiScaleY + (owner.foreTop*dpiScaleY)/2;
 					var pos = y < bottom - p ? ..math.ceil( range * ( ( bottom - y - owner.foreTop/2  ) / (bottom - p ) ) ) : 0;
 					if( pos > range ) pos = range;
 					elseif( pos < 0 ) pos = 0;
@@ -1849,7 +1851,7 @@ onMouseDrag = @.onMouseDrag = function(wParam,lParam){
     var x,y = win.getMessagePos(lParam);
 	__/*鼠标左键按下拖动,\n自动捕获鼠标,允许拖出控件范围*/ 
 }
-onMouseDoubuleClick = @.onMouseDoubuleClick = function(wParam,lParam){
+onMouseDoubleClick = @.onMouseDoubleClick = function(wParam,lParam){
     var x,y = win.getMessagePos(lParam);
 	__/*鼠标左键双击*/
 }
@@ -1898,9 +1900,17 @@ addCtrl = @.addCtrl(\n	button={ cls="button";text="button";left=33;top=32;right=
 translateAccelerator = @.translateAccelerator = function(msg){ \n	__/*返回是否快捷键*/\n} 
 adjust = @.adjust = function( cx,cy,wParam ) {	 \n	__ \n};  
 adjust() = 调整窗口 - 自定义事件函数
-_embedObject = 嵌入OLE控件对象\n!embedObject.
-createEmbed(.("类名",容器对象) = 嵌入OLE控件,\n容器对象哦可选参数,返回容器对象,
+_embedObject = 嵌入 COM 控件的容器对象\n!embedObject.
+createEmbed( = 创建嵌入控件,返回控件容器对象,\n容器对象的 _object 成员是创建的 COM 对象,\n容器对象可通过添加成员函数响应 COM 对象事件，\n容器对象的主要作用是充当访问 COM 对象的中间代理对象。\n通常使用 util.metaProperty 为容器对象添加属性元表，\n属性元表可拦截属性、函数调用并调用 _object 对象,\n\ncreateEmbedEx 返回的容器已添加默认代理以直接访问 COM 对象
+createEmbed(.(clsId,embedObj) = 创建嵌入控件,返回控件容器对象,\n容器对象的 _object 成员是创建的 COM 对象,\n容器对象可通过添加成员函数响应 COM 对象事件，\n容器对象的主要作用是充当访问 COM 对象的中间代理对象,\n@clsId 指定控件 CLSID,\n可选在参数@2中指定 COM 对象绑定的容器对象\n\n此函数失败会抛出异常
+createEmbed(.(comObject,embedObj) = 嵌入 COM 控件,返回控件容器对象,\n容器对象的 _object 成员是传入的 COM 对象,\n容器对象可通过添加成员函数响应 COM 对象事件，\n容器对象的主要作用是充当访问 COM 对象的中间代理对象,\n@comObject 指定已创建成功的 COM 对象,\n可选在参数@2中指定 COM 对象绑定的容器对象\n\n此函数失败会抛出异常
+createEmbedEx( = 创建嵌入控件,返回控件容器对象,\n容器对象的 _object 成员是创建的 COM 对象,\n容器对象可通过添加成员函数响应 COM 对象事件，\n容器对象的主要作用是充当访问 COM 对象的中间代理对象。\n此函数返回的容器已添加元表并创建代理以直接访问 COM 对象
+createEmbedEx(.(clsId,embedObj) = 创建嵌入控件,返回控件容器对象,\n此函数返回的容器已添加元表并创建代理以直接访问 COM 对象,\n@clsId 指定控件 CLSID,如果控件不是自内存加载,\n则可省略 @clsId 并由 firstCoClassId函数自动获,\n可选在参数@2中指定 COM 对象绑定的容器对象\n\n此函数失败会抛出异常
+tryCreateEmbed( = 创建嵌入控件,返回控件容器对象,\n容器对象的 _object 成员是创建的 COM 对象,\n容器对象可通过添加成员函数响应 COM 对象事件，\n容器对象的主要作用是充当访问 COM 对象的中间代理对象。\n通常使用 util.metaProperty 为容器对象添加属性元表，\n属性元表可拦截属性、函数调用并调用 _object 对象,\n\ncreateEmbedEx 返回的容器已添加默认代理以直接访问 COM 对象
+tryCreateEmbed(.(clsId,embedObj) = 创建嵌入控件,返回控件容器对象,\n容器对象的 _object 成员是创建的 COM 对象,\n容器对象可通过添加成员函数响应 COM 对象事件，\n容器对象的主要作用是充当访问 COM 对象的中间代理对象,\n@clsId 指定控件 CLSID,\n可选在参数@2中指定 COM 对象绑定的容器对象\n\n成功返回容器对象,失败返回false,错误信息
+createEmbedEx() = !embedObject.
 createEmbed() = !embedObject.
+tryCreateEmbed() = !embedObject.
 hide = 控件是否隐藏
 disabled = 是否禁用
 left = 左侧坐标

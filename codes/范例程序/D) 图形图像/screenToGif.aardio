@@ -1,0 +1,186 @@
+//录制GIF
+import fonts.fontAwesome;
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="aardio form";right=722;bottom=512;bgcolor=4752084;border="none")
+winform.add(
+btnCopy={cls="plus";text="复制";left=383;top=0;right=446;bottom=30;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=8}};iconText='\uF0EA';notify=1;textPadding={left=25};z=7};
+btnExplorer={cls="plus";text="浏览";left=447;top=0;right=510;bottom=30;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=8}};iconText='\uF03E';notify=1;textPadding={left=25};z=6};
+btnStart={cls="plus";text="录制";left=3;top=0;right=66;bottom=30;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=8}};iconText='\uF111';notify=1;textPadding={left=25};z=3};
+btnStop={cls="plus";text="停止";left=67;top=0;right=130;bottom=30;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=8}};iconText='\uF0C8';notify=1;textPadding={left=25};z=4};
+chkPreview={cls="plus";text="预览";left=319;top=0;right=382;bottom=30;align="left";dl=1;dt=1;font=LOGFONT(h=-14);iconStyle={align="left";font=LOGFONT(h=-14;name='FontAwesome');padding={left=7}};iconText='\uF0C8 ';notify=1;textPadding={left=24};z=5};
+lbFps={cls="plus";text="每秒帧数:";left=130;top=7;right=189;bottom=24;align="right";color=7895160;dl=1;dt=1;z=9};
+lbFps2={cls="plus";text="16";left=300;top=7;right=324;bottom=24;align="left";color=7895160;dl=1;dt=1;z=10};
+plusPreview={cls="plus";left=2;top=32;right=722;bottom=512;bgcolor=10789024;db=1;dl=1;dr=1;dt=1;repeat="scale";z=2};
+tbFps={cls="plus";left=191;top=9;right=299;bottom=22;bgcolor=-2512093;border={radius=-1};color=1995263;dl=1;dt=1;foreRight=13;forecolor=-14911489;paddingBottom=5;paddingTop=5;z=8};
+titleBar={cls="bkplus";left=-6;top=-2;right=728;bottom=30;bgcolor=10789024;dl=1;dr=1;dt=1;forecolor=16777215;linearGradient=180;z=1}
+)
+/*}}*/
+
+import win.region.hole;
+var holePreview = win.region.hole(winform.plusPreview);
+
+import soImage; 
+var imgScreen = soImage();
+var imgCursor = soImage();
+var gifFile;
+ 
+winform.btnStart.oncommand = function(id,event){
+	gifFile = soImage.gifFile("/screenshots.gif"); 
+	if(!gifFile){
+		return winform.msgboxErr("打开 /screenshots.gif 失败，请检查是否被占用。")
+	}
+	
+	winform.btnStart.disabled = true;
+	winform.btnStop.disabled = false;
+	winform.chkPreview.disabled = true;
+	winform.tbFps.disabled = true; 
+	win.setTopmost(winform.hwnd);
+	 
+	gifFile.lasttick = time.tick();  
+	winform.timerId = winform.setInterval( 
+		function(){
+			var tk = time.tick();
+			if(gifFile.lasttick ){
+				//抓下帧以前保存上一帧的延时 
+    			var delay = (tk-gifFile.lasttick)/10;
+    			gifFile.write(imgScreen,,delay); 
+			} 
+    		gifFile.lasttick = tk;
+    		
+			var x,y,cx,cy = winform.plusPreview.getPos(true);
+			imgScreen.capture(,x,y,cx,cy);
+			
+    		var x,y = imgCursor.captureCursor();
+    		x,y = win.toClient(winform.plusPreview.hwnd,x,y) 
+    		imgScreen.mix(imgCursor,x,y,6/*_MIX_SCREEN*/);  
+		},1000/winform.tbFps.progressPos
+	)
+}
+
+winform.btnStop.oncommand = function(id,event){
+	winform.btnStop.disabled = true;
+	 
+	winform.clearInterval(winform.timerId);
+	gifFile.close(); 
+	gifFile = null;
+	
+	winform.btnStop.disabledText = {text = "优化";'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
+	thread.invokeAndWait(
+		function(){
+			import process.gifsicle;
+			process.gifsicle.optimize("/screenshots.gif")
+			process.gifsicle()
+		} 
+	) 
+	winform.btnStop.disabledText = null;
+	
+	winform.btnStop.disabled = true;
+	winform.btnStart.disabled = false;	
+	winform.chkPreview.disabled = false;
+	winform.tbFps.disabled = false;
+	
+	win.setTopmost(winform.hwnd,false); 
+}
+
+winform.chkPreview.oncommand = function(id,event){
+	winform.btnStart.disabled = winform.chkPreview.checked;
+	holePreview.enable(!winform.chkPreview.checked);
+	if(winform.chkPreview.checked){
+		fsys.delete("/screenshots-preview.gif");
+		fsys.copy("/screenshots.gif","/screenshots-preview.gif");
+		
+		winform.plusPreview.background = "/screenshots-preview.gif";
+	}
+	else {
+		winform.plusPreview.background.dispose();
+		winform.plusPreview.background = null;
+	}
+}
+
+winform.chkPreview.disabled = true;
+winform.btnStop.disabled = true;
+
+import process;
+winform.btnExplorer.oncommand = function(id,event){
+	process.exploreSelect("/screenshots.gif")
+}
+
+import win.clip.gif;
+winform.btnCopy.oncommand = function(id,event){
+	win.clip.gif.write("/screenshots.gif") 
+}
+
+var style = {
+	button = {
+		color = {
+			active=0xFF00FF00;
+			default=0xFF3C3C3C;
+			disabled=0xFF9D9D9D;
+			hover=0xFFFF0000
+		}
+	};
+	checkbox = {
+		color={
+			active=0xFF00FF00;
+			default=0xFF000000;
+			disabled=0xFF9D9D9D;
+			hover=0xFFFF0000
+		};
+		checked={
+			iconText='\uF14A'
+		}
+	};
+	trackbar = {
+		background={
+			default=0xFF23ABD9;
+			disabled=0xFFC6C6C6;
+			hover=0xFF4AC3F2
+		};
+		foreground={
+			default=0xFFFF771C;
+			disabled=0xFF808080;
+			hover=0xFFFF7E24
+		};
+		color={
+			active=0xFFEE630A;
+			default=0xFFFF711E;
+			disabled=0xFF808080;
+			hover=0xFFF88917
+		}
+	}
+}
+
+winform.chkPreview.skin(style.checkbox);
+winform.btnStart.skin(style.button);
+winform.btnStop.skin(style.button);
+winform.btnCopy.skin(style.button);
+winform.btnExplorer.skin(style.button);
+winform.tbFps.skin(style.trackbar);
+winform.tbFps.setTrackbarRange(1,36);
+winform.tbFps.progressPos = 16;
+winform.tbFps.onPosChanged = function( pos,thumbTrack ){
+	winform.lbFps2.text = pos;
+}
+
+import win.ui.tooltip;
+var tooltipCtrl = win.ui.tooltip(winform);
+tooltipCtrl.addTool(winform.tbFps,"每秒帧数越多,生成的图像越大质量越好,反之则可生成较小文件,这里的设置只是参考值,并不等于输出图像的实际帧数") 
+
+import win.ui.minmax;
+win.ui.minmax(winform,320,240);
+winform.adjust = function( cx,cy,wParam ) {	
+	var dpiScaleX = winform.dpiScaleX; 
+	winform.btnExplorer.hide = cx/dpiScaleX<650;
+	winform.btnCopy.hide = cx/dpiScaleX<600;
+	winform.chkPreview.hide = cx/dpiScaleX<550;
+	winform.lbFps2.hide = cx/dpiScaleX<550;
+	winform.tbFps.hide = cx/dpiScaleX<450;
+	winform.lbFps.hide = cx/dpiScaleX<450;
+};
+
+import win.ui.simpleWindow;
+win.ui.simpleWindow(winform);
+
+winform.show();
+win.loopMessage();

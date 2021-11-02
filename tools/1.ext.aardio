@@ -202,7 +202,13 @@ function(id,event){
      	
     	var result = {}
     	for(name,libInfo in libs){ 
+    	    
     		for(i,k in keywords){
+    		    if(string.indexOf(string.lower(name),k)) {
+    				result[name] = libInfo;
+    				continue;
+    			}
+    		
     			if(libInfo.keywords){
     				if(string.indexOf(string.lower(libInfo.keywords),k)) {
     					result[name] = libInfo;

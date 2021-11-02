@@ -18,14 +18,35 @@ class lex{
 			this.next();
 			return true;
 		}
-	}
+	};
+	
+	testKeyword = function(){
+		return this.token == _tk_keyword; 
+	};
 	
 	check = function(tk,lev=2){
 		if( this.token != tk ){ 
-			error("expect token:"+this.getTokenName(tk) + " but:" + this.getTokenName(this.token) + " DATA: """ +(this.data : "") + '"\nline:' + this.line,lev)
+			error("expect token:"+this.getTokenName(tk) + ", but found:" + this.getTokenName(this.token) + " DATA: """ +(this.data : "") + '"\nline:' + this.line,lev)
 		}
-		
-	}
+	};
+	
+	checkNumber = function(lev=2){
+		if( this.token != _tk_number ){ 
+			error("expect token: number, but found:" + this.getTokenName(this.token) + " DATA: """ +(this.data : "") + '"\nline:' + this.line,lev)
+		}	
+	};
+	
+	checkKeyword = function(lev=2){
+		if( this.token != _tk_keyword ){ 
+			error("expect token: keyword, but found:" + this.getTokenName(this.token) + " DATA: """ +(this.data : "") + '"\nline:' + this.line,lev)
+		}	
+	};
+	
+	checkString = function(lev=2){
+		if( this.token != _tk_string ){ 
+			error("expect token: string, but found:" + this.getTokenName(this.token) + " DATA: """ +(this.data : "") + '"\nline:' + this.line,lev)
+		}	
+	};
 	
 	checkNext = function(tk){
 		this.check(tk,3)
@@ -33,10 +54,14 @@ class lex{
 	}
 	
 	getTokenName = function(tk){
-		if( tk == _tk_number)
+		if( tk == _tk_number){
 			return "number";
+		}
 		elseif( tk == _tk_keyword){
 			return "keyword"
+		}
+		elseif( tk == _tk_string){
+			return "string"
 		}
 		elseif(!tk){
 			return "null";
@@ -86,6 +111,7 @@ class lex{
 					pos++;
 					current = code[pos];
 					while(current!='"'#){ 
+						if(!current) error("unfinished string",3);
 						
 						if(current=='\\'# && code[pos+1]=='"'#){
 							pos+=2;
@@ -95,7 +121,7 @@ class lex{
 					}
 					
 					pos++;
-					token,data = _tk_string,..string.slice(code,start,pos-1);//注意要包含两侧的引号
+					token,data = _tk_string,..string.slice(code,start+1,pos-2);
 					break LEXLOOP;
 					 
 				}
@@ -110,6 +136,21 @@ class lex{
 							current = code[pos];	
 						} 
 						comment = ..string.slice(code,b,pos);
+					}
+					if( code[pos+1]  == '*'#){
+						pos+=2;
+						
+						var b = pos;
+						current = code[pos];
+						while( current && !((current=='*'#) && (code[pos+1]=='/'#)) ) { 
+							pos++;
+							current = code[pos];
+						} 
+						
+						if(current) {
+							comment = ..string.slice(code,b,pos);
+							pos+=1;
+						}
 					}
 				} 
 				case '='#  {
@@ -164,14 +205,18 @@ class lex{
 namespace lex{
 	_tk_number = 1;
 	_tk_keyword = 2;
+	_tk_string = 3;
 }
 
 /**intellisense()
 ?protobuf.parser.lex = !protobuflex.
 !protobuflex.next() = 向下做词法分析
-!protobuflex.testNext(__) = 忽略指定的Token 
-!protobuflex.check(__) = 检测是否存在指定的Token
-!protobuflex.checkNext(__) = 检测是否存在指定的Token,并向下词法分析
+!protobuflex.testNext(__) = 忽略指定的 Token 
+!protobuflex.testKeyword() = 当前token是否关键字
+!protobuflex.check(__) = 检测是否存在指定的 Token,\n可指定符号字节码
+!protobuflex.checkNext(__) = 检测是否存在指定的 Token ,并向下词法分析
+!protobuflex.checkKeyword(__) = 检测当前token是否关键字
+!protobuflex.checkNumber(__) = 检测当前token是否数值
 !protobuflex.token = 当前token;
 !protobuflex.data = 当前数据;
 protobuf.parser.lex._tk_number = 数值

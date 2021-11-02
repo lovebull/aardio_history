@@ -124,32 +124,34 @@ splitParameters = function(param,delimiter,cp){
 	var list,k,v = {@{_readonly=false;_type="object"}};
 	for line in ..string.lines(param,delimiter : "\&\s*") { 
 		var kv = ..string.split(line,"=",2);
+		k = #kv>0 ? decode(kv[1],cp) : kv[1];
+		if(!k) continue;
+		
+		k = ..string.lower(k);
 		if(#kv==2) {
-			k = decode(kv[1],cp);
-			if( k ){
-				k = ..string.lower(k);
-				v = decode( kv[2],cp );
-				if( k[#k] == ']'# ){
-					var n,p = ..string.match(k,"(.+)\[(.*)\]");
-					if(n){
-						if( type(list[n]) != type.table ){
-							list[n] = {list[n]}
-						}
-						
-						if(#p){
-							list[n][tonumber(p):p] = v;
-						}
-						else {
-							..table.push(list[n],v);
-						} 
-						
-						continue;
+			
+			v = decode( kv[2],cp );
+			if( k[#k] == ']'# ){
+				var n,p = ..string.match(k,"(.+)\[(.*)\]");
+				if(n){
+					if( type(list[n]) != type.table ){
+						list[n] = {list[n]}
 					}
+					
+					if(#p){
+						list[n][tonumber(p):p] = v;
+					}
+					else {
+						..table.push(list[n],v);
+					} 
+					
+					continue;
 				}
-				
-				list[k] = v;
-			} 
+			}
+			
+			list[k] = v;
 		}
+		elseif(#kv==1){list[k]=""}
 	}
 	return list; 
 }	
@@ -258,7 +260,7 @@ hashNum(__/*url*/) = 返回哈希数值
 split(__/*输入URL*/) = 拆分URL返回包含协议、路径、端口、参数等的表对象\n返回的表对象可以调用tostring重新生成URL\n可传入空值以获取用于拼接URL的表
 split() = !inet_urlcrack. 
 stringify(urlInfo) = @.stringify(\n	scheme = "https";\n	user = "";\n	password ="";\n	host ="__/*使用参数表构建并返回URL字符串*/";\n	location = "";\n	extraInfo = {\n		name = value;\n	};\n)
-splitParameters( = 拆分URL参数并返回名值对组成的表对象\n名字都转换为小写,如果名字尾部有[]或[键名]则值转换为表
+splitParameters( = 拆分URL参数并返回名值对组成的表对象\n名字都转换为小写,如果名字尾部有[]或[键名]则值转换为表\n如果只指定名字不指定值,则值为空字符串
 splitParameters(.(URL参数,分隔符,输入UTF8编码) = 拆分URL参数并返回表对象,分隔符支持模式语法,默认为'\&&'\n如果不指定分隔符,并且首字符是?号,此函数自动移除首字符,\n使用URL解码键值文本,参数二指定解码前是否UTF8编码,不指定则自动检测
 stringifyParameters( = 将URL参数表转换为字符串
 stringifyParameters(.(参数表,输出代码页,排序函数) = 使用'='分隔键值对,使用'&&'分隔不同参数,\n如果值为表,则转换为多个键值对,键名后添加[]或[子键名],\n对所有值使用UrlEncode编码,\n参数@2指定输出编码（codepage）,默认为65001（UTF8代码页)\n省略排序函数则使用默认字典序排序

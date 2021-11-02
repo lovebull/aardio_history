@@ -663,7 +663,8 @@ namespace win.form{
 						}			
    					}
 				}
-   				this.redraw();//Z Orderd Draw
+   				
+   				if(! ..win.getStyle(this.hwnd,0x40000000/*_WS_CHILD*/) ) this.redraw();//Z Orderd Draw
    				
    				for(hwnd,ctrl in this._ctrlAutoResize ){
    					if( ctrl._adjust ){ 
@@ -755,16 +756,17 @@ namespace win.form{
 				var nmhdr;
 				var id = wParam; 
 				var ctrl = this._ctrlId[id] : this._ctrlHwnd[id];
+				
 				if(!ctrl){
 					nmhdr = ..raw.convert(topointer(lParam),::NMHDR() );
-					ctrl = this._ctrlHwnd[nmhdr.hwndFrom];
+					ctrl = this._ctrlHwnd[nmhdr.hwndFrom]; 
 				}
-				 
+				
 				if(ctrl){
 					var pre,notify = ctrl._prenotify,ctrl.onnotify; 
 					if( notify || pre ){
 						var ptr = topointer(lParam); 
-						var nmhdr = ..raw.convert(ptr,::NMHDR() );
+						if(!nmhdr) nmhdr = ..raw.convert(ptr,::NMHDR() );
 						var code = nmhdr.code;
 						var ret;
 						if( pre ) 
@@ -896,7 +898,9 @@ namespace win.form{
 			for(k,f in _forms){
 				 if( ! f._messageOnly ){
 					if( f == ..mainForm ) return;
-				 	if( !..win.getStyle(f.hwnd,0x40000000/*_WS_CHILD*/) )  return; 
+				 	if( !..win.getStyle(f.hwnd,0x40000000/*_WS_CHILD*/) && !f._parentForm ) {
+				 		 return; 
+				 	}
 				 	if( ..ide && ..win.getClass( ..win.getParent(f.hwnd) : 0 ) == "AfxFrameOrView100su") {
 				 		return;
 				 	}
@@ -1012,11 +1016,12 @@ namespace win.form{
         [0x201/*_WM_LBUTTONDOWN*/] = function(this,hwnd, message, wParam, lParam){ 
 			if(this.onMouseDown) return this.onMouseDown(wParam,lParam);   
 		};
-		[0x202/*_WM_LBUTTONUP*/] = function(this,hwnd, message, wParam, lParam){ 
+		[0x202/*_WM_LBUTTONUP*/] = function(this,hwnd, message, wParam, lParam){
 			if(this.onMouseClick) return this.onMouseClick(wParam,lParam);   
 		};
 		[0x203/*_WM_LBUTTONDBLCLK*/] = function(this,hwnd, message, wParam, lParam){ 
-			if(this.onMouseDoubuleClick) return this.onMouseDoubuleClick(wParam,lParam);   
+			var cb = this.onMouseDoubleClick || this.onMouseDoubuleClick;
+			if(cb) return invoke(cb,this,wParam,lParam);   
 		};
 		[0x11/*_WM_QUERYENDSESSION*/] = function(this,hwnd,message,wParam,lParam){
 			if( this.beforeSystemEndSesssion ){this.beforeSystemEndSesssion ();};
@@ -1405,10 +1410,9 @@ namespace win.form{
 			nextControl = function(k){
 				var k,v = ..table.next(owner,k);
 				while(k){
-					if(v[["hwnd"]] && (v.className) )return k,v;
+					if(v[["hwnd"]] && v.className && owner._ctrlHwnd[v[["hwnd"]]] )return k,v;
 					k,v = ..table.next(owner,k);
 				}
-				
 			};
 			eachControl = function(cls,pattern){ 
 				var next; 
@@ -1635,7 +1639,7 @@ namespace win.form{
 						ctrl.onMoveForm();
 					}
 				} 
-      		};
+      		}; 
       		remove = function(name){
       			var ctrl = owner[name];
       			if( ctrl ? ctrl.hwnd ? ctrl.close ){
@@ -1644,6 +1648,13 @@ namespace win.form{
       			owner[name] = null;
       		};
 			add = function( tParam,parentCtrl ) {
+				if(tParam[["hwnd"]]){ 
+					owner._ctrlHwnd[tParam.hwnd] = tParam;  
+					tParam[["parent"]] = owner;
+					tParam[["_parentForm"]] = owner; 
+					return;
+				}
+				
 				var zorder,zorderBk = {},{};
 				var cls;
         		for name,opt in tParam{

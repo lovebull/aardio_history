@@ -39,6 +39,7 @@ tbs.skin({
 
 import web.view;
 var wb = web.view(winform.static);
+if(_WINXP){ error("本程序基于 WebView2 ，不支持 XP 系统",2) }
 
 var urls = {
 	"https://chinese.freecodecamp.org/learn/responsive-web-design/#css-flexbox";

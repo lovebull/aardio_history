@@ -1,0 +1,21 @@
+//查看 COM 对象
+
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="获取COM对象成员列表";right=759;bottom=469)
+winform.add(
+edit={cls="richedit";left=15;top=10;right=744;bottom=443;db=1;dl=1;dr=1;dt=1;edge=1;hscroll=1;multiline=1;vscroll=1;z=1}
+)
+/*}}*/
+
+winform.edit.limit = 0xFFFFF;
+
+var conn = com.CreateObject("ADODB.Connection"); 
+winform.edit.print( com.DumpTypeInfo(conn) ) 
+
+import com.tlbDoc;
+var tlbDoc = com.tlbDoc( conn );
+winform.edit.print(tlbDoc);
+
+winform.show();
+win.loopMessage();

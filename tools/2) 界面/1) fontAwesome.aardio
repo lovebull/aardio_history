@@ -110,14 +110,20 @@ if(#projectDir){
    }
 }
  
+/*
 var cssFontAwesome = string.search({}
-	,$"~\lib\web\layout\.res\fontAwesome.css"
+	,$"~\lib\web\layout\fontAwesome\.res\fontAwesome.css"
 	,"\.fa-glass.+",`\.(fa\-[\w\-]+)\s*\{\s*content\:\s*"(.+?)"`)
-
+	
 cssFontAwesome = table.map(cssFontAwesome,function(v,k,result){
 	v[2] = string.replace( string.escape( v[2],true,true ),"\\u5","\\uF");
-	result[v[2]] = v[1]
+	result[..string.unescape(v[2])] = ..string.match(v[1],"fa-(.+)")
 })
+
+var str = table.tostring(cssFontAwesome,true);
+string.save("E:\Project\aardio10\ide\tools\2) 界面\.res\fontAwesome.css.map", str)
+*/
+var cssFontAwesome = eval($"\.res\fontAwesome.css.map")
 
 import fonts;
 import inet.http;
@@ -198,7 +204,8 @@ wb.external={
 		winform.editText.text = string.escape(winform.plusSet.text,true,true);
 		
 		if(winform.currentIconFontName=="FontAwesome"){
-			var css = cssFontAwesome[winform.editText.text];
+			var f = ..string.unescape(winform.editText.text)
+			var css = cssFontAwesome[f];
 			winform.cmbCssClass.text = css : ""; 
 		}
 	}
@@ -471,7 +478,7 @@ winform.cmbCssClass.onEditChange = win.debounce(
     	var text = winform.cmbCssClass.text; 
     	for(k,v in cssFontAwesome){
     		if(string.indexOf(v,text)){
-    			table.push(suggestion,v); 
+    			table.push(suggestion,"fa-"+v); 
     		}
     	} 
  	
@@ -482,10 +489,10 @@ winform.cmbCssClass.onEditChange = win.debounce(
 
 winform.cmbCssClass.onListChange = win.debounce( 
     function(){
-    	var text = winform.cmbCssClass.selText;
+    	var text = string.match(winform.cmbCssClass.selText,"fa-(.+)");
     	for(k,v in cssFontAwesome){
     		if(v===text){
-    			winform.editText.text = k;
+    			winform.editText.text = string.escape(k,true,true);
     			winform.plusSet.text = string.unescape(k)
     		}
     	} 

@@ -21,8 +21,7 @@ onDrawForeground = function(ltOwner,hdc,rc){
 	var size = ltOwner.getCustomAttribute("icon-size") : "extraLarge";
 	var shilImg =  __shilImageList[ ..string.lower(size) ] : 0;
 	
-	var sfi = getFileInfo(filename
-		,0x10/*_SHGFI_USEFILEATTRIBUTES*/ | 0x4000/*_SHGFI_SYSICONINDEX*/);
+	var sfi = getFileInfo(filename,0x4000/*_SHGFI_SYSICONINDEX*/);
 	if( !sfi.returnValue ) return; 
   
   	var imgList = shImageList( shilImg );

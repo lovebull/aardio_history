@@ -27,13 +27,13 @@ namespace html{
 			::User32.CloseClipboard();
 			if( cbHtml && owner.parse(cbHtml)) return owner;
 		}
-		write = function(htmlFragment,utf8){
+		write = function(htmlFragment,utf8,rep){
 			var cbHtml = owner.stringify(htmlFragment,utf8)
 			if(cbHtml){
 				if(!::User32.OpenClipboard(0))
 					return;	
 						
-				User32.EmptyClipboard();
+				if(rep===null || rep) ::User32.EmptyClipboard();
 				 
 				var clipbuffer = ::GlobalAlloc(0x2000/*_GMEM_DDESHARE*/, #cbHtml+1);
     			var buffer =  ::GlobalLock(clipbuffer); 
@@ -113,8 +113,8 @@ namespace html{
 win.clip.html = 剪贴板HTML操作
 win.clip.html() = 创建剪贴板HTML对象\n!win_clip_html.
 !win_clip_html.parse(.(剪贴板数据,是否UTF8) = 解析剪贴板数据,\n参数@2默认为true,注意HTML在剪贴板为UTF8编码\n成功返回对象自身
-!win_clip_html.stringify(.(HTML,是否UTF8) = 参数@1如果省略则获取对象的html或fragment属性生成复制数据\n成功返回可写入剪贴板的数据
-!win_clip_html.write(.(剪贴板数据,是否UTF8) = 参数@1如果省略则获取对象的html或fragment属性生成复制数据\n成功返回真值
+!win_clip_html.stringify(.(HTML,是否UTF8) = 参数@1如果省略则获取对象的html或fragment属性生成复制数据,\n成功返回可写入剪贴板的数据
+!win_clip_html.write(.(剪贴板数据,是否UTF8) = 参数@1如果省略则获取对象的html或fragment属性生成复制数据,\n可选使用参数@3指定在复制前是否清空剪贴板,默认清空,\n成功返回真值
 !win_clip_html.read() = 读取并解析剪贴板HTML\n成功返回对象自身\n!win_clip_html.
 !win_clip_html.parse() = !win_clip_html.
 !win_clip_html.ClipboardData  = 剪贴板数据,UTF8编码\n该属性在解析剪贴板数据时自动生成,不要修改该属性

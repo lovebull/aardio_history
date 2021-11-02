@@ -5,12 +5,13 @@ import fonts.fontAwesome;
 /*DSG{{*/
 var winform = win.form(text="UWP 应用 - 本机网络隔离工具";right=1150;bottom=666;bgcolor=16777215)
 winform.add(
-btnAllowLocalhostLoopback={cls="plus";text='\uF13E  允许所有应用访问本机网络';left=562;top=625;right=818;bottom=661;bgcolor=14609886;db=1;dr=1;font=LOGFONT(h=-16;name='FontAwesome');notify=1;tabstop=1;z=5};
-btnDisableLocalhostLoopback={cls="plus";text='\uF023  禁止所有应用访问本机网络';left=825;top=625;right=1081;bottom=661;bgcolor=14147583;db=1;dr=1;font=LOGFONT(h=-16;name='FontAwesome');notify=1;tabstop=1;z=6};
+btnAllowLocalhostLoopback={cls="plus";text='\uF13E  允许所有应用';left=678;top=625;right=873;bottom=661;bgcolor=14609886;db=1;dr=1;font=LOGFONT(h=-16;name='FontAwesome');notify=1;tabstop=1;z=5};
+btnDisableLocalhostLoopback={cls="plus";text='\uF023  禁止所有应用';left=886;top=625;right=1081;bottom=661;bgcolor=14147583;db=1;dr=1;font=LOGFONT(h=-16;name='FontAwesome');notify=1;tabstop=1;z=6};
 listview={cls="listview";left=8;top=41;right=1138;bottom=617;acceptfiles=1;asel=false;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;edge=1;font=LOGFONT(name='SimSun');fullRow=1;gridLines=1;hide=1;vscroll=1;z=1};
-plusLoading={cls="plus";left=368;top=195;right=739;bottom=457;color=15780518;db=1;dl=1;dr=1;dt=1;font=LOGFONT(h=-96;name='FontAwesome');z=2};
+openMicrosoftStore={cls="plus";text="打开应用商店";left=528;top=627;right=664;bottom=659;color=8388608;db=1;dr=1;notify=1;textPadding={left=5};z=7};
+plusLoading={cls="plus";left=368;top=195;right=739;bottom=457;color=15780518;db=1;dl=1;dr=1;dt=1;font=LOGFONT(h=-96;name='FontAwesome');iconStyle={font=LOGFONT(h=-96;name='FontAwesome')};iconText='\uF254';z=2};
 plusSearch={cls="plus";left=727;top=3;right=1136;bottom=33;align="right";autohscroll=false;autovscroll=false;border={bottom=1;color=-4144960};dr=1;dt=1;editable=1;font=LOGFONT(h=-13);hide=1;textPadding={top=10;bottom=3};valign="top";z=3};
-tip={cls="static";text="单击列标题可排序，双击列表项可复制，右键点列表项可弹出菜单，回车搜索或刷新";left=13;top=626;right=552;bottom=655;db=1;dl=1;dr=1;transparent=1;z=4}
+tip={cls="static";text="单击列标题可排序，双击列表项可复制，右键点列表项可弹出菜单，回车搜索或刷新";left=13;top=626;right=528;bottom=655;db=1;dl=1;dr=1;transparent=1;z=4}
 )
 /*}}*/
 
@@ -21,14 +22,15 @@ uiLanguage = {
 	enabled = "允许";
 	disabled = "禁止";
 	searchCueBannerText = "输入应用名（支持模式匹配）";
-	exemptAll = '\uF13E  允许所有应用访问本机网络';
-	exemptNone = '\uF023  禁止所有应用访问本机网络';
+	exemptAll = '\uF13E  允许所有应用';
+	exemptNone = '\uF023  禁止所有应用';
 	allowLocalhostLoopback = "允许访问本机网络";
 	disableLocalhostLoopback = "禁止访问本机网络";
 	requiredWin10 = "本程序仅支持 WIN10";
 	run = "启动应用";
 	tip = "单击列标题可排序，双击列表项可复制，右键点列表项可弹出菜单，回车搜索或刷新";
 	title = "UWP 应用 - 本机网络隔离工具";
+	openMicrosoftStore = "打开应用商店";
 }
 
 import win.ui.grid;
@@ -196,6 +198,7 @@ var setUiLanguage = function(lang){
 	winform.btnAllowLocalhostLoopback.text = uiLanguage.exemptAll;
 	winform.btnDisableLocalhostLoopback.text = uiLanguage.exemptNone;
 	winform.tip.text = uiLanguage.tip;
+	winform.openMicrosoftStore.text = uiLanguage.openMicrosoftStore;
 	
 	winform.listview.clear(true);
 	winform.listview.insertColumn(uiLanguage.displayName,300)  
@@ -226,6 +229,7 @@ elseif( lcid!=2052 ){
 		run = "Run";
 		tip = "Sort by clicking on headers, double-click to copy, enter to searh or refresh.";
 		title = "UWP Loopback Exemption Utility";
+		openMicrosoftStore = "Open Microsoft Store";
 	})
 }
 else {
@@ -243,6 +247,27 @@ winform.show();
 import win.dlg.message;
 if(!_WIN10_LATER){
 	winform.msgWarn(uiLanguage.requiredWin10)
+}
+
+winform.openMicrosoftStore.skin({
+	color={
+		active=0xFF00FF00;
+		default=0xFF000080;
+		disabled=0xFF6D6D6D;
+		hover=0xFFFF0000
+	}
+})
+winform.openMicrosoftStore.oncommand = function(id,event){
+	
+	//打开应用商店，且修复 ms-windows-store:// 协议
+	com.shell.activateApp("Microsoft.WindowsStore_8wekyb3d8bbwe!App");
+	
+	/*
+	有时候系统出现问题 ms-windows-store 协议可能用不了，下面的方法就打不开。
+	但 com.shell.activateApp("Microsoft.WindowsStore_8wekyb3d8bbwe!App") 可以打开。
+	而且打开一次，ms-windows-store 协议就正常了。
+	*/
+	//process.execute("ms-windows-store://home")
 }
 
 win.loopMessage();

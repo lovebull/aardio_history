@@ -1,4 +1,4 @@
-//client 基础客户端
+//client 通用
 import inet.http;
 import inet.httpStatusCode;
 import string.encoding;
@@ -18,6 +18,7 @@ class client{
 		this.charset = "UTF-8"; 
 		this.contentType = "application/x-www-form-urlencoded"; 
 		this.defaultContentType = "application/x-www-form-urlencoded"; 
+		this.encodeKey = ..inet.url.encodeMbcs;
 		var fileSend,fileReceive;
 	}; 
 	setAuth = function(user,pwd){
@@ -156,18 +157,18 @@ class client{
 				return null,..lasterr(this._http.lastReadErrCode);
 			}
 			
-			if( owner[["_partten"]] && ret ){
+			if( owner[["_pattern"]] && ret ){
 				
-				var tp = type( owner._partten);
+				var tp = type( owner._pattern);
 				
 				if( tp == "table"){
-					return ..string.map(ret,owner._partten);
+					return ..string.map(ret,owner._pattern);
 				}
 				elseif( tp == "function"){
-					return owner._partten(ret);
+					return owner._pattern(ret);
 				}
 				
-				ret = ..string.match(ret,owner._partten);
+				ret = ..string.match(ret,owner._pattern);
 				if(!ret) return null,"服务器返回的数据中未找到匹配的部分"
 			}
 			
@@ -233,7 +234,7 @@ class client{
 	lastResponseHeaders = function(name){
 		return this._http.responseHeaders; 
 	};
-	api = function(urlTemplate,httpMethod="POST",partten,httpFlags ){
+	api = function(urlTemplate,httpMethod="POST",pattern,httpFlags ){
 		if(!urlTemplate){
 			urlTemplate = this.defaultUrlTemplate;
 			if(!urlTemplate) error("参数@1错误",2);
@@ -245,7 +246,8 @@ class client{
 			_urlTemplate = urlTemplate;
 			_urlReal = ..string.replace( urlTemplate ,"%{}", "");  
 			_request = this.request;
-			_partten = partten;
+			_encodeKey = this.encodeKey;
+			_pattern = pattern;
 			@_meta;
 		}
 	}; 
@@ -352,7 +354,8 @@ namespace client {
 					_urlTemplate = owner[["_urlTemplate"]];
 					_httpFlags = owner[["_httpFlags"]];
 					_request = owner[["_request"]];
-					_partten = owner[["_partten"]]; 
+					_pattern = owner[["_pattern"]]; 
+					_encodeKey = owner[["_encodeKey"]];
 					@_meta;
 				} 
 				owner[[k]] = api;
@@ -364,16 +367,17 @@ namespace client {
 				
 				if( tk == "string" && k[1]=='_'# ) return; 
 				elseif( tk == "table") {
-					urlTemplate,count = ..string.replace(owner[["_urlTemplate"]],"\{\s*(\w+)\s*\}",k);
+					var encodeKey = owner._encodeKey;
+					urlTemplate,count = ..string.replace(owner[["_urlTemplate"]],"\{\s*(/?)(\w+)\s*\}",lambda(slash,t)k[t]?(slash++encodeKey(k[t])):"");
 				}
 				else {
 					k = tostring(k); 
 					if(!k) return;
 					
 					var repk = ..string.replace(k,"@\","\\");
-					repk = ..inet.url.encodeMbcs(repk,65001);
+					repk = owner._encodeKey(repk);
 					
-					urlTemplate,count = ..string.replace(owner[["_urlTemplate"]],"\{(/?)\s*\w+\s*\}", "\1"+repk,1);
+					urlTemplate,count = ..string.replace(owner[["_urlTemplate"]],"\{(/?)\s*\w+\s*\}", #repk ? "\1"+repk : "",1);
 					if(!count){
 						urlTemplate,count = ..string.replace(owner[["_urlTemplate"]],"\{\s*\.\.\.\s*\}",  repk + "/{...}",1); 
  	
@@ -397,7 +401,8 @@ namespace client {
 					_httpFlags = owner[["_httpFlags"]];
 					_httpMethod = owner[["_httpMethod"]];
 					_request = owner[["_request"]];
-					_partten = owner[["_partten"]];
+					_pattern = owner[["_pattern"]];
+					_encodeKey = owner[["_encodeKey"]];
 					@_meta;
 				} 
 				
@@ -442,6 +447,7 @@ web.rest.client(.("UserAgent","代理服务器","绕过代理的主机",连接�
 	__/*此时参数已转换为字符串并准备提交到服务器*/
 	return params; 
 }
+!web_restClient.encodeKey = 自定义替换 API 网址变量值使用的编码函数,\n此函数接收一个资源名参数,返回编码后的资源名,\n必须在定义 API 对象之前指定,\n默认已指定为 inet.url.encodeMbcs 函数
 !web_restClient.defaultUrlTemplate = 默认API网址模板
 !web_restClient.extraParameters = 指定附加到所有请求参数中的默认参数\n该值应当是一个表,请求参数指定表对象时或为null才会附加extraParameters
 !web_restClient.extraUrlParameters  = 指定附加到所有请求URL的默认参数\n该值可以是一个表或字符串

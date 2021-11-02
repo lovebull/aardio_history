@@ -10,6 +10,7 @@ class console.progress{
 		this.backText = backText : "─";
 		this.foreText = foreText : backText : "─"; 
 		this.percent = 0;
+		this.done = false;
 	};
 	addProgress = function(percent,msg){
 		return this.setProgress(this.percent+percent,msg);
@@ -22,6 +23,8 @@ class console.progress{
 			this.running = true;
 		}
 		elseif(this.running) {
+			if(this.done) return;
+			
 			var x,y = ..console.getPos(); 
 			..console.setPos(0,y-1); 
 			if(this.message){ ..console.setPos(0,y-2); }
@@ -92,12 +95,14 @@ class console.progress{
 		this.running = true;
 		
 		if(percent>=100){
-			this.reset();
+			..console.setCursorVisible(true);
+			this.done = true;
 		}
 	}
 	reset = function(){
 		..console.setCursorVisible(true);
 		this.running = false;
+		this.done = false;
 	}
 }
 

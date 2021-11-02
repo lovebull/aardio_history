@@ -319,6 +319,15 @@ namespace listview{
 				}
 			},owner
 		};
+		eachChecked = function(col){
+			var items = owner.checked;
+			..table.reverse(items);
+			var i,v;
+			return function(){ 
+				i,v = ..table.next(items,i,v);
+				if(i) return v,owner.getItemText(i,col);
+			},owner
+		};
 		getNextItem = function(i=0,flags=0x0/*_LVNI_ALL*/){ 
 			return ::SendMessageInt(owner.hwnd,0x100C/*_LVM_GETNEXTITEM*/,i-1,flags) + 1;
 		};   
@@ -977,7 +986,7 @@ namespace listview{
 !listview.setColumns(.(columns,widths,alignments) = 参数@1用一个字符串数组指定要显示的列\n如果参数@1为空则清空所有列,\n可选在 @widths 参数用一个数组指定各列宽度,\n可选在 @alignments 参数用一个数组指定各列对齐选项,\n各列可用参数与 insertColumn 函数相同
 !listview.setColumns(.(column1,column2,->->->) = 参数用不定个数的字符串指定要显示的列\n如果参数@1为空则清空所有列
 !listview.setTable(__) = 用listview控件显示数据表\n此函数会自动清空控件之前的所有项,\n如果没有创建任何列,则自动创建列\n如果要重新创建列,请先调用clear(true)清空原来的列,\n\n数据表应当包含行组成的数组,\n每行的数据列必须是由列名和列值组成的键值对\n数据表应使用fields包含需要显示的列名称数组\n可以通过fields控制要显的列、以及要显示的顺序\n\n使用sqlite,access,sqlServer等数据库对象提供的getTable函数可获取符合此规格的数据表
-!listview.checked = 返回已勾选复选框的项目索引数组,\n需要先启用复选框支持
+!listview.checked = 返回已勾选复选框的行索引数组,\n此数组内的行索引按实际显示的前后排序,\n需要先启用复选框支持
 !listview.checkbox = 是否在每个项目前显示复选框
 !listview.modifyStyle(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos 
 !listview.modifyStyleEx(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos
@@ -1008,8 +1017,11 @@ namespace listview{
 !listview.each(起始索引,选项) = @for itemIndex in ??.each(){
 	__/*遍历所有项*/
 }
-!listview.eachSelected(subItemIndex) = @for itemIndex,subItemValue in ??.eachSelected(){
-	__/*遍历所有选中项,itemIndex 参数为行号,\nsubItemValue 为 subItemIndex 参数所指定列的文本值*/
+!listview.eachSelected(col) = @for item,value in ??.eachSelected(){
+	__/*遍历所有选中项,item 参数为行号,\value 为 col 参数所指定列的文本值\ncol 参数省略则默认为1*/
+}
+!listview.eachChecked(col) = @for item,value in ??.eachChecked(){
+	__/*从后面的勾选的行倒序遍历所有勾选项,item 参数为行号,\value 为 col 参数所指定列的文本值\ncol 参数省略则默认为1*/
 }
 !listview.adjust = @.adjust = function(cx,cy){
     winform.listview.fillParent(/*列序号*/);
@@ -1022,6 +1034,7 @@ namespace listview{
 !listview.wndproc = @.wndproc = function(hwnd,message,wParam,lParam){\n	__/*窗口消息回调，返回任意非null值阻止默认回调\nwndproc重复赋值时追加函数而不是覆盖之前的回调\n设为null添除所有消息回调函数\nwndproc也可以是一个表,键要为处理的消息,值为对应的消息回调函数*/	\n}
 !listview.sendMessage(.(msg,wParam,lParam) = 发送窗口消息\n此函数用法请参考 ::User32.SendMessage
 !listview.postMessage(.(msg,wParam,lParam) = 投递窗口消息到消息队列中\n此函数用法请参考 ::User32.PostMessage
+!listview._defWindowProc(hwnd,message,wParam,lParam) = 用于在 wndproc 回调中提前调用默认消息回调函数,\n所有窗口和控件定义了 wndproc 回调以后会自动创建这个函数,\n调用此函数以后,wndproc 必须指定非 null 返回值,\n以避免再次重复调用默认回调函数
 ?win.ui.ctrl.listview  =!listview.
 win.ui.ctrl.listview() = 列表视图\n!listview.
 !tileviewinfo.dwMask = @.dwMask = _LVTVIM__ ;

@@ -46,7 +46,7 @@ window.onload = function () {
 
 document.onfullscreenchange = function(event ){
     //调用 aardio 窗口的全屏函数
-	aardio.winform.fullscreen();
+	aardio.winform.fullscreen(!!document.fullscreenElement);
 }
 </script>
 

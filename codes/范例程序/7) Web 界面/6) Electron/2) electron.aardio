@@ -1,13 +1,5 @@
 //创建应用
- 
-//如果希望自动安装electron到系统目录,请先导入electron.runtime 
-import electron.runtime;
-import electron.app;//导入electron扩展库
-
-/*
-这句的作用是把electron嵌入aardio窗口,
-用主窗口或子窗口放electron都可以,子窗口的四边固定边距属性都设为true，以支持自动缩放
-*/
+import electron.app;
 var theApp = electron.app();
 
 //这是启动electron主进程的main.js

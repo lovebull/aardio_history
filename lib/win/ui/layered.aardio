@@ -170,7 +170,7 @@ class layered{
 
 /**intellisense()
 win.ui.layered( = 创建分层窗口\n支持窗体设计器指定的png透明背景图,背景色，\n支持窗口上的plus,bkplus控件,其他子窗口可通过调用 orphanWindow 函数正常显示
-win.ui.layered(.(窗体对象,主动刷新间隔) = 创建分层窗口\n主动刷新间隔为可选参数,以毫秒为单位,过快会降低性能\n刷新间隔设为负数可禁止主动刷新,但plus控件仍然可以自动刷新,
+win.ui.layered(.(窗体对象,主动刷新间隔) = 创建分层窗口\n主动刷新间隔为可选参数,以毫秒为单位,过快会降低性能\n刷新间隔设为负数可禁止主动刷新,但plus控件仍然可以自动刷新,\n注意创建分层窗口以后不应再改变窗口大小
 win.ui.layered() = !winuilayered.
 end intellisense**/
 

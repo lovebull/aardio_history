@@ -11,12 +11,7 @@ class installer{
 		}
 		
 		if(type(url)==type.table){
-			if(..process().isWow64()){
-				url = url.x64;
-			}
-			else {
-				url = url.x86;
-			}
+			url = _WIN_64 ? url.x64 : url.x86;
 		}
 		
 		var downBox = ..inet.downBox(winform : ..win.getActive(),"正在下载程序运行必需组件：" + appName,100) 

@@ -19,8 +19,7 @@ class info{
 		else ::Kernel32.GetSystemInfo(this);
 	}
 	isX64  = function(){
-		return this.wProcessorArchitecture == 9/*_PROCESSOR_ARCHITECTURE_AMD64*/ 
-			|| this.wProcessorArchitecture == 6/*_PROCESSOR_ARCHITECTURE_IA64*/
+		return this.wProcessorArchitecture == 9/*_PROCESSOR_ARCHITECTURE_AMD64*/
 	}
 }
 

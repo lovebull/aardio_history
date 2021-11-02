@@ -1,4 +1,4 @@
-﻿//installedFontCollection 已安装字体集合
+﻿//installedFontCollection 安装字体容器
 import gdip.privateFontCollection;
 namespace gdip;
 
@@ -14,5 +14,5 @@ class installedFontCollection{
 }
 
 /**intellisense()
-gdip.installedFontCollection() = 创建已安装的字体列表\n!gdipprvfontcoll.
+gdip.installedFontCollection() = 创建已安装的字体容器\n!gdipprvfontcoll.
 end intellisense**/

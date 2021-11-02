@@ -74,7 +74,7 @@ namespace path{
     	http.close();
 	
 		if(products){
-			var architecture = ..process().isWow64() ? "x64" : "x86";
+			var architecture = _WIN_64 ? "x64" : "x86";
 			for i,product in ..table.eachIndex(products){
 				if(product[["Product"]] == "Stable"){
 					var releases = product[["Releases"]]

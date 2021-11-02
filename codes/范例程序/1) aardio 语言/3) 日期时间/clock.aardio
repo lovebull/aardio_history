@@ -62,7 +62,7 @@ winform.plusClock.onMouseDown = function(wParam,lParam){
 	}
 }
 
-winform.plusClock.onMouseDoubuleClick = function(wParam,lParam){
+winform.plusClock.onMouseDoubleClick = function(wParam,lParam){
     if( !winform.plusClock.floating ) {
         winform.hitMin();
     	return;

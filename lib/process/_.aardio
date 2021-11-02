@@ -172,7 +172,7 @@ class process {
 		this.terminate();
 	};
 	ctrlEvent = function(event){
-		if( ..process().isWow64() && !this.isWow64() ){
+		if( _WIN_64 && !this.isWow64() ){
 			::Kernel32.FreeConsole();
  			if (::Kernel32.AttachConsole(this.id)){ 
 				::Kernel32.SetConsoleCtrlHandler(null, true); 
@@ -433,6 +433,20 @@ class process {
 			return ..sys.volume.getPathName(..string.fromUnicode(m,,-1));
 		}
 	};
+	sendMessage = function(hwnd,message,wParam,lParam){
+		if(lParam[["_struct"]]){
+			var p = this.writeStruct(,lParam);
+			if( !p ) return 0;
+			
+			var ret = ::User32.SendMessageW(hwnd,message,wParam,p);
+			this.readStruct( p,lParam)
+			this.mfree( p );	
+			return ret;
+		}
+		else {
+			return ::User32.SendMessageW(hwnd,message,wParam,lParam);
+		}
+	};
 	getMainWindow = function(cls){
 		var hMain;
 		var pid = {INT value};
@@ -548,8 +562,8 @@ class process {
 	};
 	emptyWorkingSet = function(){
 		if(this.handle) return !!::Psapi.EmptyWorkingSet(this.handle)
-	}
-	@{_topointer = lambda() this.handle}  
+	};
+	@_meta; 
 }
 
 if( __process__ ) ..table.mix( process,__process__);
@@ -557,6 +571,9 @@ if( __process__ ) ..table.mix( process,__process__);
 import sys.info;
 namespace process{
 
+	_meta = {_topointer = lambda() owner.handle} 
+	is  = lambda(v) v@ ==_meta;
+	
 	::Psapi := ..raw.loadDll("Psapi.dll");
 	
 	/*intellisense(process)*/  
@@ -605,7 +622,7 @@ namespace process{
 	SetPriorityClass = ::Kernel32.api("SetPriorityClass","bool(POINTER hProcess,INT priorityClass)");
 	GetPriorityClass = ::Kernel32.api("GetPriorityClass","INT(POINTER hProcess");
 	
-	VirtualAllocEx = ::Kernel32.api("VirtualAllocEx","int(POINTER hProcess ,addr lpAddress,int dwSize,int flAllocationType,int flProtect)")
+	VirtualAllocEx = ::Kernel32.api("VirtualAllocEx","addr(POINTER hProcess ,addr lpAddress,int dwSize,int flAllocationType,int flProtect)")
 	VirtualFreeEx = ::Kernel32.api("VirtualFreeEx","int(POINTER hProcess,addr lpAddress,int dwSize,int dwFreeType)")
 	 
 	VirtualProtectEx = ::Kernel32.api("VirtualProtectEx","bool(POINTER hProcess,addr lpAddress, INT dwSize, INT flNewProtect, INT &lpflOldProtect )");
@@ -1084,12 +1101,13 @@ process() = !process.
 process.find() = !process.
 process.shell() = !process.
 process.shellAs() = !process.
+process.is(__) = 传入参数是否 process 对象
 !process.stillActive() = 进程是否仍在运行
 !process.getInfo() = 获取进程信息
 !process.getExitCode() = 该函数调用成功有两个返回值:进程退出代码,进程是否已退出
 !process.free() = 释放进程对象。\n不是关闭进程,仅仅是释放对进程的控制句柄。
-!process.waitOne() = 等待进程关闭,不阻塞UI消息循环,可选使用一个毫秒值参数设定超时\n超时或失败返回 false,进程已退出则返回值1为true,返回值2为退出代码
-!process.wait() = 等待进程关闭,可选使用一个毫秒值参数设定超时\n超时或失败返回 false,进程已退出则返回值1为true,返回值2为退出代码
+!process.waitOne() = 等待进程关闭,不阻塞UI消息循环,\n可选使用一个毫秒值参数设定超时\n超时或失败返回 false,\n进程已退出则返回值1为true,返回值2为退出代码
+!process.wait() = 等待进程关闭,\n可选使用一个毫秒值参数设定超时\n超时或失败返回 false,\n进程已退出则返回值1为true,返回值2为退出代码
 !process.query(.(开始地址,结束地址,搜索数据,保护类型,访问类型) = 查找下一个有效内存地址,所有参数可选,\n搜索数据可以是字符串或结构体\n返回值: addr,len,str,i,j,pattern,protect,mtype 
 !process.eachQuery(开始地址,结束地址,搜索数据,保护类型,访问类型) = @for( addr,len,str,i,j,pattern,protect,mtype\n	in ??.eachQuery(  , ,"__/*搜索模式*/" ) ){\n	\n} 
 !process.malloc(.(长度) = 在目标进程分配内存空间
@@ -1097,6 +1115,7 @@ process.shellAs() = !process.
 !process.malloc(.(长度,访问类型,分配类型) = 在目标进程分配内存空间
 !process.mfree(.(指针) = 释放malloc成员函数分配的内存指针
 !process.mfree(.(指针,释放长度,0x4000) = 释放malloc成员函数分配的内存指针\n不建议手工指定长度
+!process.sendMessage(.(hwnd,message,wParam,lParam) = 向外部进程窗口发送消息\nlParam如果是结构体则复制到目标进程内存,\n结构体如果包含指针应当自行调用 process.malloc 分配内存并复制\n发送消息涉及的用法太多,尤其是涉及到访问外部进程内存,\n所涉及的知识量不能通过看几句函数说明获得,\n普通用户请不要学习或使用此函数
 !process.setAffinity(1) = 指定进程运行的CPU内核
 !process.readNumber(__/*内存地址*/) = 读取一个int整数,32位
 !process.readNumber(__/*内存地址*/,"long") = 读取一个long类型整数,64位
@@ -1152,7 +1171,7 @@ process.shellAs() = !process.
 !process.waitMainWindow( = 等待并返回进程主窗口
 !process.waitMainWindow(.(类名,等待窗口句柄) = 等待并返回进程主窗口,所有参数可选,\n可选指定要等待的类名,类名参数支持模式匹配语法,\n不指定类名时忽略隐藏窗口,\n可选指定等待窗口句柄,该窗口关闭时些函数不再等待并直接返回结果
 !process.closeMainWindow() = 关闭进程的主窗口，忽略隐藏窗口
-!process.assignToJobObject(.(hJob) = 绑定到作业对象,成功返回true\n作业对象示例请参考标准库process.job.limitKill的源码。
+!process.assignToJobObject(.(process->job->limitKill) = 绑定到作业对象,成功返回true\n作业对象示例请参考标准库 process.job.limitKill 的源码。
 !process.ctrlEvent(0)=发送Ctrl+C(SIGINT信号)\n信号将传递到与目标进程控制台连接的所有非分离控制台进程\n64位目标进程会导致当前控制台暂时关闭
 !process.ctrlEvent(1)=发送Ctrl+Break(SIGBREAK信号)\n信号将传递到与目标进程控制台连接的所有非分离控制台进程\n64位目标进程会导致当前控制台暂时关闭
 !process.emptyWorkingSet() = 将工作集中的内存尽可能移动到页面文件中,\n应发在最小化或程序空闲内存确实暂不需要使用时调用,\n不应频繁调用此函数
@@ -1181,6 +1200,7 @@ findExe("__/*文件路径*/") = 查找文件关联的可执行程序
 isExe("__/*文件路径*/") = 检测目标文件是否可执行文件\n如果是可执行文件返回"PE32"或"PE64"\n第二个返回值为子系统,GUI为2,CUI为3
 find("__/*exe 文件名*/") = 查找进程并返回进程对象,\n参数@1指定要查找的进程启动文件名,注意应指定文件名而非文件路径,\n文件名参数支持模式匹配语法,忽略大小写,
 findId("__/*exe 文件名*/") = 查找进程并返回进程 ID,\n参数@1指定要查找的进程启动文件名,注意应指定文件名而非文件路径,\n文件名参数支持模式匹配语法,忽略大小写
+kill( = 查找并关闭进程,\n注意有些进程需要管理权限才能找到,\n例如资源管理器进程 "explorer.exe" 无管理权限有时会失败,\n在代码第一行添加//RUNAS//可申请管理权限
 kill(.(exePath,restart) = 查找所有同名exe文件的进程,并关闭进程\n支持模式匹配语法,忽略大小写,\n如果restart参数为true，则杀进程成功后立即重新启动该进程，\n 否则返回进程的完整路径
 kill(.(pid)  = 使用参数@pid指定进程ID,关闭该进程
 each =  @for processEntry in process.each( ".*.exe" ) { \n//遍历所有进程\n	__//io.print( processEntry.szExeFile  )\n \n}

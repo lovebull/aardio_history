@@ -205,7 +205,7 @@ namespace file{
 				elseif( l < 0 ) return;	
 			}
 			else{
-				if(t!="pointer") error("参数@1必须指定缓冲区指针",2);
+				if(t!="pointer") error("参数@1必须指定buffer",2);
 				if(!l) error("无效的长度参数@2",2);
 			}
 			var ok,readSize = ReadBuffer( owner.hfile,buffer,l,0);
@@ -220,7 +220,7 @@ namespace file{
 				elseif( l < 0 ) return;	
 			}
 			else{
-				if(t!="pointer") error("参数@1必须指定缓冲区指针",2);
+				if(t!="pointer") error("参数@1必须指定buffer",2);
 				if(!l) error("无效的长度参数@2",2);
 			}
 			
@@ -423,10 +423,10 @@ fsys.file.is(__) = 判断参数是不是fsys.file对象
 !fsysfile.read(-1) = 读取所有内容到文件尾部
 !fsysfile.readAll() = 读取所有内容
 !fsysfile.write(__/*字符串*/) = 写入字符串\n参数也可以是数值、结构体
-!fsysfile.readBuffer( = 读取数据到缓冲区,成功返回读取长度,失败返回null
-!fsysfile.readBuffer(.(缓冲区指针,读取长度) = 直接读数据到内存\n参数@1可以是缓冲区,或内存指针,\n如果是指针则必须指定读取长度,否则长度参数可选\n成功返回读取长度
+!fsysfile.readBuffer( = 读取数据到 buffer ,成功返回读取长度,失败返回null
+!fsysfile.readBuffer(.(buffer,读取长度) = 直接读数据到内存\n参数@1可以是 buffer 对象,或内存指针,\n如果是指针则必须指定读取长度,否则长度参数可选\n成功返回读取长度
 !fsysfile.writeBuffer( = 写入缓冲区数据,成功返回写入长度,失败返回null
-!fsysfile.writeBuffer(.(缓冲区指针,写入长度) = 直接写数据到内存\n参数@1可以是缓冲区,或内存指针,\n如果是指针则必须指定写入长度,否则长度参数可选\n成功返回写入长度
+!fsysfile.writeBuffer(.(buffer,写入长度) = 直接写数据到内存\n参数@1可以是 buffer 对象,或内存指针,\n如果是指针则必须指定写入长度,否则长度参数可选\n成功返回写入长度
 !fsysfile.seek("end") = 移动指针至结束处\n返回当前位置,返回值大于2GB则为负值,\n获取文件大小推荐使用 size() 函数
 !fsysfile.seek("end",__) = 移动至相对结束处的指定偏移量
 !fsysfile.seek() = 得到当前位置

@@ -2,17 +2,17 @@
 import win.ui.atom;
 import web.form;
 /*DSG{{*/
-var winform = win.form(cls="WIN_MARKDOWN";text="窗口消息大全";right=709;bottom=815;bgcolor=16777215;scroll=1)
+var winform = win.form(cls="WIN_MARKDOWN";text="窗口消息大全";right=709;bottom=713;bgcolor=16777215;scroll=1)
 winform.add(
-btnHelp={cls="button";text="打开文档：《处理窗口消息》";left=436;top=741;right=637;bottom=771;db=1;dl=1;z=9};
-btnNotify={cls="button";text="响应通知消息范例";left=538;top=776;right=675;bottom=806;db=1;dr=1;z=8};
-btnOnCommand={cls="button";text="响应命令消息范例";left=384;top=776;right=521;bottom=806;db=1;dr=1;z=7};
-btnSearch={cls="button";text="搜索消息";left=335;top=741;right=418;bottom=771;db=1;dl=1;z=3};
-btnWndProc={cls="button";text="发送消息与处理消息范例";left=189;top=776;right=367;bottom=806;db=1;dr=1;z=4};
-editKeyWord={cls="edit";left=164;top=744;right=327;bottom=769;align="right";db=1;dl=1;edge=1;z=5};
-editMd={cls="richedit";left=6;top=6;right=704;bottom=734;acceptfiles=1;clip=1;db=1;dl=1;dr=1;dt=1;edge=1;hide=1;hscroll=1;multiline=1;vscroll=1;z=2};
-lbBrowser={cls="custom";left=6;top=7;right=703;bottom=733;aw=1;clip=1;db=1;dl=1;dt=1;edge=1;z=1};
-static={cls="static";text="请输入消息值或消息 ID:";left=2;top=748;right=157;bottom=770;align="right";db=1;dl=1;transparent=1;z=6}
+btnHelp={cls="button";text="打开文档：《处理窗口消息》";left=447;top=633;right=648;bottom=663;db=1;dl=1;z=9};
+btnNotify={cls="button";text="响应通知消息范例";left=549;top=668;right=686;bottom=698;db=1;dr=1;z=8};
+btnOnCommand={cls="button";text="响应命令消息范例";left=395;top=668;right=532;bottom=698;db=1;dr=1;z=7};
+btnSearch={cls="button";text="搜索消息";left=346;top=633;right=429;bottom=663;db=1;dl=1;z=3};
+btnWndProc={cls="button";text="发送消息与处理消息范例";left=200;top=668;right=378;bottom=698;db=1;dr=1;z=4};
+editKeyWord={cls="edit";left=175;top=636;right=338;bottom=661;align="right";db=1;dl=1;edge=1;z=5};
+editMd={cls="richedit";left=6;top=6;right=704;bottom=626;acceptfiles=1;clip=1;db=1;dl=1;dr=1;dt=1;edge=1;hide=1;hscroll=1;multiline=1;vscroll=1;z=2};
+lbBrowser={cls="custom";left=6;top=7;right=703;bottom=627;aw=1;clip=1;db=1;dl=1;dt=1;edge=1;z=1};
+static={cls="static";text="请输入消息值或消息 ID:";left=13;top=640;right=168;bottom=662;align="right";db=1;dl=1;transparent=1;z=6}
 )
 /*}}*/
 

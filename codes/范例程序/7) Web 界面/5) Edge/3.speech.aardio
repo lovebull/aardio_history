@@ -157,13 +157,17 @@ theApp.httpHandler["/res/index.aardio" ] = function(response,request){
 	`)
 }
 
-
-//调整窗口大小
+//此函数参数指定的回调函数会在网页端准备就绪后执行
 theApp.indexReady(
-	function(){
-		theApp.setPos(20,20,1080,720)
+	function($){ //参数 $ 表示当前连接到 aardio 的网页客户端
+		theApp.doScript($,`
+			document.getElementById("txt").innerText = "这是测试文本";
+		`)
 	} 
 )
+
+//可选在调用 start 函数前用 theApp.setPos 或 theApp.center 调整窗口位置
+theApp.setPos(20,20,1080,720)
 
 //正式的启动chrome进程
 theApp.start("/res/index.aardio")
