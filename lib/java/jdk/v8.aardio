@@ -1,0 +1,23 @@
+﻿//v8 开发包
+import java;
+import zlib.httpFile;
+
+namespace java.jdk.v8;
+
+path  = ..io.appData("\aardio\std\java\OpenJDK8U-jdk_x86-32_windows_hotspot_8u312b07\jdk8u312-b07")
+if(!..io.exist(path)){
+	var dir = ..zlib.httpFile.download("https://mirrors.tuna.tsinghua.edu.cn/AdoptOpenJDK/8/jdk/x32/windows/OpenJDK8U-jdk_x86-32_windows_hotspot_8u312b07.zip"
+		,"正在下载本程序必须组件: OpenJDK v8",..io.appData("aardio/std/java"))	
+	if(!dir || ! ..io.exist(path) ){
+		path = null;
+		return;
+	}
+}
+
+..java.path.setJdkHome(path)
+
+
+/**intellisense()
+java.jdk.v8 = 检测并在必要时自动下载 OpenJDK v8,\n导入此库后，发布不用带 JDK,\n导入此库已自动导入 java 库
+java.jdk.v8.path = 如果成功下载并设为 JDK 根目录,\n此属性为 JDK 根目录路径,\n否则此属性值为 null
+end intellisense**/

@@ -221,7 +221,7 @@ namespace com.activeX{
 		reg.setSzValue("409","Controls safely initializable from persistent data!");
 		reg.close()
 		
-		var reg = ..win.reg("HKEY_CURRENT_USER\Software\Classes\CLSID\{" + tostring(clsid) + "}\Implemented  Categories\{7DD95802-9882-11CF-9FA9-00AA006C42C4}");
+		var reg = ..win.reg("HKEY_CURRENT_USER\Software\Classes\CLSID\{" + tostring(clsid) + "}\Implemented Categories\{7DD95802-9882-11CF-9FA9-00AA006C42C4}");
 		reg.setSzValue("409","Controls safely initializable from persistent data!");
 		reg.close() 
 	}; 
@@ -234,7 +234,25 @@ namespace com.activeX{
 		var p = ..io.appData(p,d);
 		return regsvr32(p,install);
 	};
-	
+	createObject = function(clsid,filepath,data){
+		var r = ..com.TryCreateObject(clsid);
+		if(!r){
+			if(data){ filepath = ..io.appData(filepath,data); }
+			regsvr32(filepath,true);
+			r = ..com.TryCreateObject(clsid);;
+		} 
+		return r;
+	};
+	createEmbed = function(winform,clsid,embedObj,filepath,data){
+		var r = winform.tryCreateEmbed(clsid,embedObj)
+		if(!r){
+			if(data){ filepath = ..io.appData(filepath,data); }
+			regsvr32(filepath,true);
+			
+			r = winform.tryCreateEmbed(clsid,embedObj)
+		} 
+		return r;
+	};
 } 
 
 /**intellisense()
@@ -252,4 +270,6 @@ com.activeX.regsvr32As("__",false) = 卸载外部控件,\n如果需要管理权�
 com.activeX.install("__",true,->->->) = 安装控件,可添加任意个命令行参数,\n如果需要管理权限则申请管理权限
 com.activeX.license(.(clsid,licKey) = 参数@1为类名或GUID，\n参数@2为授权码
 com.activeX.appData(.(path,data) = 将@path指定的相对路径转换为系统AppData目录下的绝对路径,\n可选使用@data指定需要存入的数据,\n只有在存入字节与目标文件内容长度不同时才会更新文件,\n最后使用该路径注册
+com.activeX.createObject(.(clsid,filepath,appData) = 创建并返回 @clsid 指定 CLSID 的对象,\n如果控件未注册,则注册 @filepath 参数指定路径的控件,\n如果指定了appData参数,\n则将@filepath,@appData传入 io.appData 获取路径
+com.activeX.createEmbed(.(formOrCtrl,clsid,embedObj,filepath,appData) = 嵌入 @clsid 指定的控件到 @formOrCtrl 指定的窗口或控件,\n此函数返回控件容器,可选用 @embedObj 参数指定控件容器,\n关于控件容器请参数 com.CreateEmbed 函数说明,\n如果控件未注册,则注册 @filepath 参数指定路径的控件,\n如果指定了appData参数,\n则将@filepath,@appData传入 io.appData 获取路径
 end intellisense**/

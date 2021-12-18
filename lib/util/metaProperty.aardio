@@ -13,7 +13,8 @@ class metaProperty{
 					if(!ok)error(v,2) 
 					return v;
 				}
-				error("只写属性["+k+"],禁止读取!" ,2)  
+				
+				if(t._set) error("只写属性["+k+"],禁止读取!" ,2)  
 			}
 			
 			if(t)return t;
@@ -35,7 +36,8 @@ class metaProperty{
 					if(!ok)error(v,2) 
 					return;
 				} 
-				error("只读属性["+k+"],禁止修改!" ,2) 	
+				
+				if(t._get) error("只读属性["+k+"],禁止修改!" ,2) 	
 			}
 			
 			var set = this.__set : this.set;

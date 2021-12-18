@@ -1,4 +1,4 @@
-var u = ::User32;
+﻿var u = ::User32;
 var k = ::Kernel32;
 
  /*intellisense(::)*/ 
@@ -47,9 +47,10 @@ var k = ::Kernel32;
 ::DestroyCursor = ::User32.api("DestroyCursor","int(ptr hCursor)")
 ::GetClassInfoEx = u.api("GetClassInfoEx", "int(ptr,utf16,struct&)")
 ::RegisterClassEx = u.api( "RegisterClassEx", " word(struct wc) " )   
-::GetAsyncKeyState  = ::User32.api("GetAsyncKeyState","word(int vKey)" );
-::GetKeyState = ::User32.api("GetKeyState","word( int vKey)" );
 /*end intellisense*/
+
+::GetAsyncKeyState := ::User32.api("GetAsyncKeyState","word(int vKey)" );
+::GetKeyState := ::User32.api("GetKeyState","word(int vKey)" );
 
 namespace win 
  
@@ -198,19 +199,13 @@ getThreadProcessId = function(hwnd){
 	return getThreadProcessId_c(hwnd,0);
 }
 
-setenv = k.api( "SetEnvironmentVariable", "INT(ustring name,ustring v)"); 
-var getEnvironmentVariable = k.api( "GetEnvironmentVariable", "INT(str name,str &v,INT size)");
-getenv = function( name){ //读取环境变量
-	var len,val =  getEnvironmentVariable(name, 256,256);
-	if (len > 256)
-		len,val =  getEnvironmentVariable(name, len,len); 
-	return val;
-} 
-addenv = function(k,nv,path){
+setenv =  ..string.setenv; //@Deprecated
+getenv = ..string.getenv; //@Deprecated
+addenv = function(k,nv,path){ //@Deprecated
 	if(path) nv = ..io.fullpath(nv);
-	var values = ..win.getenv(k);  
+	var values = ..string.getenv(k);  
 	if( !#values ){
-		..win.setenv(k,nv)
+		..string.setenv(k,nv)
 		return nv;
 	}
 	
@@ -220,7 +215,7 @@ addenv = function(k,nv,path){
 	}
 	
 	values = nv+ ";" + values;
-	..win.setenv(k,values)
+	..string.setenv(k,values)
 	return values;
 } 
 
@@ -234,8 +229,8 @@ getClassPointer( hwnd,_GCL__ ) = 返回窗体WNDCLASSEX结构的句柄值
 getClassLong( hwnd,_GCL__ ) = 返回窗体WNDCLASSEX结构的32位值
 getStyle(.(窗口句柄,限定样式,不允许包含的样式) = 获取指定窗口样式,除句柄外其他参数可选
 getStyleEx(.(窗口句柄,限定样式,不允许包含的样式) = 获取窗口扩展样式,除句柄外其他参数可选 
-modifyStyle(.(窗口句柄,移除样式,添加样式) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos 
-modifyStyleEx(.(窗口句柄,移除样式,添加样式) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos
+modifyStyle(.(remove,add,swpFlags) = 修改窗口样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考函数源码 
+modifyStyleEx(.(remove,add,swpFlags) = 修改窗口扩展样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_EX_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_EX_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考函数源码
 getClass(__/*输入窗口句柄*/) = 获取窗口类名
 getId(__/*输入窗口句柄*/) = 获取控件ID 
 getLeaf(__/*输入窗口句柄*/) = 窗口的最梢节子窗口(没有子窗口的控件窗口)
@@ -253,7 +248,7 @@ setOwner(.(窗口句柄,所有者窗口句柄) = 成功返回原来的所有者�
 getOwner(__/*输入窗口句柄*/) = 获取所有者窗口句柄\n注意子窗口没有所有者窗口\n\n下属窗口总是显示在所有者窗口前面\n例如模态对话框通常会指定一个所有者窗口 
 getChild(__/*输入窗口句柄*/) = 获取子窗口句柄 
 eachChild(父窗口句柄,窗口类名) = @for hwnd in win.eachChild(__/*按Z序遍历所有子窗口,\n省略父窗口句柄遍历桌面顶层窗口,\n窗口类名是可选参数，支持模式匹配语法\n\n此函数忽略UWP应用窗口,\n如果需要包含 UWP 窗口请改用 winex.eachFindEx 函数*/) {
-	   
+	
 }
 getFullscreen() = 返回当前全屏窗口
 getWindow( hwnd, _GW__ ) = 获取相关窗口
@@ -263,9 +258,6 @@ setText(.(hwnd,lpString) = 参数(窗口句柄,要设置的文本)\n外部进程
 getThreadProcessId(__/*输入窗口句柄*/) = 返回线程ID,进程ID\nvar tid,pid=win.getThreadProcessId(hwnd)
 getTextById(.(hwnd,id,len=256) = 获取窗口上控件的文本\n参数(窗口句柄,控件ID,缓冲区大小)
 setTextById(.(hwnd,id,str) = 设置窗口上控件的文本\n参数(窗口句柄,控件ID,文本)
-getenv(.("变量名") = 读取进程环璋变量
-setenv(.("变量名","变量值") = 设置进程环境变量
-addenv(.("变量名","变量值",是否文件路径) = 如果此环境变量中未包含该值则添加变量值
 setWindowTheme(.(hwnd,subAppName,subIdList) = 设置主题样式\n参数@2,参数@3都是字符串
 end intellisense**/
    
@@ -387,7 +379,7 @@ find(.(类名,标题)=查找顶层窗口,参数都是可选参数
 findEx(.(父窗口句柄,上一个窗口句柄,类名,标题)=查找子窗口\n除父窗口句柄以外,其他参数都是可选参数,\n类名和标题不支持模式匹配,\n如果需要支持模式匹配,请改用 winex.findEx 或 winex.findEx2
 setCapture(.(窗口句柄) = 开始捕获鼠标消息,返回上次调用该函数的窗口句柄
 releaseCapture() = 释放鼠标捕获,成功返回true
-registerClassEx(.("类名",类参数表,"源类名") = 注册新类名\n如果参数@3指定了源类名则复制该类\n可选用参数@2指定 WNDCLASSEX的部份字段值
+registerClassEx(.("类名",类参数表,"源类名") = 注册新类名\n如果参数@3指定了源类名则复制该类\n可选用参数@2指定 WNDCLASSEX的部分字段值
 registerFormClass(.(cls,param,className) = 注意窗口类名,\n\n如果指定了cls，则使用线程ID格式化为伪类名\n此时className为源类名\n\n如果未指定cls,则直接注册className为类名\n如果该窗口类已存在则直接返回该类名\n\n此函数返回注册成功的窗口类名
 enum(callback) = @.enum(\n	function(hwnd){\n		return true; __/*枚举所有桌面顶层窗口,并回调此函数,\n忽略UWP窗口,如果需要包含UWP窗口请改用 winex.enum 函数*/\n	}\n)
 end intellisense**/ 

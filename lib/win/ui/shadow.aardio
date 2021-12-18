@@ -8,6 +8,9 @@ namespace win.ui;
 
 class shadow{ 
 	ctor( winform,shadowAlpha,shadowSize,roundRadius,innerRadius,shadowColor,interpolation,focusRatio) { 
+		if(winform._shadowWindow) return winform._shadowWindow;
+		winform._shadowWindow = this;
+		
 		if( shadowSize === null ) shadowSize = 3;
 		if( roundRadius === null ) roundRadius = shadowSize;
 		if( interpolation === null ) interpolation = 0.15;
@@ -15,8 +18,11 @@ class shadow{
 		if( shadowAlpha === null ) shadowAlpha = 80; 
 		if( focusRatio === null ) focusRatio = 15;
 		
-		if(winform._shadowWindow) return winform._shadowWindow;
-		winform._shadowWindow = this;
+		var dpiScaleX,dpiScaleY = ..gdi.getDpiScale();
+		
+		shadowSize = shadowSize * dpiScaleX;
+		roundRadius = roundRadius * dpiScaleX;
+	 	if(innerRadius) innerRadius = innerRadius * dpiScaleX; 
 		
 		var x,y,cx,cy = winform.getPos(); 
 		var frmShadow = ..win._form(
@@ -101,7 +107,7 @@ class shadow{
     		[0x84/*_WM_NCHITTEST*/ ] = function(hwnd,message,wParam,lParam){
     			if( ..win.isZoomed(winform.hwnd) ) return;
     			var x,y = ..win.getMessagePos(lParam); 
-				var htborder = ..win.hitBorder(..win.getRect(frmShadow.hwnd),x,y,12); 
+				var htborder = ..win.hitBorder(..win.getRect(frmShadow.hwnd),x,y,12 * dpiScaleX); 
 				if(htborder) return htborder; 
     		}
     		[0x20/*_WM_SETCURSOR*/] = function(hwnd,message,wParam,lParam){

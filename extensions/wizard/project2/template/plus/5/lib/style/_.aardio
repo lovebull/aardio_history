@@ -43,23 +43,23 @@ tabsCloseButton ={
 
 titlebar = {
 	set = {
-		background = { 
+		foreground = { 
 			hover = "\res\images\sys_setting_hover.png";
 		} 		
 	}
 	
 	min = {
-		background = {
+		foreground = {
 			hover = "\res\images\sys_min_hover.png";
 		} 		
 	}
  	
 	max = {
-		background = {
+		foreground = {
 			hover = "\res\images\sys_max_hover.png";
 		};
 		checked = {
-			background = {
+			foreground = {
 				default = "\res\images\sys_restore.png";
 				hover = "\res\images\sys_restore_hover.png";
 			}
@@ -67,27 +67,27 @@ titlebar = {
 	}
 	
 	close = {
-		background = {
+		foreground = {
 			hover = "\res\images\sys_close_hover.png";
 		}  		
 	}
 }
 
 searchBox = {
-	background = {
+	foreground = {
 		hover = "\res\images\sys_search_hover.png";
 	};
 }
 
 var chkImg = ..gdip.bitmap("\res\images\checkbox.png").split(12);
 checkbox = {	
-	background = chkImg.map(
+	foreground = chkImg.map(
 		default = 1;
 		hover = 2;
 		active = 3;
 	);
     checked = {
-    	background = chkImg.map(
+    	foreground = chkImg.map(
 			default = 5;
 			hover = 6;
 			active = 7;
@@ -97,13 +97,13 @@ checkbox = {
 
 var radioImg = ..gdip.bitmap("\res\images\radio.png").split(8);
 radioButton = {	
-	background = radioImg.map(
+	foreground = radioImg.map(
 		default = 1;
 		hover = 2;
 		active = 3;
 	);
     checked = {
-    	background = radioImg.map(
+    	foreground = radioImg.map(
 			default = 5;
 			hover = 6;
 			active = 7;

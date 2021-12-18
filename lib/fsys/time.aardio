@@ -3,9 +3,16 @@ import util.metaProperty;
 namespace fsys;
 
 class time{
-	ctor(format="!%c"){
-		this = ::FILETIME()
-		this.format = format;
+	ctor(fileTime,format){
+		if(type(fileTime)=="string") format,fileTime = fileTime;
+		
+		this = ::FILETIME();
+		this.format = format || "!%c";
+		
+		if(fileTime){ 
+			..table.assign(this,fileTime);
+			if(format) this.format = format;
+		}
 	}; 
 	@_metaProperty;
 }
@@ -17,24 +24,24 @@ namespace time{
 			if( ( !owner.dwLowDateTime) && ( !owner.dwHighDateTime ) ) return  tm;
 			var ok,tm = FileTimeToSystemTime(owner,tm );
 			if(ok) return tm;
-		}
+		};
 		toSystemTime = function(){
 			var tm = ..time( ,owner.format)
 			if( ( !owner.dwLowDateTime) && ( !owner.dwHighDateTime ) ) return  tm;
 			var ok,tm = FileTimeToSystemTime(owner,tm );
 			if(ok)return tm;
-		}
+		};
 		fromSystemTime = function(tm){
 			if( tm === null) tm = ..time(,owner.format);
 			if( !..time.istime(tm) ) error("不是合法的time对象",2)
 			owner.format = tm.format;
 			if( SystemTimeToFileTime(tm,owner) ) return owner;
-		} 
+		}; 
 		toDosTime = function(){
 			if( ( !owner.dwLowDateTime) && ( !owner.dwHighDateTime ) ) return 0,0;
 			var ok,fatDate,fatTime = FileTimeToDosDateTime(owner,0,0);
 			if(ok)return (fatDate << 16)|fatTime,fatDate,fatTime;
-		}
+		};
 		fromDosTime = function(fatDate,fatTime){
 			if(!fatTime){
 				var dosDate = fatDate;
@@ -43,9 +50,9 @@ namespace time{
 			};
 
 			if( DosDateTimeToFileTime(fatDate,fatTime,owner) ) return owner;
-		};  
+		};
 		copy = function(){
-			var tm = ..fsys.time(owner.format);
+			var tm = ..fsys.time(,owner.format);
 			tm.dwLowDateTime = owner.dwLowDateTime;
 			tm.dwHighDateTime = owner.dwHighDateTime;
 			return tm;
@@ -56,7 +63,7 @@ namespace time{
 				return owner.copy();
 			}
 			
-			var tm = ..fsys.time("%c");
+			var tm = ..fsys.time(,"%c");
 			FileTimeToLocalFileTime(owner,tm);
 			if( copy ){
 				return tm;
@@ -74,7 +81,7 @@ namespace time{
 				return owner.copy();
 			}
 			
-			var tm = ..fsys.time("!%c");
+			var tm = ..fsys.time(,"!%c");
 			LocalFileTimeToFileTime(owner,tm);
 			if( copy ){
 				return tm;
@@ -103,10 +110,13 @@ namespace time{
 }
 
 /**intellisense()
-fsys.time = FILETIME结构
-fsys.time() = 创建FILETIME结构\n!fsys_time.  
+fsys.time = 在兼容 ::FILETIME 结构体的基础上扩展了更多函数
+fsys.time( = 创建 ::FILETIME 兼容结构体\n可选在参数\n
+fsys.time(.(fileTime,format) = 创建FILETIME结构\n可选用 @fileTime 参数中指定::FILETIME结构体或结构体的部分字段\n可选用 @format 参数指定格式化串，语法与 time 对象相同
+fsys.time() = !fsys_time.
 !fsys_time.dwLowDateTime = 时间值低位
 !fsys_time.dwHighDateTime = 时间值高位
+!fsys_time.format = 格式化串，语法与 time 对象相同
 !fsys_time.copy() = 复制对象
 !fsys_time.local() = UTC时间转换为本地时间,返回自身
 !fsys_time.local(true) = UTC时间转换为本地时间,\n不修改自身,返回本地时间副本

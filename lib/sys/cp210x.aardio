@@ -1,12 +1,12 @@
 ﻿//cp210x 驱动
-import fsys.wow64
+import sys.installed;
 import zlib.installer;
 import win.reg;
 	
 namespace sys.cp210x;
 
 isInstalled = function(){
-	return ..fsys.wow64.disableRedirection( lambda()..io.exist("c:\windows\system32\drivers\silabser.sys")  )
+	return ..sys.installed.find("@(silabser) Ports");
 }
 
 install = function(){

@@ -10,10 +10,9 @@ class bitmap {
 		if( tArg == "string" ){
 			var len = #arg; 
 			if( len <= 2048 ){
-				if( ..string.startWith(arg,"http",true) && ..inet[["http"]] ){
-					if( !self.http ) self.http = ..inet.http();
-					arg = self.http.get(arg);
-					
+				if( ..string.startWith(arg,"http",true) 
+					&& ..string.match(arg,"^\w+\:") && ..inet[["http"]] ){
+					arg = ..inet.http.get(arg);
 					if(!arg) return;
 				}
 				elseif(len<= 0x410/*_MAX_PATH_U8*/){
@@ -404,7 +403,7 @@ end intellisense**/
 gdip.bitmap = 位图对象
 gdip.bitmap.is(__) = 参数是否gdip.bitmap对象
 gdip.bitmap( = 创建位图对象\n失败返回null,以及错误信息
-gdip.bitmap(.(图片文件路径或数据) = 创建GDI+位图对象\n如果事先导入标准库 inet.http,这里也可以直接传入图像网址,\n注意传入网址会同步下载并阻塞当前线程
+gdip.bitmap(.(图片文件路径或数据) = 创建GDI+位图对象\n如果事先导入标准库 inet.http,这里也可以直接传入图像网址
 gdip.bitmap(.(graphics对象,100,100) = 从指定的graphics对象创建GDI+位图副本\n对位图的修改不会影响原来的graphics对象\n参数(graphics对象,宽度,高度)
 gdip.bitmap(.(位图句柄) = 从位图句柄创建bitmap对象\n不会销毁传入的位图,须自行释放
 gdip.bitmap(.(图标句柄,1/*_IMAGE_ICON*/) = 从图标句柄创建bitmap对象\n不会销毁传入的位图,须自行释放

@@ -75,6 +75,24 @@ removeTag = function(html,tag,...){
     return removeTag(html,...);
 } 
 
+toXml = function(html){
+	var doc = ..string.html(html);
+	if(!doc) return;
+	
+	var dt = doc.queryEle(tagName="!doctype")
+	if(dt) dt.remove();
+	
+	var root = doc.queryEle(tagName="html") 
+	if(!root){ 
+		doc.tagName = (
+				doc.queryEle(tagName="body")  || doc.queryEle(tagName="head")
+			) ? "html" : "body";
+			
+		root = doc;
+	}
+	return `<?xml version="1.0" encoding="utf-8"?>` + root.outerXml(); 
+} 
+
 toText = function(html){ 
 	if(!html) return;
 	
@@ -116,11 +134,12 @@ fromText = function(v){
 
 ncr =  ..string.xml.ncr;
 /**intellisense()
-string.html = HTML简单解析器\n\n严格的校验HTML语法正确性不是本模块的义务和目标,\n所以,此解析器尽可能兼容错误,兼容了HTML,SGML的部份规则:\n1、不要求存在根标签 \n2、尝试自动修正不配对的标记 \n3、在有必要的时候尝试忽略大小写\n支持识别HTML空标签、省略闭合标签规则
+string.html = HTML简单解析器\n\n严格的校验HTML语法正确性不是本模块的义务和目标,\n所以,此解析器尽可能兼容错误,兼容了HTML,SGML的部分规则:\n1、不要求存在根标签 \n2、尝试自动修正不配对的标记 \n3、在有必要的时候尝试忽略大小写\n支持识别HTML空标签、省略闭合标签规则
 string.html(__) = 创建HTML解析器,参数请指定包含HTML代码的字符串,\n调用string.xml解析HTML代码,用法与string.xml相同\n但支持识别HTML空标签、省略闭合标签规则
 string.html() = !string_xml.
 string.html.ncr(__) = NCR字符编码、HTML实体字符还原为UTF8文本
 string.html.toText(__/*HTML代码*/) = 将HTML代码转换为文本
 string.html.fromText(__/*普通文本*/) = 将普通文本转换为HTML
 string.html.removeTag(html,"script__") = 移除指定的html标记,支持不定个数的标记参数
+string.html.toXml(__/*HTML代码*/) = 将 HTML 代码转换为 XML 文本
 end intellisense**/

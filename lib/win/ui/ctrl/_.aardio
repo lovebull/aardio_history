@@ -17,6 +17,7 @@ import win.ui.ctrl.progress;
 import win.ui.ctrl.datetimepick;
 import win.ui.ctrl.hotkey;
 import win.ui.ctrl.listview;
+import win.ui.ctrl.vlistview;
 import win.ui.ctrl.treeview;
 import win.ui.ctrl.checklist;
 import win.ui.ctrl.trackbar;
@@ -159,6 +160,8 @@ namespace factory{
 ::Comctl32.InitCommonControlsEx({INT size = 8;INT ic = 0x897F;})
 
 /**intellisense()
+::Comctl32 = 在标准库 win.ui.ctrl 加载的系统DLL组件 comctl32.dll,\n导入 win.ui,win.ui.ctrl 可自动在所有窗口控件创建以前加载,\n!dllmodule.
+ 
 _NM_FIRST=@0x0/*_NM_FIRST*/
 _NM_LAST=@0xFFFFFF9D/*_NM_LAST*/
 _NM_OUTOFMEMORY=@0xFFFFFFFF/*_NM_OUTOFMEMORY*/

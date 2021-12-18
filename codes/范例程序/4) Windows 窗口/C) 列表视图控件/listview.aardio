@@ -16,7 +16,6 @@ winform.popmenu.add('删除',function(id){
 });
 
 //双击listview控件添加下面的代码 
-import win.util.tray;
 winform.listview.onnotify = function(id,code,ptr){ 
     
     select(code) {
@@ -24,12 +23,10 @@ winform.listview.onnotify = function(id,code,ptr){
     		var nm = winform.listview.getNotifyMessage(code,ptr)
     		if(winform.listview.selIndex){
         		winform.static.text = "选中了" +  winform.listview.getItemText(nm.iItem,nm.iSubItem)
-            	win.util.tray.pop( winform.static.text )
         	}
     	}
     	case 0xFFFFFF94/*_LVN_COLUMNCLICK*/ {
-    		winform.static.text = "请实现排序"
-        	win.util.tray.pop("请实现排序")
+    		winform.static.text = "请实现排序" 
     	}
     	case 0xFFFFFFFB/*_NM_RCLICK*/  {
     		var x,y = win.getCursorPos();

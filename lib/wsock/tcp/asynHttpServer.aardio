@@ -56,6 +56,10 @@ class asynHttpServer{
 		};
 		
 		this.customErrors = {};
+		
+		if(..request && ..response && !..response.closed ){ 
+			error('在响应 HTTP 请求时不应启动 HTTP 服务端\n');
+		}
 	}; 
 	spaUrl = function(indexPath,exactRoot){
 		this.customErrors[404] = function(response){
@@ -141,36 +145,43 @@ class asynHttpServer{
 			PATH_INFO = uri[1];
 		}
 		
-		if( !..io.exist(environ.PATH_INFO,4) && ..io.exist(environ.PATH_INFO,0)  ){
-			var path = ..io.joinpath(environ.PATH_INFO,this.defalutDocument);
-			if( ..io.exist( path,4 ) ){
-				if(environ.PATH_INFO[#environ.PATH_INFO]!=='/'#){
-					socketClient.write(environ.SERVER_PROTOCOL 
-						+ ' 301 Moved Permanently\r\nLocation: '+environ.PATH_INFO+'/\r\n\r\n');
-					socketClient.shutdown();
-					return;
-				}
-							
-				environ.PATH_INFO = path;
-			}
+		environ.PATH_INFO = ..inet.url.decode(environ.PATH_INFO);
+		if(!environ.PATH_INFO){
+			socketClient.write(environ.SERVER_PROTOCOL + ' 400 Bad Request');
+			socketClient.shutdown();	
+			return; 
 		}
-			
+		
+		environ.PATH_INFO = ..string.replace(environ.PATH_INFO,"\\","/");
+		environ.PATH_TRANSLATED = ..io.fullpath(..io.joinpath(this.documentRoot,this.documentBase,environ.PATH_INFO));
+		
+		//检查默认文档
+		if(environ.PATH_INFO[#environ.PATH_INFO]=='/'#){
+			environ.PATH_INFO = ..io.joinpath(environ.PATH_INFO,this.defalutDocument);
+		}
+		elseif( ..io.exist(environ.PATH_TRANSLATED,0) && !..io.exist(environ.PATH_TRANSLATED,4)  ){
+			socketClient.write(environ.SERVER_PROTOCOL + ' 301 Moved Permanently\r\nLocation: '+environ.PATH_INFO+'/\r\n\r\n');
+			socketClient.shutdown();
+			return;
+		}
+		
+		//检查默认路径前缀
+		if(this.documentBase){
+			environ.PATH_INFO = ..io.joinpath(this.documentBase,environ.PATH_INFO);
+		}
+		
+		//设置 SCRIPT_NAME
 		with environ{ 
-			PATH_INFO = ..inet.url.decode((..string.replace( PATH_INFO,"\\","/")));
-			if(!PATH_INFO){
-				socketClient.write(environ.SERVER_PROTOCOL + ' 400 Bad Request');
-				socketClient.shutdown();	
-				return; 
-			}
+			PATH_INFO = ..string.replace(PATH_INFO,"\\","/");
+			PATH_TRANSLATED = ..string.replace(PATH_TRANSLATED,"\\","/");
 			
-			PATH_TRANSLATED = ..io.fullpath(PATH_INFO);
 			if( ..string.endWith(PATH_INFO,".aardio",true) ){
 				SCRIPT_NAME =  PATH_INFO;
 				SCRIPT_FILENAME = PATH_TRANSLATED;
 			}
 			else {
 				SCRIPT_NAME = ..string.match(PATH_INFO,"(.*?\.aardio)/");
-				if(#SCRIPT_NAME)  SCRIPT_FILENAME = ..io.fullpath(SCRIPT_NAME);
+				if(#SCRIPT_NAME)  SCRIPT_FILENAME = ..io.fullpath(..io.joinpath(this.documentRoot,SCRIPT_NAME));
 			}
     	}
     
@@ -782,7 +793,8 @@ class asynHttpServer{
 }
 
 /**intellisense()
-wsock.tcp.asynHttpServer() = 创建单线程异步TCP服务端\n!stdasynHttpServer.
+wsock.tcp.asynHttpServer = 单线程异步 HTTP 服务端\n浏览器组件发起异步 HTTP 请求支持 asynHttpServer。\n请不要用 inet.http 等阻塞请求同一线程创建的 asynHttpServer,\n 这会导致 asynHttpServer 没有机会响应请求而导致死锁，\n一般没必要这样自己 HTTP 请求自己，改成普通函数调用即可，\n如果确有这样的需求，可以创建线程调用 inet.http 发起请求，\n或改用基于多线程的 wsock.tcp.simpleHttpServer 创建服务端
+wsock.tcp.asynHttpServer() = 创建单线程异步 HTTP 服务端\n!stdasynHttpServer.
 end intellisense**/
 
 /**intellisense(!stdasynHttpServer)
@@ -809,8 +821,9 @@ clearKeepAliveTimeout() = 关闭所有超出keepAliveTimeout限制的超时连�
 getUrl(__) = 返回HTTP服务端访问网址,可选指定目录或文件路径\n注意参数第一个字符不需要指定斜杠\n如果参数@2为true，IP "0.0.0.0"替换为上网卡IP而不是localhost\n如果服务器启动失败不返回任何值
 spaUrl( = 返回 SPA 单页应用首页网址
 spaUrl(.(indexHtmlPath,exactRoot) = 参数指定 SPA 单页应用首页路径，\n404错误页也会自动设置到该路径，\n返回首页网址\n\n可选参数 @exactRoot 指定首页是否已配置为精确匹配"/"路径
-documentRoot = 网站根目录,默认为"/"
-defalutDocument = 默认文档，默认为"main.aardio"
+documentRoot = 网站应用程序根目录,默认为"/",\n只能设置为硬盘上实际存在的目录,\n改变此目录,会同时改变\n服务端代码中的应用程序根目录以及用户库目录,\n如果只是相将所有请求路径转向某个目录,应当改用 documentBase 属性\n如果网站在嵌入资源目录中,应当改用 documentBase 属性
+documentBase = 网站根目录,\n不会修改应用程序根目录,支持硬盘目录与资源目录,\n这个属性应当设置为应用程序根目录下的相对路径,\n例如 "/res/web/",\n此路径应
+defalutDocument = 默认文档，默认为"main.aardio",\n\n如果访问硬盘上存在的目录,request.path 尾部不加斜杠会自动跳转到以斜杆结束的路径\n\n如果访问嵌入资源目录,只有 request.path 以斜杆才会访问默认文档,\n对于访问嵌入资源文件,建议指定完整的文件路径,\n默认文档主要是用于硬盘上的网站
 customErrors = @.customErrors = {\n    [404] = function(response){\n		response.status = "404 Not Found";\n		response.write("404 Not Found"); __/*自定义错误页，\n也可以直接指定错误页路径*/\n	} \n}
 onUpgradeProtocol = @.onUpgradeProtocol = function(client,request,response){
 	__/*处理客户端升级协议请求,\n可在此回调中切换到WebSocket协议*/

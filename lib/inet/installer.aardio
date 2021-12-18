@@ -14,6 +14,10 @@ class installer{
 			url = _WIN_64 ? url.x64 : url.x86;
 		}
 		
+		if(_WINXP && operation === null ){
+			operation = "open"
+		}
+		
 		var downBox = ..inet.downBox(winform : ..win.getActive(),"正在下载程序运行必需组件：" + appName,100) 
 		downBox.endProc = function(){ 
 			downBox.text = "安装本程序运行必需组件：" + appName;  

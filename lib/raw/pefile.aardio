@@ -37,7 +37,10 @@ class pefile{
 			return null,"PE格式错误" 
 		}
 		
-		var optionalHeader = file.read({WORD magic})
+		var optionalHeader = file.read({WORD magic;BYTE majorLinkerVersion;BYTE minorLinkerVersion})
+		this.majorLinkerVersion = optionalHeader.majorLinkerVersion;
+		this.minorLinkerVersion = optionalHeader.minorLinkerVersion;
+		
 		this.optionalMagic = ({ [0x10B] = "PE32";[0x20B]="PE64";[0x107]="ROM"})[optionalHeader.magic] 
 		this.isPe32 = optionalHeader.magic == 0x10B;
 		this.sizeNtHeader = this.isPe32 ? 0xF8 : 0x108;
@@ -78,6 +81,9 @@ class pefile{
 	read = function(...){
 		return this.file.read(...)
 	};
+	seek = function(...){
+		return this.file.seek(...)
+	};
 	rvaToOffset = function(rva) { 
 		for i,section in ..table.eachIndex(this.sections){ 
 			if( rva < section.virtualAddress + section.virtualSize ){
@@ -85,6 +91,14 @@ class pefile{
 			}      
 		} 
 	}; 
+	isImported = function(name){
+		var data = this.getImportDirectory();
+		for i,module in ..table.eachIndex(data){
+			if(..string.cmp(module.name,name)===0){
+				return true; 
+			}
+		}
+	};
 	getImportDirectory = function(){
 		var file = this.file;
 		
@@ -96,36 +110,44 @@ class pefile{
 		var offsetFirst = this.rvaToOffset(header.address);
 		file.seek( "set",offsetFirst );
 		
+		var push = ..table.push;
+		var thunkData = this.isPe32?{INT ordinal}:{LONG ordinal}
+		var thunkDataSize = ..raw.sizeof(thunkData);
+			
 		var result = {}
 		while( var importDescriptor = file.read({
 			INT originalFirstThunk;
 			INT timeDateStamp;
 			INT forwarderChain;
 			INT name;
-			INT firstThunk;
+			INT runtimeFirstThunk;
 		}) ){
-			if(!importDescriptor.firstThunk ){ break } 
+			if(!importDescriptor.originalFirstThunk ){ break } 
+			if(!importDescriptor.name ){ break } 
 				
 			var dllInfo = {}
 			file.seek("set",this.rvaToOffset(importDescriptor.name)) 
 			dllInfo.name = file.readTo('\0')  
 		
 			var i = 1;
-			var firstOffset = this.rvaToOffset(importDescriptor.firstThunk) 
-			file.seek( "set",firstOffset) 
-			
+			var firstOffset = this.rvaToOffset(importDescriptor.originalFirstThunk) 
+			file.seek( "set",firstOffset)
 			dllInfo.functions = {}
-			var thunkData = this.isPe32?{int ordinal}:{long ordinal}
+			
+			var hint;
 			while(var ordinal = file.read(thunkData)[["ordinal"]]) {
-				if( ordinal > 0){ 
+				if( ordinal < 0x80000000){ 
 					file.seek( "set",this.rvaToOffset(ordinal)  )
-					file.read({WORD value;})
+					hint = file.read({WORD value;})
 			
 					var funcName = file.readTo('\0'); 
-					if(#funcName)..table.push(dllInfo.functions,funcName)
+					if(#funcName)push(dllInfo.functions,{hint=hint.value,name=funcName})	
+				}
+				else{ 
+					push(dllInfo.functions,{hint=ordinal&0x7FFFFFFF}) 
 				}
 	
-				file.seek( "set",firstOffset + i*..raw.sizeof(thunkData) )
+				file.seek( "set",firstOffset + i*thunkDataSize )
 				i++;
 			}               
 			
@@ -175,12 +197,14 @@ class pefile{
 		
 		file.seek("set", this.rvaToOffset(exportDirectory.addressOfNames) ) 
 		result.addressOfNames = file.read({INT rvas[] = {length = exportDirectory.numberOfNames} })[["rvas"]]
+		
+		var push = ..table.push;
 		for i,rva in ..table.eachIndex(result.addressOfNames){ 
 			var offset = this.rvaToOffset(rva); 
 			file.seek("set",offset)
 			
 			var name = file.readTo('\0'); 
-			..table.push(result.names,name)
+			push(result.names,name)
 		}
 		
 		result.base = exportDirectory.base
@@ -270,6 +294,23 @@ class pefile{
 		}
 		
 		return ..string.join(declaration,'\r\n');	
+	};
+	getClrHeader = function(){
+		var file = this.file;
+		file.seek( "set",this.headerAddress +  (this.isPe32?0x78:0x88) + 112 )
+		var header = file.read( {INT address; INT size} );
+		if(!header) return null,"PE格式错误";
+		if(!(header.address && header.size)) return; 
+		
+		file.seek("set",this.rvaToOffset(header.address))
+		return file.read({
+			INT cb;
+			WORD major; 
+			WORD minor;
+			struct metaData = {INT addr;INT size}
+  			INT flags;  
+  			INT entryPoint
+  		})  
 	};
 }
 
@@ -408,19 +449,23 @@ namespace pefile{
 		
 		return result;
 	}
-
 }
 
-
 /**intellisense()
-raw.pefile = 用于分析PE文件
-raw.pefile(.(path) = 参数指定PE文件路径
+raw.pefile = 用于分析PE文件\n用法请参考 aardio 工具 / 探测器 / DLL 查看工具
+raw.pefile(.(path) = 参数指定 PE 文件路径
 raw.pefile() = !rawPeFile.
 !rawPeFile.getExportDirectory() = 返回导出表信息,\n用法请查看函数源码
 !rawPeFile.getImportDirectory() = 返回导入表信息,\n用法请查看函数源码
+!rawPeFile.getClrHeader() = 获取 .Net 程序的 CLR 头信息\n如果不是 .Net 程序返回 null
 !rawPeFile.getExportNameItems() = 返回一个包含所有导出函数名信息的数组,\n每个数组成员包含"ordinal";"address";"name"三个字段\n返回对象的fields属性是一个列名数组,\n返回对象可以作为listview控件的setTable函数参数使用
 !rawPeFile.isPe32 = 是否PE32文件
+!rawPeFile.isImported("__") = 检测是否导入了指定的 DLL,名称忽略大小写
 !rawPeFile.read(__/*字节数*/) = 读取指定长度的字节\n不支持多参数
 !rawPeFile.read({int number}) = 读取结构体\n不支持多参数
-!rawPeFile.exportDeclaration() = 导出aardio格式的导出函数声明，\n仅支持使用C++修饰名导出的API函数,\n导出的aardio代码仅供参考。
+!rawPeFile.seek("set",__) = 移动至相对开始处的指定偏移量
+!rawPeFile.exportDeclaration() = 导出 aardio 格式的导出函数声明，\n仅支持使用C++修饰名导出的 API 函数,\n导出的 aardio 代码仅供参考。
+!rawPeFile.majorLinkerVersion = 链接器主版本号
+!rawPeFile.minorLinkerVersion = 链接器副版本号
+!rawPeFile.path = 文件路径
 end intellisense**/

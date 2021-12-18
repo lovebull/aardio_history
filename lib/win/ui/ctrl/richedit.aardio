@@ -1,4 +1,4 @@
-//richedit 富文本框
+﻿//richedit 富文本框
 import win.ui.menu;
 import win.ui.ctrl.edit; 
 namespace win.ui.ctrl; 
@@ -90,7 +90,7 @@ class richedit{
 				}	
 			}
 			
-			this._commandFuncnames ={[0x300/*_EN_CHANGE*/]="onChange"}
+			this._commandFuncnames ={[0x300/*_EN_CHANGE*/]="onChange";[0x100/*_EN_SETFOCUS*/] ="onFocusGot";[0x200/*_EN_KILLFOCUS*/]="onFocusLost"}
 	    }
 	    
     };
@@ -381,12 +381,22 @@ richedit._metaProperty =  metaProperty(
     canPaste = function(){
         return !!::SendMessage(owner.hwnd,0x432/*_EM_CANPASTE*/)
     };
-	_prenotify = function(id,code,ptr,nmdr){
-    	if(code== 0x070B/*_EN_LINK*/ && owner.onlink ){ 
-    		var link = ..raw.convert(ptr, ENLINK_STRUCT() );
-			owner.onlink(link.msg,tostring(owner.rangeText( link.chrg.cpMin+1,link.chrg.cpMax)) )
-    	} 
-    }; 
+    onHyperlink = {
+		_get = function(){   
+			return owner[["onHyperlink"]];
+		}
+		_set = function(v){ 
+			owner[["onHyperlink"]] = v;
+			
+			owner.prenotify = {
+				[0x070B/*_EN_LINK*/] = function(id,code,ptr){
+					if(!owner.onHyperlink) return;
+					var link = ..raw.convert(ptr, ENLINK_STRUCT() );
+					owner.onHyperlink(link.msg,tostring(owner.rangeText( link.chrg.cpMin+1,link.chrg.cpMax)) )	
+				}
+			}
+		}	
+	}; 
     streamOut = function(format,callback){
     	if( format === null ) format = 2/*_SF_RTF*/;
     	callback = ..raw.tostdcall(callback,"INT(INT cookie, pointer buf,INT count, INT & read)");
@@ -509,8 +519,10 @@ richedit._metaProperty =  metaProperty(
       	
       	return min,max;  
     };
- }
- ) 
+}) 
+
+//@Deprecated
+richedit._metaProperty.onlink = richedit._metaProperty.onHyperlink
  
 /***intellisense()
 win.ui.ctrl.richedit = 多功能文本框控件支持库
@@ -553,7 +565,7 @@ win.ui.ctrl.richedit() = 多功能文本框控件\n!richedit.
 !richedit.scrollCaret() = 滚动到光标处
 !richedit.deselect() = 取消选定
 !richedit.setSelCharformat(.(charformat2) = 使用CHARFORMAT2结构体设置文本样式,可仅指定部分字段,\n此函数会禁用控件的DPI字体缩放，建议在显示窗体后再调用。
-!richedit.setCharformat(.(charformat2,wParam) = 使用CHARFORMAT2结构体设置文本样式,可仅指定部份字段\nwParam可省略,可选值参考EM_SETCHARFORMAT消息,\n此函数会禁用控件的DPI字体缩放，建议在显示窗体后再调用。
+!richedit.setCharformat(.(charformat2,wParam) = 使用CHARFORMAT2结构体设置文本样式,可仅指定部分字段\nwParam可省略,可选值参考EM_SETCHARFORMAT消息,\n此函数会禁用控件的DPI字体缩放，建议在显示窗体后再调用。
 !richedit.getSelCharformat() = !charformat2.
 !richedit.getCharformat() = !charformat2.
 !richedit.getCharformat(.(mask) = 返回CHARFORMAT2结构体\n参数指定获取字段掩码,省略获取全部值
@@ -584,15 +596,15 @@ win.ui.ctrl.richedit() = 多功能文本框控件\n!richedit.
 !richedit.setFont(__/*指定字体*/) = 指定LOGFONT字体对象,或逻辑字体句柄 
 !richedit.setFont(混入字体属性) = @.setFont(point=10;name="宋体");
 !richedit.theme = 外观主题,例如\nwinform.button.theme = "Explorer"\nwinform.button.theme = false
-!richedit.modifyStyle(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos 
-!richedit.modifyStyleEx(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos
+!richedit.modifyStyle(.(remove,add,swpFlags) = 修改窗口样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码 
+!richedit.modifyStyleEx(.(remove,add,swpFlags) = 修改窗口扩展样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_EX_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_EX_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码
 !richedit.capture = 是否捕获全局鼠标消息
 !richedit.close() = 关闭控件窗
 !richedit.invalidate(__/*可选使用::RECT()对象指定客户区*/) = 使窗口绘图区无效
 !richedit.invalidate(__/*可选使用::RECT()对象指定客户区*/,0) = 使窗口绘图区无效\n不刷新背景
 !richedit.update() = 重绘invalidate函数指定的区块
 !richedit.wrap = 是否启用自动换行,仅richedit支持
-!richedit.onlink = @.onlink=function(message,href){\n\n	if( message = 0x202/*_WM_LBUTTONUP*/ ) {\n		import process;\n		process.openUrl(href);\n	}\n}
+!richedit.onHyperlink = @.onHyperlink =function(message,href){\n\n	if( message = 0x202/*_WM_LBUTTONUP*/ ) {\n		import process;\n		process.openUrl(href);\n	}\n}
 !richedit.setFocus() = 设置焦点 
 !richedit.tabNext(.(移动焦点,是否反向) = 获取下一个支持tab控制焦点的控件\n参数@1为true会自动移动焦点到该控件\n参数@2为true则获取上一个控件,否则获取下一个控件
 !richedit.tabNext() = !static.
@@ -638,12 +650,12 @@ win.ui.ctrl.richedit() = 多功能文本框控件\n!richedit.
 	}	
 }
 !richedit.onOk() = @.onOk = function(){ 
-    __/*当前已按下回车,返回true阻止默认事件*/
-    return true; 	
+	__/*当前已按下回车,返回true阻止默认事件*/
+	return true; 	
 }
 !richedit.onCancel() = @.onCancel = function(){ 
-    __/*当前已按下ESC,返回true阻止默认事件*/
-    return true; 	
+	__/*当前已按下ESC,返回true阻止默认事件*/
+	return true; 	
 }
 !richedit.onChange() = @.onChange = function(){ 
 	if(owner.onModified)owner.onModified(true);
@@ -651,6 +663,12 @@ win.ui.ctrl.richedit() = 多功能文本框控件\n!richedit.
 }
 !richedit.onModified = @.onModified = function(modified){ 
 	__/*使用代码变更modified属性后触发此事件,\n用户编辑文本导致变更modified属性不会触发此事件，\n可在onChange事件内主动调用此事件*/
+}
+!richedit.onFocusGot() = @.onFocusGot = function(){ 
+	__/*响应事件，文本框已获得输入焦点*/
+}
+!richedit.onFocusLost() = @.onFocusLost = function(){
+	__/*响应事件，文本框已失去输入焦点*/
 }
 !richedit.addCtrl(tParam) = @.addCtrl(\n	spin={\n		cls="spin";marginRight=4;marginTop=1;marginBottom=4;width=16;\n		oncommand = function(id,event,pos){ \n			if( pos && event == 0x4/*_SB_THUMBPOSITION*/ ){\n 				winform.edit.text = string.format("%.2f",pos / 100 )\n			}\n		}\n	}\n)__/*在edit控件窗口内添加子窗口*/
 !richedit.replaceAll( = 全部替换查找到的文本

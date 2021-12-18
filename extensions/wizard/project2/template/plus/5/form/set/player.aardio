@@ -2,8 +2,8 @@ import win.ui;
 /*DSG{{*/
 var winform = win.form(text="aardio form";right=484;bottom=383;bgcolor=15658734;parent=...)
 winform.add(
-plus={cls="plus";left=90;top=27;right=103;bottom=40;background="\res\images\checkbox.png";foreRepeat="repeat-x";notify=1;repeat="repeat-x";z=3};
-plus2={cls="plus";left=90;top=57;right=103;bottom=70;background="\res\images\checkbox.png";notify=1;repeat="repeat-x";z=4};
+plus={cls="plus";left=90;top=27;right=103;bottom=40;foreground="\res\images\checkbox.png";notify=1;repeat="repeat-x";z=3};
+plus2={cls="plus";left=90;top=57;right=103;bottom=70;foreground="\res\images\checkbox.png";notify=1;repeat="repeat-x";z=4};
 static={cls="static";text="老板键";left=17;top=24;right=73;bottom=42;align="right";transparent=1;z=1};
 static2={cls="static";text="文件关联";left=17;top=54;right=73;bottom=72;align="right";transparent=1;z=2};
 static3={cls="static";text="开启老板键";left=106;top=26;right=182;bottom=44;align="right";color=8421504;notify=1;transparent=1;z=5};

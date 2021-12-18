@@ -356,21 +356,7 @@ namespace file{
 	
 	temp = function( path,dontDelete){ 
 		if(!path || path[1]=='.'#){
-			var ext = path : "";
-			var buf = ..raw.buffer(0x208/*_MAX_WPATH_BYTES*/);
-			if( ::Kernel32.GetTempPathW(0x104,buf) ){
-				var dir = ..string.fromUnicode(buf); 
-				var tk = "$" + ..thread.getId() + "$" + ..time.tick() + "$" 
-				
-				var i = 0;
-				do{
-					path= ..io.joinpath(dir, tk ++ i ++ ext)
-					i++;
-				}while(..io.exist(path))
-			}
-			else {
-				return;
-			}
+			path = ..io.tmpname(,path)
 		}
 		
 		return ..fsys.file(path,"w+b",7/*_FILE_SHARE_READ | _FILE_SHARE_WRIT | _FILE_SHARE_DELETE*/,,

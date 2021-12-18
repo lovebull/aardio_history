@@ -1,15 +1,12 @@
-//3、调用Java对象
-
-import console;
+//调用Java对象
+import console; 
 import java; 
 
+//创建 Java 虚拟机
 var jvm = java();
 
-/*
-创建java类实例,并调用其成员方法,
-注意java会到 "默认类搜寻路径" + "/java/aardio/sample/HelloworldApp.class" 去查找 aardio.sample.HelloworldApp
-*/
-HelloworldApp = jvm.loadClass( "aardio.sample.HelloworldApp");
+//导入 Java 类
+HelloworldApp = jvm.import( "aardio.sample.HelloworldApp");
 
 //修改类的静态成员变量
 HelloworldApp.static_num = 996;
@@ -17,7 +14,7 @@ HelloworldApp.static_num = 996;
 //获取类的静态成员变量
 console.log( HelloworldApp.static_num )
 
-//直接用Java类创建Java对象,跟Java中一样用就行
+//直接用 Java 类创建 Java 对象,跟 Java 中一样用就行
 var helloworld = HelloworldApp();
 	
 //获取对象的成员字段值
@@ -26,4 +23,7 @@ console.log( helloworld.name );
 //调用对象的方法
 console.log( helloworld.test(1) )
 
+//调用 main 函数，参数是字符串数组
+var ret = HelloworldApp.main( {"aaa字符串数组1","bbb字符串数组2"} )
+console.log(ret); 
 console.pause();

@@ -11,15 +11,14 @@ console.log("CPU:",sys.cpu.getBrand());
 console.log("CPU 当前速度:",sys.cpu.getFrequence(true));
 
 var cpu = sys.cpu.getInfoByWmi()
-console.log(cpu.deviceid());//CPU
-console.log(cpu.name());//
-console.log("CPU 核心数："+ cpu.numberOfCores);
-console.log("CPU 逻辑核心数："+ cpu.numberOfLogicalProcessors);
-console.log("CPU 最大速度："+ math.round(cpu.maxClockSpeed/1000,2) + "GHz");
-console.log("CPU 当前速度："+ math.round(cpu.currentClockSpeed/1000,2) + "GHz");
-console.log("CPU 位宽：" + cpu.addressWidth);
+console.log(cpu.DeviceID );//CPU
+console.log(cpu.Name);//
+console.log("CPU 核心数："+ cpu.NumberOfLogicalProcessors);
+console.log("CPU 逻辑核心数："+ cpu.NumberOfLogicalProcessors);
+console.log("CPU 最大速度："+ math.round(cpu.MaxClockSpeed/1000,2) + "GHz");
+console.log("CPU 当前速度："+ math.round(cpu.CurrentClockSpeed/1000,2) + "GHz");
+console.log("CPU 位宽：" + cpu.AddressWidth);
 console.more()
-
 
 import sys.mem;
 console.log("Total Memory:",sys.mem.getInfo().totalPhys.formatSize);

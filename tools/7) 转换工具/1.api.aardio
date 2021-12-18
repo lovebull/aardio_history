@@ -435,7 +435,8 @@ PULONG64=LONG
 		return str;
 	} 
 	
-	var ccode = winform.txtCode.text;
+	var ccode = winform.txtCode.text; 
+	
 	dll =  string.match( ccode,"(\w+).dll(\W)"); 
 	dll ?= string.lower(dll) 
 	select(dll) {
@@ -457,7 +458,14 @@ PULONG64=LONG
 		
 	}
 	
-	winform.txtCode.text = struct2aardio(winform.txtCode.text); 
+	winform.btnStruct2Aardio.disabled = true;
+	win.delay(100);
+	
+	var ccode = winform.txtCode.text;
+	ccode =  string.replace( ccode,"\/\*.+?\*\/",""); 
+	winform.txtCode.text = struct2aardio(ccode); 
+	
+	winform.btnStruct2Aardio.disabled = false;
 } 
  
 import win.guid;

@@ -63,6 +63,10 @@ tbs.add({
     text="批处理"; 
 },"\forms\winform\bat.aardio")
 
+tbs.add({
+    text="Python"; 
+},"\forms\winform\python.aardio")
+
 tbs.selIndex = 1;
 
 winform.getTemplatePath = function(){

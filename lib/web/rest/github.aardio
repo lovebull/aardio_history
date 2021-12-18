@@ -4,8 +4,8 @@ import web.rest.jsonLiteClient;
 namespace web.rest;
 
 class github{
-	ctor( ... ){
-		this = ..web.rest.jsonLiteClient();
+	ctor(...){
+		this = ..web.rest.jsonLiteClient(...);
 		this.defaultUrlTemplate = "https://api.github.com";
 	};
 }

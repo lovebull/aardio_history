@@ -495,7 +495,7 @@ isClosed(hSocket) = 连接是否已关闭
 isConnected(hSocket)  = 是否已连接并准备就绪可以发送数据
 client() = !stdtcpaclient.
 clientCount() = 当前WebSocket客户端数目\n包含正在连接或正在断开连接的客户端\n不含已关闭的客户端
-httpServer = HTTP服务端\nwsock.tcp.asynHttpServer对象\nWebSocket服务端继承此HTTP服务端\n包含原来HTTP服务端的所有功能,\n!stdasynHttpServer.
+httpServer = 单线程异步 HTTP服务端,wsock.tcp.asynHttpServer对象\n浏览器组件发起异步 HTTP 请求支持 wsock.tcp.asynHttpServer。\n请不要用 inet.http 等阻塞请求同一线程创建的 asynHttpServer,\n这会导致 asynHttpServer 没有机会响应请求而导致死锁，\n如果确有这样的需求，可创建线程发起请求，\n或改用基于多线程的 wsock.tcp.simpleHttpServe,\n!stdasynHttpServer.
 onUpgradeToWebsocket = @.onUpgradeToWebsocket = function(hSocket,request,response,protocol,origin){\n    __/*\n用户发送HTTP请求切换到WebSocket协议,\n可以在这里修改HTTP响应头中Sec-WebSocket-Protocol的值\n\n如果要阻止用户切换到WebSocket,用 response.close() 关闭请求，\n或调用 response.errorStatus() 函数返回错误代码即可，\n否则退出此函数后会继续切换到WebSocket协议。\n\n参数说明:\nhSocket为客户端套接字句柄\nrequest为HTTP请求对象\nresponse为HTTP应答对象\nprotocol为Sec-WebSocket-Protocol请求头的值*/\n}
 _onClientClosed = @._onClientClosed = function(hSocket){
 	__/*客户端连接已经关闭时触发\n此函数在连接断开后一定会被触发\n此回调函数是标准库保留接口\n用户不应使用此回调*/

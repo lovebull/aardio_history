@@ -1,0 +1,23 @@
+﻿//v8 运行时
+import java;
+import zlib.httpFile;
+
+namespace java.jre.v8;
+
+path  = ..io.appData("\aardio\std\java\OpenJDK8U-jre_x86-32_windows_hotspot_8u312b07\jdk8u312-b07-jre")
+if(!..io.exist(path)){
+	var dir = ..zlib.httpFile.download("https://mirrors.tuna.tsinghua.edu.cn/AdoptOpenJDK/8/jre/x32/windows/OpenJDK8U-jre_x86-32_windows_hotspot_8u312b07.zip"
+		,"正在下载本程序必须组件: OpenJDK JRE v8",..io.appData("aardio/std/java"))	
+	if(!dir || ! ..io.exist(path) ){
+		path = null;
+		return;
+	}
+}
+
+..java.path.setJreHome(path)
+
+
+/**intellisense()
+java.jre.v8 = 检测并在必要时自动下载 OpenJDK JRE v8,\n导入此库后，发布不用带 JRE,\n导入此库已自动导入 java 库
+java.jre.v8.path = 如果成功下载并设为 JRE 根目录,\n此属性为 JRE 根目录路径,\n否则此属性值为 null
+end intellisense**/

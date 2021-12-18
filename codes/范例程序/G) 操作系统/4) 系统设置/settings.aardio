@@ -14,6 +14,12 @@ else {
 }
 
 /*
+import process.rundll;
+process.rundll("sysdm.cpl").EditEnvironmentVariables() //打开环境变量设置
+process.rundll().Control_RunDLL("sysdm.cpl") //打开系统属性
+*/
+
+/*
 //打开系统用户管理（高级）
 process.control("userpasswords2")
 
@@ -30,3 +36,4 @@ process.control("userpasswords2")
 import process;
 process.explore("shell:::{ED7BA470-8E54-465E-825C-99712043E01C}")
 */
+ 

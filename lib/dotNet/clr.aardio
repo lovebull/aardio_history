@@ -184,7 +184,7 @@ namespace clr{
 
 /**intellisense()
 dotNet = dotNet支持库;
-dotNet.clr("v4->0") = 创建CLR运行时,\n可以使用多个参数指定多个允许加载的版本号,\n注意 .NET 3.5的运行时是v2.0,.Net 4.5的运行时是v4.0\nWIN7自带.NET2.0运行时,WIN10自带.NET4.0运行时
+dotNet.clr("v4->0") = 创建 CLR 运行时,\n可以使用多个参数指定多个允许加载的版本号,\n不指定参数可以自动选择合适的版本,\n注意 .NET 3.5 的运行时是 v2.0,.Net 4.5 的运行时是 v4.0,\nWin7 自带.NET2.0运行时,Win10,Win11 自带 .NET4.0 运行时\n\naardio 可以自适应不同的版本，所以大多时候不需要去指定版本，\n一般不需要自己去创建应用程序域，例如加载程序集，直接写 \ndotNet.load 或 dotNet.loadFile 就可以
 dotNet.clr() = !dotNetCrl.
 !dotNetCrl.runtimeHost = !dotNetCorRuntimeHost.
 !dotNetCrl.createAppDomain(.("域名称") = 创建应用程序域,参数可选 

@@ -1,4 +1,5 @@
-﻿namespace preload.struct{}
+﻿//struct 预定义结构体
+namespace preload.struct{}
 
 /*intellisense()*/
 class ::POINT {

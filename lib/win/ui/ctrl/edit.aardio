@@ -99,7 +99,7 @@ class edit{
 				}
 			end;
 			
-			this._commandFuncnames ={[0x300/*_EN_CHANGE*/]="onChange"}
+			this._commandFuncnames ={[0x300/*_EN_CHANGE*/]="onChange";[0x100/*_EN_SETFOCUS*/] ="onFocusGot";[0x200/*_EN_KILLFOCUS*/]="onFocusLost"}
 		}
     }
 	@_metaProperty;
@@ -550,15 +550,14 @@ edit._metaProperty =  metaProperty(
 !edit.setFont(.(LOGFONT字体对象) = 指定LOGFONT字体对象,或逻辑字体句柄 
 !edit.setFont(.(point=10;name="宋体") = 使用指定属性创建字体; 
 !edit.theme = 外观主题,例如\nwinform.button.theme = "Explorer"\nwinform.button.theme = false
-!edit.modifyStyle(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos 
-!edit.modifyStyleEx(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos
+!edit.modifyStyle(.(remove,add,swpFlags) = 修改窗口样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码 
+!edit.modifyStyleEx(.(remove,add,swpFlags) = 修改窗口扩展样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_EX_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_EX_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码
 !edit.capture = 是否捕获全局鼠标消息
 !edit.close() = 关闭控件窗
 !edit.invalidate(__/*可选使用::RECT()对象指定客户区*/) = 使窗口绘图区无效
 !edit.invalidate(__/*可选使用::RECT()对象指定客户区*/,0) = 使窗口绘图区无效\n不刷新背景
 !edit.update() = 重绘invalidate函数指定的区块
 !edit.wrap = 是否启用自动换行,仅richedit支持
-!edit.onlink = @.onlink=function(msg,title){\n	\n}
 !edit.setFocus( =  设置焦点,可指定选区参数
 !edit.tabNext(.(移动焦点,是否反向) = 获取下一个支持tab控制焦点的控件\n参数@1为true会自动移动焦点到该控件\n参数@2为true则获取上一个控件,否则获取下一个控件
 !edit.disableInputMethod() = 在此控件中关闭输入法, 仅支持英文输入
@@ -601,16 +600,18 @@ edit._metaProperty =  metaProperty(
 	}	
 }
 !edit.onOk() = @.onOk = function(){ 
-    __/*当前已按下回车,返回true阻止默认事件*/
-    return true; 	
+	__/*当前已按下回车,返回true阻止默认事件*/
+	return true; 	
 }
 !edit.onCancel() = @.onCancel = function(){ 
-    __/*当前已按下ESC,返回true阻止默认事件*/
-    return true; 	
+	__/*当前已按下ESC,返回true阻止默认事件*/
+	return true; 	
 }
-!edit.onChange() = @.onChange = function(){ 
-	if(owner.onModified)owner.onModified(true);
-	__/*响应事件，文本内容已变更*/
+!edit.onFocusGot() = @.onFocusGot = function(){ 
+	__/*响应事件，文本框已获得输入焦点*/
+}
+!edit.onFocusLost() = @.onFocusLost = function(){
+	__/*响应事件，文本框已失去输入焦点*/
 }
 !edit.onModified = @.onModified = function(modified){ 
 	__/*使用代码变更modified属性后触发此事件,\n用户编辑文本导致变更modified属性不会触发此事件，\n可在onChange事件内主动调用此事件*/

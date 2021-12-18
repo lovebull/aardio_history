@@ -1,4 +1,4 @@
-//显示部份网页
+﻿//显示部分网页
 import win.ui;
 /*DSG{{*/
 var winform = win.form(parent=...; bottom=518;text="aardio form";border="resizable";right=831 )

@@ -26,11 +26,7 @@ winform.btnFindEx.oncommand = function(id,event){
 
 winform.btnFind.oncommand = function(id,event){ ;
 	var ind = winform.listbox.find(winform.edit.text)
-	winform.listbox.selIndex = ind
-	
-	var ind = winform.combobox.find(winform.edit.text)
-	winform.combobox.selIndex = ind
-	winform.msgbox(ind)
+	winform.listbox.selIndex = ind  
 }
  
 winform.combobox.oncommand = function(id,event){
@@ -62,11 +58,11 @@ winform.btnDelete.oncommand = function(id,event){
 
 winform.btnAdd.oncommand = function(id,event){
 	str = winform.edit.text;
-	winform.listbox.add(str)
-	winform.combobox.add(str)
-	winform.combobox.selText =  str 
+	winform.listbox.add(str);
+	winform.combobox.add(str);
+	winform.combobox.selText =  str; 
 	winform.listbox.selIndex = winform.listbox.count;
 }
 
-winform.show(true) 
+winform.show(true); 
 win.loopMessage( winform );

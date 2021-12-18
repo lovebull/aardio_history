@@ -16,6 +16,7 @@ console.log( _WIN10_LATER ? "WIN10以上系统" : "WIN10以下系统")
 console.log( _WIN7_LATER ? "WIN7以上系统" : "WIN7以下系统")
 console.log( _WINXP ? "WIN XP" : "XP以上系统")
 console.log( _WINE ? "WINE" : "非 WINE 环境")
+console.printf("系统版本号：%d.%d.%d",_WIN_VER_MAJOR, _WIN_VER_MINOR, _WIN_VER_BUILD )
 console.more(1,true);
 
 /*
@@ -36,14 +37,6 @@ var versionInfo = raw.convert(info.ptr,{
 });
 console.dumpJson(versionInfo);
 console.more(1,true);
-
-console.log("用 RtlGetNtVersionNumbers 获取系统版本")
-var getVersionNumbers = function(){
-	var ret,major,minor,build = ::Ntdll.RtlGetNtVersionNumbers({INT value},{INT value},{INT value})
-	return major.value,minor.value,build.value & 0xFFFF;//buildNumber高位总是0xF000,无意义
-}
-console.log( getVersionNumbers() )
-console.more(1,true)
 
 console.log("用 KUSER_SHARED_DATA 获取系统版本")
 var shareDataVersion  = raw.convert( topointer(0x7FFE0000+0x260), { 

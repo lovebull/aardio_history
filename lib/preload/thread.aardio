@@ -1,3 +1,4 @@
+//thread 多线程
 namespace preload;
 self.thread = global.thread;
 
@@ -283,6 +284,11 @@ invokeAndWait = function( func,... ){
 	}
 }
 
+invokeEx = function(...){
+	var h = thread.create(...); 
+	if(h)  ..thread.waitClose( h );
+};
+
 delay = sleep;
 
 /**intellisense()
@@ -293,6 +299,7 @@ thread.wait(__) =  等待一个线程句柄返回\n可选使用第二个参数�
 thread.waitAll(__) = 等待一个或多个线程返回\n参数可以是多个线程句柄,或包含多个线程句柄的table\n可选使用最后一个参数指定超时值(毫秒)\n成功返回值为真,失败返回空,\n返回值2为错误类型,该值为字符串"timeout"表示超时
 thread.waitClose(__) = 等待一个或多个线程返回,并释放所有线程句柄\n参数可以是多个线程句柄,或包含多个线程句柄的table
 thread.invoke(线程函数,其他参数) = @.invoke( \n	function(){\n		__/*创建线程但不返回句柄*/\n	}\n)
+thread.invokeEx(.(线程函数,其他参数->->->) = 创建线程并等待线程执行完成,无返回值\n可用于原生静态线程回调函数中创建独立线程以启用 COM 接口
 thread.stillActive(__) = 线程是否未退出,参数为线程句柄
 thread.callWndMeta = 跨线程传输的窗口对象元表,用于支持跨线程调用
 thread._callableSerialize = 界面线程内非窗口对象 _serialize 元方法设定为此函数,可支持跨线程调用,\n绑定此元方法后，对象传入其他线程后所有成员调用都将回到界面线程执行
@@ -303,7 +310,7 @@ thread.var( = 创建线程共享变量 - 可直接作为调用参数传入其他
 thread.var(.(name,value) = 可选用参数@1指定共享变量名称,可选在参数@2中指定初始化值,\n如果不指定共享变量名，则自动分配共享变量名,\n\n线程共享变量不会自动释放,调用 set 函数设为 null 可删除线程变量,\n如果确认没有线程再使用该变量，可调用 relase 函数释放共享变量名,\n自动分配变量名上限为 0x3FFFFFFFFFFFFC0000000000000个\n
 thread.var() = !threadvar.
 thread.invokeAndWait(func,->->->) = @.invokeAndWait(\n	function(){\n		import win;\n		__/*创建工作线程执行此函数,\n可选为被调用的线程函数指定任意个调用参数,\n并等待线程执行完毕,然后获取此函数的返回值,\n此函数的返回值会返回给调用线程,\n等待时可正常响应窗口消息\n\n此函数应遵守线程函数的所有规则*/\n	} \n)
-thread.delay(__) = 参数指定延时值,单位毫秒,\n导入 win 库的界面线程内会执行 win.delay，\n否则执行 sleep 函数。\n\n如果当前线程导入了 win 库则退出消息循环返回null,否则返回true\n否则调用 sleep 函数并总是返回 true
+thread.delay(__) = 参数指定延时值,单位毫秒,参数不可省略,\n导入 win 库的界面线程内会执行 win.delay，\n否则执行 sleep 函数。\n\n如果当前线程导入了 win 库则退出消息循环返回null,否则返回true\n否则调用 sleep 函数并总是返回 true
 !threadvar.get() = 获取值
 !threadvar.set(__) = 在参数@1中指定新的值,\n不使用时一定要设置值为null以删除该变量\n如果使用了共享变量名,\n即使删除共享变量也不会再重复分配该变量名给新的线程变量,\n除非调用release函数释放该变量名
 !threadvar.add(__) = 增加数值,\n共享变量之前必须是数值或者null值,\n可以在参数中指定负数执行减操作

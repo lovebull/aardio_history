@@ -182,16 +182,15 @@ namespace tray{
 }
 
 /***intellisense()
-!tray.delete() = 删除托盘图标\n如果指定了图标数据或路径则必须在不需要托盘图标时调用delete函数释放
-!tray.reset() = 重置并恢复托盘图标
-!tray.tip = 设置鼠标提示信息
-!tray.message = 指定回调消息\n当用户点击托盘图标时、向主窗体发送此消息
-!tray.icon = 设置托盘的图标,\n值可以是图标ID,也可以是图标数据或图标路径,\n32位图标,最好同时提供16x16、32x32的图标
-!tray.pop("__","") = 弹出汽泡提示\n参数(提示信息,标题)
-!tray.pop("__","",2) = 弹出汽泡提示\n参数(提示信息,标题,警告图标)
-!tray.pop("__","",3) = 弹出汽泡提示\n参数(提示信息,标题,错误图标) 
+!winUtilTray.delete() = 删除托盘图标\n如果指定了图标数据或路径则必须在不需要托盘图标时调用delete函数释放
+!winUtilTray.reset() = 重置并恢复托盘图标
+!winUtilTray.tip = 设置鼠标提示信息
+!winUtilTray.message = 指定回调消息\n当用户点击托盘图标时、向主窗体发送此消息
+!winUtilTray.icon = 设置托盘的图标,\n值可以是图标ID,也可以是图标数据或图标路径,\n32位图标,最好同时提供16x16、32x32的图标
+!winUtilTray.pop(.(提示信息,标题,图标ID) = 发送托盘提示\nWin10以下显示为汽泡提示,\nWin10 仅发送到通知区,\n图标ID可省略，警告图标设为2,错误图标设为3
 win.util.tray(.(主窗体,图标,提示信息) = 创建托盘图标,必须指定窗体对象,\n图标：可以是图标ID,也可以是图标数据或图标路径,默认为窗体图标\n提示信息：鼠标移到托盘图标上提示的信息,省略则没有提示信息
-win.util.tray() = !tray.
+win.util.tray() = !winUtilTray.
+
 _NIIF_INFO=@1/*_NIIF_INFO*/
 _NIIF_WARNING=@2/*_NIIF_WARNING*/
 _NIIF_ERROR=@3/*_NIIF_ERROR*/

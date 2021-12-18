@@ -5,6 +5,9 @@ import console;
 console.showLoading(" 正在加载 C++ 代码");
 var dll = vc6.loadcode(`
 #define _WIN32_WINNT 0x0501
+#include <winsock2.h> 
+#include <Ws2tcpip.h>
+#pragma comment(lib, "ws2_32.lib")
 #include <windows.h> 
 #include <stdio.h>
 #include <stdlib.h> 

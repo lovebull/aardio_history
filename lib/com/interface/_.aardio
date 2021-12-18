@@ -154,10 +154,11 @@ checkError(__/*请输入COM静态接口函数返回值*/) = 如果有错误调�
 checkError(__/*请输入COM静态接口函数返回值+函数返回值*/,2) = 如果有错误调用error函数抛出异常\n参数2指定抛出异常的调用级别\n2表示调用当前函数的函数
 create(.(clsid,静态接口类) = 创建静态接口对象
 loadTypelibrary(.(类型库,接口类名) = 自类型库加载接口类,\n并在com.interface名字空间创建参数@2指定名称的类,\n类型库可以是路径等可传入com.LoadTypeLibrary函数的参数,\n也可以是该函数创建的类型库对象,\n可选在定义接口类以后,\n在该类的名字空间下使用_funtions对象补全函数原型
-IUnknown = 未知接口对象
+IUnknown = COM 静态接口基类,\n所有 COM 原生静态接口必须直接继承此接口,\n所有 COM 静态接口类中的自定义函数必须用 owner 代替 this,\nowner 才是实例对象,this指向的是接口定义结构体\nCOM 静态接口类在构造函数中使用 this 引用 COM 接口定义结构体
 end intellisense**/                
 
 /**intellisense()
+com.interface = 所有 COM 原生静态接口定义在此名字空间，\n所有 COM 静态接口类中的自定义函数必须用 owner 代替 this,\nowner 才是实例对象,this指向的是接口定义结构体\nCOM 静态接口类在构造函数中使用 this 引用 COM 接口定义结构体
 com.interface(.(com对象,静态接口类) = 参数一可以是com对象、com指针、托管com指针\n参数二是com.interface名字空间下的接口类或类名\n注意com.interface下接口类中的自定义函数必须用owner代替this,\nowner才是com实例对象,this指向的是接口定义结构体
 ?.QueryInterface = !interface.
 ?.interface = !interface.

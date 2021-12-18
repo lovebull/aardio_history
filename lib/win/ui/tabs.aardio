@@ -204,7 +204,7 @@ class tabs{
 			
 			var x,y;
 			if( this.beforeShowCloseButton ){
-				x,y = this.beforeShowCloseButton(strip,rcStrip,rcCloseButton);
+				x,y = this.beforeShowCloseButton(strip,rcStrip,rcCloseButton,strip.dpiScaleX:1,strip.dpiScaleY:1);
 				if(x===null) return;
 			}
 			else {
@@ -362,8 +362,7 @@ class tabs{
 		}
 	 
 		var ctrl =  this._form.add( { param } )[[1]];
-		if( ctrl ){ 
-			ctrl.reloadScale();
+		if( ctrl ){
 			if(this.itemRegion) this.itemRegion.updateWindow(ctrl.hwnd,true,true)
 			
 			ctrl.onDrawString = this[["(onDrawString)"]];
@@ -911,12 +910,16 @@ class tabs{
 		if( ! this.isPopup() ){
 			this.mode = "popup"
 			this.margin = 0;
+			this.template.clipBk = null;
+			this.template.transparent = null;
 			
 			for(i=1;#this.strips;1){
 				var strip = this.strips[i] 
 				strip.dt = 1;
 				strip.dl = 1;
 				strip.focusOnClick = false; 
+				strip.clipBk = null;
+				strip.transparent = null;
 				strip.show(0/*_SW_HIDE*/);
 				strip.orphanWindow(this.transparent);
 			}
@@ -1223,7 +1226,7 @@ setItemTexts( = 使用文本数组更新选项卡数组,\n此函数可重用已�
 setItemTexts(.(texts,limit,selIndex) = 使用参数@texts指定的字符串数组创建选项卡数组,\n其中的每个字符串用于指定选项卡上的显示文本。\n可选用@limit参数指定最大显示条数,\n可选用@selIndex参数指定默认选中索引,\n此函数返回实际显示条数
 setItems( = 使用控件初始化选项数组更新选项卡数组,\n此函数可重用已创建的选项卡，所以有更好的性能
 setItems(.(items,limit,selIndex) = 使用参数@items指定的选项数组更新选项卡数组, \n每个选项提供控件的初始化属性并将被传入add函数。\n可选用@limit参数指定最大显示条数,\n可选用@selIndex参数指定默认选中索引,\n此函数返回实际显示条数
-add(option) = @.add({\n	text="标题文本";\n	foreground="\res\images\icon.png";__/*添加选项卡按钮 - 使用plus控件创建,\n参数@1可以指定部分创建plus控件的参数,未指定的参数自动补全,\ntext字段可用于指定显示文本,foreground字段可用于指定前景图标\n如果指定 hasCloseButton 为 true，鼠标悬停会显示关闭按钮,\n参数@1也可以使用一个数组指定创建多个选项卡的选项\n\n如果存在多个参数,\n自参数@2开始作为loadForm函数的参数加载窗体并绑定当前选项卡\n\n此函数成功返回新增的选项卡索引,注意如果超出显示范围,\n新增选项卡会自动替换到可显示位置*/\n})
+add(option) = @.add({\n	text="标题文本";\n	iconText='\uF0AD';\n	foreground="\res\images\icon.png";\n	hasCloseButton=true;__/*添加选项卡按钮 - 使用plus控件创建,\n参数@1可以指定部分创建plus控件的参数,未指定的参数自动补全,\ntext字段可用于指定显示文本,foreground字段可用于指定前景图标\n如果指定 hasCloseButton 为 true，鼠标悬停会显示关闭按钮,\n参数@1也可以使用一个数组指定创建多个选项卡的选项\n\n如果存在多个参数,\n自参数@2开始作为loadForm函数的参数加载窗体并绑定当前选项卡\n\n此函数成功返回新增的选项卡索引,注意如果超出显示范围,\n新增选项卡会自动替换到可显示位置*/\n})
 addItems(.(options) = 参数@option指定一个数组，\n遍历数组中的项并作为参数调用add函数创建多个选项卡,\n参数为null或空数组时忽略不执行任何操作
 create(.(参数表) = 此函数与add函数用法相同\n但创建选项卡以后会同时创建对应的子窗口,\n返回2个值,分别为创建的选项卡对象、子窗体对象\n\n注意,调用add,create函数添加选项卡,\n如果超出可见范围,会自动折叠其他选项卡,并将新增的选项卡移动到可见位置\n所以增加选项卡可能导致选项卡调整位置,索引发生变化
 create() = !ui_ctrl_plus.
@@ -1247,8 +1250,8 @@ onPopup(showing) = @.onPopup = function(showing){
 onVisualStateChanged(showing) = @.onVisualStateChanged = function(showing){
 	__/*显示或隐藏时触发此事件\n显示@showing参数为true，隐藏@showing参数为false*/
 }
-beforeShowCloseButton(strip,rcStrip,rcCloseButton) = @.beforeShowCloseButton = function(strip,rcStrip,rcCloseButton){
-    __/*返回关闭按钮显示的x,y坐标,需要返回2个值\n不返回值取消显示\n\n参数strip为请求显示关闭按钮的选项卡\nrcStrip为选项卡所在的区块,::RECT对象,\nrcCloseButton为关闭按钮所在的的区块,::RECT对象*/
+beforeShowCloseButton(strip,rcStrip,rcCloseButton,dpiScaleX,dpiScaleY) = @.beforeShowCloseButton = function(strip,rcStrip,rcCloseButton){
+    __/*返回关闭按钮显示的x,y坐标,需要返回2个值\n不返回值取消显示\n\n参数strip为请求显示关闭按钮的选项卡\nrcStrip为选项卡所在的区块,::RECT对象,\nrcCloseButton为关闭按钮所在的的区块,::RECT对象\ndpiScaleX,dpiScaleY为X,Y轴上的DPI缩放比例,1表示100%*/
 }
 onMouseHover(strip,wParam,lParam) = @.onMouseHover = function(strip,wParam,lParam){
     __/*鼠标正悬浮于选项卡对象strip之上,\nwParam,lParam为窗口消息参数*/

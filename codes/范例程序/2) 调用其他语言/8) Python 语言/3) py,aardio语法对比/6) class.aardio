@@ -92,7 +92,7 @@ class stack {
     }
     bb = function(){
         var str = /*
-        pytho属于强类型语言,对类型的要求严格并且不能随意转换，
+        Python 属于强类型语言,对类型的要求严格并且不能随意转换，
         定义的类创建的实例都可以在运行时使用 对象.__class__ is 类名 检测类型.
         
         而 aardio 则是弱类型语言，典型的 duck type 方式，

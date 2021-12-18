@@ -10,7 +10,7 @@ if( _WINE ){
 
 getWindow = ::Kernel32.api( "GetConsoleWindow", "int()"); 
 
-getOutPutHandle = function(){
+getOutputHandle = function(){
 	return topointer( ::Kernel32.GetStdHandle(-11/*_STD_OUTPUT_HANDLE*/) );
 }
 
@@ -23,7 +23,7 @@ getErrorHandle = function(){
 }
 
 modifyMode = function(h,remove=0,add=0 ){
-	if(h===null) h = getOutPutHandle();
+	if(h===null) h = getOutputHandle();
 	var mode ={INT value}
 	var _,mode = ::Kernel32.GetConsoleMode(h,mode); 
 	mode.value = ( mode.value & ~remove ) | add ;
@@ -274,7 +274,7 @@ var openConsole = function(utf8){
 			
 			var ansion;
 			if( _WIN10_LATER ){
-				ansion = null !== modifyMode( getOutPutHandle(),,4/*ENABLE_VIRTUAL_TERMINAL_PROCESSING*/) 
+				ansion = null !== modifyMode( getOutputHandle(),,4/*ENABLE_VIRTUAL_TERMINAL_PROCESSING*/) 
 			}
 			
 			init = true;
@@ -336,7 +336,7 @@ showLoading = function(msg,dotColor){
 			import console;
 			var cursorVisible = console.isCursorVisible();
 			console.setCursorVisible(false);
-			var outHandle = console.getOutPutHandle();
+			var outHandle = console.getOutputHandle();
 				
 			var written = {INT size};
 			var dots = loadingDots.get();
@@ -458,7 +458,7 @@ class CONSOLE_SCREEN_BUFFER_INFO {
 
 clearScreen = function(){
 	var csbi = CONSOLE_SCREEN_BUFFER_INFO();
-	var hConsole = getOutPutHandle(); 
+	var hConsole = getOutputHandle(); 
 	
 	::Kernel32.GetConsoleScreenBufferInfo(hConsole,csbi)
 	var size = csbi.size.x * csbi.size.y;
@@ -468,7 +468,7 @@ clearScreen = function(){
 	::Kernel32.GetConsoleScreenBufferInfo(hConsole,csbi);
 	::Kernel32.FillConsoleOutputAttribute(hConsole, csbi.wAttributes, size, 0, cCharsWritten);
 	::Kernel32.SetConsoleCursorPosition(hConsole, 0);
-	::Kernel32.SetConsoleTextAttribute(getOutPutHandle(),15);
+	::Kernel32.SetConsoleTextAttribute(getOutputHandle(),15);
 }  
 
 eraseToEndOfLine = function(){
@@ -478,7 +478,7 @@ eraseToEndOfLine = function(){
 	if(!width) return;
 		
 	var line = ..string.toUnicode(..string.repeat(width-y," ") );
-	::Kernel32.WriteConsoleW(getOutPutHandle(),line,#line/2,{INT size},null);
+	::Kernel32.WriteConsoleW(getOutputHandle(),line,#line/2,{INT size},null);
 	setPos(x,y);
 }
 
@@ -491,19 +491,19 @@ eraseLine = function(...){
 
 getScreenBufferInfo = function(x,y){
 	var csbi = CONSOLE_SCREEN_BUFFER_INFO();
-	if( ::Kernel32.GetConsoleScreenBufferInfo(getOutPutHandle(),csbi) )
+	if( ::Kernel32.GetConsoleScreenBufferInfo(getOutputHandle(),csbi) )
 		return csbi;
 } 
 
 getCursorInfo = function(){
-	var hConsole = getOutPutHandle();
+	var hConsole = getOutputHandle();
 	var info = {INT size; bool  visible};
 	::Kernel32.GetConsoleCursorInfo(hConsole,info);
 	return info;
 }
 
 setCursorInfo = function(newInfo){ 
-	var hConsole = getOutPutHandle();
+	var hConsole = getOutputHandle();
 	var info = {INT size; bool visible};
 	::Kernel32.GetConsoleCursorInfo(hConsole,info);
 	..table.assign(info,newInfo);
@@ -520,14 +520,14 @@ setCursorVisible = function(visible){
 
 getSize = function(){
 	var csbi = CONSOLE_SCREEN_BUFFER_INFO();
-	if( ::Kernel32.GetConsoleScreenBufferInfo(getOutPutHandle(),csbi) )
+	if( ::Kernel32.GetConsoleScreenBufferInfo(getOutputHandle(),csbi) )
 		return  csbi.size.x,csbi.size.y;
 }
 
 getPos = function(){
 	openConsole();
 	var csbi = CONSOLE_SCREEN_BUFFER_INFO();
-	if( ::Kernel32.GetConsoleScreenBufferInfo(getOutPutHandle(),csbi) )
+	if( ::Kernel32.GetConsoleScreenBufferInfo(getOutputHandle(),csbi) )
 		return csbi.cursorPosition.x,csbi.cursorPosition.y;
 }
 
@@ -536,19 +536,19 @@ setPos = function(x,y){
 	var x2,y2 = getPos();
 	if( x === null ) x = x2;
 	if( y === null ) y = y2;
-	return !!::Kernel32.SetConsoleCursorPosition( getOutPutHandle(),::MAKELONG(x,y) )
+	return !!::Kernel32.SetConsoleCursorPosition( getOutputHandle(),::MAKELONG(x,y) )
 }
 
 getTextAttribute = function(){
 	var csbi = CONSOLE_SCREEN_BUFFER_INFO();
-	if( ::Kernel32.GetConsoleScreenBufferInfo(getOutPutHandle(),csbi) ) return csbi.attributes;
+	if( ::Kernel32.GetConsoleScreenBufferInfo(getOutputHandle(),csbi) ) return csbi.attributes;
 } 
 
 setTextAttribute = function(fore,back){
 	if(fore===null) fore = 0xF;
 	if( type(fore) != type.number ) error("参数必须是数值",2)
 	if( type(back) == type.number ) fore = back * 0x10 + fore;
-	return ::Kernel32.SetConsoleTextAttribute(getOutPutHandle(),fore);
+	return ::Kernel32.SetConsoleTextAttribute(getOutputHandle(),fore);
 } 
 
 setColor = function(fore,back){ 
@@ -565,7 +565,7 @@ writeColorText = function(txt,fore,back){
 box = function(x,y,x2,y2,clr,title){
 	open(); 
 	var csbi = CONSOLE_SCREEN_BUFFER_INFO();
-	::Kernel32.GetConsoleScreenBufferInfo(getOutPutHandle(),csbi);
+	::Kernel32.GetConsoleScreenBufferInfo(getOutputHandle(),csbi);
 	if(!x) {
 		x = ..math.floor( ( csbi.srWindow.right - csbi.srWindow.left - x2 ) / 2 );
 		x2 = x + x2;
@@ -613,7 +613,7 @@ box = function(x,y,x2,y2,clr,title){
 
 readOutputCharacter = function(){
 	var buffer = {WORD value[1000]}
-	var ok = ::Kernel32.ReadConsoleOutputCharacterW( getOutPutHandle(),buffer,1000,0,{INT charsRead})
+	var ok = ::Kernel32.ReadConsoleOutputCharacterW( getOutputHandle(),buffer,1000,0,{INT charsRead})
 	return ..string.trim(buffer.value);
 }
 
@@ -650,10 +650,8 @@ dumpTable = function(t){
 }
 
 setTitle = function(title){
-	if(!::Kernel32.SetConsoleTitleW(title) ){
-		open();
-		return !!::Kernel32.SetConsoleTitleW(title);
-	}
+	open();
+	return !!::Kernel32.SetConsoleTitleW(title);
 }
 
 GetConsoleTitle = ::Kernel32.api( "GetConsoleTitleW", "INT(ustring& buf,INT size)");
@@ -791,7 +789,7 @@ getch() = 读取输入字节码,中文字返回两个字节码\n控制台不回�
 getche() = 读取输入字符\n控制台回显字符
 getPassword() = 读取密码\n可选使用参数一指定控制台回显掩码,默认显示星号
 getWindow() =  返回控制台窗口句柄\n使用此函数可判断当前是否已打开控制台窗口;
-getOutPutHandle() = 标准输出句柄
+getOutputHandle() = 标准输出句柄
 getInputHandle() = 标准输入句柄
 getErrorHandle() = 错误输出句柄
 getCodePage() = 获取输入代码页,输出代码页
@@ -813,7 +811,7 @@ dumpTable(__/*表对象*/) = 如果传入表参数,\n使用table.tostring转换�
 close() = 关闭控制台
 pause( = 暂停,\n按任意键继续
 pause(.(按键后是否关闭控制台,提示) = 返回用户按键键码 
-setTitle("__") = 设置控制台标题
+setTitle("__") = 设置控制台标题,\n此函数会打开控制台窗口
 getTitle() = 获取控制台标题
 clearScreen() = 清屏
 eraseLine() = 清除当前行\n可选指定要在当前行输出的一个或多个参数
@@ -850,3 +848,5 @@ console = 控制台扩展函数库
 !console_kbevent.isCapsLkOn = 是否打开大写
 !console_kbevent.isEnhanced = 是否扩展键
 end intellisense**/
+
+getOutPutHandle = getOutputHandle;

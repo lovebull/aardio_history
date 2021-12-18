@@ -46,6 +46,9 @@ stringfyValue = function(v,keys,objreferences,prettyPrintLevel,prettyPrintIndent
 		case "boolean"{
 			return tostring(v);
 		} 
+		case "buffer"{
+			return "raw.buffer("+ ..string.escape(v) +")";
+		}
 		case "null"{
 			return "null"
 		}

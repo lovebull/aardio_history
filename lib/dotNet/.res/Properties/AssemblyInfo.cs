@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: Debuggable(DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]
 [assembly: AssemblyCompany("aardio")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCopyright("Copyright © aardio.com 2018")]
+[assembly: AssemblyCopyright("Copyright © aardio.com 2021")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyFileVersion("1.1.0.0")]
 [assembly: AssemblyProduct("Aardio.InteropServices")]

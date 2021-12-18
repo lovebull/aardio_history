@@ -1,4 +1,4 @@
-import fsys;
+﻿import fsys;
 import config;
 import process;
 import ide;
@@ -34,7 +34,7 @@ var frmBuildWaring = ..win.form( text="aardio生成EXE失败 错误代码："+er
 frmBuildWaring.add( 
 btnHelp={ bottom=159;text="安全认证教程";left=117;top=124;z=2;right=237;cls="button" };
 static={ bottom=127;right=488;left=12;top=23;transparent=1;z=1;text="生成EXE失败，
-部份安全软件会阻止生成未知EXE，或对未知EXE错误报警。
+部分安全软件会阻止生成未知EXE，或对未知EXE错误报警。
 请关闭文件监控类软件再试！
 
 EXE文件生成以后，建议及时提交到主流安全厂商云查杀平台通过安全认证，

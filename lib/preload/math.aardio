@@ -1,3 +1,4 @@
+//math 数值运算
 namespace preload;
 self.math = global.math;
 
@@ -39,6 +40,10 @@ _size64_meta.swap = function(){
 	var a,b = owner.split32();
 	return size64(..raw.swap(b),..raw.swap(a));
 };
+
+_size64_meta.divf = function(b){
+	return tonumber( owner / b )  + ( tonumber(  owner % b ) / tonumber(b) )
+}
 
 isSize64  = function(v){
 	return v@ == _size64_meta;

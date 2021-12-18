@@ -3,13 +3,13 @@ import win.ui;
 import win.guid;
 import win.clip;
 /*DSG{{*/
-var winform = win.form(text="GUID 生成器 / 格式转换工具";right=560;bottom=294;border="dialog frame";exmode="none";max=false;parent=...)
+var winform = win.form(text="GUID 生成器 / 格式转换工具";right=560;bottom=308;border="dialog frame";exmode="none";max=false;parent=...)
 winform.add(
 btnCpy={cls="button";text="复制到剪贴板";left=436;top=21;right=529;bottom=47;z=3};
 btnGenerant={cls="button";text="生成GUID";left=339;top=21;right=432;bottom=47;z=2};
-lbTip={cls="static";text="GUID理论上能产生全球唯一的值";left=31;top=257;right=537;bottom=274;transparent=1;z=4};
+lbTip={cls="static";text="GUID理论上能产生全球唯一的值";left=31;top=279;right=537;bottom=296;transparent=1;z=4};
 txtGuid={cls="edit";left=31;top=22;right=327;bottom=48;edge=1;multiline=1;z=1};
-txtGuid2={cls="edit";left=31;top=62;right=529;bottom=249;edge=1;multiline=1;z=5}
+txtGuid2={cls="edit";left=31;top=62;right=529;bottom=270;edge=1;multiline=1;z=5}
 )
 /*}}*/
 
@@ -42,7 +42,8 @@ winform.txtGuid.onChange = function(){
 	var guid = win.guid(winform.txtGuid.text); 
 	if(guid){ 
 		if(tostring(guid)!=winform.txtGuid.text )winform.txtGuid.text = guid; 
-		winform.txtGuid2.text = guid.toString()
+		winform.txtGuid2.text = guid.toString("%08X%04X%04X%02X%02X%02X%02X%02X%02X%02X%02X")
+			+ '\r\n' + guid.toString()
 			+ '\r\n' + guid.toString(,true)
 			+ '\r\n\'' + guid.hex() + "'" 
 			+ '\r\n' + guid.toString("{ 0x%X, 0x%X, 0x%X, { 0x%02X, 0x%02X, 0x%02X, 0x%02X, 0x%02X, 0x%02X, 0x%02X, 0x%02X } }")
@@ -55,14 +56,28 @@ winform.txtGuid.onChange = function(){
 			+ '\r\n' + guid.toString("win.guid(0x%X, 0x%X, 0x%X,'\x%02X\x%02X\x%02X\x%02X\x%02X\x%02X\x%02X\x%02X')")
 	}
 	else {
-		var args = { string.match(winform.txtGuid.text,"\s*\{?\s*(0x\x+)\s*,\s*(0x\x+)\s*,\s*(0x\x+)\s*,\s*\{?\s*(0x\x\x?)\s*,\s*(0x\x\x?)\s*,\s*(0x\x\x?)\s*,\s*(0x\x\x?)\s*,\s*(0x\x\x?)\s*,\s*(0x\x\x?)\s*,\s*(0x\x\x?)\s*,\s*(0x\x\x?)\s*\}?\s*")}
-		if(#args==11){
-			args = ..table.map(args,lambda(v) tonumber(v) );
-			var guid = ..win.guid( ..table.unpack(args));
-			if(guid){
-				if(tostring(guid)!=winform.txtGuid.text )winform.txtGuid.text = guid; 
-				winform.txtGuid.onChange();
-				return;
+		var txtGuid = winform.txtGuid.text;
+		if( #txtGuid == 32){
+			var guid,count = ..string.replace(txtGuid,"(\x{8})(\x{4})(\x{4})(\x{4})(\x{12})","\1-\2-\3-\4-\5")
+			if(count){
+				guid = ..win.guid.fromString(guid);
+				if(guid){
+					winform.txtGuid.text = guid; 
+					winform.txtGuid.onChange();
+					return;
+				}
+			}
+		}
+		else{
+			var args = { string.match(txtGuid,"\s*\{?\s*(0x\x+)\s*,\s*(0x\x+)\s*,\s*(0x\x+)\s*,\s*\{?\s*(0x\x\x?)\s*,\s*(0x\x\x?)\s*,\s*(0x\x\x?)\s*,\s*(0x\x\x?)\s*,\s*(0x\x\x?)\s*,\s*(0x\x\x?)\s*,\s*(0x\x\x?)\s*,\s*(0x\x\x?)\s*\}?\s*")}
+			if(#args==11){
+				args = ..table.map(args,lambda(v) tonumber(v) );
+				var guid = ..win.guid( ..table.unpack(args));
+				if(guid){
+					if(tostring(guid)!= txtGuid )winform.txtGuid.text = guid; 
+					winform.txtGuid.onChange();
+					return;
+				}
 			}
 		}
 		

@@ -22,6 +22,13 @@ def permutations(items,r):
 
 //执行Python3 的代码
 py3.exec( pyCode )
+/*
+执行 aardio 工程中的内嵌资源文件可以这样写: 
+py3.exec("/res/test.py") 
+
+也可以用导入模块的方式,例如导入 /py/pyMain.py 文件
+py3.import("pyMain")
+*/
 
 //调用python3 __main__ 模块下的函数
 console.log( py3.main.sign_request() )

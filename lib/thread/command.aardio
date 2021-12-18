@@ -1,4 +1,4 @@
-//command 线程命令
+﻿//command 线程命令
 import win.ui;
 import thread.table;
 namespace thread;
@@ -285,10 +285,10 @@ thread.command.send(.(窗口句柄,"命令函数名",其他参数) = 阻塞调�
 thread.command.send(.("命令函数名",其他参数) = 阻塞调用跨线程命令,\n注意send函数发送的消息有可能比之前post函数发送的消息更早被接收\n不指定窗口句柄,所有同名的线程命令函数都会被调用,\n可获取回调函数的返回值,默认返回空值
 thread.command.sendInvoke(.(窗口句柄,"命令函数名",其他参数) = 调用线程命令并等待返回值,等待过程中不卡界面,\n注意sendInvoke函数发送的消息有可能比之前post函数发送的消息更早被接收\n可获取回调函数的返回值,默认返回空值
 thread.command.sendInvoke(.("命令函数名",其他参数) = 调用线程命令并等待返回值,等待过程中不卡界面,\n注意sendInvoke函数发送的消息有可能比之前post函数发送的消息更早被接收\n不指定窗口句柄,所有同名的线程命令函数都会被调用,\n可获取回调函数的返回值,默认返回空值
-thread.command.sendIdle(.(延时值,窗口句柄,"命令函数名",其他参数) = 在指定的延时值内忽略部份消息\n其他同send函数
-thread.command.sendIdle(.(延时值,"命令函数名",其他参数) = 在指定的延时值内忽略部份消息\n其他同send函数
-thread.command.postIdle(.(延时值,窗口句柄,"命令函数名",其他参数) = 在指定的延时值内忽略部份消息\n其他同post函数
-thread.command.postIdle(.(延时值,"命令函数名",其他参数) = 在指定的延时值内忽略部份消息\n其他同post函数
+thread.command.sendIdle(.(延时值,窗口句柄,"命令函数名",其他参数) = 在指定的延时值内忽略部分消息\n其他同send函数
+thread.command.sendIdle(.(延时值,"命令函数名",其他参数) = 在指定的延时值内忽略部分消息\n其他同send函数
+thread.command.postIdle(.(延时值,窗口句柄,"命令函数名",其他参数) = 在指定的延时值内忽略部分消息\n其他同post函数
+thread.command.postIdle(.(延时值,"命令函数名",其他参数) = 在指定的延时值内忽略部分消息\n其他同post函数
 thread.command.命令函数名() = 如果命令函数名首字符为$以post模式异步调用命令，\n否则以send模式同步调用该命令,\n传入参数应与该命令定义时预设的形参一致,\nsend模式调用可获取回调函数的返回值,默认返回空值
 thread.command(.(窗口对象) = 创建线程命令订阅对象\n省略参数则创建 message only window,\n该对象定义的成员函数,都可在其他线程中用 thread.command.post()调用
 thread.command() = !thread_command.
@@ -308,7 +308,7 @@ thread.command.bind(hwndListener) = 绑定监听对象窗体句柄\n可添加绑
 thread.command.bind() = !thread_command_bind.
 !thread_command_bind.send("__/*命令函数名*/",) = 不阻塞调用跨线程命令
 !thread_command_bind.post("__/*命令函数名*/",) = 不阻塞调用跨线程命令
-!thread_command_bind.sendIdle(1000,"__/*命令函数名*/",) = 阻塞调用跨线程命令,\n在参数@1指定的延时值内忽略部份消息
-!thread_command_bind.postIdle(1000,"__/*命令函数名*/",) = 阻塞调用跨线程命令,\n在参数@1指定的延时值内忽略部份消息
+!thread_command_bind.sendIdle(1000,"__/*命令函数名*/",) = 阻塞调用跨线程命令,\n在参数@1指定的延时值内忽略部分消息
+!thread_command_bind.postIdle(1000,"__/*命令函数名*/",) = 阻塞调用跨线程命令,\n在参数@1指定的延时值内忽略部分消息
 !thread_command_bind.? = 调用send函数发送该命令,\n传入参数应与该命令定义时预设的形参一致\n可获取回调函数的返回值,默认返回空值
 end intellisense**/

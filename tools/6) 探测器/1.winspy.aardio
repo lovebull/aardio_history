@@ -1,45 +1,49 @@
 //RUNAS//窗口探测
+import fonts.fontAwesome;
 import win.ui;
 /*DSG{{*/
 var winform = win.form(text="窗口探测器";left=-2;top=100;right=688;bottom=526)
 winform.add(
-chkPassword={cls="checkbox";text="允许抓取密码";left=280;top=89;right=420;bottom=108;dl=1;dt=1;z=29};
-chkSkipDiabled={cls="checkbox";text="忽略禁用窗口";left=288;top=354;right=390;bottom=376;db=1;dl=1;z=34};
-chkSkipInvisible={cls="checkbox";text="忽略隐藏窗口";left=183;top=355;right=285;bottom=376;checked=1;db=1;dl=1;z=33};
-chkSkipTransparent={cls="checkbox";text="忽略透明窗口";left=77;top=354;right=179;bottom=376;db=1;dl=1;z=32};
-editClass={cls="edit";left=77;top=151;right=214;bottom=172;dl=1;dt=1;edge=1;hidesel=1;readonly=1;tabstop=1;z=22};
-editHwnd={cls="edit";left=77;top=9;right=185;bottom=32;dl=1;dt=1;edge=1;hidesel=1;multiline=1;readonly=1;tabstop=1;z=17};
-editHwnd10={cls="edit";left=78;top=35;right=184;bottom=54;dl=1;dt=1;readonly=1;z=35};
-editId={cls="edit";left=353;top=181;right=455;bottom=204;dl=1;dr=0.34;dt=1;edge=1;hidesel=1;readonly=1;tabstop=1;z=26};
-editOwnerHwnd={cls="plus";left=395;top=12;right=470;bottom=26;align="left";color=16711680;dl=1;dt=1;notify=1;z=16};
-editOwnerHwnd10={cls="edit";left=399;top=35;right=488;bottom=54;dl=1;dt=1;readonly=1;z=37};
-editParenHwnd={cls="plus";left=245;top=12;right=320;bottom=26;align="left";color=16711680;dl=1;dt=1;notify=1;z=14};
-editParentHwnd10={cls="edit";left=248;top=35;right=342;bottom=54;dl=1;dt=1;readonly=1;z=36};
-editPath={cls="edit";left=77;top=57;right=494;bottom=80;dl=1;dr=0.28;dt=1;edge=1;hidesel=1;readonly=1;tabstop=1;z=18};
-editPid={cls="edit";left=77;top=89;right=142;bottom=110;dl=1;dt=1;edge=1;hidesel=1;readonly=1;tabstop=1;z=19};
-editPoint={cls="edit";left=77;top=181;right=298;bottom=204;dl=1;dt=1;edge=1;hidesel=1;readonly=1;tabstop=1;z=25};
-editStyle={cls="edit";left=254;top=151;right=340;bottom=172;dl=1;dt=1;edge=1;hidesel=1;readonly=1;tabstop=1;z=23};
-editStyleEx={cls="edit";left=406;top=151;right=494;bottom=172;dl=1;dr=0.28;dt=1;edge=1;hidesel=1;readonly=1;tabstop=1;z=24};
-editText={cls="edit";left=77;top=119;right=494;bottom=142;dl=1;dr=0.28;dt=1;edge=1;hidesel=1;readonly=1;tabstop=1;z=21};
-editTid={cls="edit";left=199;top=89;right=264;bottom=110;dl=1;dt=1;edge=1;hidesel=1;readonly=1;tabstop=1;z=20};
-hotkey={cls="hotkey";left=306;top=391;right=430;bottom=411;db=1;dl=1;edge=1;z=28};
-lbClass={cls="static";text="窗口类名:";left=0;top=153;right=73;bottom=170;align="right";dl=1;dt=1;z=4};
-lbHwnd={cls="static";text="窗口句柄:";left=10;top=11;right=73;bottom=28;align="right";dl=1;dt=1;z=1};
-lbId={cls="static";text="命令ID:";left=303;top=184;right=348;bottom=201;align="right";dl=1;dt=1;z=5};
-lbOwner={cls="static";text="所有窗口:";left=327;top=11;right=386;bottom=28;align="right";dl=1;dt=1;z=15};
-lbParenHwnd={cls="static";text="父窗口:";left=192;top=11;right=240;bottom=28;align="right";dl=1;dt=1;z=6};
-lbPid={cls="static";text="进程ID:";left=26;top=90;right=73;bottom=107;align="right";dl=1;dt=1;z=9};
-lbPoint={cls="static";text="窗口坐标:";left=3;top=184;right=73;bottom=201;align="right";dl=1;dt=1;z=12};
-lbStyle={cls="static";text="样式:";left=214;top=153;right=251;bottom=170;align="right";dl=1;dt=1;z=2};
-lbStyleEx={cls="static";text="扩展样式:";left=340;top=153;right=402;bottom=170;align="right";dl=1;dt=1;z=3};
-lbText={cls="static";text="窗口文本:";left=12;top=121;right=73;bottom=138;align="right";dl=1;dt=1;z=7};
-lbTid={cls="static";text="线程ID:";left=147;top=90;right=193;bottom=107;align="right";dl=1;dt=1;z=8};
-plusCur={cls="plus";left=22;top=380;right=54;bottom=412;background="\.res\1.gif";db=1;dl=1;notify=1;repeat="center";z=10};
-richedit={cls="richedit";left=77;top=213;right=494;bottom=345;db=1;dl=1;dr=0.28;dt=1;edge=1;hscroll=1;multiline=1;tabstop=1;vscroll=1;z=27};
-static={cls="static";text="启动文件:";left=5;top=59;right=73;bottom=76;align="right";dl=1;dt=1;z=11};
-static2={cls="static";text="请拖动左侧瞄准器图标到目标窗口";left=64;top=392;right=293;bottom=417;db=1;dl=1;dr=1;z=13};
-static3={cls="static";text="下级子窗口:";left=502;top=4;right=602;bottom=18;dl=0.73;dt=1;transparent=1;z=31};
-treeview={cls="treeview";left=501;top=23;right=686;bottom=416;asel=false;bgcolor=16777215;db=1;dl=0.73;dr=1;dt=1;edge=1;hscroll=1;vscroll=1;z=30}
+btnIlSpy={cls="plus";text=" .Net 程序 - 点这里反编译";left=310;top=32;right=485;bottom=56;align="left";color=8388608;dl=1;dt=1;hide=1;iconColor=32768;iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=5}};iconText='\uF1C9';notify=1;textPadding={left=17};z=40};
+chkHex={cls="checkbox";text="16 进制显示句柄";left=187;top=35;right=307;bottom=54;checked=1;dl=1;dt=1;z=36};
+chkPassword={cls="checkbox";text="显示密码";left=422;top=119;right=501;bottom=138;dr=0.27;dt=1;z=30};
+chkSkipDiabled={cls="checkbox";text="忽略禁用窗口";left=288;top=354;right=390;bottom=376;db=1;dl=1;z=35};
+chkSkipInvisible={cls="checkbox";text="忽略隐藏窗口";left=183;top=355;right=285;bottom=376;checked=1;db=1;dl=1;z=34};
+chkSkipTransparent={cls="checkbox";text="忽略透明窗口";left=77;top=354;right=179;bottom=376;db=1;dl=1;z=33};
+chkUnicodeWindow={cls="plus";text="Unicode 窗口";left=76;top=32;right=179;bottom=57;align="left";dl=1;dt=1;iconStyle={align="left";font=LOGFONT(h=-15;name='FontAwesome')};iconText='\uF00D';textPadding={left=18};z=1};
+editClass={cls="edit";left=77;top=151;right=214;bottom=172;dl=1;dt=1;edge=1;hidesel=1;readonly=1;tabstop=1;z=23};
+editHwnd={cls="edit";left=77;top=9;right=167;bottom=32;dl=1;dt=1;edge=1;hidesel=1;multiline=1;readonly=1;tabstop=1;z=18};
+editId={cls="edit";left=353;top=181;right=455;bottom=204;dl=1;dr=0.34;dt=1;edge=1;hidesel=1;readonly=1;tabstop=1;z=27};
+editOwnerHwnd={cls="plus";text="0";left=373;top=12;right=463;bottom=26;align="left";color=16711680;dl=1;dt=1;notify=1;z=17};
+editParenHwnd={cls="plus";text="0";left=224;top=12;right=300;bottom=26;align="left";color=16711680;dl=1;dt=1;notify=1;z=15};
+editParentPid={cls="edit";left=194;top=90;right=244;bottom=111;dl=1;dt=1;edge=1;hidesel=1;readonly=1;tabstop=1;z=39};
+editPath={cls="edit";left=77;top=57;right=494;bottom=80;dl=1;dr=0.28;dt=1;edge=1;hidesel=1;readonly=1;tabstop=1;z=19};
+editPid={cls="edit";left=77;top=89;right=127;bottom=110;dl=1;dt=1;edge=1;hidesel=1;readonly=1;tabstop=1;z=20};
+editPoint={cls="edit";left=77;top=181;right=298;bottom=204;dl=1;dt=1;edge=1;hidesel=1;readonly=1;tabstop=1;z=26};
+editStyle={cls="edit";left=254;top=151;right=340;bottom=172;dl=1;dt=1;edge=1;hidesel=1;readonly=1;tabstop=1;z=24};
+editStyleEx={cls="edit";left=406;top=151;right=494;bottom=172;dl=1;dr=0.28;dt=1;edge=1;hidesel=1;readonly=1;tabstop=1;z=25};
+editText={cls="edit";left=77;top=119;right=412;bottom=142;dl=1;dr=0.4;dt=1;edge=1;hidesel=1;readonly=1;tabstop=1;z=22};
+editTid={cls="edit";left=303;top=89;right=354;bottom=110;dl=1;dt=1;edge=1;hidesel=1;readonly=1;tabstop=1;z=21};
+hotkey={cls="hotkey";left=306;top=391;right=430;bottom=411;db=1;dl=1;edge=1;z=29};
+lbClass={cls="static";text="窗口类名:";left=0;top=153;right=73;bottom=170;align="right";dl=1;dt=1;z=5};
+lbHwnd={cls="static";text="窗口句柄:";left=10;top=11;right=73;bottom=28;align="right";dl=1;dt=1;z=2};
+lbId={cls="static";text="命令ID:";left=303;top=184;right=348;bottom=201;align="right";dl=1;dt=1;z=6};
+lbOwner={cls="static";text="所有窗口:";left=300;top=11;right=359;bottom=28;align="right";dl=1;dt=1;z=16};
+lbParenHwnd={cls="static";text="父窗口:";left=171;top=11;right=219;bottom=28;align="right";dl=1;dt=1;z=7};
+lbPid={cls="static";text="进程ID:";left=26;top=91;right=73;bottom=113;align="right";dl=1;dt=1;z=10};
+lbPoint={cls="static";text="窗口坐标:";left=3;top=184;right=73;bottom=201;align="right";dl=1;dt=1;z=13};
+lbProcessInfo={cls="static";left=360;top=91;right=495;bottom=113;dl=1;dt=1;transparent=1;z=37};
+lbStyle={cls="static";text="样式:";left=214;top=153;right=251;bottom=170;align="right";dl=1;dt=1;z=3};
+lbStyleEx={cls="static";text="扩展样式:";left=340;top=153;right=402;bottom=170;align="right";dl=1;dt=1;z=4};
+lbText={cls="static";text="窗口文本:";left=12;top=121;right=73;bottom=138;align="right";dl=1;dt=1;z=8};
+lbTid={cls="static";text="线程ID:";left=251;top=91;right=297;bottom=113;align="right";dl=1;dt=1;z=9};
+plusCur={cls="plus";left=22;top=380;right=54;bottom=412;background="\.res\1.gif";db=1;dl=1;notify=1;repeat="center";z=11};
+richedit={cls="richedit";left=77;top=213;right=494;bottom=345;db=1;dl=1;dr=0.28;dt=1;edge=1;hscroll=1;multiline=1;tabstop=1;vscroll=1;z=28};
+static={cls="static";text="启动文件:";left=5;top=59;right=73;bottom=76;align="right";dl=1;dt=1;z=12};
+static2={cls="static";text="请拖动左侧瞄准器图标到目标窗口";left=64;top=392;right=293;bottom=417;db=1;dl=1;dr=1;z=14};
+static3={cls="static";text="下级子窗口:";left=503;top=4;right=603;bottom=18;dl=0.73;dt=1;transparent=1;z=32};
+static4={cls="static";text="父进程ID:";left=129;top=91;right=188;bottom=113;align="right";dl=1;dt=1;z=38};
+treeview={cls="treeview";left=501;top=23;right=686;bottom=416;asel=false;bgcolor=16777215;db=1;dl=0.73;dr=1;dt=1;edge=1;hscroll=1;vscroll=1;z=31}
 )
 /*}}*/
 
@@ -50,28 +54,69 @@ import process.wmi;
 import win.ui.mask;
 var frmMask = win.ui.mask(winform);
 
+var numberToString = function(num){
+	if(winform.chkHex.checked) return string.format("0x%X",num );  
+	return tostring(num)
+}
+
+var getParentHwnd = function(){
+	return tonumber(winform.editParenHwnd.text,winform.chkHex.checked?16:10)
+}
+
+var getOwnerHwnd = function(){
+	return tonumber(winform.editOwnerHwnd.text,winform.chkHex.checked?16:10)
+}
+
+import process.admin;
+import process.cmdline;
+import raw.pefile;
 function showWindowInfo(hwnd){
-	winform.editParenHwnd.text = string.format("0x%X",win.getParent(hwnd) );
-	winform.editParentHwnd10.text = tonumber(winform.editParenHwnd.text);
-	winform.editOwnerHwnd.text = string.format("0x%X",win.getOwner(hwnd) );
-	winform.editOwnerHwnd10.text = tonumber(winform.editOwnerHwnd.text);
-	winform.editHwnd.text = string.format("0x%X",hwnd );
-	winform.editHwnd10.text = hwnd;
+	winform.editParenHwnd.text = numberToString(win.getParent(hwnd));
+	winform.editOwnerHwnd.text = numberToString(win.getOwner(hwnd));
+	winform.editHwnd.text = numberToString(hwnd); 
 	winform.editClass.text = win.getClass(hwnd) 
 	winform.editId.text = win.getId(hwnd);
+	winform.chkUnicodeWindow.checked = winex.isUnicode(hwnd);
 	
 	var tid,pid = win.getThreadProcessId(hwnd)
-	winform.editTid.text,winform.editPid.text = tid,pid;
-	try{
-		 var cmdline = process.wmi(pid).CommandLine; 
-		 if(!#cmdline){
-		 	cmdline = process.getPath(pid);
-		 }
-		 winform.editPath.text = cmdline;
+	winform.editTid.text,winform.editPid.text = (tid),(pid);
+	winform.editPath.text = process.cmdline(pid);
+	
+	
+	var prcs = process(pid,0x400/*_PROCESS_QUERY_INFORMATION*/|0x10/*_PROCESS_VM_READ*/);
+	if(prcs){
+		winform.lbProcessInfo.text = ((_WIN_64 && !prcs.isWow64()) ? "64位" : "32位")
+			+ "/" + (process.admin.isRunAs(prcs) ? "管理权限" : "普通权限");
+		
+		var pid = prcs.getParentId();
+		winform.editParentPid.text = pid;
+		winform.tooltipCtr.add(editParentPid=process.cmdline(pid):"")	
+		
+		var path = prcs.getPath();
+		
+		if(path && io.exist(path) ){
+			if(path!=winform.currentPePath){
+				var pe = raw.pefile(path);
+				if(pe && pe.getClrHeader()){
+					winform.btnIlSpy.hide = false;
+				}
+				else {
+					winform.btnIlSpy.hide = true;
+				} 
+			}	
+		}
+		else {
+			winform.btnIlSpy.hide = true;
+		}
+		
+		winform.currentPePath = path;
+		
+		prcs.free();
 	}
-	catch(e){
-		winform.editPath.text = process.getPath(pid)
-	} 
+	else {
+		winform.btnIlSpy.hide = true;
+	}
+	
 	
 	var str = winex.getText(hwnd,50); 
 	if(#str){
@@ -103,8 +148,8 @@ function showWindowInfo(hwnd){
 		}
 	}
 	
-	winform.editStyle.text =  string.format("0x%X",win.getStyle(hwnd) );
-	winform.editStyleEx.text =  string.format("0x%X",win.getStyleEx(hwnd) );
+	winform.editStyle.text =  numberToString(win.getStyle(hwnd) );
+	winform.editStyleEx.text =  numberToString(win.getStyleEx(hwnd) );
 	
 	var x,y = mouse.getPos();
 	x,y = win.toClient(hwnd,x,y);
@@ -242,7 +287,7 @@ winform.editOwnerHwnd.skin(
 )
 
 winform.editParenHwnd.oncommand = function(id,event){
-	var hwnd = tonumber( winform.editParenHwnd.text,16 )
+	var hwnd = getParentHwnd()
 	if(hwnd){
 		if( frmMask.moveToWindow(hwnd) ){
 			showWindowInfo(hwnd);
@@ -253,7 +298,7 @@ winform.editParenHwnd.oncommand = function(id,event){
 }
 
 winform.editOwnerHwnd.oncommand = function(id,event){
-	var hwnd = tonumber( winform.editOwnerHwnd.text,16 )
+	var hwnd = getOwnerHwnd()
 	if(hwnd){
 		if( frmMask.moveToWindow(hwnd) ){
 			showWindowInfo(hwnd);
@@ -281,8 +326,8 @@ var onHotkey = function(){
 	var x,y = mouse.getPos();
 	hwndTarget = winex.fromPointReal( x,y,cwp );
 	
-    if( hwndTarget == winform.editParenHwnd.hwnd ){
-       hwndTarget = tonumber(winform.editParenHwnd.text );
+    if( hwndTarget == getParentHwnd() ){
+       hwndTarget = getParentHwnd();
        if(hwndTarget){ 
        	showWindowInfo(hwndTarget);
        	winform.plusCur.background = "\.res\1.gif"
@@ -291,8 +336,8 @@ var onHotkey = function(){
 	   	return;
 	   }
     }
-    elseif( hwndTarget == winform.editOwnerHwnd.hwnd ){
-       hwndTarget = tonumber(winform.editOwnerHwnd.text );
+    elseif( hwndTarget == getOwnerHwnd() ){
+       hwndTarget = getOwnerHwnd();
        if(hwndTarget){ 
        	showWindowInfo(hwndTarget);
        	winform.plusCur.background = "\.res\1.gif"
@@ -424,8 +469,8 @@ winform.editPoint.oncommand = function(id,event){
 }
 
 import win.ui.tooltip; 
-var tooltipCtr = win.ui.tooltip( winform );//在窗口上创建tooltip控件 
-tooltipCtr.add( 
+winform.tooltipCtr = win.ui.tooltip( winform );//在窗口上创建tooltip控件 
+winform.tooltipCtr.add( 
 	plusCur = "请按住此图标并拖动到目标窗口";
 	editParenHwnd = "点击这里切换到父窗口(parent window),也可以将鼠标指针对准这里按下面设置的热键切换到父窗口";
 	editOwnerHwnd = "点击这里切换到所有窗口(owner window),也可以将鼠标指针对准这里按下面设置的热键切换到所有窗口";
@@ -434,16 +479,46 @@ tooltipCtr.add(
 	editClass = "点这里显示演示代码";
 	editText = "点这里显示演示代码";
 	hotkey = "设置抓取窗口的热键，按此热键可以开始、或停止抓取窗口，适用于抓取弹出窗口";
-	editPath = "启动目标应用程序的执行文件路径与启动参数";
-	editHwnd10 = "窗口句柄10进制值,选中可复制";
-	editParentHwnd10 = "父窗口句柄10进制值,选中可复制";
-	editOwnerHwnd10 = "所有窗口句柄10进制值,选中可复制";
+	editPath = "启动目标应用程序的执行文件路径与启动参数";  
 	editPoint = "相对于父窗口的坐标,点这里显示演示代码";
 	editPid = "这是窗口所在目标进程的10进制ID，进程是正在运行的程序的实例,也就是一个执行中的程序。每一个进程都有它自己的地址空间，在一个进程中可以包含若干个执行线程";
 	editTid= "这是窗口所在执行线程的10进制ID，线程被包含在进程（执行中的程序实例）之中，一个执行线程指的是进程中一个单一顺序的控制流，一个进程中可以并发执行多个线程";
 	editHwnd = "句柄是一个系统对象的唯一标识，在 aardio 中窗口句柄是一个数值（静态类型为 addr )，其他类型句柄一般用指针表示( 静态类型 pointer )，当然他们的本质都是数值。";
-	editId = "控件的 ID 值"
+	editId = "控件的 ID 值";
+	chkHex = "是否以16进制显示窗口句柄与样式"
 );
+
+winform.chkHex.oncommand = function(id,event){
+	var hwnd = tonumber(winform.editHwnd.text)
+	if(hwnd){
+		showWindowInfo(hwnd);
+	}
+}
+
+winform.btnIlSpy.oncommand = function(id,event){
+	import dotNet.ilSpy;
+	dotNet.ilSpy(winform.currentPePath);
+}
+winform.btnIlSpy.skin({
+	color={
+		active=0xFF00FF00;
+		default=0xFF000080;
+		disabled=0xFF6D6D6D;
+		hover=0xFFFF0000
+	}
+})
+
+winform.chkUnicodeWindow.skin({
+	color={ 
+		disabled=0xFF000000; 
+	};
+	iconColor = { default =0xFFFF4500}
+	checked={
+		iconText='\uF00C';
+		iconColor = { default = 0xFF228B22}
+	}
+})
+winform.chkUnicodeWindow.disabled = true;
 
 winform.richedit.enablePopMenu();
 winform.show(true);

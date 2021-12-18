@@ -196,8 +196,8 @@ namespace tab{
     	_onDestroy = function(){ 
     		owner.removeAll();
     	};
-    	_prenotify = function(id,code,nmdr){
-    		if( code==4294966745/*_TCN_SELCHANGE*/ ){
+    	_prenotify = {
+    	    [4294966745/*_TCN_SELCHANGE*/] = function(id,code,nmdr){ 
     			owner._onChange();
     		}
     	};
@@ -255,12 +255,12 @@ namespace tab{
 !ui_tab.remove(__) = 参数为数值,移除指定索引的选项页
 !ui_tab.removeAll() = 移除所有选项卡
 !ui_tab.items = 返回子窗口列表,只读属性
-!ui_tab.items[] = !winform.
+!ui_tab.items.? = 选项卡子窗口\n!winform.
 !ui_tab.adjustRect() = 调整子窗口大小以适应客户区
 !ui_tab.selIndex = 读取或设置当前选项索引\n起始索引为1
 !ui_tab.add(__) = 请先用窗体设计器生成创建窗体代码,\n然后将创建窗体的win.form函数替换为此函数。\n函数参数即是win.form的参数(text参数表示选项卡标题)。
-!ui_tab.modifyStyle(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos 
-!ui_tab.modifyStyleEx(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos
+!ui_tab.modifyStyle(.(remove,add,swpFlags) = 修改窗口样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码 
+!ui_tab.modifyStyleEx(.(remove,add,swpFlags) = 修改窗口扩展样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_EX_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_EX_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码
 !ui_tab.capture = 是否捕获全局鼠标消息
 !ui_tab.hitTest(.(x坐标,y坐标,是否屏幕坐标) = 返回坐标指向的选项索引\n参数三可省略,默认为false.\n如果不指定任何参数,则自动调用 win.getMessagePos() 获取消息坐标
 !ui_tab.close() = 关闭控件窗口

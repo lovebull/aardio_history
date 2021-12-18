@@ -8,8 +8,8 @@ class appDomain{
 	ctor( clr,domainName ){
 		
 		if (clr===null ){
-			if(self.singletonAppDomain){
-				return self.singletonAppDomain; 
+			if(self.$singletonAppDomain){
+				return self.$singletonAppDomain; 
 			}
 			
 			if(!..dotNet.clr) error("请先导入 dotNet 库!",2);
@@ -17,8 +17,8 @@ class appDomain{
 			var clr,err = ..dotNet.clr();
 			if(!clr){ return null,err; }
 			
-			self.singletonAppDomain = clr.createAppDomain();
-			return self.singletonAppDomain;
+			self.$singletonAppDomain = clr.createAppDomain();
+			return self.$singletonAppDomain;
 		}
 		
 		var appDomain;
@@ -115,37 +115,52 @@ class appDomain{
 				if( !ok ) return null,result;
 				return this.queryObject(result);
 			}
-			asm[["getEnum"]] = function(typeName){
-				var typeName,methodName = ..string.match(typeName,"(.+)\.([^.]+)$");  
-				var ok,result  = call(this.utility.getParseEnum,this.utility, asm ,typeName,methodName ); 
-				if( !ok ) {
-					if(!..string.startWith(typeName,asm.Name +".") && !(..string.indexOf(typeName,".")) ){
-						ok,result  = call(this.utility.getParseEnum,this.utility, asm ,asm.Name +"." +typeName,methodName ); 
-					}
-					
-					if( !ok ) return null,result;
+			asm[["getEnum"]] = function(path){
+				var ns,enumType,enumName = ..string.match(path,"(.+)\.([^.]+)\.([^.]+)$");  
+				if( ns ){
+					var ok,result  = call(this.utility.getParseEnum,this.utility, asm ,ns,enumType,enumName); 
+					if(ok) return result;
+				} 
+				
+				enumType,enumName = ..string.match(path,"([^.]+)\.([^.]+)$");  
+				if( enumType ){
+					var ok,result  = call(this.utility.getParseEnum,this.utility, asm ,null,enumType,enumName); 
+					if(ok) return result;
+				} 
+				
+				if( !..string.startWith(path,asm.Name +".")  ){
+					return asm.getEnum(asm.Name + "." + path );
 				}
 				return result;
 			} 
 			
 			asm[["import"]] = function(typeName){
+				if(typeName===null) typeName = asm.Name;
 				if( type(typeName)!=type.string )error("参数@1请指定类型名称",2);
 				
 				return {
 					@{
-						_tostring = lambda() typeName;
+						_tostring = typeName;
 						_get = function(methodName,ownerCall){
 							if( type(typeName)!=type.string ) return owner[[methodName]]; 
 							
 							if(!ownerCall){ 
 								var arrlist = this.createArrayList();
-								var ok,result  = call(this.utility.getInvokeMember,this.utility, asm ,typeName,methodName
+								var ok,result  = call(this.utility.getInvokeMember,this.utility,asm,typeName,methodName
 									,16 | 8 | 4096 | 1024 /*Public|Static|GetProperty|GetField*/
 									,arrlist,null); 
 								
 								if( !ok ) {
 									if(result){
-										return asm[["import"]](typeName + "." + methodName); 
+										var ok,enumType = call(this.utility.getInvokeEnumType,this.utility,asm,typeName,methodName);
+										if(ok && enumType) {
+											owner[[methodName]] = this.wrapEnumType(enumType); 
+										}
+										else {
+											owner[[methodName]] = asm[["import"]](typeName + "." + methodName); 
+										}
+										
+										return owner[[methodName]];
 									}
 									return null,result;	
 								}
@@ -158,7 +173,7 @@ class appDomain{
 									var ok,result  = call(this.utility.getInvokeMember,this.utility, asm ,typeName,methodName
 										,16 | 8 | 256 /*Public|Static|InvokeMethod*/
 										,arrlist,null); 
-									if( !ok ) return null,result;
+									if( !ok ) error(result,2)
 									return this.queryObject(result);
 								}
 							}
@@ -211,8 +226,12 @@ class appDomain{
 				if(!assemblyName) error("请指定程序集名称",2);  
 				return wrapAssembly( this.utility.loadAssembly( ..io.localpath(assemblyName) : assemblyName ) );
 			};
-			  
-			this.interop = this.loadFile($"~/lib/dotNet/.res/Aardio.InteropServices.dll");  
+			this.loadAppData = function(path,data){ 
+				var path = ..io.appData(path,data); 
+				if(path) return this.load(path);
+			};
+			
+			this.interop = this.loadFile($"~\lib\dotNet\.res\bin\Release\Aardio.InteropServices.dll");  
 			//this.interop = this.loadFile( "~\lib\dotNet\.res\bin\Debug\Aardio.InteropServices.dll" ,"~\lib\dotNet\.res\bin\Debug\Aardio.InteropServices.pdb" ); 			
 			this.utility = unWrapDotNetObject( this.interop.createInstance("Aardio.InteropServices.Utility") ); 
 		 
@@ -374,13 +393,27 @@ class appDomain{
 			
 		}
 		return compile;
-	} 
+	};
+	wrapEnumType = function(enumType){
+		return {
+			enumType = enumType;
+			@{
+				_get = function(name){
+					if(type.isString(name)){
+						owner[[name]] = this.utility.getInvokeEnumValue(owner.enumType,name);
+						return owner[[name]];
+					}
+				}; 
+			}
+		}	
+	};
 	unload = function(){
 		if(appDomain){
-			__appDomainCache[domainName] = null;
-			if(self.singletonAppDomain ===  this){
-				self.singletonAppDomain = null;
+			if(self.$singletonAppDomain ===  this){
+				return;
 			}
+			
+			__appDomainCache[domainName] = null;
 			
 			var pAppDomain = ..com.GetPointer(appDomain);
 			var hr = clr.corRuntimeHost.UnloadDomain(pAppDomain)
@@ -422,17 +455,23 @@ namespace appDomain{
 			}
 			
 			return appDomain.queryObject( appDomain.getInstanceMember(object,k) );
-		}
+		};
 		_set = function(k,v){
 			return owner._dotNetAppDomain.queryObject( owner._dotNetAppDomain.setInstanceMember(owner._dotNetObject,k,v) );
-		}
+		};
 		_topointer = function(){
 			return owner._dotNetObject;
-		}
+		};
 		_eq = function(v){
 			return unWrapDotNetObject(owner) == unWrapDotNetObject(v);
-		}
-		
+		};
+		_json = function(pretty){
+			if(jsonStringify){return jsonStringify(owner,pretty),true}
+			return owner; 
+		};
+		_tostring = function(){
+			return owner.ToString();
+		};
 	} 
 	_objectItemMeta = {
 		_get = function(k,ownerCall){
@@ -440,49 +479,50 @@ namespace appDomain{
 			var object = owner._dotNetObject;
 			var appDomain = owner._dotNetAppDomain;
 			return appDomain.queryObject( appDomain.getInstanceMember(object,"Item",k) );
-		}
+		};
 		_set = function(k,v){
 			return owner._dotNetAppDomain.queryObject( owner._dotNetAppDomain.setInstanceMember(owner._dotNetObject,"Item",k,v) );
-		}
+		};
 		_topointer = function(){
 			return owner._dotNetObject;
-		}
+		};
 		_eq = function(v){
 			return unWrapDotNetObject(owner) == unWrapDotNetObject(v);
-		}
+		};
+		_json = function(pretty){
+			if(jsonStringify){return jsonStringify(owner,pretty),true}
+			return owner; 
+		};
+		_tostring = function(){
+			return owner.ToString();
+		};
 	} 
 	
 	unWrapDotNetObject = function(obj){
 		return obj[["_dotNetObject"]] : obj;
 	}
-
 	
 	..subscribe("beforeUnload",function(){
+		self.$singletonAppDomain = null;
 		for(k,appDomain in __appDomainCache){
 			appDomain.unload(); 
 		}	
 	} ); 
 }
 
-getObject = function(v){
-	return v[["_dotNetObject"]];
-}
-
-
 /**intellisense()
-dotNet.getObject(__) = 如果对象是.Net对象\n返回被封装的原始.Net对象,\n原始的.Net对象在aardio中是一个COM对象
 dotNet.appDomain( = 创建应用程序域,\n注意应当通过导入 dotNet 库自动导入 dotNet.appDomain
-dotNet.appDomain(.() = 不指定参数为当前线程创建唯一的应用程序域实例,\n该实例可能被其他代码使用,请不要调用 unload 函数释放,\n线程结束前会自动释放此实例。\n\n成功返回应用程序域,失败返回 null,错误信息,\n失败一般是因为系统没有安装 .Net 运行时。\n除了XP系统，WIN7 以及 WIN7 以上系统已自带 .Net 运行时,\n所以不检测返回值也行。\n\n注意应当通过导入 dotNet 库自动导入 dotNet.appDomain
+dotNet.appDomain(.() = 不指定参数为当前线程创建唯一的应用程序域实例,\n该实例可能被其他代码使用,主动调用 unload 函数会被忽略,\n线程结束前会自动释放此实例。\n\n成功返回应用程序域,失败返回 null,错误信息,\n失败一般是因为系统没有安装 .Net 运行时。\n除了XP系统，WIN7 以及 WIN7 以上系统已自带 .Net 运行时,\n所以不检测返回值也行。\n\n注意应当通过导入 dotNet 库自动导入 dotNet.appDomain
 dotNet.appDomain(.(clr,domainName) = @clr 参数指定 dotNet.clr 对象,\n可选用 @domainName 指定应用程序域名称,\n指定参数时应改用 dotNet.clr 对象的 createAppDomain 函数
 dotNet.appDomain() = !dotNetAppDomain.
 end intellisense**/
 
 /**intellisense(!dotNetAppDomain)
 appDomainReal = AppDomain 托管对象
-mscorlib = mscorlib.dll程序集\n!dotNetCrlAssembly.
-system = Systme.dll程序集\n!dotNetCrlAssembly.
-interop = Aardio.InteropServices.dll程序集\n!dotNetCrlAssembly.
-utility = Aardio.InteropServices.Utility对象
+mscorlib = mscorlib.dll 程序集\n!dotNetCrlAssembly.
+system = Systme.dll 程序集\n!dotNetCrlAssembly.
+interop = Aardio.InteropServices.dll 程序集\n!dotNetCrlAssembly.
+utility = Aardio.InteropServices.Utility 对象
 invokeMember(.(程序集,"类名","方法名",BindingFlags,目标对象,其他调用参数) = 调用类方法,目标对象可省略,\n失败返回空值,以及错误信息
 invokeObjectMember(.(目标对象,"方法名",BindingFlags,其他调用参数) = 调用对象的成员方法,支持传入多个调用参数并返回值	\n失败返回空值,以及错误信息	
 invokeStaticMember(.(程序集,"类型名->方法名",其他调用参数) = 参数一可以是程序集对象,名称或路径都可以,\n调用类的静态方法,支持传入多个调用参数并返回值。	\n失败返回空值,以及错误信息		
@@ -493,19 +533,25 @@ createInstanceFrom(.("程序集跃径","类名") = 创建实例对象
 invokeInstanceMember(.(目标对象,"方法名",其他调用参数) = 调用类的成员方法,支持传入多个调用参数并返回值	\n失败返回空值,以及错误信息	
 getInstanceMember(.(目标对象,"字段名") = 获取对象字段或属性\n失败返回空值,以及错误信息	
 setInstanceMember(.(目标对象,"字段名",值) = 设置对象实例的字段或属性\n成功返回空值,失败返回空值,以及错误信息
-load(.("程序集名") = 载入程序集,\n参数可以是程序集名称或路径。\n此函数会按以下顺序调用下列函数尝试加载程序集：Assembly.LoadWithPartialName,Assembly.Load,Assembly.LoadFrom,Assembly.LoadFile
-loadFile(.("程序集跃径") = 自内存载入程序集,\n参数可以是路径,或内存资源,\n可选在第2个参数中指定pdb调试数据或pdb调试文件路径。
+load( = 使用当前线程默认应用程序域载入程序集,\n也就是 .Net 创建的 DLL 文件,\n程序集如果引用了自身路径必须使用 load 函数加载,\n用 loadFile 函数加载会失败
+load(.("程序集名") = 载入程序集,也就是 .Net 创建的 DLL 文件,\n参数可以是程序集名称或路径。\n\n此函数会按以下顺序调用下列函数尝试加载程序集：\nAssembly.LoadWithPartialName,Assembly.Load,Assembly.LoadFrom,Assembly.LoadFile
+loadFile( = 使用当前线程默认应用程序域载入程序集,\n也就是 .Net 创建的 DLL 文件,\n参数可以是路径,或内存资源,\n程序集如果引用了自身路径必须使用 load 函数加载
+loadFile(.("程序集路径") = 载入程序集,\n参数可以是路径,或内存资源。\n\n在路径字符串前加$符号可将文件编译并嵌入 aardio 代码,\n可选在第2个参数中指定pdb调试数据或pdb调试文件路径。
 load() = !dotNetCrlAssembly.
 loadFile() = !dotNetCrlAssembly.
+loadAppData( = 可用于嵌入并自 %appData% 目录加载\n不支持通过 loadFile 函数内存加载的程序集
+loadAppData(.(path,data) = 用 @path 指定 %appData% 目录下的相对路径,\n将 @data 参数指定的内存程序集数据释放到该路径,\n并使用 load 函数加载此程序集,\n@data 参数应在路径前加$符号使文件数据嵌入到代码中
+loadAppData() = !dotNetCrlAssembly.
 unload() = 卸载应用程序域,一般不需要手动调用此函数,\n当前线程退出时会自动释放此线程创建的所有应用程序域,\n不带参数调用 dotNet.appDomain 创建的应用程序域不应手动调用此函数释放
 createWebService( = 创建Web服务程序集
-createWebService(.(服务网址,名字空间,协议名,DLL路径) = 创建Web服务程序集,可选在参数@2中指定一个自定义的名字空间\n协议名默认为"Soap",可选值"Soap12",\n如果使用参数@4指定输出DLL路径则在内存中编译程序集
+createWebService(.(服务网址,名字空间,协议名,DLL路径) = 创建 Web 服务程序集,可选在参数@2中指定一个自定义的名字空间\n协议名默认为"Soap",可选值"Soap12",\n如果使用参数@4指定输出DLL路径则在内存中编译程序集
 createWebService() = !dotNetCrlAssembly.
 createCompiler("C#") = 创建C#编译器
 createCompiler("VB") = 创建VB编译器
 createCompiler() = !dotNetCompiler.
-createArrayList(.(初始化数组) = 创建 System.Collections.ArrayList 对象\n可传递到C#函数中,C#中应声明为object类型,然后强制转换为ArrayList,\n使用圆括号访问数组成员,0为初始下标,\n可选参数一指定table数组用于初始化对象
+createArrayList(.(初始化数组) = 创建 System.Collections.ArrayList 对象\n可传递到C#函数中,C#中应声明为object类型,然后强制转换为ArrayList,\n使用圆括号访问数组成员,0为初始下标,\n可选参数一指定table数组用于初始化对象\n\n注意这个函数返回的是原生.Net对象，也就是COM 对象\n返回值传入 dotNet.getObject 函数会返回 null
 createArrayList() = !dotNetCrlArrayList.
+queryObject(__) = 如果参数是原生 .Net 对象,返回封装后的对象,\n一般不需要手动调用此函数
 end intellisense**/
 
 /**intellisense(!dotNetCrlArrayList) 
@@ -529,7 +575,7 @@ end intellisense****/
 /**intellisense(!dotNetCrlAssembly)
 Location = 获取完整路径
 FullName = 获取程序集的全名
-import("__") = 参数指定类名或名字空间，\n返回一个 aardio 对象，该对象可作为函数调用直接构建类对象，\n也可以用成员操作符返回静态成员，或调用静态函数。
+import("__") = 参数指定类名或名字空间，\n与程序集名称相同的名字空间前缀可省略,\n不传入参数则默认指定参数为程序集名称,\n返回一个 aardio 对象，该对象可作为函数调用直接构建类对象，\n也可以用成员操作符返回静态成员，或调用静态函数。\n\n要特别注意，使用此函数导入的 .Net 类,\n在调用其静态成员函数、或构造函数时，出错不会抛出异常,\n而是返回 2 个值，分别为： null,错误信息
 new(.("类名",->->-> ) = 创建对象实例,\n可添加不定个数构造参数\n失败返回空值,以及错误信息
 invokeStaticMember(.("类名->方法名",->->-> ) = 调用类的静态方法,\n可添加不定个数调用参数\n失败返回空值,以及错误信息
 invokeMember(.("类名->方法名",BindingFlags) = 调用类的方法,\n可添加不定个数调用参数\n失败返回空值,以及错误信息

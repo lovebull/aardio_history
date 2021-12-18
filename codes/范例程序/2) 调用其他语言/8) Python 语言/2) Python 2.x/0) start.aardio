@@ -29,7 +29,7 @@ for i,v in table.eachIndex(pyList){
 //支持 web.json 
 console.log( web.json.stringify(pyList) );
 
-//支持 tostring() 等函数，注意 console.log() 已默认调用 tostring()
+//支持 tostring() 等函数，注意 console.log() 已默认调用 tostring() 转换参数
 console.log( tostring(pyList) );
 
 console.pause();

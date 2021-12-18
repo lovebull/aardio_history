@@ -1,4 +1,4 @@
-//plus 高级图像控件
+﻿//plus 高级图像控件
 import gdip.graphics;
 import gdip.solidBrush;
 import gdip.lineBrush;
@@ -111,7 +111,7 @@ class plus {
 			return;
 		}
 		
-		if( ( this.transparent || ( this.isHyperlink() && !this.clipBk) )  ){
+		if( ( ( this.transparent || ( this.isHyperlink() && !this.clipBk) )  ) && !owner.cacheOrphanWindowRect__){
 			var hParent = ..win.getParent(owner.hwnd);
  			var rc = ..win.getRect(owner.hwnd);
 			::InvalidateRect( hParent,rc,1 ); 
@@ -642,6 +642,7 @@ class plus {
 			
 			var textureBrush = ..gdip.textureBrush( bmpMem );
 			var g = bmpMem2.getGraphics();
+			g.pixelOffsetMode = 2/*_PixelOffsetModeHighQuality*/;
 			g.smoothingMode = this.smoothingMode;
 			
 			if( clipBkRect ){ 
@@ -1629,17 +1630,17 @@ namespace plus {
 		getFontEx = function(){
 			return owner[["(font)"]];
 		};
-		startAnimation = function(interval,begining,change){
+		startAnimation = function(interval,beginning,change){
 			if(owner.animationId) owner.clearInterval(owner.animationId)
 			var this = owner;
-			this.animationState = (begining === null ? true : begining );
+			this.animationState = (beginning === null ? true : beginning );
 			
 			var timestamp = ..time.tick();
-			if( this.onAnimation ) this.animationState = this.onAnimation(this.animationState,begining,change,0);
+			if( this.onAnimation ) this.animationState = this.onAnimation(this.animationState,beginning,change,0);
 			owner.animationId = owner.setInterval(function(){
 			
 				if( this.onAnimation ){
-					this.animationState = this.onAnimation(this.animationState,begining,change,..time.tick() - timestamp);
+					this.animationState = this.onAnimation(this.animationState,beginning,change,..time.tick() - timestamp);
 					if( !this.animationState ) return this.stopAnimation()
 				}
 				this.redrawTransparent();
@@ -1934,8 +1935,8 @@ getFont() = 返回控件LOGFONT字体\n!logfont.
 setFont(__/*指定字体*/) = 指定LOGFONT字体对象,或逻辑字体句柄 
 setFont(混入字体属性) = @.setFont(point=10;name="宋体");
 theme = 外观主题,例如\nwinform.button.theme = "Explorer"\nwinform.button.theme = false
-modifyStyle(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos 
-modifyStyleEx(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos
+modifyStyle(.(remove,add,swpFlags) = 修改窗口样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码 
+modifyStyleEx(.(remove,add,swpFlags) = 修改窗口扩展样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_EX_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_EX_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码
 capture = 是否捕获全局鼠标消息
 close() = 关闭控件窗口
 invalidate(__/*可选使用::RECT()对象指定客户区*/) = 使窗口绘图区无效
@@ -1953,12 +1954,12 @@ orphanWindow( = 如果当前是子窗口,\n移除窗口的WS_CHILD样式，使�
 orphanWindow(.(transparent,hwndBuddy) = 创建悬浮窗口,\n悬浮窗口仍然显示在原来的位置,\n可选参数 @transparent 如果为 true 则转换为分层透明窗口,\n可选利用 @buddy 参数将只有句柄的窗口托管在悬浮窗口之上实现相同的效果,\n伙伴窗口总是会保持在悬浮窗口前面，并保持相同的大小、位置
 clearInterval(__/*定时器ID*/) = 删除定时器
 animationState =  此属性表示动画当前状态值,值null或false表示动画已停止
-onAnimation(state,begining,change,timestamp) = @.onAnimation = function(state,begining,change,timestamp){
-    __/*动画触发此函数,state 参数是上次返回的值\n可以使用plus控件的animationState属性获取这里的返回值,\nbegining,change为调用startAnimation指定的参数,\ntimestamp 参数为动画已执行的时间,\n返回值为false或null停止动画*/
+onAnimation(state,beginning,change,timestamp) = @.onAnimation = function(state,beginning,change,timestamp){
+    __/*动画触发此函数,state 参数是上次返回的值\n可以使用plus控件的animationState属性获取这里的返回值,\nbeginning,change为调用startAnimation指定的参数,\ntimestamp 参数为动画已执行的时间,\n返回值为false或null停止动画*/
 	return state
 }
 startAnimation( = 启动动画定时器,\n可以在控件的onAnimation动画事件函数中修改外观,\n或者在控件的onDrawContent等绘图事件函数中直接输出动画 
-startAnimation(.(interval,begining,change) = 启动动画定时器,\ninterval参数指定动画时间间隔，以毫秒为单位,\n@begining 指定初始状态值,@change 指定动画完成后的状态值,\n可选参数 @begining,@change 会传给 onAnimation 回调函数作为调用参数
+startAnimation(.(interval,beginning,change) = 启动动画定时器,\ninterval参数指定动画时间间隔，以毫秒为单位,\n@beginning 指定初始状态值,@change 指定动画完成后的状态值,\n可选参数 @beginning,@change 会传给 onAnimation 回调函数作为调用参数
 stopAnimation() = 停止动画定时器
 startProgress() = 启动进度条动画,并显示进度条,\n可选用参数@1指定间隔毫秒,可选用参数@2指定每次推进的进度\n必须调用setProgressRange函数事先指定进度范围\n必须指定前景色、或前景图
 stopProgress() = 停止进度条动画,并隐藏进度条
@@ -1997,6 +1998,8 @@ iconStyle = @.iconStyle = {
     align="left";valign="top";padding={bottom=50}__/*用于指定iconText显示样式*/
 }
 enableDpiScaling(false) = 禁用DPI自动缩放,\n不指定参数启用DPI自动缩放,默认已启用
+dpiScaleX = 窗口当前使用的DPI横坐标缩放系数,n该值由界面系统自动维护，任何情况下都不应手动修改,\n\n这是一个以小数表示百分比的数，例如 1.25 表示 125%,\n窗口未使用缩放或未完成缩放初始化时，值可能为 null，\n如果要获取屏幕缩放设置应改用 gdi.getDpiScale 函数
+dpiScaleY = 窗口当前使用的DPI纵坐标缩放系数,n该值由界面系统自动维护，任何情况下都不应手动修改,\n\n这是一个以小数表示百分比的数，例如 1.25 表示 125%,\n窗口未使用缩放或未完成缩放初始化时，值可能为 null，\n如果要获取屏幕缩放设置应改用 gdi.getDpiScale 函数
 getRoot() = 获取顶层父窗口，这个函数会查找 orphanWindow 的父窗口
 end intellisense***/
 

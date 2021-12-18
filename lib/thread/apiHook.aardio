@@ -1,7 +1,7 @@
 //apiHook 函数钩子
 namespace thread {
 	
-	apiHook = class {
+	class apiHook {
 		ctor ( dllName, apiName,apiProto, callback,ownerTable) { 
 			this.apiProto = apiProto;
 			
@@ -102,7 +102,7 @@ namespace thread.apiHook {
 
 /**intellisense()
 thread.apiHook = 多线程API函数钩子，多线程调用该API都会被拦截处理。\n仅拦截当前线程调用的钩子建议使用 raw.apiHook
-thread.apiHook("DLL","API名","函数原型",函数对象) = @var HookProc = function (hwnd, text, caption, flag) {\n    import win;\n    owner.callApi(hwnd, text, "APIHOOK成功: " + caption, flag);\n    return 0;\n}\nhook = thread.apiHook("user32.dll", "MessageBox", "int(int,string,string,int)",\n     HookProc,/*owner*/).install(); 
+thread.apiHook("DLL","API名","函数原型",函数对象) = @.apiHook(\n	"user32.dll",\n	"MessageBoxW",\n	"int(int,ustring,ustring,int)", \n	function(hwnd,text,caption,flag){\n		owner.callApi(hwnd, text, "API Hook: " + caption, flag) \n		\n		__/*可选通过 owner.callApi 调用原始函数,\n结构体等回调时必须传为指针参数,\n可通过 raw.mixin 修改修结构而不改变指针地址,\n注意这是线程回调函数,库需要单独引入*/\n		return true;\n	}\n).install();
 thread.apiHook() = !thread_apihook. 
 !thread_apihook.install() = 安装钩子\n!thread_apihook.
 !thread_apihook.unInstall() = 卸载钩子

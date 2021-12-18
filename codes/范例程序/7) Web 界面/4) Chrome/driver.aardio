@@ -3,7 +3,9 @@ import chrome.driver;
 
 //创建 chromeDriver 对象,
 //协议文档 https://github.com/SeleniumHQ/selenium/wiki/JsonWireProtocol
+//更多用法 https://bbs.aardio.com/forum.php?mod=viewthread&tid=22544
 var driver = chrome.driver(); 
+//driver.addArguments("--start-maximized") //添加 Chrome 启动参数
  
 //创建会话，打开chrome浏览器，调用参数仅用于演示( 可以省略 )。
 var browser = driver.startBrowser( {

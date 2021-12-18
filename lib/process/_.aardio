@@ -150,6 +150,25 @@ class process {
    		}
    		
    		this._memory = {};  
+   		
+   		if(this.handle){
+   			var ok,p64 = IsWow64Process( this.handle );
+			this.__isWow64 = ok && p64;
+			this.__isX64 = _WIN_64 && !this.__isWow64;
+ 
+			if( this.__isX64 && ReadProcessMemory64 ){
+				this.ReadProcessMemoryByString = ReadProcessMemoryByString64;
+				this.ReadProcessMemory = ReadProcessMemory64;
+				this.WriteProcessMemoryByString = WriteProcessMemoryByString64;
+				this.WriteProcessMemory = WriteProcessMemory64; 
+			}
+			else{
+				this.ReadProcessMemoryByString = ReadProcessMemoryByString;
+				this.ReadProcessMemory = ReadProcessMemory;
+				this.WriteProcessMemoryByString = WriteProcessMemoryByString;
+				this.WriteProcessMemory = WriteProcessMemory;
+			}
+		}
    	end;
 	suspend = function(){
 		if(this.handle){
@@ -203,7 +222,7 @@ class process {
 		return self.getInfo(this.handle);
 	};
 	getParentId = function(){
-		return self.getInfo(this.handle)[["inheritedFromUniqueProcessId"]];
+		return self.getInfo(this.handle)[["prarentId"]];
 	};
 	free = function(){ 
 		if(this.handle){
@@ -276,16 +295,18 @@ class process {
 		return struct.result;
 	};
 	readString = function(baseAddr,len = 1){   
-		var result,lpBuffer,readNum = ReadProcessMemoryByString(this.handle,baseAddr,len,len,0) 
-		return lpBuffer,readNum; 
+		var result,buf,readNum = this.ReadProcessMemoryByString(this.handle,baseAddr,len,len,0) 
+		return buf,readNum; 
 	};
+	
+	
 	readStringUtf16= function(baseAddr,len = 1){   
-		var lpBuffer,readNum = this.readString(baseAddr,len * 2 );
-		return ..string.fromUnicode(lpBuffer),readNum; 
+		var buf,readNum = this.readString(baseAddr,len * 2 );
+		return ..string.fromUnicode(buf),readNum; 
 	};
 	readStruct = function(baseAddr,struct){ 
 		assert(this.handle,"进程控制对象已关闭!")
-		var result,lpStruct,readNum = ReadProcessMemory(this.handle,baseAddr,struct,..raw.sizeof(struct),0)
+		var result,lpStruct,readNum = this.ReadProcessMemory(this.handle,baseAddr,struct,..raw.sizeof(struct),0)
 		return lpStruct,readNum
 	};
 	writeNumber = function(baseAddr,v,datatype = "int"){ 
@@ -295,7 +316,7 @@ class process {
 	writeString = function(baseAddr,str,len){  
 		if(len===null)len=#str
 		if( ! baseAddr ) baseAddr = this.malloc(len);
-		var result,writeNum  = WriteProcessMemoryByString(this.handle,baseAddr,str,len,0) 
+		var result,writeNum  = this.WriteProcessMemoryByString(this.handle,baseAddr,str,len,0) 
 		return baseAddr,writeNum ;
 	};
 	writeStringUtf16 = function(baseAddr,str){ 
@@ -305,7 +326,7 @@ class process {
 	writeStruct = function(baseAddr,struct){  
 		var len = ..raw.sizeof(struct);
 		if( ! baseAddr ) baseAddr = this.malloc(len);
-		var result,writeNum = WriteProcessMemory(this.handle,baseAddr,struct,len,0)
+		var result,writeNum =  this.WriteProcessMemory(this.handle,baseAddr,struct,len,0)
 		return baseAddr,writeNum;
 	}; 
 	write = function(baseAddr,d,...){
@@ -507,9 +528,11 @@ class process {
 	assignToJobObject = function(job){
 		return ::Kernel32.AssignProcessToJobObjectB(job,this.handle);
 	};
+	isX64 = function(){
+		return this.__isX64 ;
+	};
 	isWow64 = function(){
-		var ok,p64 = IsWow64Process( this.handle );
-		return ok && p64;
+		return this.__isWow64 ;
 	};
 	asm = function( bin,proto = "void()",k = "cdecl" ){ 
 		var pfun; 
@@ -577,7 +600,7 @@ namespace process{
 	::Psapi := ..raw.loadDll("Psapi.dll");
 	
 	/*intellisense(process)*/  
-	GetModuleFileNameEx = Psapi.api("GetModuleFileNameEx","INT(pointer hProcess,pointer hModule,ustring& lpFilename,INT nSize)" )
+	GetModuleFileNameEx = Psapi.api("GetModuleFileNameEx","INT(pointer hProcess,pointer hModule,ustring& lpFilename,INT size)" )
 
 	PROCESS_INFORMATION = class {
  		pointer hProcess;
@@ -622,15 +645,23 @@ namespace process{
 	SetPriorityClass = ::Kernel32.api("SetPriorityClass","bool(POINTER hProcess,INT priorityClass)");
 	GetPriorityClass = ::Kernel32.api("GetPriorityClass","INT(POINTER hProcess");
 	
-	VirtualAllocEx = ::Kernel32.api("VirtualAllocEx","addr(POINTER hProcess ,addr lpAddress,int dwSize,int flAllocationType,int flProtect)")
-	VirtualFreeEx = ::Kernel32.api("VirtualFreeEx","int(POINTER hProcess,addr lpAddress,int dwSize,int dwFreeType)")
+	VirtualAllocEx = ::Kernel32.api("VirtualAllocEx","addr(POINTER hProcess ,addr addr,int dwSize,int flAllocationType,int flProtect)")
+	VirtualFreeEx = ::Kernel32.api("VirtualFreeEx","int(POINTER hProcess,addr addr,int dwSize,int dwFreeType)")
 	 
-	VirtualProtectEx = ::Kernel32.api("VirtualProtectEx","bool(POINTER hProcess,addr lpAddress, INT dwSize, INT flNewProtect, INT &lpflOldProtect )");
-	ReadProcessMemory = ::Kernel32.api("ReadProcessMemory","int(POINTER hProcess,addr lpBaseAddress,struct &lpBuffer,INT nSize,INT & lpNumberOfBytesRead)" )
-	ReadProcessMemoryByString = ::Kernel32.api("ReadProcessMemory","int(POINTER hProcess,addr lpBaseAddress,string &lpBuffer,INT nSize,INT & lpNumberOfBytesRead)" )
+	VirtualProtectEx = ::Kernel32.api("VirtualProtectEx","bool(POINTER hProcess,addr addr, INT dwSize, INT flNewProtect, INT &lpflOldProtect )");
+	ReadProcessMemory = ::Kernel32.api("ReadProcessMemory","int(POINTER hProcess,addr base,struct &buf,INT size,INT & retSize)" )
+	ReadProcessMemoryByString = ::Kernel32.api("ReadProcessMemory","int(POINTER hProcess,addr base,string &buf,INT size,INT & retSize)" )
 	
-	WriteProcessMemory = ::Kernel32.api("WriteProcessMemory","int(POINTER hProcess,addr lpBaseAddress,struct lpBuffer,INT nSize,INT & lpNumberOfBytesRead)" )
-	WriteProcessMemoryByString = ::Kernel32.api("WriteProcessMemory","int(POINTER hProcess,addr lpBaseAddress,string lpBuffer,INT nSize,INT & lpNumberOfBytesRead)" )
+	WriteProcessMemory = ::Kernel32.api("WriteProcessMemory","int(POINTER hProcess,addr base,struct buf,INT size,INT & retSize)" )
+	WriteProcessMemoryByString = ::Kernel32.api("WriteProcessMemory","int(POINTER hProcess,addr base,string buf,INT size,INT & retSize)" )
+	
+	try{
+		ReadProcessMemory64 = ::Ntdll.api("NtWow64ReadVirtualMemory64","int(POINTER hProcess,LONG base,struct &buf,long size,long & retSize)" )
+		ReadProcessMemoryByString64 = ::Ntdll.api("NtWow64ReadVirtualMemory64","int(POINTER hProcess,LONG base,string &buf,long size,long & retSize)" )
+	
+		WriteProcessMemory64 = ::Ntdll.api("NtWow64WriteVirtualMemory64","int(POINTER hProcess,LONG base,struct buf,long size,long & retSize)" )
+		WriteProcessMemoryByString64 = ::Ntdll.api("NtWow64WriteVirtualMemory64","int(POINTER hProcess,LONG base,string buf,long size,long & retSize)" )
+	}
 	
 	MEMORY_BASIC_INFORMATION = class {
  		addr BaseAddress;
@@ -641,11 +672,13 @@ namespace process{
  		INT Protect;
  		INT Type;
 	}
-	VirtualQueryEx = ::Kernel32.api("VirtualQueryEx","INT(pointer hProcess,addr lpAddress,struct& lpBuffer,INT dwLength)" )
+	VirtualQueryEx = ::Kernel32.api("VirtualQueryEx","INT(pointer hProcess,addr addr,struct& buf,INT dwLength)" )
 	FindExecutable = ::Shell32.api("FindExecutable","int(ustring file,ustring directory,ustring &result)")
 	/*end intellisense*/ 
 	
 	isExe = function(path){
+		if(!..io.exist(path)) return;
+		
 		var format,subsystem;
 		var f = ..io.open(path,"r");
 		if( !f ) return;
@@ -693,22 +726,43 @@ namespace process{
 		collectgarbage("collect");
 		return !!::Psapi.EmptyWorkingSet(getHandle())
 	}
-	
+
 	getInfo = function(handle){
- 		var info = {  
-    		INT exitStatus;  
-    		INT pebBaseAddress;  
-    		INT affinityMask;  
-    		INT basePriority;  
-    		ADDR uniqueProcessId;  
-    		ADDR inheritedFromUniqueProcessId;
-		}  
-		if(!::Ntdll.NtQueryInformationProcess( handle,0,info,..raw.sizeof(info),null))
-			return info;
- 	}
- 		
+		var ok,p64 = IsWow64Process(handle);
+		if( _WIN_64 && !(ok && p64 ) && ::Ntdll.NtWow64QueryInformationProcess64){ 
+ 			var info = {  
+    			INT exitStatus;
+    			INT r1;
+    			LONG pebBaseAddress;  
+    			INT affinityMask;  
+    			INT r2;
+    			INT basePriority; 
+    			INT r3;  
+    			INT id;  
+    			INT r4; 
+    			INT prarentId;
+    			INT r5;  
+			} 
+			
+			if(!::Ntdll.NtWow64QueryInformationProcess64( handle,0,info,..raw.sizeof(info),null))
+				return info;
+		}
+		else {
+ 			var info = {  
+    			INT exitStatus;  
+    			INT pebBaseAddress;  
+    			INT affinityMask;  
+    			INT basePriority;  
+    			ADDR id;  
+    			ADDR prarentId;
+			}  
+			if(!::Ntdll.NtQueryInformationProcess( handle,0,info,..raw.sizeof(info),null)){ 
+				return info;	
+			}	
+		} 
+ 	}	
 	getParentId = function(){
- 		return getInfo(getHandle())[["inheritedFromUniqueProcessId"]];
+ 		return getInfo(getHandle())[["prarentId"]];
  	}
  	
 	dup = function(h,src,dst,inherit=true,opt=3/*_DUPLICATE_CLOSE_SOURCE | _DUPLICATE_SAME_ACCESS*/,access){
@@ -1103,7 +1157,7 @@ process.shell() = !process.
 process.shellAs() = !process.
 process.is(__) = 传入参数是否 process 对象
 !process.stillActive() = 进程是否仍在运行
-!process.getInfo() = 获取进程信息
+!process.getInfo() = 获取进程信息\n!stdProcessInfo.
 !process.getExitCode() = 该函数调用成功有两个返回值:进程退出代码,进程是否已退出
 !process.free() = 释放进程对象。\n不是关闭进程,仅仅是释放对进程的控制句柄。
 !process.waitOne() = 等待进程关闭,不阻塞UI消息循环,\n可选使用一个毫秒值参数设定超时\n超时或失败返回 false,\n进程已退出则返回值1为true,返回值2为退出代码
@@ -1117,18 +1171,18 @@ process.is(__) = 传入参数是否 process 对象
 !process.mfree(.(指针,释放长度,0x4000) = 释放malloc成员函数分配的内存指针\n不建议手工指定长度
 !process.sendMessage(.(hwnd,message,wParam,lParam) = 向外部进程窗口发送消息\nlParam如果是结构体则复制到目标进程内存,\n结构体如果包含指针应当自行调用 process.malloc 分配内存并复制\n发送消息涉及的用法太多,尤其是涉及到访问外部进程内存,\n所涉及的知识量不能通过看几句函数说明获得,\n普通用户请不要学习或使用此函数
 !process.setAffinity(1) = 指定进程运行的CPU内核
-!process.readNumber(__/*内存地址*/) = 读取一个int整数,32位
-!process.readNumber(__/*内存地址*/,"long") = 读取一个long类型整数,64位
-!process.readNumber(__/*内存地址*/,"word") = 读取一个word类型整数,16位
-!process.readNumber(__/*内存地址*/,"byte") = 读取一个字节,8位
-!process.readNumber(__/*内存地址*/,"INT") = 读取一个int整数,32位无符号
-!process.readNumber(__/*内存地址*/,"LONG") = 读取一个long类型整数,64位无符号
-!process.readNumber(__/*内存地址*/,"WORD") = 读取一个word类型整数,16位无符号
-!process.readNumber(__/*内存地址*/,"BYTE") = 读取一个字节,8位无符号
+!process.readNumber(__/*内存地址*/) = 读取一个int整数,32位\n打开进程需要指定 _PROCESS_VM_READ 权限
+!process.readNumber(__/*内存地址*/,"long") = 读取一个long类型整数,64位\n打开进程需要指定 _PROCESS_VM_READ 权限
+!process.readNumber(__/*内存地址*/,"word") = 读取一个word类型整数,16位\n打开进程需要指定 _PROCESS_VM_READ 权限
+!process.readNumber(__/*内存地址*/,"byte") = 读取一个字节,8位\n打开进程需要指定 _PROCESS_VM_READ 权限
+!process.readNumber(__/*内存地址*/,"INT") = 读取一个int整数,32位无符号\n打开进程需要指定 _PROCESS_VM_READ 权限
+!process.readNumber(__/*内存地址*/,"LONG") = 读取一个long类型整数,64位无符号\n打开进程需要指定 _PROCESS_VM_READ 权限
+!process.readNumber(__/*内存地址*/,"WORD") = 读取一个word类型整数,16位无符号\n打开进程需要指定 _PROCESS_VM_READ 权限
+!process.readNumber(__/*内存地址*/,"BYTE") = 读取一个字节,8位无符号\n打开进程需要指定 _PROCESS_VM_READ 权限
 !process.write(.(内存地址,任意个字符串或结构体参数) = 写入数据,成功返回写入尾部内存地址,\n失败返回空
-!process.readString(.(内存地址,长度) = 读取定长字符串
-!process.readStringUtf16(.(内存地址,长度) = 读取定长Unicode字符串\n转换为UTF8编码\n注意长度以字符为单位
-!process.readStruct(.(内存地址,结构体) = 读取定义的结构体
+!process.readString(.(内存地址,长度) = 读取定长字符串\n打开进程需要指定 _PROCESS_VM_READ 权限
+!process.readStringUtf16(.(内存地址,长度) = 读取定长Unicode字符串\n转换为UTF8编码\n注意长度以字符为单位\n打开进程需要指定 _PROCESS_VM_READ 权限
+!process.readStruct(.(内存地址,结构体) = 读取定义的结构体\n打开进程需要指定 _PROCESS_VM_READ 权限
 !process.writeStruct(.(内存地址,结构体) = 写入定义的结构体,\n省略内存地址参数则自动分配内存,\n该函数返回写入内存地址,写入长度
 !process.writeString(.(内存地址,字符串,长度) = 写入字符串,长度为可选参数,\n省略内存地址参数则自动分配内存,\n该函数返回写入内存地址,写入长度
 !process.writeStringUtf16(.(内存地址,字符串) = 写入Unicode字符串\n参数可以为默认的UTF8编码文本
@@ -1165,6 +1219,7 @@ process.is(__) = 传入参数是否 process 对象
 !process.asmThiscall(.(函数原型,任意多个机器码参数) = 写入机器码返回函数对象\n请参考:aardio工具->其他编译器->INTEL汇编语言->汇编转机器码
 !process.getModuleBaseAddress(.(模块名) = 返回模块基址,\n模块名忽略大小写,\n不指定模块名则返回应用程序基址
 !process.isWow64() = 进程是否在64位系统上运行的32进程
+!process.isX64() = 是否64位进程
 !process.getUiInfo() = 获取UI线程窗口焦点,光标等信息\n!guithreadinfo.
 !process.getMainWindow(.() = 返回进程的主窗口，忽略隐藏窗口
 !process.getMainWindow(.(类名) = 返回进程的指定类名的主窗口，\n类名参数支持模式匹配语法
@@ -1182,6 +1237,7 @@ end intellisense**/
 
 /**intellisense(process)
 getInfo(__) = 获取进程信息\n参数指定进程句柄
+getInfo() = !stdProcessInfo.
 shellAs( = 以管理权限运行exe应用程序,返回进程对象
 shellAs(.("__", parameters="",showCmd,workDir,hwnd,fmask) = 参数@1指定要运行的执行程序路径,\n参数@2可用一个字符串或字符串数组指定启动参数,\n其他参数详细用法请参考本函数源码以及WINAPI中ShellExecuteEx函数用法\n除参数@1以外所有参数可选
 shell( = 运行exe应用程序,返回进程对象
@@ -1197,7 +1253,7 @@ exploreSelect("__/*文件路径*/") = 打开资源管理器,选定该文件
 explore("__/*目录路径*/") = 使用资源管理器打开目录\n打开WIN10应用这样写:process.explore("shell:appsFolder\appPath")\n使用 com.shell.eachApp 可列出WIN10所有appPath
 regAs(`__/*命令参数*/`) = 以管理权限执行 reg 命令
 findExe("__/*文件路径*/") = 查找文件关联的可执行程序
-isExe("__/*文件路径*/") = 检测目标文件是否可执行文件\n如果是可执行文件返回"PE32"或"PE64"\n第二个返回值为子系统,GUI为2,CUI为3
+isExe("__/*文件路径*/") = 检测目标文件是否可执行文件\n如果是可执行文件返回"PE32"或"PE64"\n第二个返回值为子系统,GUI为2,CUI为3\n失败或参数为 null 返回 null
 find("__/*exe 文件名*/") = 查找进程并返回进程对象,\n参数@1指定要查找的进程启动文件名,注意应指定文件名而非文件路径,\n文件名参数支持模式匹配语法,忽略大小写,
 findId("__/*exe 文件名*/") = 查找进程并返回进程 ID,\n参数@1指定要查找的进程启动文件名,注意应指定文件名而非文件路径,\n文件名参数支持模式匹配语法,忽略大小写
 kill( = 查找并关闭进程,\n注意有些进程需要管理权限才能找到,\n例如资源管理器进程 "explorer.exe" 无管理权限有时会失败,\n在代码第一行添加//RUNAS//可申请管理权限
@@ -1299,6 +1355,12 @@ th32ProcessID = owning process
 th32HeapID = heap (in owning process's context!)
 dwFlags = 
 end intellisense*/
+
+/**intellisense(!stdProcessInfo)
+exitStatus = 进程退出代码
+prarentId = 父进程ID
+pebBaseAddress = PEB 地址,\n注意 64 位进程这里返回 math.size64 对象,\n32 位进程返回数值
+end intellisense**/
 
 /**intellisense()
 _PAGE_NOACCESS=@0x1/*_PAGE_NOACCESS*/

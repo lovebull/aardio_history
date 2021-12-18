@@ -10,7 +10,7 @@ custom={cls="custom";text="custom";left=119;top=35;right=605;bottom=422;bgcolor=
 plusAdvance={cls="plus";text="高级";left=0;top=88;right=119;bottom=133;background="\res\Images\set_tab_bkg.png";font=LOGFONT(h=-16);notify=1;repeat="repeat-x";z=4};
 plusPlayer={cls="plus";text="播放";left=0;top=50;right=119;bottom=88;background="\res\Images\set_tab_bkg.png";font=LOGFONT(h=-16);notify=1;repeat="repeat-x";z=3};
 titlebar={cls="bk";text="   Ovplayer播放器设置";left=0;top=0;right=604;bottom=35;align="left";bgcolor=16777215;color=8421504;forecolor=4208437;linearGradient=0;paddingLeft=10;z=1};
-titlebarClose={cls="plus";left=570;top=5;right=595;bottom=30;background="\res\images\sys_close.png";notify=1;repeat="repeat-x";transparent=1;z=2}
+titlebarClose={cls="plus";left=570;top=5;right=594;bottom=29;foreground="\res\images\sys_close.png";notify=1;repeat="repeat-x";transparent=1;z=2}
 )
 /*}}*/
 

@@ -54,6 +54,6 @@ getVersions = function(){
 }
 
 /**intellisense(dotNet.version)
-getFrameworks() = 获取安装的.Net Framework版本信息列表
-getVersions() = 返回已安装的.Net Framework版本\n版本号一律规范为 vN.N 格式,例如v2.0 v4.0 等等
+getFrameworks() = 获取安装的 .Net Framework 版本信息列表
+getVersions() = 返回已安装的 .Net Framework 版本\n版本号一律规范为 vN.N 格式,例如 v2.0 v4.0 等等\n\n注意 .NET 3.5的运行时是 v2.0，.Net 4.5 的运行时是 v4.0，\nWin7 自带 .NET2.0 运行时，Win10 自带 .NET4.0 运行时。\n\naardio 可以自适应不同的版本，\n所以大多时候不需要去指定版本
 end intellisense**/

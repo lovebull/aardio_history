@@ -1,0 +1,77 @@
+﻿//加载 DLL
+//这里的 DLL 指的是 .Net 创建的程序集，不是指原生 DLL
+import console;
+import dotNet;
+
+//直接导入程序集文件,参数指定路径或内存数据,在文件路径前加 $表示将文件编译到代码中并自内存加载
+var Interop = dotNet.loadFile($"~\lib\dotNet\.res\bin\Release\Aardio.InteropServices.dll");
+//如果要用 VS 附加进程调试你自己写的DLL，可以在上面的参数 @2 里指定 pdb 调试文件的路径。
+
+//查找并导入程序集,参数可以是程序集名或者文件路径( 程序集也就是 .Net 写的 DLL)
+var SystemAssembly = dotNet.load("System"); 
+
+console.log("程序集全名",SystemAssembly.FullName);
+console.log("程序集路径",SystemAssembly.Location);
+
+/*
+如果你的程序集不能加载，一般都是因为这些程序集依赖其他的程序集， 
+aardio 里的 .Net 还是原来那个 .Net，我们只是对接接口并不改变 .Net 的任何东西。
+所以这些使用 .Net 的必备基础知识请先了解和学习一下，。
+*/
+
+//加载应用程序目录下的程序集( 或 "/bin/" 目录下的程序集 )
+var assembly = dotNet.load("CSNET2ClassLibrary");
+ 
+//导入程序集中的名字空间或类，官方建议规范：.Net 名字空间或类名首字符大写，aardio 类名首字符小写。
+var CSNET2ClassLibrary = assembly.import("CSNET2ClassLibrary");
+
+//用 CSNET2ClassLibrary 名字空间下面的类构造对象实例，官方建议规范：对象实例建议首字符小写
+var simpleObject = CSNET2ClassLibrary.CSSimpleObject() 
+
+//修改.Net对象的属性值
+simpleObject.FloatProperty = 936;
+
+//获取.Net对象的属性值
+console.log(simpleObject.FloatProperty);
+
+//调用对象的静态方法
+console.log( simpleObject.GetStringLength("HelloWorld")  ); 
+
+//也可以通过类调用静态方法,效果跟上面一句是一样的
+console.log( CSNET2ClassLibrary.CSSimpleObject.GetStringLength("HelloWorld")  ); 
+
+console.pause(); 
+
+/****
+\CSNET2ClassLibrary.dll 的 C#源码如下：
+
+namespace CSNET2ClassLibrary
+{
+    using System;
+    using System.Runtime.InteropServices;
+
+    [ComVisible(true), ClassInterface(ClassInterfaceType.AutoDual), IDispatchImpl(IDispatchImplType.InternalImpl)]
+    public class CSSimpleObject
+    {
+        private float fField = 13456.78f;
+
+        public static int GetStringLength(string str)
+        {
+            return str.Length;
+        }
+
+        public float FloatProperty
+        {
+            get
+            {
+                return this.fField;
+            }
+            set
+            {
+                this.fField = value;
+            }
+        }
+    }
+}
+
+****/

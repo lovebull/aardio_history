@@ -7,6 +7,10 @@ namespace wsock.tcp;
 
 class simpleHttpServer{
 	ctor(ip,port,backlog){{
+		if(..request && ..response && !..response.closed){ 
+			error('在响应 HTTP 请求时不应启动 HTTP 服务端\n');
+		}
+			
 		var errMsg;
 		this, errMsg = ..wsock.tcp.server(ip,port,backlog);
 		if(!this ) return null,errMsg;
@@ -60,41 +64,47 @@ class simpleHttpServer{
 						QUERY_STRING = uri[2];
 						PATH_INFO = uri[1];
 					}
-
-					if( !..io.exist(environ.PATH_INFO,4) && ..io.exist(environ.PATH_INFO,0)  ){ 
-						var path = ..io.joinpath(environ.PATH_INFO,_SIMPLEHTTPSRV_DEFAULT_DOCUMENT);
-						if( ..io.exist( path,4 ) ){
-							if(environ.PATH_INFO[#environ.PATH_INFO]!=='/'#){
-								socketClient.write(environ.SERVER_PROTOCOL 
-									+ ' 301 Moved Permanently\r\nLocation: '+environ.PATH_INFO+'/\r\n\r\n');
-								socketClient.close();
-								return;
-							}
-							
-							environ.PATH_INFO = path;
-						}
-						
+					
+					environ.PATH_INFO = ..inet.url.decode(environ.PATH_INFO);
+					if(!environ.PATH_INFO){	
+						socketClient.write(environ.SERVER_PROTOCOL + ' 400 Bad Request');
+						socketClient.close();	
+						return; 
 					}
-						
+								
+					environ.PATH_INFO = ..string.replace(environ.PATH_INFO,"\\","/");
+					environ.PATH_TRANSLATED = ..io.fullpath(..io.joinpath(_SIMPLEHTTPSRV_DOCUMENT_ROOT,_SIMPLEHTTPSRV_DOCUMENT_BASE,environ.PATH_INFO));
+
+					//检查默认文档
+					if(environ.PATH_INFO[#environ.PATH_INFO]=='/'#){
+						environ.PATH_INFO = ..io.joinpath(environ.PATH_INFO,_SIMPLEHTTPSRV_DEFAULT_DOCUMENT);
+					}
+					elseif( ..io.exist(environ.PATH_TRANSLATED,0) && !..io.exist(environ.PATH_TRANSLATED,4)  ){
+						socketClient.write(environ.SERVER_PROTOCOL + ' 301 Moved Permanently\r\nLocation: '+environ.PATH_INFO+'/\r\n\r\n');
+						socketClient.close();
+						return;
+					}
+					
+					//检查默认路径前缀
+					if(_SIMPLEHTTPSRV_DOCUMENT_BASE){
+						environ.PATH_INFO = ..io.joinpath(_SIMPLEHTTPSRV_DOCUMENT_BASE,environ.PATH_INFO);
+					}
+					
+					//设置 SCRIPT_NAME
 					with environ{ 
-						PATH_INFO = ..inet.url.decode((..string.replace( PATH_INFO,"\\","/")));
-						if(!PATH_INFO){
-							socketClient.write(environ.SERVER_PROTOCOL + ' 400 Bad Request');
-							socketClient.close();	
-							return; 
-						}
+						PATH_INFO = ..string.replace(PATH_INFO,"\\","/");
+						PATH_TRANSLATED = ..string.replace(PATH_TRANSLATED,"\\","/");
 						
-						PATH_TRANSLATED = ..io.fullpath(PATH_INFO);
 						if( ..string.endWith(PATH_INFO,".aardio",true) ){
 							SCRIPT_NAME =  PATH_INFO;
 							SCRIPT_FILENAME = PATH_TRANSLATED;
 						}
 						else {
 							SCRIPT_NAME = ..string.match(PATH_INFO,"(.*?\.aardio)/");
-							if(#SCRIPT_NAME)  SCRIPT_FILENAME = ..io.fullpath(SCRIPT_NAME);
+							if(#SCRIPT_NAME)  SCRIPT_FILENAME = ..io.fullpath(..io.joinpath(_SIMPLEHTTPSRV_DOCUMENT_ROOT,SCRIPT_NAME));
 						}
-                	}
-                	
+    				}
+    	
 					var strHeaders = socketClient.readTo('\r\n\r\n'); 
 					if(!strHeaders){
 						socketClient.close();
@@ -236,7 +246,6 @@ class simpleHttpServer{
 						if( request.serverPort != 80) request.host = request.host + ":" + request.serverPort;
 					};
 					request.url = request.scheme + "://"  + request.host  ++ request.path;
-					
 					
 					if( ! request.sessionId ){ request.createSessionId(); }	
 					var sesData,sesHandler,sesExpires;
@@ -649,7 +658,7 @@ class simpleHttpServer{
 					}
                 	
                 	response.close(true);	
-             	},100,function(app,documentRoot,defalutDocument,customErrors,onThreadCreated,threadGlobal,urlRoot){
+             	},100,function(app,documentRoot,documentBase,defalutDocument,customErrors,onThreadCreated,threadGlobal,urlRoot){
                 	import wsock.tcp.client;
                 	import inet.url;
                 	import inet.httpStatusCode;
@@ -664,12 +673,13 @@ class simpleHttpServer{
                 	
 					_SIMPLEHTTPSRV_APP = app;
 					_SIMPLEHTTPSRV_DOCUMENT_ROOT = ..io.fullpath( (documentRoot:"\") );
+					_SIMPLEHTTPSRV_DOCUMENT_BASE = documentBase;
 					_SIMPLEHTTPSRV_DEFAULT_DOCUMENT = defalutDocument;
 					_SIMPLEHTTPSRV_CUSTOM_ERRORS = customErrors;
 					
 					if(onThreadCreated) onThreadCreated(_SIMPLEHTTPSRV_DOCUMENT_ROOT,urlRoot);
 					
-				},app,this.documentRoot,this.defalutDocument
+				},app,this.documentRoot,this.documentBase,this.defalutDocument
 					,this.customErrors,this.onThreadCreated,this.threadGlobal,this.getUrl(),
 			);
 		
@@ -718,11 +728,15 @@ namespace simpleHttpServer{
 			}
 		};
 		start = function(startIp,startPort,startBacklog){
+			if(..request && ..response ){ 
+				error('请求路径不能指向服务器启动代码\n');
+			}
+			
 			this.stop();
 			
 			var serverInfo = ..thread.var();
 			..thread.invoke( 
-				function(serverInfo,startIp,startPort,startBacklog,httpHandle,threadNum,documentRoot,defalutDocument,customErrors,onThreadCreated,threadGlobal){
+				function(serverInfo,startIp,startPort,startBacklog,httpHandle,threadNum,documentRoot,documentBase,defalutDocument,customErrors,onThreadCreated,threadGlobal){
 					import wsock.tcp.simpleHttpServer;
 					var server,errMsg = wsock.tcp.simpleHttpServer(startIp,startPort,startBacklog);
 					if(!server){
@@ -732,8 +746,9 @@ namespace simpleHttpServer{
 						});	
 						return;
 					}
-					
+				
 					server.documentRoot = documentRoot;
+					server.documentBase = documentBase;
 					server.defalutDocument = defalutDocument;
 					server.customErrors = customErrors;
 					server.onThreadCreated = onThreadCreated;
@@ -756,6 +771,7 @@ namespace simpleHttpServer{
 					,this.httpHandle
 					,this.threadNum
 					,this.documentRoot
+					,this.documentBase
 					,this.defalutDocument : "main.aardio"
 					,this.customErrors
 					,this.onThreadCreated
@@ -821,6 +837,9 @@ namespace simpleHttpServer{
 }
 
 /**intellisense()
+wsock.tcp.simpleHttpServer.documentRoot = 网站应用程序根目录,默认为"/",\n只能设置为硬盘上实际存在的目录,\n改变此目录,会同时改变\n服务端代码中的应用程序根目录以及用户库目录,\n如果只是相将所有请求路径转向某个目录,应当改用 documentBase 属性\n如果网站在嵌入资源目录中,应当改用 documentBase 属性
+wsock.tcp.simpleHttpServer.documentBase = 网站根目录,\n不会修改应用程序根目录,支持硬盘目录与资源目录,\n这个属性应当设置为应用程序根目录下的相对路径,\n例如 "/res/web/",\n此路径应
+wsock.tcp.simpleHttpServer.defalutDocument = 默认文档，默认为"main.aardio",\n\n如果访问硬盘上存在的目录,request.path 尾部不加斜杠会自动跳转到以斜杆结束的路径\n\n如果访问嵌入资源目录,只有 request.path 以斜杆才会访问默认文档,\n对于访问嵌入资源文件,建议指定完整的文件路径,\n默认文档主要是用于硬盘上的网站
 wsock.tcp.simpleHttpServer.mainThread(app) =  @.mainThread( \n    function(response,request,session){ \n         response.loadcode( request.path __/*可省略,可增加多个模板参数,\n在被调用文件的函数外部可使用owner参数获取首个模板参数,\n也可以使用...获取多个模板参数*/ );\n    } 	\n);
 wsock.tcp.simpleHttpServer.mainThread() = !stdHttpSimpleServerMain.
 wsock.tcp.simpleHttpServer.startUrl( =  查找可用端口创建HTTP服务器，返回返回完整URL\n此服务端限制使用本机IP127.0.0.1访问,并随机分配端口不会出现端口冲突\n如果HTTP服务器已启动则直接返回URL而不是重复启动服务器,\n注意当前线程结束时,此服务器线程会自动退出
@@ -829,7 +848,6 @@ wsock.tcp.simpleHttpServer.stopUrl(__) = 退出startUrl函数创建的HTTP服务
 wsock.tcp.simpleHttpServer = HTTP服务端\n支持文件上传,下载,下载支持断点续传\n支持多线程处理请求
 wsock.tcp.simpleHttpServer(.(IP,端口,请求队列大小) = 创建HTTP服务端,所有参数可选,\n\n如果不写IP，则默认设为"0.0.0.0"也即监听本机所有IP,访问此服务端也不限制IP\n限制仅本机可以访问建议写127.0.0.1\n\n端口为0或省略则自动选择未用端口\n注意0-1023为系统通用服务保留端口,\n1024-49151为用户服务端口,其中大约%9已由IANA注册分配\n49152-65535为私有或临时端口
 wsock.tcp.simpleHttpServer() = !stdHttpSimpleServer.
-!stdHttpSimpleServer.defalutDocument = 默认文档，默认为"main.aardio"
 !stdHttpSimpleServer.bind(.(IP,端口) = 绑定IP端口
 !stdHttpSimpleServer.listen(.(请求队列大小) = 监听指定的IP端口
 !stdHttpSimpleServer.close() = 关闭HTTP服务端
@@ -837,7 +855,9 @@ wsock.tcp.simpleHttpServer() = !stdHttpSimpleServer.
 !stdHttpSimpleServer.getUrl() = 返回首页URL\n如果参数@1为true，IP "0.0.0.0"替换为上网卡IP而不是localhost		
 !stdHttpSimpleServer._serverAddress = 服务端监听地址\n!sockaddr_in.
 !stdHttpSimpleServer.run( httpProc ) = @.run( \n    function(response,request,session){ \n         response.loadcode( request.path __/*可省略,可增加多个模板参数,\n在被调用文件的函数外部可使用owner参数获取首个模板参数,\n也可以使用...获取多个模板参数*/ );\n    } 	\n);
-!stdHttpSimpleServer.documentRoot = 自定义应用程序根目录位置\n不指定时默认为 io.fullpath("/")
+!stdHttpSimpleServer.documentRoot = 网站应用程序根目录,默认为"/",\n在启动服务端之前设置才会生效,\n\n只能设置为硬盘上实际存在的目录,\n改变此目录,会同时改变\n服务端代码中的应用程序根目录以及用户库目录,\n如果只是相将所有请求路径转向某个目录,应当改用 documentBase 属性\n如果网站在嵌入资源目录中,应当改用 documentBase 属性
+!stdHttpSimpleServer.documentBase = 网站根目录,\n在启动服务端之前设置才会生效,\n不会修改应用程序根目录,支持硬盘目录与资源目录,\n这个属性应当设置为应用程序根目录下的相对路径,\n例如 "/res/web/",\n此路径应
+!stdHttpSimpleServer.defalutDocument = 默认文档，默认为"main.aardio",\n在启动服务端之前设置才会生效,\n\n如果访问硬盘上存在的目录,request.path 尾部不加斜杠会自动跳转到以斜杆结束的路径\n\n如果访问嵌入资源目录,只有 request.path 以斜杆才会访问默认文档,\n对于访问嵌入资源文件,建议指定完整的文件路径,\n默认文档主要是用于硬盘上的网站
 !stdHttpSimpleServer.onThreadCreated() = @.onThreadCreated = function(documentRoot,urlRoot){
 	__/*一个HTTP服务监听线程准备就绪时触发此事件*/
 }
@@ -855,8 +875,9 @@ wsock.tcp.simpleHttpServer() = !stdHttpSimpleServer.
 end intellisense**/
 
 /**intellisense(!stdHttpSimpleServerMain)
-defalutDocument = 自定义默认文档,默认为"main.aardio"
-documentRoot = 自定义应用程序根目录位置\n不指定时默认为 io.fullpath("/")
+documentRoot = 网站应用程序根目录,默认为"/",\n只能设置为硬盘上实际存在的目录,\n改变此目录,会同时改变\n服务端代码中的应用程序根目录以及用户库目录,\n如果只是相将所有请求路径转向某个目录,应当改用 documentBase 属性\n如果网站在嵌入资源目录中,应当改用 documentBase 属性
+documentBase = 网站根目录,\n不会修改应用程序根目录,支持硬盘目录与资源目录,\n这个属性应当设置为应用程序根目录下的相对路径,\n例如 "/res/web/",\n此路径应
+defalutDocument = 默认文档，默认为"main.aardio",\n\n如果访问硬盘上存在的目录,request.path 尾部不加斜杠会自动跳转到以斜杆结束的路径\n\n如果访问嵌入资源目录,只有 request.path 以斜杆才会访问默认文档,\n对于访问嵌入资源文件,建议指定完整的文件路径,\n默认文档主要是用于硬盘上的网站
 onThreadCreated() = @.onThreadCreated = function(documentRoot,urlRoot){
 	__/*一个HTTP服务监听线程准备就绪时触发此事件*/
 }

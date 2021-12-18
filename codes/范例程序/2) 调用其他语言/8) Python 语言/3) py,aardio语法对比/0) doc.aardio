@@ -52,7 +52,7 @@ python与aardio的变量命名规则基本类似，
 python与aardio一样同样是大小写敏感的语言， Name与name 表示的不是同一个对象名字
 
 python中函数内部声明变量默认为局部变量,全局变量声明应显式加上global关键字。
-恰恰相反的是,aardio中变量默认为全局变量并且无需声明可以直接使用,而局部变量需要用var语句显示声明。
+恰恰相反的是,aardio中变量默认为全局变量并且无需声明可以直接使用,而局部变量需要用 var 语句显式声明。
 
 注意 python 中访问不存在的变量会抛出 NameError 异常，
 而访问对象不存在的属性会抛出 AttributeError,KeyError，

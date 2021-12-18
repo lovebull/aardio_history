@@ -1,0 +1,120 @@
+//编译C#代码 
+import dotNet; 
+
+//创建C#语言编译器
+var compiler = dotNet.createCompiler("C#");
+
+//C#要用到的 DLL 程序集要在这里提前引入
+compiler.Reference("System.dll")
+
+//设置待编译C#源码
+compiler.Source = /****** 
+using System;
+using System.Reflection; 
+using System.Collections;
+
+namespace CSharpLibrary  
+{ 
+    public class AardioTable  
+    { 
+    	private object tObject;
+    	public AardioTable(object obj){
+    		tObject = obj;
+    	}
+    	public object GetProperty(string k){
+    		return  tObject.GetType().InvokeMember(k, BindingFlags.GetProperty, null, tObject, null);
+    	}
+    	public void SetProperty(string k,object v){
+    		tObject.GetType().InvokeMember(k, BindingFlags.SetProperty, null, tObject, new object[] { v });
+    	}
+    	public object InvokeMember(string k,params/*不定个数参数*/ object[] arg ){ 
+    		return  tObject.GetType().InvokeMember(k, BindingFlags.InvokeMethod, null, tObject, arg );
+    	}
+    } 
+    
+    public class CSharpObject  
+    {   
+        public object Hello( object comObject ){   
+        
+            AardioTable tab = new AardioTable( comObject );
+         
+        	tab.SetProperty( "属性名",456 ) ; 
+              
+            tab.InvokeMember( "执行aardio",  " console.log('在C#中执行aardio代码') "   );
+            
+            IEnumerator enumerator = (comObject as IEnumerable).GetEnumerator();  
+            while (enumerator.MoveNext())
+            { 
+                Console.WriteLine( "C#中遍历aardio对象键名：" + enumerator.Current ); 
+            }
+             
+            return tab.GetProperty("属性名"); 
+        }
+        
+        public int [] Test(  double a, int [] b){   
+        
+            b[0] = b[0] + (int)a;
+             
+            return b; 
+        }
+    }   
+} 
+******/
+
+//编译并返回程序集  
+var assembly = compiler.Compile()  
+
+import console;
+console.log(compiler.getLastError()) //查看编译器错误信息
+ 
+//自程序集导入名字空间
+var CSharpLibrary = assembly.import("CSharpLibrary")  
+
+//使用 C# 编写的类构造对象实例
+var cSharpObject = CSharpLibrary.CSharpObject();
+
+//调用实时编译的C#函数
+var ret = cSharpObject.Hello( { 
+    属性名 = 123;
+    执行aardio = function( code ){ 
+        loadcode(code)(); 
+    } 
+} ); 
+
+//数值、数值数组可自动兼容不同的类型
+var ret = cSharpObject.Test(12,{2,3}); 
+
+//也可以用 com.double 等函数显式声明类型
+var ret = cSharpObject.Test(com.double(12),com.int({2,3})); 
+
+console.dump(ret);
+console.pause();
+/*
+aardio 调用 C# 函数时遵守 COM 调用传参规则，
+调用 COM 函数传参时，如果 COM 函数支持参数自动类型识别 —— 则 aardio 优先使用 COM 函数需要的类型。
+
+否则按默认规则处理：
+整数默认处理为 32 位整型(int,int32)，小数默认处理为64位浮点数(double)。
+如果是 aardio 数组，纯数值数组一律转为 double 类型 COM 数组，纯字符串数组一律转为 BSTR 数组,
+其他数组转为 Variant 变体类型数组。
+
+.Net 默认不支持参数自动类型转换，参数类型不一致会提示找不到函数，
+不过 aardio 实现了最大可能的参数类型自动兼容与自动转换，一般不需要指定类型。
+
+com 名字空间也提供的以下函数显式创建指定类型的对象：
+-------------------------------------------------------------------
+com.byte() 将参数指定的数值或数组声明为 8 位整型数值。
+com.ubyte()  将参数指定的数值或数组声明为 8 位无符号整型数值。
+com.word() 将参数指定的数值或数组声明为 16 位整型数值。
+com.uword() 将参数指定的数值或数组声明为 16 位无符号整型数值。
+com.int() 将参数指定的数值或数组声明为 32 位整型数值。
+com.uint() 将参数指定的数值或数组声明为 32 位无符号整型数值。
+com.long() 将参数指定的数值或数组声明为 64 位整型数值。
+com.ulong() 将参数指定的数值或数组声明为 64 位无符号整型数值。
+com.float() 将参数指定的数值或数组声明为 32 位浮点数值。
+com.double() 将参数指定的数值或数组声明为 64 位浮点数值。
+-------------------------------------------------------------------
+上面这些函数会返回 com.Variant 对象，可以作为 .Net 函数的参数使用。
+*/
+
+

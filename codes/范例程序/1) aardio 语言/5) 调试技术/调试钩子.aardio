@@ -14,18 +14,18 @@ dbg.line = function(line){
 }
 
 //调用函数触发
-dbg.call=function(){
+dbg.call = function(){
 	io.print( "call" )
 	io.print( debug.traceback(,"调用栈",2));
 }
 
 //返回值触发
-dbg.return=function(line){
+dbg.return = function(line){
 	io.print( "return" )
 }
 
-//尾调用触发
-dbg.tailreturn=function(line){
+//尾调用触发,必须同时定义 dbg.return 回调,如果仅指定 dbg.tailreturn 则不会被触发
+dbg.tailreturn = function(line){
 	io.print( "tailreturn" )
 }
 

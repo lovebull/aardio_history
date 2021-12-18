@@ -7,13 +7,13 @@ listbox={cls="listbox";left=41;top=18;right=950;bottom=597;bgcolor=16777215;db=1
 )
 /*}}*/
 
-winform.listbox.onMeasureItem = function(measureItem){
+winform.listbox.onMeasureItem = function(measureItem,dpiScaleX,dpiScaleY){
     //注意listbox的实际高度受行高的影响,只有自绘时才能设置行高
-	measureItem.itemHeight = 51;  
+	measureItem.itemHeight = 61 * dpiScaleY;  
 }
 
 import gdip;
-winform.listbox.onDrawItem = function(drawItem){
+winform.listbox.onDrawItem = function(drawItem,dpiScaleX,dpiScaleY){
     var rc = drawItem.rcItem;
     
     //创建画板

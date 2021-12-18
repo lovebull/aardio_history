@@ -17,14 +17,14 @@ import com.lite;
 var dll = com.lite.appData("aardio\vb6\Vb6Control.ocx",$"\.vb6\Vb6Control.ocx")
 
 /*
-创建VB控件,返回的 vbUserControl 是控件容器,vbUserControl._object 才是 COM 控件,
-dll.createEmbedEx() 函数会自动将 vbUserControl 转换为可代理访问 vbUserControl._object 的代理对象
+创建VB控件,返回的 vbCtrl 是控件容器,vbCtrl._object 才是 COM 控件,
+dll.createEmbedEx() 函数会自动将 vbCtrl 转换为可代理访问 vbCtrl._object 的代理对象
 */ 
-var vbUserControl = dll.createEmbedEx(winform.static );//可选在参数@2中指定GUID,不指定也可以自己找到
+var vbCtrl = dll.createEmbedEx(winform.static );//可选在参数@2中指定GUID,不指定也可以自己找到
 winform.edit.print( dll.firstCoClassId() ); //可用这个函数查询VB6控件的CLSID
 
 //控件容器也是默认的 COM 事件监听器,如下直接指定响应 COM 事件的函数
-vbUserControl.OnImageClick = function(value){
+vbCtrl.OnImageClick = function(value){
 	winform.edit.print("VB控件里点击了图像,事件参数:"+value)
 	
 	//VB里这个事件的参数声明为 ByRef,所以添加返回值可以修改参数
@@ -32,7 +32,7 @@ vbUserControl.OnImageClick = function(value){
 }
 
 //修改VB控件的属性
-vbUserControl.Picture = com.picture.loadObject( "~\codes\范例程序\D) 图形图像\.gdip.jpg" )
+vbCtrl.Picture = com.picture.loadObject( "~\codes\范例程序\D) 图形图像\.gdip.jpg" )
 /*
 VB6 字符串虽存为 Unicode 编码，但却被设计为编写 ANSI 编码的程序，
 VB的IDE，源码也都是 ANSI 编码，因此 Unicode 字符传入 VB 会变成乱码。
@@ -41,16 +41,16 @@ VB的IDE，源码也都是 ANSI 编码，因此 Unicode 字符传入 VB 会变�
 */
 
 //修改VB控件的参数化属性,加上 set 前缀以函数形式调用
-vbUserControl.setTestProperty(2,123)
+vbCtrl.setTestProperty(2,123)
 
 /*
 带多个参数的属性加上get前缀并以函数形式调用，例如：
 */
-var testProperty = vbUserControl.getTestProperty(2);
+var testProperty = vbCtrl.getTestProperty(2);
 winform.edit.print("VB 控件 TestProperty(2) 属性:",testProperty);
 
 //调用 VB 函数
-var c = vbUserControl.Add(2,3);
+var c = vbCtrl.Add(2,3);
 winform.edit.print("调用 VB 控件函数返回值:",c);
 winform.edit.print("请点击图像试试");
 

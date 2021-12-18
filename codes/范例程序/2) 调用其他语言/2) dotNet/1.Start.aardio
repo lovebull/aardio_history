@@ -1,0 +1,27 @@
+﻿//入门
+import console;
+import dotNet;
+ 
+//导入程序集 https://docs.microsoft.com/zh-cn/dotnet/api/?view=netframework-2.0
+var SystemAssembly = dotNet.load("System"); 
+
+//导入程序集中的名字空间或类，
+//官方建议规范：.Net 名字空间或类名首字符大写，aardio 类名首字符小写。
+var System = SystemAssembly.import("System");
+
+//调用类的静态成员函数，当然也可以这样读写类的其他静态成员属性。
+var isValidHost = System.Uri.CheckHostName("www.aardio.com") 
+
+//用 System 名字空间下面的类构造对象实例，官方建议规范：对象实例建议首字符小写
+var uri = System.Uri("https://www.aardio.com/test?q=aardio")
+
+//读或写 .Net 对象的实例属性
+console.log( uri.Host )
+
+//调用 .Net 对象实例的成员函数
+console.log( uri.GetHashCode() )
+ 
+//.Net 对象还可以用 tostring 转换为字符串
+console.log( tostring(uri) ) //这里的 tostring可以省略。
+
+console.pause(); 

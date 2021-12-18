@@ -53,9 +53,9 @@ class fade{
 
 namespace fade{
 
-	function easeOutQuad(timestamp,begining,change,duration){
+	function easeOutQuad(timestamp,beginning,change,duration){
 		var x = timestamp/duration;  
-		return begining+change*(-x*x + 2*x); 
+		return beginning+change*(-x*x + 2*x); 
 	}
 }
 

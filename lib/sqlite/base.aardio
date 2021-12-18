@@ -61,9 +61,10 @@ class sqlite {
 			return stmt;
 		};
 	};
-	each = function(sql,cond,... ){
+	prepareLite = function(sql,cond,...){
 		var ok,stmt,param;
 		if( cond && type(cond) == "table" && ..string.indexOf(sql,"@")  ){
+			//如果包含命名参数,则阻止 prepare 将命名参数转换为 WHERE 条件语句
 			param = cond;
 			
 			var i = 0;
@@ -80,56 +81,35 @@ class sqlite {
 		else {
 			ok,stmt = call(this.prepare,this,sql,cond,... );
 		} 
-		if(!ok) error(stmt,2); 
-	 
+		
+		return ok,stmt,param;
+	};
+	each = function(sql,cond,...){
+		var ok,stmt,param = this.prepareLite(sql,cond,...);
+		if(!ok) error(stmt,2);
+		
 		return stmt.each(param),function(){ stmt.finalize(); };
 	};
-	stepQuery = function(sql,cond,... ){ 
-		var ok,stmt,param;
-		if( cond && type(cond) == "table" && ..string.indexOf(sql,"@")  ){
-			param = cond;
-			
-			var i = 0;
-			sql = (..string.replace(sql,"\?\?*",
-				function(name) {
-					i++;
-					if( name == "?" ) return escape(param[i]);
-					else return escapeId(param[i])
-				}
-			));	
-			
-			ok,stmt = call(this.prepare,this,sql);  
-		}
-		else {
-			ok,stmt = call(this.prepare,this,sql,cond,... );
-		}
-		
+	stepResult = function(sql,cond,... ){ 
+		var ok,stmt,param = this.prepareLite(sql,cond,...);
 		if(!ok) error(stmt,2);
+		
+		var row,ret = stmt.stepResult(param);
+		stmt.finalize();
+		return row,ret;
+	}; 
+	stepQuery = function(sql,cond,... ){ 
+		var ok,stmt,param = this.prepareLite(sql,cond,...);
+		if(!ok) error(stmt,2);
+		
 		var row,ret = stmt.stepQuery(param);
 		stmt.finalize();
 		return row,ret;
 	}; 
 	getTable = function(sql,cond,... ){ 
-		var ok,stmt,param;
-		if( cond && type(cond) == "table" && ..string.indexOf(sql,"@")  ){
-			param = cond;
-			
-			var i = 0;
-			sql = (..string.replace(sql,"\?\?*",
-				function(name) {
-					i++;
-					if( name == "?" ) return escape(param[i]);
-					else return escapeId(param[i])
-				}
-			));	
-			
-			ok,stmt = call(this.prepare,this,sql);
-		}
-		else {
-			ok,stmt = call(this.prepare,this,sql,cond,... );
-		}
-		
+		var ok,stmt,param = this.prepareLite(sql,cond,...);
 		if(!ok) error(stmt,2);
+		
 		var tab = stmt.getTable(param);
 		stmt.finalize();
 		return tab;
@@ -304,7 +284,9 @@ class statement{
 			var count = 0;
 			var ind;
 			for(k,v in args){ 
-				ind = owner.parameterIndex(k,prefix);
+				if(type(k)==="number") ind = k;
+				else ind = owner.parameterIndex(k,prefix);
+				
 				if( ind ? owner.parameter(v,ind,k ) )
 					count++; 
 			}  
@@ -321,7 +303,7 @@ class statement{
 		};  
 	};
 	prepare = function( sql,cond,... ) {  
-		if(cond) {
+		if(cond!==null) {
 			if( type( cond ) = type.table ){
 				if( #cond ){
 					var i = 0;
@@ -345,7 +327,7 @@ class statement{
 				}
 			}
 			else {
-				sql = ..string.format(sql,cond,... )
+				sql = ..string.format(sql,cond,... );
 			}  
 		}
 		this.sql = sql;
@@ -886,7 +868,8 @@ sqlite.format(.(SQL语句,格式化参数->->->) = 格式化 SQL 查询语句。
 !sqliteConn.db = 当前打开的数据库连接对象
 !sqliteConn.changes() = 返回数据库最近一次运行exec()所改变的行数
 !sqliteConn.getTable("SELECT * FROM [表名] __/*SQL 语句*/") = 返回包含行记录组成的table数组对象,\n每行是由列名、值组成的table表对象。\n参数@2为可选参数:\n\n如果SQL内使用@前缀指定了命名参数,则参数@2使用 table 指定参数的值\n并且SQL语句中的?或??占位符将使用 sqlite.format 函数格式化为参数@2对应的值,\n否则调用sqlite.format格式化??占位符为参数@2指定的值,\n如果参数@2不是表，则调用 string.format 使用参数@2开始的所有参数格式化sql
-!sqliteConn.stepQuery("SELECT * FROM [表名] __/*SQL 语句*/") = 查询并返回首行数据,失败返回null,状态码。\n参数@2为可选参数:\n如果SQL内使用@前缀指定了命名参数,则参数@2使用 table 指定参数的值\n并且SQL语句中的?或??占位符将使用 sqlite.format 函数格式化为参数@2对应的值,\n否则调用sqlite.format格式化??占位符为参数@2指定的值,\n如果参数@2不是表，则调用 string.format 使用参数@2开始的所有参数格式化sql
+!sqliteConn.stepQuery("SELECT * FROM [表名] __/*SQL 语句*/") = 查询并返回首行数据（名值对格式）,失败返回null,状态码。\n参数@2为可选参数:\n如果参数@2是一个指定了SQL 查询参数值的表,\nSQL 中@前缀的命名参数将由数据库绑定同名参数值,这并非调用 sqlite.format 格式化,\nSQL语句中的?或??占位符将使用参数@2中的数组值调用 sqlite.format 函数格式化,\n如果参数@2不是表，则调用 string.format 使用参数@2开始的所有参数格式化sql
+!sqliteConn.stepResult("SELECT * FROM [表名] __/*SQL 语句*/") = 查询并返回首行数据（数组格式）,失败返回null,状态码。\n参数@2为可选参数:\n如果参数@2是一个指定了SQL 查询参数值的表,\nSQL 中@前缀的命名参数将由数据库绑定同名参数值,这并非调用 sqlite.format 格式化,\nSQL语句中的?或??占位符将使用参数@2中的数组值调用 sqlite.format 函数格式化,\n如果参数@2不是表，则调用 string.format 使用参数@2开始的所有参数格式化sql
 !sqliteConn.close() = 关闭数据库连接\n在线程结束时,此函数也会自动调用
 !sqliteConn.existsTable("__/*表名*/") = 判断指定的表是否存在
 !sqliteConn.key("__/*密钥*/") = 输入并验证数据库密钥\n成功返回true,失败返回false,错误信息,错误代码\n该函数需要使用支持加密的DLL组件重新编译sqlite库
@@ -951,9 +934,9 @@ sqlite.format(.(SQL语句,格式化参数->->->) = 格式化 SQL 查询语句。
 
 !sqlite_stmt.prepare("SELECT * FROM [表名] __/*SQL 语句*/") = 重新编译SQL预处理命令,\n可选参数2:指定查询条件(table对象或字符串),\n可选增加任意个附加sql参数.
 !sqlite_stmt.prepare() = !sqlite_stmt.
-!sqlite_stmt.finalize() = 每一个预处理语句都必须调用这个接口进行销毁以避免内存泄漏
+!sqlite_stmt.finalize() = 释放预处理命令对象,\n应当在不再使用此命令对象时尽早调用此函数。\n如果忘记调用，回收对象时也会自动调用此函数
 !sqlite_stmt.reset() = 重置到没有执行之前的状态,已绑定的参数不会变化\n执行后需要改变绑定参数时必须首先调用该函数
-!sqlite_stmt.step(__/*可选输入命名参数*/) = 执行SQL命令并向下移动一行,成功则返回值大于等于100,\n如果提供命令参数表,则自动调用 reset 函数后并自动绑定参数,\n参数表可以包含名值对
+!sqlite_stmt.step(__/*可选输入命名参数*/) = 执行SQL命令并向下移动一行,成功则返回值大于等于100,\n如果提供命令参数表,则自动调用 reset 函数后并自动绑定参数,\n参数表可以包含名值对,也可以包含匿名参数值数组
 !sqlite_stmt.stepQuery() = 向后移动一行,并返回当前数据,失败返回null,状态码.\n返回table对象,键为列名,值为当前行数据
 !sqlite_stmt.stepResult() = 向后移动一行,并返回当前数据,失败返回null,状态码.\n返回数组,键为列序号,值为当前行数据
 !sqlite_stmt.getTable() = 返回全部数据,\n返回值为table数组,每行记录为一个数组元素.

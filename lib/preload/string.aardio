@@ -1,3 +1,4 @@
+//string 字符串
 namespace preload;
 self.string = global.string;
 
@@ -162,8 +163,25 @@ namespace string{
 		elseif(c1 == 0xFE && s[2] == 0xFF) return romto(right(s,-3),1201,65001);  
 		return s;
 	};
-	subUnicode = sliceUnicode;
-	sub = slice;
+	
+	setenv = ::Kernel32.api( "SetEnvironmentVariable", "INT(ustring name,ustring v)"); 
+
+	var getEnvironmentVariable = ::Kernel32.api( "GetEnvironmentVariable", "INT(str name,str &v,INT size)");
+	getenv = function(name){
+		var len,val =  getEnvironmentVariable(name,256,256);
+		if(len > 256) len,val =  getEnvironmentVariable(name, len,len); 
+		if(len) return val;
+	} 
+	
+	expand = function(s,p,r){
+		var c;
+		if(!p){p,r="\%([^%]+)\%",getenv}
+		do{ s,c = replace(s,p,lambda(v)r(v):"") }while(c);
+		if(#s) return s;
+    }
+    
+	subUnicode = sliceUnicode;//@Deprecated
+	sub = slice;//@Deprecated
 }  
 
 type.isString = function(v){
@@ -198,4 +216,9 @@ repline(.(源字符串,模式串,替换串,替换次数) = 模式串用于匹配
 repline(.(源字符串,模式串,替换函数,替换次数) = 模式串用于匹配所有的单行文本,\n替换函数与 string.replace 用法相同\n,\n替换次数指的也是每一行内部进行替换的最大次数,不指定则不限制
 repline(.(源字符串,模式串,替换表,替换次数) = 模式串用于匹配所有的单行文本,\n替换表与 string.replace 用法相同\n,\n替换次数指的也是每一行内部进行替换的最大次数,不指定则不限制
 removeBom(.(字符串) = 如果字符串开始为UTF8 BOM，则返回移除该 BOM 的字符串。\n如果字符串开始为 UTF-16 BOM,则移除 BOM 并返回转换为 UTF-8 编码的字符串,\n否则直接返回参数
+getenv(.("变量名") = 读取当前进程环璋变量\n成功返回字符串,失败返回 null
+setenv(.("变量名","变量值") = 设置当前进程环境变量\n参数@2为 null 或省略则删除参数@1指定的环境变量
+expand( = 重复替换直到找不到匹配,\n可用于展开字符串中的环境变量
+expand(.(字符串,查找模式串,替换函数) = 在字符串中重复执行替换操作,\n直到参数@2指定的模式串找不到匹配,\n省略参数@2,@3则默认展开百分号包含的进程环境变量\n可用于展开文件路径中的环境变量\n注意即使替换函数返回null,此函数仍然会替换为空串,\n如果替换结果为空字符串,此函数返回 null
+fromCharCode(__) = 使用1个或多个 Unicode 编码值转换为 UTF-8 字符串\n参数可以指定1个或多个Unicode编码数值,可指定大于0x10000的编码,\n不可直接传入数组作为参数
 end intellisense**/

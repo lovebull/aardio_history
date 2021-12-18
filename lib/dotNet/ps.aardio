@@ -21,7 +21,7 @@ class ps{
 
 namespace ps {
     
-    var powerShellRunner,appDomain;
+    var powerShellRunner;
     command = function( command,params,useLocalScope,... ) {
 		var runner,err = getRunner();
 		if( !runner ){ return null,err:"当前系统未安装.Net Framework 2.0 以上版本";}
@@ -45,7 +45,7 @@ namespace ps {
 		var ret,err;
 		try{
 			ret = runner.InvokeCommand(command,false,!!useLocalScope 
-				,#paramNames?paramNames:null,#paramValues?appDomain.createArrayList(paramValues):null);//参数必须是非空数组，以匹配C#函数签名
+				,#paramNames?paramNames:null,#paramValues?..dotNet.createArrayList(paramValues):null);//参数必须是非空数组，以匹配C#函数签名
 	 	}
 	 	catch(e){
 	 		err = e;
@@ -66,12 +66,9 @@ namespace ps {
 	getRunner = function(){
 		if( powerShellRunner ){
 			return powerShellRunner;
-		}
+		} 
 		
-		appDomain = ..dotNet.appDomain();
-		if( !appDomain ){ return null,"系统未安装 Net Framework 2.0 以上版本";}
-		
-		var compile = appDomain.createCompiler("C#");
+		var compile = ..dotNet.createCompiler("C#");
 		compile.Reference("System.Core")
 		compile.Reference("System.Management.Automation");
 		 
@@ -95,6 +92,7 @@ namespace ps {
 		if(!assembly){
 			return null,"系统未安装 PowerShell"
 		}
+		
 		powerShellRunner = assembly.createInstance("PowerShellRunner.PowerShellRunner");
 		return powerShellRunner;	
 	}

@@ -40,9 +40,9 @@
 !winform.text = 窗口标题
 !winform.group() = 将此窗体上所有groupbox范围内的所有其他控件设为groupbox控件的子窗口
 !winform.getScale() = 返回X轴、Y轴方向缩放比例，DPI缩放比例共4个返回值,\nscaleX,scaleY,dpiScaleX,dpiScale
-!winform.dpiScaleX = DPI横坐标缩放系数\n不可修改该值
-!winform.dpiScaleY = DPI纵坐标缩放系数\n不可修改该值
-!winform.enableDpiScaling() = 按DPI缩放设置自动缩放顶层窗体以及控件字体\n请合理设置该窗体上控件的固定边距、自适应大小等属性\n调用此函数时应交由aardio自动指定参数
+!winform.dpiScaleX = 窗口当前使用的DPI横坐标缩放系数,n该值由界面系统自动维护，任何情况下都不应手动修改,\n\n这是一个以小数表示百分比的数，例如 1.25 表示 125%,\n窗口未使用缩放或未完成缩放初始化时，值可能为 null，\n如果要获取屏幕缩放设置应改用 gdi.getDpiScale 函数
+!winform.dpiScaleY = 窗口当前使用的DPI纵坐标缩放系数,n该值由界面系统自动维护，任何情况下都不应手动修改,\n\n这是一个以小数表示百分比的数，例如 1.25 表示 125%,\n窗口未使用缩放或未完成缩放初始化时，值可能为 null，\n如果要获取屏幕缩放设置应改用 gdi.getDpiScale 函数
+!winform.enableDpiScaling() = 按DPI缩放设置自动缩放顶层窗体以及控件字体\n请合理设置该窗体上控件的固定边距、自适应大小等属性\n调用此函数时应交由aardio自动指定参数。\n\n如果当前窗口未禁用缩放,\n则在首次显示前自动调用此函数,\n如果需要提前获取 DPI 缩放后的窗口大小或位置,\n应当先手动调用此函数
 !winform.enableDpiScaling(false) = 禁用DPI自动缩放\nwin.ui.disableDpiScaling 设为 false 则全局禁用 DPI 缩放
 !winform.statusbar = 状态类\n!statusbar.  
 !winform.fullscreen( = 切换全屏,必须在窗口显示以后才能调用此函数\n注意窗口最小化状态无法全屏
@@ -79,19 +79,19 @@
 !winform.onEraseBkgnd = @.onEraseBkgnd  = function(hwnd,message,wParam,lParam){\n    return 0;__/*禁止擦除背景*/\n}
 !winform.onGetMinMaxInfo = @.onGetMinMaxInfo = function(hwnd,message,wParam,lParam){\n    __/*设置窗口缩放大小范围,\n用法参考标准库中win.ui.minmax*/\n}
 !winform.getMinMaxInfo() = 如果定义了onGetMinMaxInfo,\n必须同时定义此函数返回与win.ui.minmax兼容的结构体
-!winform.left = 左侧坐标
-!winform.right = 右侧坐标
-!winform.top = 顶部坐标
-!winform.bottom = 底部坐标
-!winform.height = 高度
-!winform.width = 宽度
+!winform.left = 左侧坐标\n\n如果当前窗口未禁用缩放,\n则在首次显示前自动调用 enableDpiScaling 函数,\n如果需要在此之前获取 DPI 缩放后的窗口大小或位置,\n应当先手动调用 enableDpiScaling 函数
+!winform.right = 右侧坐标\n\n如果当前窗口未禁用缩放,\n则在首次显示前自动调用 enableDpiScaling 函数,\n如果需要在此之前获取 DPI 缩放后的窗口大小或位置,\n应当先手动调用 enableDpiScaling 函数
+!winform.top = 顶部坐标\n\n如果当前窗口未禁用缩放,\n则在首次显示前自动调用 enableDpiScaling 函数,\n如果需要在此之前获取 DPI 缩放后的窗口大小或位置,\n应当先手动调用 enableDpiScaling 函数
+!winform.bottom = 底部坐标\n\n如果当前窗口未禁用缩放,\n则在首次显示前自动调用 enableDpiScaling 函数,\n如果需要在此之前获取 DPI 缩放后的窗口大小或位置,\n应当先手动调用 enableDpiScaling 函数
+!winform.height = 高度\n\n如果当前窗口未禁用缩放,\n则在首次显示前自动调用 enableDpiScaling 函数,\n如果需要在此之前获取 DPI 缩放后的窗口大小或位置,\n应当先手动调用 enableDpiScaling 函数
+!winform.width = 宽度\n\n如果当前窗口未禁用缩放,\n则在首次显示前自动调用 enableDpiScaling 函数,\n如果需要在此之前获取 DPI 缩放后的窗口大小或位置,\n应当先手动调用 enableDpiScaling 函数
 !winform._defClientRect = 获取窗口设计时大小\n!rect.
 !winform.isForm = 是否窗体对象,\n窗体：使用 win.form 类创建的对象 \n窗口：泛指所有窗体或控件创建的窗口
 !winform.getForm() = 返回窗口对象自身\n标准库中所有控件实现了同名函数用于返回控件所在窗口
 !winform.orphanWindow( = 如果当前是子窗口,\n移除窗口的WS_CHILD样式，使窗口孤立出来悬浮于原位置,\n悬浮窗口如影随形的跟随父窗口移动或改变大小,控件原来的固定边距等参数仍然有效
 !winform.orphanWindow(.(transparent,hwndBuddy) = 创建悬浮窗口,\n悬浮窗口仍然显示在原来的位置,\n可选参数 @transparent 如果为 true 则转换为分层透明窗口,\n可选利用 @buddy 参数将只有句柄的窗口托管在悬浮窗口之上实现相同的效果,\n伙伴窗口总是会保持在悬浮窗口前面，并保持相同的大小、位置
-!winform.setPos(.(x坐标,y坐标,宽,高,插入位置,参数) = 调整窗口位置或排序,所有参数可选\n同时指定x,y坐标则移动位置\n同时指定宽高则改变大小\n指定插入位置(句柄或_HWND前缀常量)则调整Z序
-!winform.getPos() = 返回相对父窗口客户区的坐标,宽,高,\n参数为true返回屏幕坐标,宽,高,\nx,y,cx,cy=win.getPos(hwnd)
+!winform.setPos(.(x坐标,y坐标,宽,高,插入位置,参数) = 调整窗口位置或排序,所有参数可选\n同时指定x,y坐标则移动位置\n同时指定宽高则改变大小\n指定插入位置（句柄或_HWND前缀常量）则调整Z序
+!winform.getPos() = 返回相对父窗口客户区的坐标,宽,高,\n参数为true返回屏幕坐标,宽,高,\n\n如果当前窗口未禁用缩放,\n则在首次显示前自动调用 enableDpiScaling 函数,\n如果需要在此之前获取 DPI 缩放后的窗口大小或位置,\n应当先手动调用 enableDpiScaling 函数
 !winform.msgbox("__") = 弹出对话框\n参数@1指定显示的数据,如果是表对象先序列化为文本,\n其他对象调用tostring转换为文本\n\n可选在参数@2中指定标题,\n可选在参数@3中用_MB_前缀的常量自定义样式,设为0去掉图标以及提示音,\n\n此函数调用win.msgbox,但设定父窗口为当前窗体
 !winform.msgboxErr("__") = 弹出错误对话框\n参数@1指定显示的数据,如果是表对象先序列化为文本,\n其他对象调用tostring转换为文本\n可选在参数@2中指定标题,\n\n此函数调用win.msgbox,但设定父窗口为当前窗体
 !winform.msgboxTest("__") = 弹出询问对话框\n参数@1指定显示的数据,如果是表对象先序列化为文本,\n其他对象调用tostring转换为文本\n可选在参数@2中指定标题,\n\n此函数调用win.msgbox,但设定父窗口为当前窗体
@@ -143,8 +143,8 @@
 !winform.dialogResult = 模态对话框返回值
 !winform.continueModal = 模态对话框是否未关闭
 !winform.endModal(__/*请指定模态对话框返回值*/) = 关闭模态对话框，\n调用endModal()函数的参数会被设置为 doModal()函数的返回值。
-!winform.modifyStyle(.(remove,add) = 如果指定第三个参数，则使用此参数调用::SetWidnowPos 
-!winform.modifyStyleEx(.(remove,add) = 如果指定第三个参数，则使用此参数调用::SetWidnowPos 
+!winform.modifyStyle(.(remove,add,swpFlags) = 修改窗口样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码 
+!winform.modifyStyleEx(.(remove,add,swpFlags) = 修改窗口扩展样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_EX_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_EX_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码
 !winform.atom(字符串值) = @import win.ui.atom \nvar atom,hwndConflict = winform.atom("__/*输入唯一标识字符串\n建议使用GUID生成Globally Unique Identifier(全球唯一标识符) */");\nif(!atom){\n	/*为窗口设置原子值可以避免一个程序重复运行多个实例*/\n	win.quitMessage();//程序退出\n	return;\n};
 !winform.hitCaption() = 模拟拖动顶层父窗口标题栏\n此函数会调用 winform.setTimeout 异步延时0毫秒后实际执行,\n异步执行可避免通过当前线程异步RPC服务器调用此函数导致的问题.\n通常在无边框窗口的 winform.onMouseDown 事件中调用此函数
 !winform.hitMin() = 模拟点击顶层父窗口最小化按钮

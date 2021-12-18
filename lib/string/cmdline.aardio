@@ -81,6 +81,7 @@ cmdline._meta = {
 
 cmdline.arguments = function(param,...){
     if(!param)return {};
+    if(type(param)==="table") return param,...;
     
     param = ..string.trim(param);
 	if( (!...) && ..string.find(param,"\s+")){
@@ -98,5 +99,6 @@ cmdline.arguments = function(param,...){
 string.cmdline = 命令行解析
 string.cmdline( = 解析命令行,返回数组\n该数组可修改后调用 tostring函数反解析为字符串文本\n参数不是字符串、或为空串返回null
 string.cmdline(.("命令行") = 所有【参数段】以空格或制表等分开\n在一对双引号中表示的【引用段】则可以包含空格\n两个连续的引号表示一个引号字符并且关闭【引用段】\n关闭【引用段】后的非空格字符或引用段仍然追加其后\n\n一个或多个连续的反斜杠如果最后有一个引号则启用转义\n单个反斜杠转义其后的引号或反斜杠表示字面值\n\n首个索引为0的参数段要么是引号包含的引用段,或是任意非空白字符组成
-string.cmdline.arguments(.(命令行参数->->->) = 解析并转换命令行的参数部分,\n将一个或多个命令行参数转换为数组,\n如只有一个文本参数且含空格、首尾无双引号则解析并返回数组,\n否则直接将所有参数置入数组返回,\n\n返回数组不包含索引为0的启动程序路径,\n返回数组可传入 process.joinArguments 函数 或 process 构造函数作为参数
+string.cmdline.arguments( = 解析并转换创建进程的命令行参数
+string.cmdline.arguments(.(命令行参数->->->) = 解析并转换创建进程的命令行参数,\n将一个或多个命令行参数转换为数组,\n如果参数@1是一个表,则直接返回所有参数,\n如只有一个文本参数且含空格、首尾无双引号则解析并返回数组,\n否则直接将所有参数置入数组返回,\n\n返回数组不包含索引为0的启动程序路径,\n返回数组可传入 process.joinArguments 函数 或 process 构造函数作为参数
 end intellisense**/

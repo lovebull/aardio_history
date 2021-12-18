@@ -3,11 +3,12 @@ import win.ui;
 /*DSG{{*/
 var winform = win.form(text="字符集/代码页 查询工具";right=685;bottom=594)
 winform.add(
-btnSearch={cls="button";text="查找";left=506;top=555;right=569;bottom=584;db=1;dr=1;z=5};
+btnOpenExample={cls="plus";text="查看转换文本编码范例";left=220;top=543;right=404;bottom=567;color=8388608;db=1;dr=1;font=LOGFONT(h=-13);notify=1;textPadding={left=5};z=6};
+btnSearch={cls="button";text="查找";left=563;top=545;right=626;bottom=574;db=1;dr=1;z=5};
 edit={cls="edit";left=-377;top=339;right=43;bottom=629;autohscroll=false;db=1;dl=1;edge=1;multiline=1;vscroll=1;z=3};
-editKeyword={cls="edit";text="utf8";left=363;top=555;right=498;bottom=581;db=1;dr=1;edge=1;z=4};
-listview={cls="listview";left=20;top=36;right=654;bottom=544;acceptfiles=1;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;edge=1;fullRow=1;gridLines=1;msel=false;z=1};
-static={cls="static";text="请使用鼠标左键、鼠标右键点击列表项";left=37;top=10;right=647;bottom=28;dl=1;dt=1;transparent=1;z=2}
+editKeyword={cls="edit";text="utf8";left=420;top=545;right=555;bottom=571;db=1;dr=1;edge=1;z=4};
+listview={cls="listview";left=20;top=36;right=654;bottom=530;acceptfiles=1;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;edge=1;fullRow=1;gridLines=1;msel=false;z=1};
+static={cls="static";text="请使用鼠标左键、鼠标右键点击列表项";left=37;top=10;right=647;bottom=28;dl=1;dr=1;dt=1;transparent=1;z=2}
 )
 /*}}*/
 
@@ -103,13 +104,6 @@ aardio字符串的默认编码为UTF-8,对应的Codepage为65001，aardio中的U
 */
 winform.edit.orphanWindow();
 
-var codeMlang = /*
-//自动检测文本编码示例：
-import com.interface.IMultiLanguage2;
-var multiLanguage = com.interface.IMultiLanguage2.Create();
-var codepage = multiLanguage.detectInputCodepageEx("测试字符串");
-*/
-
 import win.clip;
 import win.ui.menu;
 import web.json;
@@ -122,7 +116,7 @@ winform.listview.onnotify = function(id,code,ptr){
         		winform.static.text = "选中了:'" +  winform.listview.getItemText(row,2)  + "' 请使用右键菜单复制";
         		var cp = winform.listview.getItemText(row,3);
         		var charsetInfo = multiLanguage.getCodePageInfo(tonumber(cp));
-        		winform.edit.text = web.json.stringify(charsetInfo,true) + '\r\n\r\n' +codeMlang;
+        		winform.edit.text = web.json.stringify(charsetInfo,true);
         	}
     	} 
     	case 0xFFFFFFFE/*_NM_CLICK*/{  
@@ -146,6 +140,21 @@ winform.listview.onnotify = function(id,code,ptr){
 winform.listview.adjust = function(cx,cy){
     winform.listview.fillParent(4);
 }
- 
+
+winform.btnOpenExample.oncommand = function(id,event){
+	import ide;
+	ide.openDocument("~\codes\范例程序\B) 文本处理\内码转换.aardio");
+	win.setForeground(ide.getMainHwnd())
+}
+
+winform.btnOpenExample.skin({
+	color={
+		active=0xFF00FF00;
+		default=0xFF000080;
+		disabled=0xFF6D6D6D;
+		hover=0xFFFF0000
+	}
+})
+
 winform.show() 
 win.loopMessage();

@@ -1,3 +1,4 @@
+//raw 原生静态类型
 namespace preload;
 self.raw = global.raw;
 
@@ -40,6 +41,33 @@ namespace raw{
 		return __module__[cal];
 	};
 	main = module("stdcall");
+	
+	class number {
+		ctor(t,v){
+			this = v;
+			this.type = t;
+		};
+		@_meta;
+	};
+	
+	number._meta = {
+		_tonumber=lambda() owner.value;
+		_number_type=lambda() owner.type;
+		_tostring=lambda() tostring(owner.value);
+		_json=function() { return tostring(owner.value),true}; 
+		_type="raw.number";
+	}; 
+	
+	double = lambda(v,ref) number("double",ref?{double value=v}:{value = v});
+	float = lambda(v,ref) number("float",ref?{float value=v}:{value = v});
+	byte = lambda(v,ref) number("byte",ref?{byte value=v}:{value = v});
+	ubyte = lambda(v,ref) number("BYTE",ref?{BYTE value=v}:{value = v});
+	word = lambda(v,ref) number("word",ref?{word value=v}:{value = v});
+	uword = lambda(v,ref) number("WORD",ref?{WORD value=v}:{value = v});
+	int = lambda(v,ref) number("int",ref?{int value=v}:{value = v});
+	uint = lambda(v,ref) number("INT",ref?{INT value=v}:{value = v});
+	long = lambda(v,ref) number("long",ref?{long value=v}:{value = v});
+	ulong = lambda(v,ref) number("LONG",ref?{LONG value=v}:{value = v}); 
 }
 
 /**intellisense(raw)
@@ -50,4 +78,15 @@ serializeDupHandle(.("类名",句柄) = 复制进程内有效句柄并序列化�
 module() = !dllModule.
 module(.("调用约定") = 指定约定并返回进程主模块, \n省略参数时调用约定默认为stdcall,\n可用于将当前进程中的函数指针转换为aardio函数,
 main = 进程主模块,默认调用约定为stdcall\n与raw.module("stdcall")返回的值相同,\n可用于将当前进程中的函数指针转换为aardio函数\n!dllModule.
+
+double(__) = 转换参数@1指定的数值为 double 类型数值（64位浮点数）包装对象,\n返回对象支持 tonumber tostring 等类型转换函数。\n\n用于调用非声明式静态 API 函数的参数,\n默认传值,参数@2为 true 则用于传址参数（传数值的指针）。\n\n用于 COM 函数参数则总是传值, COM 函数也可使用 com.double 函数
+float(__) = 转换参数@1指定的数值为 float 类型数值（32位浮点数）包装对象,\n返回对象支持 tonumber tostring 等类型转换函数。\n\n用于调用非声明式静态 API 函数的参数,\n默认传值,参数@2为 true 则用于传址参数（传数值的指针）。\n\n用于 COM 函数参数则总是传值, COM 函数也可使用 com.float 函数
+byte(__) = 转换参数@1指定的数值为 byte 类型数值（8位整数）包装对象,\n返回对象支持 tonumber tostring 等类型转换函数。\n\n用于调用非声明式静态 API 函数的参数,\n默认传值,参数@2为 true 则用于传址参数（传数值的指针）。\n\n用于 COM 函数参数则总是传值, COM 函数也可使用 com.byte 函数
+ubyte(__) = 转换参数@1指定的数值为 BYTE 类型数值（8位无符号整数）包装对象,\n返回对象支持 tonumber tostring 等类型转换函数。\n\n用于调用非声明式静态 API 函数的参数,\n默认传值,参数@2为 true 则用于传址参数（传数值的指针）。\n\n用于 COM 函数参数则总是传值, COM 函数也可使用 com.ubyte 函数,\n注意在静态类型中使用大写的 BYTE 类型表示8位无符号整数
+word(__) = 转换参数@1指定的数值为 byte 类型数值（16位整数）包装对象,\n返回对象支持 tonumber tostring 等类型转换函数。\n\n用于调用非声明式静态 API 函数的参数,\n默认传值,参数@2为 true 则用于传址参数（传数值的指针）。\n\n用于 COM 函数参数则总是传值, COM 函数也可使用 com.word 函数
+uword(__) = 转换参数@1指定的数值为 BYTE 类型数值（16位无符号整数）包装对象,\n返回对象支持 tonumber tostring 等类型转换函数。\n\n用于调用非声明式静态 API 函数的参数,\n默认传值,参数@2为 true 则用于传址参数（传数值的指针）。\n\n用于 COM 函数参数则总是传值, COM 函数也可使用 com.uword 函数,\n注意在静态类型中使用大写的 WORD 类型表示16位无符号整数
+int(__) = 转换参数@1指定的数值为 byte 类型数值（32位整数）包装对象,\n返回对象支持 tonumber tostring 等类型转换函数。\n\n用于调用非声明式静态 API 函数的参数,\n默认传值,参数@2为 true 则用于传址参数（传数值的指针）。\n\n用于 COM 函数参数则总是传值, COM 函数也可使用 com.int 函数
+uint(__) = 转换参数@1指定的数值为 BYTE 类型数值（32位无符号整数）包装对象,\n返回对象支持 tonumber tostring 等类型转换函数。\n\n用于调用非声明式静态 API 函数的参数,\n默认传值,参数@2为 true 则用于传址参数（传数值的指针）。\n\n用于 COM 函数参数则总是传值, COM 函数也可使用 com.uint 函数,\n注意在静态类型中使用大写的 INT 类型表示32位无符号整数
+long(__) = 转换参数@1指定的数值为 byte 类型数值（64位整数）包装对象,\n返回对象支持 tonumber tostring 等类型转换函数。\n\n用于调用非声明式静态 API 函数的参数,\n默认传值,参数@2为 true 则用于传址参数（传数值的指针）。\n\n用于 COM 函数参数则总是传值, COM 函数也可使用 com.long 函数
+ulong(__) = 参数@1可传入数值或math.size64 对象,\n返回适用于 LONG 类型数值（64位无符号整数）的包装对象,\n返回对象支持 tonumber tostring 等类型转换函数。\n\n用于调用非声明式静态 API 函数的参数,\n默认传值,参数@2为 true 则用于传址参数（传数值的指针）。\n\n用于 COM 函数参数则总是传值, COM 函数也可使用 com.ulong 函数,\n注意在静态类型中使用大写的 LONG 类型表示64位无符号整数
 end intellisense**/

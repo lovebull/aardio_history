@@ -247,8 +247,8 @@ splitter._metaProperty = metaProperty(
 !splitter.setRect(rc,true) = 设置控件屏幕区块位置(::RECT结构体)
 !splitter.getClientRect() =  控件客户区块位置(::RECT结构体)\n!rect.
 !splitter.theme = 外观主题,例如\nwinform.button.theme = "Explorer"\nwinform.button.theme = false
-!splitter.modifyStyle(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos 
-!splitter.modifyStyleEx(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos
+!splitter.modifyStyle(.(remove,add,swpFlags) = 修改窗口样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码 
+!splitter.modifyStyleEx(.(remove,add,swpFlags) = 修改窗口扩展样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_EX_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_EX_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码
 !splitter.capture = 是否捕获全局鼠标消息
 !splitter.close() = 关闭控件窗口
 !splitter.invalidate(__/*可选使用::RECT()对象指定客户区*/) = 使窗口绘图区无效

@@ -1,5 +1,7 @@
 //storage 存储设备
 import fsys.file;
+import fsys.drives;
+
 namespace sys.storage;
  
 queryProperty = function(devicePath){
@@ -102,25 +104,21 @@ getDeviceNumber = function(devicePath){
     if( ret ) return deviceNumber;
 }
 
-getDevices = function(dr){
-	var ld;
-	var dr = ::Kernel32.GetLogicalDrives();
-	var tab = {}; 
-	for(i=0;31){ 
-		if( dr & (1<<i) ){ 
-			ld = ..string.pack('A'# + i) + ":"; 
-			var inf = getDeviceNumber(ld);
-			if(!inf) continue;
+getDevices = function(){
+	var ds = {};
+	for ld in ..fsys.drives.each() {
+		var inf = getDeviceNumber(ld);
+		if(!inf) continue;
 			
-			if(! tab[inf.deviceNumber] ) tab[inf.deviceNumber] = {ld};
-			else ..table.push(tab[inf.deviceNumber] ,ld) ;
-		}
+		if(! ds[inf.deviceNumber] ) ds[inf.deviceNumber] = {ld};
+		else ..table.push(ds[inf.deviceNumber] ,ld) ;	
 	}
-	return tab;
+	
+	return ds;
 }
 
 getUsbDevices = function(){
-	return ..table.filter(getDevices(v),lambda(v,i) isUsbDevice(i) )
+	return ..table.filter(getDevices(),lambda(v,i) isUsbDevice(i) )
 }
 
 /**intellisense()

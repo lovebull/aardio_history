@@ -2,8 +2,7 @@
 import console;
 //console.open() 如果要在 Python 中使用 print 函数,请在导入 py3 库以前打开控制台，
 
-//导入Python v3.6.4 扩展库,已自带绿色便携运行时,不用额外安装VC运行库,兼容 Win 7,以及之后的系统。
-import py3; //如果要支持 XP 系统，请改为 import py;
+import py3;
 
 //导入 Python 模块,添加 第三方 Python 模块时也应使用相同版本运行时下安装的兼容版本。
 var itertools = py3.import("itertools");
@@ -31,8 +30,7 @@ for i,v in table.eachIndex(pyList){
 //支持 web.json 
 console.log( web.json.stringify(pyList) )
 
-//重要的话再提醒一遍：先看上面的「入门」范例
-//所有 Python 对象（pyObject、py3.object）用 parseValue() 函数可转换为纯 aardio 对象 
+//支持 tostring() 等函数，注意 console.log() 已默认调用 tostring() 转换参数
 console.log( tostring(pyList) )
 
 console.pause()

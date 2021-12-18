@@ -3,7 +3,7 @@ import web.rest.jsonLiteClient;
 
 namespace web.npm;
 
-registry = "http://registry.npm.taobao.org"
+registry = "http://registry.npmmirror.com"
 download = function(package,version,savePath,parentForm){
 	if(!package) error("请指定包名",2);
 	if(!savePath){ savePath = "/download/npm/" }

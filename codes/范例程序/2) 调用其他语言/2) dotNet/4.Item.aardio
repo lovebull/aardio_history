@@ -1,0 +1,47 @@
+﻿//下标属性 Item[]
+import dotNet;  
+var compiler = dotNet.createCompiler("C#");
+
+compiler.Source = /****** 
+using System;
+namespace CSharpLibrary  
+{ 
+	public class TestClass
+    {
+    	public static String StaticMember = "StaticTest";
+        public String Member = "Test";
+        private Object [] values = new Object [] {0, 1,2,3,4,5,6,7,8,9};
+  
+        public Object this [int index]
+        {
+            get
+            {
+                return values[index];
+            }
+            set
+            {
+                values[index] = value;
+            }
+        }
+   }
+} 
+******/
+var assembly = compiler.Compile(); //编译并返回程序集  
+var CSharpLibrary = assembly.import("CSharpLibrary"); //引入 C# 名字空间
+var cSharpObject = CSharpLibrary.TestClass(); //使用 C# 编写的类构造对象实例
+
+import console; 
+
+//直接访问对象属性
+console.log( cSharpObject.Member,cSharpObject.StaticMember );
+
+/*
+下标索引你不能象在C#中那样写为cSharpObject[3]，
+而是要写为 cSharpObject.Item[3]。
+
+在aardio中下标与属性是不区分的，
+所以必须通过下标属性 Item[]来访问。
+*/
+console.log( cSharpObject.Item[3] );
+
+console.pause();

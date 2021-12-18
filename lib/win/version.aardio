@@ -92,14 +92,7 @@ namespace version{
         			isWin7Later = true;
         			isWin8Later = true;
         			isWin10Later = true;
-        			if( !isServer){
-        				name = "Windows 10";
-        			}
-        			else {
-        				if(buildNumber<17763) name = "Windows Server 2016";
-        				elseif(buildNumber<=14393) name = "Windows Server 2019";
-        				else name = "Windows Server";
-        			}
+        			name = "Windows 10";
         		}
         	} 
         } 
@@ -117,7 +110,11 @@ namespace version{
         	} 
         	else {
         		if( !isServer ) name = "Windows 10"; 
-        		else name = "Windows Server 10"; 
+        		else {
+        			if(buildNumber<17763) name = "Windows Server 2016";
+        			elseif(buildNumber<=14393) name = "Windows Server 2019";
+        			else name = "Windows Server 10";
+        		}
         	}
         }
         else {
@@ -166,7 +163,7 @@ isWin8 = 是否 win8
 end intellisense**/
 
 /**intellisense()
-win.version = 系统版本信息\naardio 内建以下全局常量也可用于检测系统版本：\n_WINXP,_WIN7_LATER,_WIN10_LATER,_WINE 等\n!winVersion.
+win.version = 系统版本信息\naardio 内建以下全局常量也可用于检测系统版本：\n_WINXP,_WIN7_LATER,_WIN10_LATER,_WINE,\n_WIN_VER_MAJOR,_WIN_VER_MINOR,_WIN_VER_BUILD 等\n!winVersion.
 _VER_NT_DOMAIN_CONTROLLER = @0x2/*_VER_NT_DOMAIN_CONTROLLER*/ 
 _VER_NT_SERVER = @0x3/*_VER_NT_SERVER*/
 _VER_NT_WORKSTATION = @1/*_VER_NT_WORKSTATION*/

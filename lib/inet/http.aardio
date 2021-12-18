@@ -1,4 +1,4 @@
-//http 网络传输协议
+﻿//http 网络传输协议
 import inet;
 import inet.url;
 import inet.file;
@@ -694,7 +694,15 @@ namespace http{
 		
 		if(code) loadcodex(code); 
 	}
- 
+	
+	get = function(...){
+		return ..thread.invokeAndWait(
+			function(...){
+				import inet.http;
+				return inet.http().get(...);
+			},... 
+		)
+	}
 }
 
 /**intellisense()
@@ -703,6 +711,7 @@ inet.http( = 创建HTTP会话对象,所有参数可选，\n注意提前导入zli
 inet.http(.("UserAgent","代理服务器","绕过代理的主机",连接选项) = 所有参数可选,例：\ninet.http("Mozilla/4.0", "HTTP=HTTP://proxyserver:port","localhost,127.0.0.*")\n代理参数语法请参考inet.setProxy函数说明
 inet.http(.("UserAgent",false) =  禁用代理，UserAgent为可选参数
 inet.http.isAlive(.("UserAgent","代理服务器","绕过代理的主机",连接选项) = 当前是否能正常访问互联网,所有参数可选
+inet.http.get(.(url,headers,referer) = 用于界面线程创建线程并获取 @url 指定网址的数据,\n此函数等待下载完成但不会阻塞界面消息循环,\n可选用 @headers 指定 HTTP 头,\n可选用 @referer 指定引用网址,\n所有参数用法与 格式请参考 inet.http 对象的 get 函数相同
 inet.http() = !inet_http.
 !inet_http.setSessionOption( _INTERNET_OPTION__, ) = 设置会话选项,\n参数可以是数值或结构体\n用法参数MSDN
 !inet_http.setRequestOption( _INTERNET_OPTION__, ) = 设置会话选项,\n参数可以是数值或结构体\n用法参数MSDN
@@ -719,8 +728,8 @@ inet.http() = !inet_http.
 !inet_http.responseContentEncoding = 应答HTTP头的Content-Encoding值\n如果该值为"gzip",通过readAll函数一次读取下载数据时会自动解压,\n解压后该值将设为null值
 !inet_http.responseHeaders = 无参数调用 readHeader 函数时会保存HTTP头在该属性中\n即使在请求结束以后，所有读取HTTP头的函数都可以继续使用\n调用head函数发送请求时会自动读取所有HTTP头到该属性中\n该属性值每次发送新的请求前会自动清空
 !inet_http.readHeader() = 获取返回的HTTP头,必须在send发送请求以后才能调用此函数,\n如果调用head函数发送请求,则请求结束该函数仍然可用\n如果是调用get,post,down等函数,可以在afterSend事件中调用此函数\n返回的HTTP头以回车换行作为分隔符\n如果无参数调用了此函数，则直到下次请求以前，HTTP响应头会保存在responseHeaders属性中，\n即使在请求结束以后，所有读取HTTP头的函数都可以继续使用
-!inet_http.readHeader("Date__") = 获取指定的HTTP头,参数指定HTTP头名字或部份名字,忽略冒号以后部份,\n该函数在调用send函数以后或afterSend事件中可用\n必须在send发送请求以后才能调用此函数\n调用head函数发送请求成功以后,则请求结束后该函数仍然可用\n如果是调用get,post,down等函数,可以在afterSend事件中调用此函数
-!inet_http.readHeaderList("set-cookie__") = 获取指定HTTP头开始段的HTTP头,不忽略冒号以后部份,参数可省略,\n返回键值对组成的表对象,键名小写,每个值都是一个数组\n必须在send发送请求以后才能调用此函数\n如果调用head函数发送请求,则请求结束该函数仍然可用\n如果是调用get,post,down等函数,可以在afterSend事件中调用此函数
+!inet_http.readHeader("Date__") = 获取指定的HTTP头,参数指定HTTP头名字或部分名字,忽略冒号以后部分,\n该函数在调用send函数以后或afterSend事件中可用\n必须在send发送请求以后才能调用此函数\n调用head函数发送请求成功以后,则请求结束后该函数仍然可用\n如果是调用get,post,down等函数,可以在afterSend事件中调用此函数
+!inet_http.readHeaderList("set-cookie__") = 获取指定HTTP头开始段的HTTP头,不忽略冒号以后部分,参数可省略,\n返回键值对组成的表对象,键名小写,每个值都是一个数组\n必须在send发送请求以后才能调用此函数\n如果调用head函数发送请求,则请求结束该函数仍然可用\n如果是调用get,post,down等函数,可以在afterSend事件中调用此函数
 !inet_http.writeHeader("Name:value__") = 写入请求HTTP头,必须在send发送请求以前调用\n如果存在则覆盖,否则添加\n成功返回true
 !inet_http.replaceHeader("Name:value__") = 写入请求HTTP头,必须在send发送请求以前调用\n如果存在则覆盖,否则忽略
 !inet_http.mergeHeader("Name:value__") = 写入请求HTTP头,必须在send发送请求以前调用\n如果存在同名HTTP头则合并\n可使用第二个参数指定分隔符为逗号或分号\n默认为逗号

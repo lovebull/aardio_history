@@ -1,6 +1,5 @@
 import ide;
 import fsys.dlg;
-import win.util.tray
 import protobuf.parser
 import win.ui;
 /*DSG{{*/
@@ -154,7 +153,6 @@ winform.btnGenText.oncommand = function(id,event){
 		protoc(  map[selText],winform.editOutDir.text, winform.editProtoFilePath.text);
 		process.explore_select(winform.editOutDir.text)
 		winform.lbTip.text = '已输出到:' + io.fullpath(winform.editOutDir.text)
-		win.util.tray.pop('已生成类库,请打开目录\n' + io.fullpath(winform.editOutDir.text),"Protobuf UI")
 	}
 	
 }

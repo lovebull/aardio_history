@@ -1,12 +1,11 @@
-
-import win;
 import key.VK;
 namespace key;
 
-::MapVirtualKey = ::User32.api("MapVirtualKey","INT( INT uCode, INT uMapType )" ); 
-::keybd_event =  User32.api("keybd_event","void(BYTE bVk,BYTE bScan,INT dwFlags,INT dwExtraInfo)");
+::MapVirtualKey := ::User32.api("MapVirtualKey","INT( INT uCode, INT uMapType)" ); 
+::keybd_event := ::User32.api("keybd_event","void(BYTE bVk,BYTE bScan,INT dwFlags,INT dwExtraInfo)");
+::GetAsyncKeyState := ::User32.api("GetAsyncKeyState","word(int vKey)" );
+::GetKeyState := ::User32.api("GetKeyState","word(int vKey)" );
 
-delay = ..win?..win.delay: sleep;
 delayPress = 5;
 delayDown = 5;
 delayUp = 1;
@@ -27,12 +26,12 @@ getCode = function(kn){
 } 
 
 send = function(str,tk=0){
-    var chars = ..string.split(str);
+	var chars = ..string.split(str);
 	for(i=1;#chars){ 
 		var vk = getCode(chars[i]) 
-    	if(vk){press(vk);}
-    	else{sendString(chars[i])}
-    	delay(tk);
+		if(vk){press(vk);}
+		else{sendString(chars[i])}
+		..thread.delay(tk);
 	}  
 }
 
@@ -49,7 +48,7 @@ class INPUTDATA {
 	}
 }
 
-sendString = function(str,tk){
+sendString = function(str,tk=0){
 	var d = INPUTDATA();
 	var cbSize = ..raw.sizeof(d);
 	var wstr = ..string.toUnicode(str); 
@@ -60,7 +59,7 @@ sendString = function(str,tk){
 		
 		d.ki.flags = 4/*_KEYEVENTF_UNICODE*/ | 2/*_KEYEVENTF_KEYUP*/;
 		::User32.SendInput(1,d, cbSize ) ;
-		delay(tk);
+		..thread.delay(tk);
 	} 
 }
 
@@ -84,17 +83,17 @@ combine = function(...){
 		vk,ext = getCode(args[i]); 
 		if(!vk)error("输入的键名无效:" + args[i],2); 
 		::keybd_event( vk, ::MapVirtualKey(  vk ,0), ext | 8, extraInfo );  
-		delay(1)
+		..thread.delay(1)
 	}
 	
-	delay( delayDown );
+	..thread.delay( delayDown );
 	
 	for(i=1;#args;1){
 		vk,ext = getCode(args[i]); 
 		::keybd_event( vk, ::MapVirtualKey(  vk ,0), ext |  0x2/*_KEYEVENTF_KEYUP*/ | 8, extraInfo );
-		delay(1)
+		..thread.delay(1)
 	}
-	delay( delayPress );
+	..thread.delay( delayPress );
 }
 pressEx = combine
 
@@ -106,21 +105,23 @@ press = function(...){
 		vk,ext = getCode(args[i]);  
 		if(!vk)error("输入的键名无效:" + args[i],2); 
 		::keybd_event( vk, ::MapVirtualKey(  vk ,0), ext | 8, extraInfo );
-		delay( delayDown );
-			::keybd_event( vk, ::MapVirtualKey(  vk ,0), ext |  0x2/*_KEYEVENTF_KEYUP*/ | 8, extraInfo );
-			delay( delayPress );
+		..thread.delay( delayDown );
+		
+		::keybd_event( vk, ::MapVirtualKey(  vk ,0), ext |  0x2/*_KEYEVENTF_KEYUP*/ | 8, extraInfo );
+		..thread.delay( delayPress );
 	}
 }
 
-repeat = function(k,rep=1,tk){
+repeat = function(k,rep=1,tk=0){
 	var vk,ext = getCode(k);
 	if(!vk)error("输入的键名无效:" + args[i],2);
 	tk :=  delayPress;
 	for(i=1;rep){
-			::keybd_event( vk, ::MapVirtualKey(  vk ,0), ext | 8, extraInfo );
-		delay( delayDown );
-			::keybd_event( vk, ::MapVirtualKey(  vk ,0), ext |  0x2/*_KEYEVENTF_KEYUP*/ | 8, extraInfo );
-			delay( tk ); 
+		::keybd_event( vk, ::MapVirtualKey(  vk ,0), ext | 8, extraInfo );
+		..thread.delay( delayDown );
+		
+		::keybd_event( vk, ::MapVirtualKey(  vk ,0), ext |  0x2/*_KEYEVENTF_KEYUP*/ | 8, extraInfo );
+		..thread.delay( tk ); 
 	}
 		
 }
@@ -128,28 +129,28 @@ repeat = function(k,rep=1,tk){
 
 down = function( ... ){
 	//按下按键
-		var vk,ext;
-		var args = { ... };
-		for( i=1; #args; 1 ){
-			vk,ext = getCode(args[i]); 
-			if(!vk)error("输入的键名无效:" + args[i],2); 
-			::keybd_event( vk, ::MapVirtualKey(  vk ,0), ext   | 8, extraInfo );
-			delay(1);
+	var vk,ext;
+	var args = { ... };
+	for( i=1; #args; 1 ){
+		vk,ext = getCode(args[i]); 
+		if(!vk)error("输入的键名无效:" + args[i],2); 
+		::keybd_event( vk, ::MapVirtualKey(  vk ,0), ext   | 8, extraInfo );
+		..thread.delay(1);
 	}
-	delay( delayDown );
+	..thread.delay( delayDown );
 }
 
 up = function( ... ){
 	//弹起按键
 	var vk,ext;
-		var args = { ... }; 
-		for( i=1; #args; 1 ){
-			vk,ext = getCode(args[i]); 
-			if(!vk)error("输入的键名无效:" + args[i],2); 
-			::keybd_event( vk, ::MapVirtualKey(  vk ,0), ext |  0x2/*_KEYEVENTF_KEYUP*/ | 8, extraInfo );
-			delay(1);
+	var args = { ... }; 
+	for( i=1; #args; 1 ){
+		vk,ext = getCode(args[i]); 
+		if(!vk)error("输入的键名无效:" + args[i],2); 
+		::keybd_event( vk, ::MapVirtualKey(  vk ,0), ext |  0x2/*_KEYEVENTF_KEYUP*/ | 8, extraInfo );
+		..thread.delay(1);
 	}
-	delay( delayUp );
+	..thread.delay( delayUp );
 }
 
 waitUp = function(k){
@@ -158,7 +159,7 @@ waitUp = function(k){
 	
 	//必须放开
 	while( ( ::GetAsyncKeyState( vk ) < 0) ){ 
-		delay(1); //就一直等待
+		..thread.delay(1); //就一直等待
 	}
 }
 
@@ -171,18 +172,18 @@ wait = function( k ){
 	
 	//必须放开
 	while( ( ::GetAsyncKeyState( vk ) < 0) ){ 
-		delay(1); //就一直等待
+		..thread.delay(1); //就一直等待
 	}
 	
 	//必须按下
-		while( ::GetAsyncKeyState(  vk ) >= 0 ){
-				delay(1);
+	while( ::GetAsyncKeyState(  vk ) >= 0 ){
+		..thread.delay(1);
 	}
 	
 	//必须再次放开
 	while( ( ::GetAsyncKeyState( vk ) < 0) ){
-			//如果没有放开
-		delay(1); //就一直等待
+		//如果没有放开
+		..thread.delay(1); //就一直等待
 	}
 }
 
@@ -196,20 +197,17 @@ getState = function( k ){
 	else
 		return ( s & 0x8000 == 0x8000),s & 1 == 1;	
 }
-
-/*intellisense(key)*/
-SetKeyboardState = ::User32.api("SetKeyboardState","int(pointer keyState)")
-GetKeyboardState = ::User32.api("GetKeyboardState","int(pointer keyState)")
-/*end intellisense*/
 	
 setState = function( state,... ){ 
-	var kbState = ..raw.buffer(256) 
-	GetKeyboardState(kbState);
+	var kbState = ..raw.buffer(256);
+	::User32.GetKeyboardState(kbState);
+	
 	var c;
 	var args = { ... }; 
 	for( i=1; #args; 1 ){
-			vk,ext = getCode(args[i]);
-			if(!vk)error("输入的键名无效:" + k,2);  
+		vk,ext = getCode(args[i]);
+		if(!vk) error("输入的键名无效:" + k,2);  
+		
 		c = (vk== 0x14/*_VK_CAPITAL*/ || vk== 0x90/*_VK_NUMLOCK*/ || vk==0x91/*_VK_SCROLL*/ ) 
 			? 1 : 2_10000000;
 			
@@ -218,7 +216,7 @@ setState = function( state,... ){
 		else
 			kbState[vk+1] &= ~c;
 	}
-	return SetKeyboardState(kbState);
+	return ::User32.SetKeyboardState(kbState);
 }
 
 getStateX = function( k ){
@@ -235,28 +233,27 @@ isCapsLk = function(){
 capsLk = function(lk=true){
 	if( ( ::GetKeyState( 0x14/*_VK_CAPITAL*/ ) & 0x01 ) != lk){
 		press( 0x14/*_VK_CAPITAL*/  );
-		delay( delayPress );
+		..thread.delay( delayPress );
 	}
 }
 
 scrLk = function(lk=true){
 	if( ( ::GetKeyState( 0x91/*_VK_SCROLL*/ ) & 0x01 )!= lk  ){
 		press( 0x91/*_VK_SCROLL*/   );
-		delay( delayPress );
+		..thread.delay( delayPress );
 	}
 }
 
 nmLk = function(lk=true){
 	if( ( ::GetKeyState( 0x90/*_VK_NUMLOCK*/) & 0x01 )!= lk  ){
 		press( 0x90/*_VK_NUMLOCK*/  );
-		delay( delayPress );
+		..thread.delay( delayPress );
 	}
 }
 
 block = function(blockIt=true){
 	::User32.BlockInput(blockIt);
 }
-
 	
 /**intellisense(key)  
 extraInfo = 发送消息的自定义附加值\n该值会传入键盘钩子的extraInfo参数
@@ -265,8 +262,8 @@ repeat(.(键名或键码,重复次数) = 重复发送指定的击键\n参数可�
 repeat(.(键名或键码,重复次数,间隔毫秒) = 重复发送指定的击键\n参数可以是键名字,或者按键的虚拟码(_VK前缀常量)
 sendString("__/*字符串*/") = 发送字符串,支持中英文字符串,\n此函数不受输入法影响直接发送字符
 sendString("__/*字符串*/",100) =  发送字符串,支持中英文字符串\n并在每次按键添加指定的延时(以毫秒为单位),\n此函数不受输入法影响直接发送字符
-send("__/*键名串*/") = 发送键名串指定的按键\n每个键名都只能使用单个字符,\n此函数仅仅发送按键，发送字符串请使用key.sendString函数
-send("__/*字符串*/",100) =  发送键名串指定的按键\n每个键名都只能使用单个字符,\n此函数仅仅发送按键，发送字符串请使用key.sendString函数，\n并在每次按键添加指定的延时(以毫秒为单位)
+send( = 发送键名串指定的按键,\n发送按键而非字符串,不区分双字符键,\n发送字符串请改用 key.sendString 函数
+send(.("键名串",延时) = 发送键名串指定的按键\n每个键名都只能使用单个字符,\n此函数发送按键而不是发送字符串,\n键名串包含双字符键上任一字符发送的是相同按键而非对应字符,\n如果打开了输入法,则由输入法确定输入的字符, \n单纯发送字符串请使用 key.sendString 函数（不受输入法影响）\n可选用参数@2指定每次按键之间的延时（以毫秒为单位）
 getName(.(vk,ext,noLocation) = 返回虚拟键码对应的键名,\n除参数@vk以外，其他参数为可选参数\n如果@ext为true，允许返回扩展键名，主要指小键盘的回车键\n如果参数@noLocation为true，返回键名不区分左右控制键
 removeLocation(__) =  对传入的虚拟键码，移除左右控制键的差别,\n返回转换后的虚拟键码，例如_VK_LCTRL转换_VK_为CTRL
 getCode("__") = 返回虚拟键码、是否扩展键
@@ -277,7 +274,7 @@ up(__) = 发送键弹起指令,参数个数不限\n参数可以是键名字,或�
 wait(__) = 等待指定按键\n参数可以是键名字,或者按键的虚拟码(_VK前缀常量
 waitUp(__) = 等待一个按下的键放开\n参数可以是键名字,或者按键的虚拟码(_VK前缀常量
 getStateX(__) = 返回指定物理按键的按下弹起状态，\n忽略键盘映射，可用于非UI线程，\n该函数不能检测按键开关状态(nmlk,scrlk,capslk)
-getState(__) = 自消息队列中检测指定按键的是否按下，\n仅可用于UI线程，即使线徎或进程不是前台焦点，函数仍然可以工作，\n对于NumLk,CapsLk,ScrLk返回按键的开关状态
+getState(__) = 自当前线程消息队列中检测指定按键的是否按下，\n仅可用于UI线程，即使线徎或进程不是前台焦点，函数仍然可以工作，\n对于NumLk,CapsLk,ScrLk返回按键的开关状态
 setState(true,__/*键名或键码*/) = 设置一个或多个键为按下状态\nNumLk,CapsLk,ScrLk等键则置为开启状态\n该函数仅影响当前输入队列,外部线程应先调用 winex.attach 共享输入状态
 setState(false,__/*键名或键码*/)  = 设置一个或多个键为松开状态\nNumLk,CapsLk,ScrLk等键则置为关闭状态
 isCapsLk() = 判断Caps Lock键是否打开大写状态
@@ -292,5 +289,9 @@ block(false) = 解锁键盘鼠标
 delayPress = 更改每次击键并松开后的时间间隔,默认为5毫秒
 delayDown = 每次调用key.down函数的默认时间间隔,默认为5毫秒\n在调用press以及pressEx函数时,按下松开键之间也会按此设定延时
 delayUp = 每次调用key.up函数后的时间间隔,默认为1毫秒
-delay = 指定延时函数
+end intellisense**/
+
+/**intellisense(::)
+::GetKeyState(__) = 此 API 在标准库 win 或 key 中声明,\n参数@1使用数值指定虚拟键码,返回值为 16位数值,\n最高位表示指定按键是否按下,最低位表示 NumLk,CapsLk,ScrLk 是否按下\n用法请参考 key.getState 函数源码
+::GetAsyncKeyState(__) = 此 API 在标准库 win 或 key 中声明,\n参数@1使用数值指定虚拟键码,返回值为 16位数值,\n应当使用返回值与 0x8000 做位与运算取最高位,\n最高位表示指定按键是否按下\n用法请参考 key.getStateX 函数源码
 end intellisense**/

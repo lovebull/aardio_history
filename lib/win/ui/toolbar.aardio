@@ -1,6 +1,7 @@
-//toolbar 工具条
+﻿//toolbar 工具条
 import win.imageList;
 import win.ui.tooltip;
+import win.ui.ctrl.metaProperty;
 
 namespace win.ui {
 	import util.metaProperty;   
@@ -22,22 +23,27 @@ namespace win.ui {
 			this.label = true;
 			this.buttons = {};
 		};
-		create = function (tParam) {  
+		create = function (tParam) { 
+			if(this.hwnd) error("已创建对象!",2);
+			
 			var style = 0x40000000/*_WS_CHILD*/ | 0x10000000/*_WS_VISIBLE*/ ;
 			if( tParam[["style"]] ) style = style | tParam[["style"]];
 			if( tParam[["style"]] ) style = style | tParam[["style"]];
 			if( this.flat ) style = style | 0x800/*_TBSTYLE_FLAT*/ | 0x100/*_TBSTYLE_TOOLTIPS*/;
 			
-			this.hwnd = ::CreateWindowEx(tParam[["exstyle"]] or 0, 
-										 "ToolbarWindow32", ,style,
-										 0, 0, 0, 0, 
-										 this.hParent, 0 );
+			this.hwnd = ::CreateWindowEx( tParam[["exstyle"]] or 0,"ToolbarWindow32", ,style,0, 0, 0, 0, this.hParent, 0 );
 			::SendMessageInt(this.hwnd, 0x41e/*_TB_BUTTONSTRUCTSIZE*/, 20, 0);
 			
 			this.tooltip = ..win.ui.tooltip(winform); 
 			::SendMessageInt(this.hwnd, 0x424/*_TB_SETTOOLTIPS*/, this.tooltip.hwnd, 0);
-	 
 			this.showLabel = this.label;
+			
+			this.cls = "toolbar";
+			this.className = "ToolbarWindow32";
+			this.disableDpiScaling = true;
+			if(winform[["hwnd"]] && winform.add){
+				winform.add(this);
+			}
 			return this.hwnd;
 		}; 
 		adjust = function(){
@@ -73,7 +79,7 @@ namespace win.ui {
 	}
 	
 	namespace toolbar{
-		_metaProperty = ..util.metaProperty(
+		_metaProperty = ..win.ui.ctrl.metaProperty(
 			showLabel = {
 				_get = function () {
 					return owner.label;
@@ -208,6 +214,9 @@ namespace win.ui {
 					if( ::SendMessageByStruct(owner.parent.hwnd,0x433/*_TB_GETRECT*/,owner.idCommand,rc) )
 						return rc;
 				};
+				click = function(){
+					owner.parent.parent.sendMessage( 0x111/*_WM_COMMAND*/,owner.idCommand,0,0)
+				};
 				state = {
 					_get = function () {
 						return ::SendMessageInt(owner.parent.hwnd, 0x412/*_TB_GETSTATE*/, owner.idCommand, 0);
@@ -252,38 +261,72 @@ namespace win.ui {
 	};
 }
 
-//感谢lujjjh贡献最初的源代码 2010.9
-  
+//感谢lujjjh贡献最初的源代码(2010.9)
 /**intellisense()
-win.ui.toolbar(__/*父窗口*/) = 创建一个 Toolbar 控件 
-!toolbar.create() = 创建工具条\n可使用一个参数表指定exstyle,style等样式参数
-!toolbar.add(标题,回调函数,图像索引,可选指定命令ID) = @.add(\n	"文字", \n	function (id) {\n\n	},1\n)
-!toolbar.style = 工具栏样式,\n 使用 _TBSTYLE_ 前缀常量表示样式
-!toolbar.modifyStyle(.(移除样式,添加样式) = 所有参数可选,默认为0\n使用 _TBSTYLE_ 前缀常量表示样式
-!toolbar.adjust() = 重新设置工具栏大小
-!toolbar.showLabel = 是否在按钮上显示文字
-!toolbar.imageList = 指定 Toolbar 的 imageList 
-!toolbar.getButton(.(索引) = 返回按钮对象
-!toolbar.getButtonById(.(idCommand) = 返回按钮对象
-!toolbar.buttons[1__/*索引*/] = 返回指定的按钮对象 
-!toolbar.buttons = !toolbar_button.
-!toolbar.add() = 添加一个分隔条\n!toolbar_button.
-!toolbar.getButton() = !toolbar_button.
-!toolbar.getButtonById() = !toolbar_button.
+win.ui.toolbar(__/*父窗口*/) = Toolbar 控件 
 win.ui.toolbar() = !toolbar.
-!toolbar_button.getInfo( _TBIF__ ) = 获取TBBUTTONINFO结构体
-!toolbar_button.setInfo( __ ) = 设置TBBUTTONINFO结构体,可指定部份字段
-!toolbar_button.index() = 返回按钮索引
-!toolbar_button.delete() = 删除按钮
-!toolbar_button.id = 命令ID
-!toolbar_button.state = 读写按钮状态
-!toolbar_button.disabled = 是否禁用
-!toolbar_button.checked = 是否选中 
-!toolbar_button.text = 按钮文本
-!toolbar_button.getRect() = 返回按钮区块\n!rect.
 end intellisense**/
- 
- /**intellisense()
+
+/**intellisense(!toolbar)
+create(tParam) = 创建工具条,注意工具条会占用父窗口上的空间,\n可选传入 @tParam 参数表,可包含 style,exstyle 等样式参数\n可用样式可参考:\n https://docs.microsoft.com/en-us/windows/win32/controls/toolbar-control-and-button-styles
+add(标题,回调函数,图像索引,可选指定命令ID) = @.add(\n	"文字", \n	function (id) {\n\n	},1\n)
+style = 工具栏样式,数值,\n 使用 _TBSTYLE_ 前缀常量表示样式,\n也支持 _CCS_ 前缀的样式常量,\n直接设置此样式会覆盖工具条原来的一些默认样式,\n例如 让工具条显示在顶部的 _CCS_TOP,这会导致工具条移到底部,\n建议用 modifyStyle 修改样式可避免此问题
+modifyStyle(.(移除样式,添加样式) = 所有参数可选,默认为0\n使用 _TBSTYLE_ 前缀常量表示样式
+adjust() = 重新设置工具栏大小
+showLabel = 是否在按钮上显示文字
+imageList = 指定 Toolbar 的 imageList 
+getButton(.(索引) = 返回按钮对象
+getButtonById(.(idCommand) = 返回按钮对象
+buttons[1__/*索引*/] = 返回指定的按钮对象
+buttons.? = !toolbar_button.
+add() = 添加一个分隔条\n!toolbar_button.
+getButton() = !toolbar_button.
+getButtonById() = !toolbar_button.
+onDestroy = @.onDestroy = function(){\n	__/*窗口销毁前触发*/\n}
+onnotify = @.onnotify = function(id,code,ptr){\n	__/*通知事件触发*/\n}
+wndproc = @.wndproc = function(hwnd,message,wParam,lParam){\n	__/*窗口消息回调，返回任意非null值阻止默认回调\nwndproc重复赋值时追加函数而不是覆盖之前的回调\n设为null添除所有消息回调函数\nwndproc也可以是一个表,键要为处理的消息,值为对应的消息回调函数*/	\n}
+sendMessage(.(msg,wParam,lParam) = 发送窗口消息\n此函数用法请参考 ::User32.SendMessage
+postMessage(.(msg,wParam,lParam) = 投递窗口消息到消息队列中\n此函数用法请参考 ::User32.PostMessage
+getRoot() = 获取顶层父窗口
+setPos(.(x坐标,y坐标,宽,高,插入位置,参数) = 调整窗口位置或排序,所有参数可选\n同时指定x,y坐标则移动位置\n同时指定宽高则改变大小\n指定插入位置(句柄或_HWND前缀常量)则调整Z序
+getPos() = 返回相对父窗口客户区的坐标,宽,高,\n参数为true返回屏幕坐标,宽,高,\nx,y,cx,cy=win.getPos(hwnd)
+show(true__) = 显示控件
+getRect() = 控件区块位置(::RECT结构体)
+getRect(true) = 控件屏幕区块位置(::RECT结构体)  
+setRect(rc) = 设置控件区块位置(::RECT结构体)  
+setRect(rc,true) = 设置控件屏幕区块位置(::RECT结构体)
+getClientRect() =  控件客户区块位置(::RECT结构体)\n!rect.
+getFont() = 控件字体(::LOGFONT结构体)\n!logfont.
+setFont(__/*指定字体*/) = 指定LOGFONT字体对象,或逻辑字体句柄 
+end intellisense**/
+
+/**intellisense(!toolbar_button)
+getInfo( _TBIF__ ) = 获取TBBUTTONINFO结构体
+setInfo( __ ) = 设置TBBUTTONINFO结构体,可指定部分字段
+index() = 返回按钮索引
+delete() = 删除按钮
+id = 命令ID
+state = 读写按钮状态
+disabled = 是否禁用
+checked = 是否选中 
+text = 按钮文本
+getRect() = 返回按钮区块\n!rect.
+click() = 点击按钮
+end intellisense**/
+
+/**intellisense()
+_CCS_TOP=@1/*_CCS_TOP*/
+_CCS_NOMOVEY=@2/*_CCS_NOMOVEY*/
+_CCS_BOTTOM=@3/*_CCS_BOTTOM*/
+_CCS_NORESIZE=@4/*_CCS_NORESIZE*/
+_CCS_NOPARENTALIGN=@8/*_CCS_NOPARENTALIGN*/
+_CCS_ADJUSTABLE=@0x20/*_CCS_ADJUSTABLE*/
+_CCS_NODIVIDER=@0x40/*_CCS_NODIVIDER*/
+_CCS_VERT=@0x80/*_CCS_VERT*/
+_CCS_LEFT=@0x81/*_CCS_LEFT*/
+_CCS_NOMOVEX=@0x82/*_CCS_NOMOVEX*/
+_CCS_RIGHT=@0x83/*_CCS_RIGHT*/
+
 _TB_SETSTYLE=@0x438/*_TB_SETSTYLE*/
 _TB_GETSTYLE=@0x439/*_TB_GETSTYLE*/
 _TB_GETBUTTONSIZE=@0x43A/*_TB_GETBUTTONSIZE*/

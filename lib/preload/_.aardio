@@ -62,6 +62,10 @@ _WIN10_LATER = !!::Kernel32.api("GetSystemCpuSetInformation");
 {
 	var w = {bool v}
 	if( ::Kernel32.IsWow64Process( ::Kernel32.GetCurrentProcessP() ,w) ) _WIN_64 = w.v; 
+	
+	major,minor,build = {INT v},{INT v},{INT v};
+	::Ntdll.RtlGetNtVersionNumbers(major,minor,build);
+	_WIN_VER_MAJOR,_WIN_VER_MINOR,_WIN_VER_BUILD = major.v,minor.v,build.v & 0xFFFF;
 }
 
 /*intellisense(::)*/
@@ -194,10 +198,6 @@ def λ = lambda;
 
 _IMPORTURL = {};
 
-if(::Kernel32.GetACP()==65001){
-	io.utf8 = true;
-}
-
 type.callable = function(v){
 	var t = type(v);
 	return t == "function" || t == "class" || !!( v@ ? v@._call )
@@ -223,6 +223,7 @@ type.callable = function(v){
 ::User32.GetCursorPos() = 返回鼠标当前位置,参数应当是一个::POINT结构体\n成功返回非零值
 ::User32.SetCursorPos(.(x,y) = 设置鼠标当前位置,参数指定x,y坐标\n成功返回非零值
 ::User32.SystemParametersInfo(.(uiAction,uiParam,pvParam,fWinIni) = 设置或获取系统参数,\n失败返回0,成功返回非零值,\n\n参数@1指定 _SPI_ 前缀常量,@pvParam 为指针或结构体指针,\n其他参数都为无符号32位整数。参数 @4 设为 3 也即 \n_SPIF_UPDATEINIFILE | _SPIF_SENDWININICHANGE \n用于刷新配置,读取值时参数 @4 设为 0 即可\n\n这个函数的设置项非常多,细节请参考该 API 文档
+::User32.GetSystemMetrics(__) =  返回系统系统与数值有关的设置,宽高有关的数值以像素为单位,\n参数以 _SM_ 前缀的常量指定要获取的设置索引
 ::User32.? = 可不用声明直接在此输入函数名并调用API函数\n\n一、传入参数规则：\n1、null参数不可省略\n2、32位整数类型，小于32位的整数、以及枚举类型都可以直接在API参数中写数值。\n3、对于任何数值类型的指针（输出参数）一律使用结构体表示，例如double * v 表示为{ double v }\n4、数组使用结构体表示\n5、所有结构体传给API的都是指针地址，都是输出参数并增加返回值\n\n二、返回值规则：\n1、返回值默认为int类型\n2、可以使用[API尾标]改变返回值为其他类型\n\n三、所有可用的【API尾标】:\n::User32.ApiNameW() 切换到Unicode版本，字符串UTF8-UTF16双向转换\n::User32.ApiNameA() 切换到ANSI版本,字符串不作任何转换\n::User32.ApiNameL() 返回值为64位LONG类型\n::User32.ApiNameP() 返回值为指针类型\n::User32.ApiNameD() 返回值为double浮点数\n::User32.ApiNameF() 返回值为float浮点数\n::User32.ApiNameB() 返回值为C++中的8位bool类型\n注意【尾标】前必须是小写字母
 ::Kernel32.? = 可不用声明直接在此输入函数名并调用API函数\n\n一、传入参数规则：\n1、null参数不可省略\n2、32位整数类型，小于32位的整数、以及枚举类型都可以直接在API参数中写数值。\n3、对于任何数值类型的指针（输出参数）一律使用结构体表示，例如double * v 表示为{ double v }\n4、数组使用结构体表示\n5、所有结构体传给API的都是指针地址，都是输出参数并增加返回值\n\n二、返回值规则：\n1、返回值默认为int类型\n2、可以使用[API尾标]改变返回值为其他类型\n\n三、所有可用的【API尾标】:\n::Kernel32.ApiNameW() 切换到Unicode版本，字符串UTF8-UTF16双向转换\n::Kernel32.ApiNameA() 切换到ANSI版本,字符串不作任何转换\n::Kernel32.ApiNameL() 返回值为64位LONG类型\n::Kernel32.ApiNameP() 返回值为指针类型\n::Kernel32.ApiNameD() 返回值为double浮点数\n::Kernel32.ApiNameF() 返回值为float浮点数\n::Kernel32.ApiNameB() 返回值为C++中的8位bool类型\n注意【尾标】前必须是小写字母
 ::FILETIME() = 该结构的64位值,\n表示从1601年1月1日开始的以100纳秒为间隔的值

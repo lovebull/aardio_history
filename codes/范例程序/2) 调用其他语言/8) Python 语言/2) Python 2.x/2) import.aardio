@@ -32,10 +32,10 @@ pyd 以及 DLL 必须与当前 Python 解释器使用相同的运行时构建。
 */
 import console;
 console.open()
-import py2;//这里是导入Python2.7,改成import py就是导入python3.4
+import py2;
 
 //可以自己添加模块搜索路径，例如：
-py2.appendPath("\Lib\site-packages\");
+py2.appendPath("\py\site-packages\");
  
 /*
 Python2.7 的编码问题乱得一塌糊涂。

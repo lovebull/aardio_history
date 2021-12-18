@@ -148,11 +148,11 @@ debug.queryinfo() = !debugInfo.
 end intellisense**/
 
 /**intellisense(!debugHook)
-line = @.line=function(line){\nio.print( "line",line )\n}
-call = @.call=function(){\nio.print( "call" )\n}
-return = @.return=function(line){\nio.print( "return" )\n}
-tailreturn = @.tailreturn=function(line){\nio.print( "tailreturn" )\n}
-close() = 关闭此调试钩子
+line = @.line=function(line){\n__/*每行代码触发此回调*/\n}
+call = @.call=function(){\n__/*调用函数触发此回调*/\n}
+return = @.return=function(line){\n__/*return 语句触发此回调*/\n}
+tailreturn = @.tailreturn=function(line){\n__/*尾定义触发此回调,\n必须同时定义 return 语句回调函数,\n如果仅指定 tailreturn 则不会被触发*/\n}
+close() = 关闭调试钩子
 end intellisense**/
 
 /**intellisense(!debugInfo)

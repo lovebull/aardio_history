@@ -585,7 +585,7 @@ web.layout._dll = dll;
 	}
 }
 !weblayout.enumQuery(枚举函数,CSS选择器,格式化参数) = @.enumQuery(\n	function(ltEle){\n		 __/*返回true停止枚举*/\n	},"div"\n)
-!weblayout._contrls[] = !static.
+!weblayout._contrls.? = 自定义控件\n!static.
 !weblayout.go("__/*路径*/") = 跳转到指定网址,支持aardio资源文件\n如果参数指定的是aardio文件,参数@2可选用一个表指定request.get对象\n其他文件可用参数@2指定代码页,默认为65001
 !weblayout.post(.(网址,参数) =  参数可以是字符串或键值对组成的表对象\n该函数可触发onDataArrived事件
 !weblayout.write(__/*HTML 代码*/) = 写入HTML代码到网页

@@ -1,4 +1,4 @@
-//旋转动画
+﻿//旋转动画
 import win.ui;
 /*DSG{{*/
 var winform = win.form(text="鼠标放到图像上显示动画";right=234;bottom=214;bgcolor=16711680)
@@ -14,11 +14,11 @@ winform.plus.onDrawContent = function(graphics,rc,color){
 	if(owner.animationState) graphics.rotateRect(rc,owner.animationState);
 }
 
-winform.plus.onAnimation = function(state,begining,change,timestamp){
+winform.plus.onAnimation = function(state,beginning,change,timestamp){
     var duration = 900;
 	if(timestamp < duration){
 		var x = timestamp/duration;  
-		return begining+change*(-x*x + 2*x);     	
+		return beginning+change*(-x*x + 2*x);     	
 	}     
 }
 

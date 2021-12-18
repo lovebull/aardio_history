@@ -92,9 +92,8 @@ namespace wmi{
 	}
 	
 	escape = function(v){
-		var t  = type(v);	
-		
-		var t  = type(v);	
+		var t  = type(v);
+			
 		if( t = "string"){ 
 			return '"' +  ..string.replace(v,`['"\\]`,"\\\1") + '"';
 		}
@@ -152,10 +151,10 @@ com.wmi.get(.(wql,property,path,->->->) =  参数 @wql 可输入WQL查询语句�
 com.wmi.getProperties( = 返回所有属性
 com.wmi.getProperties(.(wql,path,->->->) =  参数 @wql 可输入WQL查询语句或类名,\n可选用参数@path 指定 WMI 路径,默认为 "\root\cimv2",\n返回首个查询结果中所有属性组成的表,表以属性名为键,属性值为值,\n失败返回 null\n\n可选用参数@3及后续参数指定格式化参数,\n如果格式化参数是表,则可省略 @path 且不用保留参数位置,\n参数表可格式化 @号 开头的命名参数或以 ? 号为占位符的匿名参数,\n如果参数不是一个表,则调用 string.format 格式化 
 com.wmi.getProperties(.(wmiObject) =  参数 @wmiObject 可输入 WMI 对象,\n返回该对象所有属性组成的表,表以属性名为键,属性值为值,\n失败返回 null
-com.wmi.each(wql,path,->->->) =  @for index,item in com.wmi.each("__/*遍历 WMI 对象,\n可输入WQL查询语句或类名\n可选用参数@2指定 WMI 路径,默认为 "\root\cimv2"*/") {
+com.wmi.each(wql,path,->->->) =  @for index,item in com.wmi.each("__/*遍历 WMI 对象,\n可输入WQL查询语句或类名\n可选用参数@2指定 WMI 路径,默认为 "\root\cimv2"\n\n可选用参数@3及后续参数指定格式化参数,\n如果格式化参数是表,则可省略 @path 且不用保留参数位置,\n参数表可格式化 @号 开头的命名参数或以 ? 号为占位符的匿名参数,\n如果参数不是一个表,则调用 string.format 格式化*/") {
 	
 }
-com.wmi.eachProperties(wql,path,->->->) =  @for item in com.wmi.eachProperties("__/*遍历 WMI 对象的属性表,\n可输入WQL查询语句或类名\n可选用参数@2指定 WMI 路径,默认为 "\root\cimv2"*/") {
+com.wmi.eachProperties(wql,path,->->->) =  @for item in com.wmi.eachProperties("__/*遍历 WMI 对象的属性表,\n可输入WQL查询语句或类名\n可选用参数@2指定 WMI 路径,默认为 "\root\cimv2"\n\n可选用参数@3及后续参数指定格式化参数,\n如果格式化参数是表,则可省略 @path 且不用保留参数位置,\n参数表可格式化 @号 开头的命名参数或以 ? 号为占位符的匿名参数,\n如果参数不是一个表,则调用 string.format 格式化*/") {
 	
 } 
 com.wmi.getTable(.(wql,path,->->->) =  查询并返回包含所有返回 WMI 对象的属性表的数组\n @wql 参数可输入WQL查询语句或类名,\n可选用参数@path 指定 WMI 路径,默认为 "\root\cimv2"\n\n可选用参数@3及后续参数指定格式化参数,\n如果格式化参数是表,则可省略 @path 且不用保留参数位置,\n参数表可格式化 @号 开头的命名参数或以 ? 号为占位符的匿名参数,\n如果参数不是一个表,则调用 string.format 格式化

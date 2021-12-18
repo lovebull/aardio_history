@@ -1,7 +1,7 @@
 //codepage 文件编码
 namespace  fsys.codepage
 
-var encodeing = { 
+var encoding = { 
 	["UTF-8"] = 65001;
 	["UNICODE"] = 1200;
 	["UTF-16LE"] = 1200; 
@@ -16,7 +16,7 @@ load = function(p,inputCp,cp=65001){
 	
 	if( type(inputCp) == type.string ){
 		inputCp = ..string.upper(inputCp)
-		inputCp = encodeing[inputCp] || ..string.encoding.getCodepage(inputCp);
+		inputCp = encoding[inputCp] || ..string.encoding.getCodepage(inputCp);
 		if(!inputCp){
 			error('错误的编码参数@2',2)
 		} 
@@ -89,7 +89,7 @@ save = function(p,s,outputCp,cp=65001){
 	var b;
 	if( type(outputCp) == type.string ){
 		outputCp = ..string.upper(outputCp)
-		outputCp = encodeing[outputCp] || ..string.encoding.getCodepage(outputCp);
+		outputCp = encoding[outputCp] || ..string.encoding.getCodepage(outputCp);
 		if(!outputCp){
 			error('错误的编码,可选编码格式如下\n"UNICODE"\n"UTF-8"\n"UTF-16LE"\n"UTF-16BE"',2)
 		} 

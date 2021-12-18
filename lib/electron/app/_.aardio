@@ -581,7 +581,7 @@ class app{
 		}
 
 		startEnviron.aasdl = ..string.aasdl.strip(this.external);
-		..win.setenv("aarStartEnviron",null);
+		..string.setenv("aarStartEnviron",null);
 		
 		startEnviron.mainWindowId = 0;
 		this.process,err  = ..process(

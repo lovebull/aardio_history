@@ -121,6 +121,7 @@ class access {
 			if(!ok) return null,"打开数据库连接失败:" + e;
 		} 
 		
+		..com.SetPreferredArrayType(this.connection,0xC/*_VT_VARIANT*/);
 		this._tables = {@{_weak="kv"}}
 		this.connectionString = connectionString;
 		..table.gc(this,"close");
@@ -166,6 +167,8 @@ class access {
 	}; 
 	openRecordSet = function(sql,cursorType,lockType,...){
 		var rs = ..com.CreateObject("ADODB.RecordSet");
+		..com.SetPreferredArrayType(rs,0xC/*_VT_VARIANT*/);
+		
 		if( ... )sql = format(sql,...);
 		var ok,err = call(rs.Open,rs,sql,this.connection,cursorType,lockType);
 		if(!ok) return null,err;
@@ -254,7 +257,9 @@ class access {
         },function(){ rs.close();   } ;
     }; 
 	createCommand = function(sql,...){
-		var cmd = ..com.CreateObject("ADODB.Command") 
+		var cmd = ..com.CreateObject("ADODB.Command");
+		..com.SetPreferredArrayType(cmd,0xC/*_VT_VARIANT*/);
+		
 		cmd.activeConnection = this.connection;
 		cmd.commandType = ..string.find(sql,"\s\S") ? 1/*adCmdText*/ : 4/*adCmdStoredProc*/;
 		if( ... )sql = format(sql,...);
@@ -603,6 +608,7 @@ each(sql,其他格式化参数) = @for(rs in ??.each("select * from [表名]") )
 	io.print( rs("字段名").value );__
 }
 each() = !access_rs.
+openRecordSet() = !access_rs.
 createCommand() = !access_cmd.
 connection = 连接对象
 connectionString = 打开数据库时指定的连接串\n[数据库连接串写法]（https://www.connectionstrings.com/access/）
@@ -626,7 +632,12 @@ end intellisense**/
 
 /**intellisense(!access_rs)
 close() = 关闭记录集 
-eof = 是否移动到尾部 
+eof = 是否移动到记录集尾部，没有更多数据了
+bof = 是否已经到记录集开始，没有更多数据了
+recordCount = 获取记录总数,\n如果该值为-1，请修改为静态方式打开记录集
+move(.(numRecords,start) = 移动游标位置,\n注意第一条记录游标位置为0,\n@start为可选参数,可选使用以下数值：\n    _adBookmarkCurrent 0 自当前记录开始\n    _adBookmarkFirst 1 自首条记录开始\n    _adBookmarkLast 2 自最后一条记录开始
+getRows( = 查询并返回包含结果数据的数组\n此函数返回的数据是先列后行,与getTable相反,\n数组由所有列的数据组成,每个列都是由多个行组成的数组\n可以使用 返回数据[ 列号 ][ 行号 ] 获取对应的值
+getRows(.(rows,start,fields) = 查询并返回包含结果数据的数组,所有参数可选,\nrows 指定获取行数，默认为-1，即获取所有剩下的行,0,\n@start为可选参数,可选使用以下数值：\n    _adBookmarkCurrent 0 自当前记录开始\n    _adBookmarkFirst 1 自首条记录开始\n    _adBookmarkLast 2 自最后一条记录开始\n@ields 可选用一个字符串、或字符串数组指定要获取的列,\n也可用数值，或数值数组指定要获取的列
 end intellisense**/
 
 /**intellisense(!access_cmd)
@@ -682,4 +693,15 @@ end intellisense**/
 Name = 列名
 Type = 类型
 DefinedSize = 字段大小 
+end intellisense**/
+
+/**intellisense()
+_adBookmarkCurrent=@0/*_adBookmarkCurrent*/
+_adBookmarkFirst=@1/*_adBookmarkFirst*/
+_adBookmarkLast=@2/*_adBookmarkLast*/
+_adOpenDynamic=@2/*_adOpenDynamic*/
+_adOpenForwardOnly=@0/*_adOpenForwardOnly*/
+_adOpenKeyset=@1/*_adOpenKeyset*/
+_adOpenStatic=@3/*_adOpenStatic*/
+_adOpenUnspecified=@-1/*_adOpenUnspecified*/
 end intellisense**/

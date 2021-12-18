@@ -1,18 +1,18 @@
-﻿//播放声音
+//播放声音
+import fsys.dlg;
 import win.ui;
 /*DSG{{*/
-var winform = win.form(text="播放声音";right=679;bottom=78;border="dialog frame";max=false;min=false)
+var winform = win.form(text="播放声音";right=506;bottom=186;border="dialog frame";max=false;min=false)
 winform.add(
-btnBeep={cls="button";text="主板发声";left=510;top=19;right=652;bottom=51;z=1};
-btnMessageBeep={cls="button";text="系统警报声";left=349;top=19;right=491;bottom=51;z=2};
+btnActiveMovie={cls="button";text="ActiveMovie 播放声音";left=252;top=75;right=461;bottom=107;z=5};
+btnMessageBeep={cls="button";text="系统警报声";left=29;top=130;right=171;bottom=162;z=2};
 btnWav={cls="button";text="播放WAV文件";left=188;top=19;right=330;bottom=51;z=3};
-button={cls="button";text="播放MP3";left=27;top=19;right=169;bottom=51;z=4}
+btnWmpOcx={cls="button";text="WMPlayer.OCX 播放声音";left=29;top=75;right=238;bottom=107;z=1};
+button={cls="button";text="播放MP3";left=29;top=19;right=171;bottom=51;z=4}
 )
 /*}}*/
 
 import fsys.media;
-import fsys.dlg;
-
 winform.btnWav.oncommand = function(id,event){
     
     var path = fsys.dlg.open("*.wav|*.wav||");
@@ -28,64 +28,38 @@ winform.button.oncommand = function(id,event){
     var path = fsys.dlg.open("*.mp3|*.mp3||");
     if(!path) return;
     	
-    if(mediaFile) mediaFile.stop();
+    if(mediaFile) {
+    	mediaFile.stop();
+    }
+	
 	mediaFile = fsys.media(path);
-	if(mediaFile) mediaFile.play();
+	if(mediaFile) {
+		mediaFile.play();
+	}
+}
+
+winform.btnWmpOcx.oncommand = function(id,event){
+	
+	//参考： https://docs.microsoft.com/zh-cn/windows/win32/wmp/object-model-reference-for-scripting  
+	var wmPlayer = com.CreateObject("WMPlayer.OCX"); 
+   
+	//使用 COM 对象打开指定的音频
+	wmPlayer.url = "http://download.aardio.com/v10.files/demo/mp3/lrc.mp3"
+}
+
+winform.btnActiveMovie.oncommand = function(id,event){
+	
+    var path = fsys.dlg.open("*.mp3|*.mp3||");
+    if(!path) return;
+    
+    //参考接口定义："\lib\vc6\.vc\Include\IAMOVIE.IDL"
+	var axMovie = com.CreateObject("AMOVIE.ActiveMovieControl") 
+    axMovie.FileName = path; 
 }
 
 winform.btnMessageBeep.oncommand = function(id,event){
-	::User32.MessageBeep(0x10/*_MB_ICONHAND*/);//播放系统警报声
-}
-
-winform.btnBeep.oncommand = function(id,event){
-    winform.btnBeep.disabledText = "正在播放..."
-  
-	/*
-	主板发声
-	第一个参数指定声音频率(从37Hz到32767Hz),第二个参数指定持续时间声音的持续时间,
-	以毫秒为单位。如为-1,表示一直播放声音,直到再次调用该函数为止。
-	
-	《今天看到主板发声的例子,于是写了一首歌》 
-	http://bbs.aardio.com/forum.php?mod=viewthread&tid=5022 
-	*/
-	Beep = ::Kernel32.Beep;
-	Beep(550,500);
-	Beep(600,500);
-	Beep(700,500);
-	Beep(550,500);
-	Beep(550,500);
-	Beep(600,500);
-	Beep(700,500);
-	Beep(550,500);
-	Beep(700,500);
-	Beep(750,500);
-	Beep(850,500);
-	if(!win.delay(500))return;
-	Beep(700,500);
-	Beep(750,500);
-	Beep(850,500);
-	if(!win.delay(600))return;
-	Beep(800,230);
-	Beep(950,230);
-	Beep(750,230);
-	Beep(650,230);
-	Beep(700,500);
-	Beep(600,500);
-	Beep(800,230);
-	Beep(950,230);
-	Beep(750,230);
-	Beep(650,230);
-	Beep(700,500);
-	Beep(600,500);
-	Beep(700,500);
-	Beep(400,500);
-	Beep(550,500);
-	if(!win.delay(500))return;
-	Beep(700,500);
-	Beep(400,500);
-	Beep(550,1000); 
-	
-	winform.btnBeep.disabledText = null;
+	::User32.MessageBeep(0x10/*_MB_ICONHAND*/);//播放系统警报声,不是所有电脑都支持
+	::Kernel32.Beep(550,500);//主板发声,不是所有电脑都支持
 }
 
 winform.show() 

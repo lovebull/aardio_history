@@ -48,7 +48,7 @@ namespace metaProperty {
  				if( owner[["initializing"]] ) return;
  				var hParent = ..win.getParent(owner.hwnd); 
  				var hwnd = owner.hwnd;
- 				if( hParent ? ( owner[["transparent"]]:  ..win.getStyleEx(hwnd,0x20/*_WS_EX_TRANSPARENT*/) ) ){  
+ 				if( hParent ? (!owner.cacheOrphanWindowRect__) ?( owner[["transparent"]]:  ..win.getStyleEx(hwnd,0x20/*_WS_EX_TRANSPARENT*/) ) ){  
  					var rc = ..win.getRect(hwnd);
  					var ctrl = owner;
  					
@@ -58,7 +58,6 @@ namespace metaProperty {
 						if( ..win.getStyle(hParent,0x2000000/*_WS_CLIPCHILDREN*/) ){
 							::RedrawWindow(hwnd,{},null,0x105 /*_RDW_INVALIDATE | _RDW_UPDATENOW*/ );
 						}
-						
 						
 						hwnd = hParent;
 						ctrl = ctrl[["parent"]];
@@ -134,7 +133,7 @@ namespace metaProperty {
 								}
 								else{
 									var a,b = ..string.match(owner.text,"^\s*(:)\s(.+)"); 
-									if(!b) b = owner.text;
+									if(!b ||(#a==#b)) b = owner.text;
 								 	if(#v.text) b = v.text;
 								 	
 									owner[["(disabledReduceId)"]] = owner.reduce(v,function(value,index){
@@ -344,6 +343,18 @@ namespace metaProperty {
 				_get = function(){
 					return owner[["wndproc__"]];
 				};
+			};
+			/*
+			属性元表中只能预定义 _prenotify,创建对象后只能对 prenotify 赋值,
+			值只能为 null 或 table,不可指定为函数。
+			*/
+			prenotify = {
+				_get = function(){
+					return owner._prenotify;
+				}
+				_set = function(v){
+					owner[["_prenotify"]] = ..table.assign(owner._prenotify,v);
+				}
 			};
 			//追加式赋值
 			adjust = {

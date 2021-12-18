@@ -1,25 +1,22 @@
 import win; 
 namespace mouse;
 
-//转换为65535坐标
-screenHeight = ::GetSystemMetrics( 0x1 );
-screenWidth = ::GetSystemMetrics( 0x0 );
-var m_perY = (65535.00 / screenHeight);
-var m_perX = (65535.00 / screenWidth);
 var function yToDy( y ){
-	return  ..math.ceil(   y * m_perY  ) ;
+	return  ..math.ceil(   y * (65535 / ::User32.GetSystemMetrics(1/*_SM_CYSCREEN*/))  ) ;
 }
+
 var function xToDx( x ){
-	return  ..math.ceil( x * m_perX );
+	return  ..math.ceil( x * (65535 / ::User32.GetSystemMetrics(0/*_SM_CXSCREEN*/)) );
 } 
 
-INPUTDATA = class {
+class INPUTDATA{
     INT type; 
     union input = {
         struct  mi = MOUSEINPUT(); 
     };
 } 
-INPUTDATA.MOUSEINPUT = class {
+
+class INPUTDATA.MOUSEINPUT{
     INT dx;
     INT dy;
     INT mouseData;
@@ -66,17 +63,17 @@ var send = function( x=0, y=0, abs , dwFlags = 0,mouseData = 0){
      
  	//必须放开
 	while( ( ::GetAsyncKeyState( vkeyCode ) < 0))  {
-		delay(1)
+		..thread.delay(1)
 	}
 	
      //必须按下
  	while( ::GetAsyncKeyState( vkeyCode ) >= 0 ) {
- 			delay(1)
+ 			..thread.delay(1)
 	}
 	
 	//必须再次放开
 	while( ( ::GetAsyncKeyState( vkeyCode ) < 0))  {
-		delay(1) //就一直等待
+		..thread.delay(1) //就一直等待
 	}
   
  }
@@ -98,11 +95,10 @@ var send = function( x=0, y=0, abs , dwFlags = 0,mouseData = 0){
 		}
 			
 		nTick = nTick_new; 
-		delay(1);
+		..thread.delay(1);
 	}
 }
- 
-delay = ..win?..win.delay: sleep;
+
 delayDown = 5;
 delayUp = 1;
 delayDb =10;
@@ -110,17 +106,17 @@ delayMove = 5
 delayClick = 10;
 
 var downDelay = function(){
-	delay( delayDown )
+	..thread.delay( delayDown )
 }
 var upDelay = function(){
-	delay( delayUp )	
+	..thread.delay( delayUp )	
 }
 var dbDelay = function(){
-	delay( delayDb )	
+	..thread.delay( delayDb )	
 }
 var clickDelay = function(){
 	if( delayClick > delayUp )
-		delay( delayClick - delayUp )	
+		..thread.delay( delayClick - delayUp )	
 }
   
 
@@ -164,7 +160,7 @@ moveTo = function(x2=0,y2=0,abs,step=8,tk=2)	{
 		for x=x1;x2;step {
 				y = k * (x - x1) + y1  
 				send( x,y, 1, 0x1/*_MOUSEEVENTF_MOVE*/ );
-				delay(tk)
+				..thread.delay(tk)
 		} 
 	}
 	else {
@@ -174,7 +170,7 @@ moveTo = function(x2=0,y2=0,abs,step=8,tk=2)	{
 		for y=y1;y2;step {
 				x = k * (y - y1) + x1  
 				send( x,y, 1, 0x1/*_MOUSEEVENTF_MOVE*/ );
-				delay(tk)
+				..thread.delay(tk)
 		} 
 	} 
 	send( x2,y2, 1, 0x1/*_MOUSEEVENTF_MOVE*/ );
@@ -189,7 +185,7 @@ drag = function(x2,y2,abs,step,tk){
 
 move = function( x=0, y=0, abs ){
 	send( x, y, abs, 0x1/*_MOUSEEVENTF_MOVE*/ );
-	delay(delayMove);
+	..thread.delay(delayMove);
 }
 
 down = function( x=0,y=0,abs ){
@@ -287,7 +283,6 @@ end;
 
 /*intellisense(mouse)
 extraInfo = 发送消息的自定义附加值\n该值会传入鼠标钩子的extraInfo参数
-delay = 指定延时函数
 delayDown = 鼠标键按下延时,默认为5毫秒;
 delayUp = 鼠标弹起延时,默认为1毫秒
 delayDb = 鼠标键双击间隔时间,默认为10毫秒;

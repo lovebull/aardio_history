@@ -40,6 +40,9 @@ if( !_STUDIO_INVOKED ){
          	
         	//启动服务主线程
         	service.threads.main(serviceName);
+        	
+        	//原生静态线程回调默认不支持 COM 接口，如下创建独立线程可以启用 COM 接口。
+        	//thread.invokeEx(service.threads.main,serviceName); 
          	
         	//服务切换到停止状态
         	srvStatus.controlsAccepted = 0;

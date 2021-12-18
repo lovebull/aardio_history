@@ -1,4 +1,4 @@
-//滚动条、滑尺控件、微调按钮
+//滚动条/滑尺控件
 import win.ui;
 /*DSG{{*/
 var winform = win.form(text="滚动条、滑尺控件、微调按钮";right=438;bottom=203;max=false;parent=...)

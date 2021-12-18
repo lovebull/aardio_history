@@ -18,8 +18,8 @@ if( ..io.exist(pathdll) ){
 }
 
 if( !..io.exist(path) ){
-    ..zlib.httpFile.referer = "https://npm.taobao.org/mirrors/electron/11.2.1/"
-	..zlib.httpFile.download("https://npm.taobao.org/mirrors/electron/11.2.1/electron-v11.2.1-win32-ia32.zip"
+    ..zlib.httpFile.referer = "https://npmmirror.com/mirrors/electron/11.2.1/"
+	..zlib.httpFile.download("https://npmmirror.com/mirrors/electron/11.2.1/electron-v11.2.1-win32-ia32.zip"
 		,"正在下载" + (..win[["title"]] or "本程序") + "必须的组件",..io.joinpath(electronDir,"\.download"),electronDir,"electron-v11.2.-win32-ia32.zip"); 
 } 
 

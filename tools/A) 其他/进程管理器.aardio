@@ -65,7 +65,6 @@ winform.popmenu.add('前置',function(id){
 });
 
 import mouse;
-import win.util.tray;
 winform.listview.onnotify = function(id,code,ptr){ 
     
     select(code) {
@@ -73,7 +72,6 @@ winform.listview.onnotify = function(id,code,ptr){
     		var nm = winform.listview.getNotifyMessage(code,ptr)
     		if(winform.listview.selIndex){
         		winform.static.text = "进程：" + winform.listview.getItemText(nm.iItem,1) +" "+ winform.listview.getItemText(nm.iItem,2)
-            	win.util.tray.pop( winform.static.text )
         	}
     	}
     	case 0xFFFFFFFB/*_NM_RCLICK*/  {
@@ -209,17 +207,20 @@ winform.beforeDestroy = function(){
 }
 
 winform.btnKillSelected.oncommand = function(id,event){
-    var pid = tonumber( winform.listview.getItemText(winform.listview.selIndex,1) )
+	var selIndex = winform.listview.selIndex;
+	if(!selIndex) return;
+	
+    var pid = tonumber( winform.listview.getItemText(selIndex,1) )
     if(pid){
-        var prcs = process(pid)
-        if(prcs) prcs.terminate()
-        winform.listview.delItem(winform.listview.selIndex)
+        var prcs = process(pid);
+        if(prcs) prcs.terminate();
+        winform.listview.delItem(selIndex);
     }		
 }
 
 winform.btnKillChecked.oncommand = function(id,event){
-    
-	for hItem,pid in winform.listview.eachChecked(1){
+  
+	for hItem,pid in winform.listview.eachChecked(1){ 
 		var pid = tonumber( pid )
     	if(pid){
         	var prcs = process(pid)

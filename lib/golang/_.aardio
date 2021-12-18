@@ -5,9 +5,10 @@ import zlib.httpFile;
 import win.path;
 import fsys.lnk;
 import fsys;
+assert(!golang,"引用 golang 下面的库以后不能再引用 golang,请先引用 golang。");
 
 class golang{
-	ctor( root,project ){
+	ctor( root,workDir ){
 		
 		this.install = function(version){
 			..zlib.httpFile.preget = true;
@@ -32,7 +33,7 @@ class golang{
 			}
 			
 			if( ! ..io.exist(root) ){
-				root = ..win.getenv("GOROOT");
+				root = ..string.getenv("GOROOT");
 				if( ! ..io.exist(root) ){
 					this.path = ..win.path.search("go.exe");
 					
@@ -64,15 +65,15 @@ class golang{
 		}
 		
 		this.root = ..io.fullpath(root);
-		..win.setenv("GO111MODULE","on");
-		..win.setenv("GOPROXY","https://goproxy.io,direct");
-		..win.setenv("CGO_ENABLED","1");
-    	..win.setenv("GOROOT",this.root);
-    	..win.setenv("GOARCH","386");
-    	..win.setenv("GOOS","windows");
+		..string.setenv("GO111MODULE","on");
+		..string.setenv("GOPROXY","https://goproxy.io,direct");
+		..string.setenv("CGO_ENABLED","1");
+    	..string.setenv("GOROOT",this.root);
+    	..string.setenv("GOARCH","386");
+    	..string.setenv("GOOS","windows");
  
-    	..win.addenv("PATH",..io.joinpath(this.root,"\bin") ,true);
-    	..win.setenv("GOCACHE",..io.joinpath(this.root,"\.cache") );
+    	..win.path.add( ..io.joinpath(this.root,"\bin") );
+    	..string.setenv("GOCACHE",..io.joinpath(this.root,"\.cache") );
     	this.path = ..io.joinpath(this.root,"\bin\go.exe") 
     	
     	import process.gcc;
@@ -81,10 +82,11 @@ class golang{
 		}
 		
 		this.environment = {};
+		this.workDir = workDir : ..io.fullpath("/");
 		
 		this.command = function(...){
 			..console.open() 
-			var prcs =  ..process( this.path,{"go";...} ,{workDir=..io.fullpath("/");environment=this.environment} ); 
+			var prcs =  ..process( this.path,{"go";...} ,{workDir=this.workDir;environment=this.environment} ); 
 			prcs.wait();
 			prcs.free();
 		};
@@ -105,7 +107,7 @@ class golang{
 		return this.command("build","-ldflags","-s -w",..io.localpath(path) : path,...);
 	};
 	addPath = function(path){
-		..win.addenv("PATH",path,true);
+		..win.path.add(path);
 	};
 	setProxy = function(proxy){
 		..table.mixin(this.environment,{
@@ -122,7 +124,9 @@ class golang{
 				outpath = path + ".dll"
 			} 
 		}
-		return this.command("build","-buildmode=c-shared","-ldflags","-s -w","-o",..io.localpath(outpath) : outpath,..io.localpath(path) : path,...);
+		return this.command("build","-buildmode=c-shared"
+			,"-ldflags","-s -w" //-s 去掉符号表，-w是去掉DWARF调试信息，可减小生成文件体积
+			,"-o",..io.localpath(outpath) : outpath,..io.localpath(path) : path,...);
 	};
 	buildArchive = function(path,outpath,...){
 		if(!outpath){
@@ -151,24 +155,7 @@ class golang{
 	}
 }
 
-namespace golang{
-    
-    class string{
-    	ctor( str ){
-        	this.p = str;
-        	this.n = #str;
-    	};
-    	ptr p;
-    	addr n;
-    	@_meta;
-    }
-    
-    string._meta = {
-        _tostring = function(){
-        	return ..raw.tostring(owner.p,1,owner.n);
-        } 
-    }
-}
+import golang.string;
 
 /**intellisense()
 golang = go编译器调用程序\n此扩展库可自动下载配置Go编译器\n支持调用系统已安装的git,mingw,编译dll可自动搜索并获取mingw安装位置

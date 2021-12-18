@@ -19,7 +19,7 @@ nodeModulesPath = null;
 version = null;
 	
 getInstallPath = function(){
-	var path = ..win.getenv("NODE_EXE");
+	var path = ..string.getenv("NODE_EXE");
     if(!#path){path = ..win.path.search("node.exe");}
     if(..io.exist("C:\Program Files\nodejs\node.exe")) return "C:\Program Files\nodejs\node.exe";
     if(..io.exist("D:\Program Files\nodejs\node.exe")) return "D:\Program Files\nodejs\node.exe";
@@ -76,8 +76,8 @@ install = function(portable){
 				if(!portable){
     				if(!..inet.installer("Node.js",{
 						//"https://nodejs.org/dist/v"
-						x64 = "http://npm.taobao.org/mirrors/node/v" + version + "/node-v" + version + "-x64.msi";
-						x86 = "http://npm.taobao.org/mirrors/node/v" + version + "/node-v" + version + "-x86.msi";
+						x64 = "http://npmmirror.com/mirrors/node/v" + version + "/node-v" + version + "-x64.msi";
+						x86 = "http://npmmirror.com/mirrors/node/v" + version + "/node-v" + version + "-x86.msi";
 					} )	){
 						return;
 					}
@@ -88,7 +88,7 @@ install = function(portable){
     			}
 				
 				//http://nodejs.org/dist/v11.9.0/node-v11.9.0-win-x86.zip
-				..zlib.httpFile.download("https://npm.taobao.org/mirrors/node/v" 
+				..zlib.httpFile.download("https://npmmirror.com/mirrors/node/v" 
 					+ version + "/node-v" + version + "-win-x86.zip","正在下载本程序必须的组件(node.js)"
 					,nodeDownloadDir);
 			}
@@ -106,11 +106,11 @@ install = function(portable){
 			nodeExePath = ..fsys.shortpath(nodeExePath);
 			npmCliJsPath = ..fsys.shortpath(npmCliJsPath);
 			
-			..win.setenv("NPM_CONFIG_PREFIX",nodeDir );
+			..string.setenv("NPM_CONFIG_PREFIX",nodeDir );
 			
 			var npmrc = ..io.fullpath( ..io.joinpath(nodeDir,".npmrc") );
 			..string.save(npmrc,"" )
-			..win.setenv("NPM_CONFIG_USERCONFIG",..fsys.shortpath(npmrc) );
+			..string.setenv("NPM_CONFIG_USERCONFIG",..fsys.shortpath(npmrc) );
 		}
     }
     
@@ -118,15 +118,15 @@ install = function(portable){
         if(version) majorVersion = ..string.match(version,"^\d+");
         majorVersion = majorVersion ? tonumber(majorVersion)  : 14;
         
-		..win.addenv("PATH",nodeDir );  
-		..win.setenv("NODE_EXE",nodeExePath);
-		..win.setenv("NPM_CLI_JS",npmCliJsPath);
-		..win.setenv("NODE_SKIP_PLATFORM_CHECK","1");
+		..win.path.add(nodeDir);  
+		..string.setenv("NODE_EXE",nodeExePath);
+		..string.setenv("NPM_CLI_JS",npmCliJsPath);
+		..string.setenv("NODE_SKIP_PLATFORM_CHECK","1");
 	
 		var path =  ..io.joinpath(prefix(),"node_modules");
 		if(path){
-			..win.addenv("PATH",path );
-			..win.setenv("NODE_PATH",path);	
+			..win.path.add(path);
+			..string.setenv("NODE_PATH",path);	
 			nodeModulesPath = path;
 		}
 		
@@ -337,7 +337,7 @@ cnpm = function(param,...){
 	if(..console) ..console.open();
 	
 	if( !requireResolve("cnpm") ){
-		npm("install",,"--force","-g","cnpm","--registry=https://registry.npm.taobao.org");
+		npm("install",,"--force","-g","cnpm","--registry=https://registry.npmmirror.com");
 	}
 	
 	param = ..string.cmdline.arguments(param,...);
@@ -384,7 +384,7 @@ pcnpm = function(echo,param,...){
     if(!install())return;
     
     if( !requireResolve("cnpm" ) ){
-		pnpm(echo,"install","-g","--force","cnpm","--registry=https://registry.npm.taobao.org");
+		pnpm(echo,"install","-g","--force","cnpm","--registry=https://registry.npmmirror.com");
 	}
 	
 	param = ..string.cmdline.arguments(param,...);
@@ -514,7 +514,7 @@ pget = function(param,...){
 
 freePort = function(){ 
 	self.port = ..wsock.getFreePort();
-	..win.setenv("PORT",tostring(self.port)); 
+	..string.setenv("PORT",tostring(self.port)); 
 	return self.port;
 }
 
@@ -524,7 +524,7 @@ startEnviron = function(environ){
     if( type(environ)!= type.table ) error("参数必须指定一个表对象",2);
     environ.port = freePort();
     
-    var aarStartEnviron = ..win.getenv("aarStartEnviron");
+    var aarStartEnviron = ..string.getenv("aarStartEnviron");
     if(aarStartEnviron){
     	aarStartEnviron = ..web.json.tryParse(aarStartEnviron);
     	if(aarStartEnviron){
@@ -532,7 +532,7 @@ startEnviron = function(environ){
     	}
     } 
     
-	..win.setenv("aarStartEnviron",..web.json.stringify(environ));
+	..string.setenv("aarStartEnviron",..web.json.stringify(environ));
 	var path = ..io.joinpath(nodeModulesPath,"\startEnviron.js");
 	..string.save(path,`module.exports = JSON.parse(process.env.aarStartEnviron)` );
 	return environ;

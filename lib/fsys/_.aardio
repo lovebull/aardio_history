@@ -1,9 +1,7 @@
 import fsys.path;
 namespace fsys;
 
-SetCurrentDirectory := ::Kernel32.api( "SetCurrentDirectoryW", "int(ustring path)"); 
 GetCurrentDirectory := ::Kernel32.api( "GetCurrentDirectoryW", "INT(INT len, ustring &buf)");  
-GetTempPath := ::Kernel32.api( "GetTempPathW", "int(int size ,ustring &str)");  
 FindFirstFile := ::Kernel32.api("FindFirstFileW", "int(ustring,struct&)") 
 FindNextFile := ::Kernel32.api("FindNextFile", "int(int,struct&)") 
 FindClose := ::Kernel32.api("FindClose", "int(int)") 
@@ -19,7 +17,7 @@ getCurDir = function(){
 }
 
 setCurDir = function(dir){ 
-	return SetCurrentDirectory( fullpath(dir) );
+	return ::Kernel32.SetCurrentDirectory( fullpath(dir) );
 }
 
 getSysDir = function(toPath){
@@ -30,9 +28,8 @@ getWinDir = function(toPath){
 	return getSpecial(0x24 /*_CSIDL_WINDOWS*/,toPath)
 }
 
-getTempDir = function(){
-	var re,str = GetTempPath(0x104,0x208/*_MAX_WPATH_BYTES*/)
-	return str;
+getTempDir = function(){ 
+	return ..string.expand("%TMP%") : appData("Temp") ;
 }
 
 getDrive = function(){
@@ -224,7 +221,6 @@ var function  enum_aux(dir,wildcard="*.*",proc ,enumSubdir){
 		dir = dir + "\"
 	}
 	
-	var matchDir = ( type(enumSubdir)==type.function );
 	var data = WIN32_FIND_DATA()
 	var filename;
 	var fullpath;
@@ -270,6 +266,8 @@ var function  enum_aux(dir,wildcard="*.*",proc ,enumSubdir){
 				if( (filename!=".") &&  ( filename!=".." ) ) {
 					if(enumSubdir){ 
 						fullpath = joinpath(dir,filename);
+						
+						//enumSubdir只能是布尔值或函数
 						if( (enumSubdir===true) || enumSubdir( fullpath,filename )!==false  ) 
 							if( enum_aux( fullpath,wildcard,proc,enumSubdir ) === false ){
 								FindClose(hf);
@@ -283,20 +281,27 @@ var function  enum_aux(dir,wildcard="*.*",proc ,enumSubdir){
 	}
 }
 
-//wildcard参数可以是一个数组
+//@wildcard 参数可以是一个数组
 function enum(dir,wildcard="*.*",proc,enumSubdir=true/*是否搜索子目录*/){
 	if(!..io.exist(dir) ) error("目录不存在" + (dir:"") ,2);
  	dir = fullpath(dir);  
  	
-	if( ( proc ? type(proc)!=type.function ) || ( !proc ? type(enumSubdir)!=type.function ) ) error("请指定回调函数参数@3",2);  
+ 	if( type(enumSubdir)!=type.function){
+ 		enumSubdir = !!enumSubdir; //必须转为布尔值 
+ 		if(!proc) proc = true;
+ 	}
+ 	
+	if( proc ? type(proc)!=type.function ) error("参数@3必须指定回调函数",2);  
 	enum_aux( dir,wildcard,proc,enumSubdir);
 }
 
 list = function(dir,pattern,wildcard){ 
 	dir = ..io.exist(dir) 
 	if(! dir ) error("目录不存在" + (dir:"") ,2);
+	
 	var files,folders,alldirs = {},{},{};
 	var push = ..table.push;
+	
 	enum_aux(dir,wildcard ,
 		function(dir,filename,fullpath,findData){ 
 			if( pattern ?  ( ! ..string.match(filename : dir ,pattern) ) ) return; 
@@ -318,6 +323,8 @@ list = function(dir,pattern,wildcard){
 getAttributes = ::Kernel32.api("GetFileAttributes","int(ustring path)")
 setAttributes = ::Kernel32.api("SetFileAttributes","int(ustring path,int attr)")
 attrib  = function(f,remove,add){
+	if(!f || f==="") return -1;
+	
 	f = fullpath(f)
 	
 	var a = getAttributes(f);
@@ -378,7 +385,7 @@ getCurDir() = 获取当前目录
 setCurDir(__/*目录*/) = 设置当前目录
 getSysDir() = 返回系统目录\n可选在参数中指定子路径并返回完整路径
 getWinDir() = 返回windows目录\n可选在参数中指定子路径并返回完整路径
-getTempDir() = 返回临时目录
+getTempDir() = 返回临时目录,\n注意拼接目录与子路径应当使用 io.joinpath 函数\n获取临时文件路径应当改用 io.tmpname 函数
 getDrive() = 返回应用程序所在分区,以冒号结束
 createDir(.("目录路径",是否清空重建) = 创建目录并返回创建成功的完整文件路径\n可创建多层目录,参数二可选
 createParentDir("__") = 创建指定路径的父目录.
@@ -388,16 +395,16 @@ getParentDir("__") = 返回指定路径的父目录
 searchFile("__/*文件名*/") = 检查程序根目录、当前工作目录、系统目录\n如果包含指定文件,则返回文件完整路径
 searchFile("__/*文件名*/",目录) = 检查指定目录下是否包含指定文件\n如果存在返回完整路径,否则返回null
 setAttributes("",_FILE_ATTRIBUTE__) = 设置文件属性
-attrib("__/*文件路径*/") = 返回文件属性\n以_FILE_ATTRIBUTE_前缀的常量标志各属性\n注意:WIN10 新版存在设为隐藏文件后变只读的问题
+attrib("__/*文件路径*/") = 返回文件属性\n以_FILE_ATTRIBUTE_前缀的常量标志各属性\n注意:WIN10 新版存在设为隐藏文件后变只读的问题\n参数为空字符串、null、不存在的路径都会 返回 -1
 attrib("",_FILE_ATTRIBUTE__/*多个属性用 | 链接*/) = 移除件属性\n参数一为文件路径\n参数二可以用 | 操作符连接多个属性\n成功返回新属性,失败返回null
 attrib("",/*移除*/,_FILE_ATTRIBUTE__/*多个属性用 | 链接*/) = 添加文件属性\n参数一为文件路径\n参数三可以用 | 操作符连接多个属性\n成功返回新属性,失败返回null
-isDir("__/*路径*/")  = 路径是否目录\n调用attrib检查目标路径是否具有_FILE_ATTRIBUTE_DIRECTORY属性
+isDir("__/*路径*/")  = 路径是否目录\n调用attrib检查目标路径是否具有_FILE_ATTRIBUTE_DIRECTORY属性\n参数为空字符串或 null 返回 false
 isReadonly("__/*文件路径*/")  = 文件是否只读\n调用attrib检查文件是否具有_FILE_ATTRIBUTE_READONLY属性
 isSystem("__/*文件路径*/")  = 是否系统文件\n调用attrib检查文件是否具有_FILE_ATTRIBUTE_SYSTEM属性
 isHidden("__/*文件路径*/")  = 是否隐藏文件\n调用attrib检查文件是否具有_FILE_ATTRIBUTE_HIDDEN属性\n注意:WIN10 新版存在设为隐藏文件后变只读的问题 
 list(.("目录路径","模式匹配","通配符") = 搜索当前目录下的文件，不搜索子目录下的文件,\n返回符合条件的文件名数组,子目录数组，以及全部子目录数组。\n注意有三个返回值,数组中使用文件名为键存放对应完整路径的值。\n除参数@1以外其他参数可选，\n参数@2使用模式匹配语法匹配文件名，模式匹配会成为第三个返回值的匹配条件,\n通配符默认值是"*.*",也可以传入包含多个通配符的数组,通配符对第三个返回值无效
-enum(目录路径,通配符,回调函数,是否处理子目录)  =  @.enum( "/遍历目录路径", "*.*",\n	function(dir,filename,fullpath,findData){ \n		if(filename){ \n           	io.print("发现文件："+filename,"完整路径："+fullpath)__/*可使用 return false退出枚举文件过程*/\n		}\n		else{\n			io.print( "发现目录：" + dir )\n		}\n	} \n	,/*如果此参数为false则忽略子目录*/\n);
-enum(目录路径,通配符,回调函数,目录筛选函数) = @.enum( "/遍历目录路径", "*.*",\n	function(dir,filename,fullpath,findData){ \n		if(filename){ \n           	io.print("发现文件："+filename,"完整路径："+fullpath)/*可使用 return false退出枚举文件过程*/\n		}\n		else{\n			io.print( "发现目录：" + dir )\n		}\n	},\n	function(dirpath,dirname){\n		__/*处理每个子目录前首先调用此函数,返回false跳过该目录*/\n		return true;\n	} \n);
+enum(目录路径,通配符,回调函数,是否处理子目录)  =  @.enum( "/遍历目录路径", "*.*",\n	function(dirname,filename,fullpath,findData){ \n		if(filename){ \n           	io.print("发现文件："+filename,"完整路径："+fullpath)__/*可使用 return false退出枚举文件过程*/\n		}\n		else{\n			io.print( "发现目录：" + dirname )\n		}\n	} \n	,/*如果此参数为false则忽略子目录*/\n);
+enum(目录路径,通配符,回调函数,目录筛选函数) = @.enum( "/遍历目录路径", "*.*",\n	function(dirname,filename,fullpath,findData){ \n		if(filename){ \n           	io.print("发现文件："+filename,"完整路径："+fullpath)/*可使用 return false退出枚举文件过程*/\n		}\n		else{\n			io.print( "发现目录：" + dirname )\n		}\n	},\n	function(dirpath,dirname){\n		__/*处理每个子目录前首先调用此函数,返回false跳过该目录*/\n		return true;\n	} \n);
 enum(目录路径,通配符,,目录回调函数) = @.enum( "/遍历目录路径", "*.*",,\n	function(dirpath,dirname){\n		__/*处理每个子目录前首先调用此函数,返回false跳过该目录*/\n		return false;\n	} \n);
 idListFromPath(__/*路径*/) = 路径转换为名称ID(PIDL)\路径必须存在
 pathFromIdList(.(PIDL名称ID,是否释放PIDL) = 名称ID(PIDL)转换为路径

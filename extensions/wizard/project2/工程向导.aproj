@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<project ver="10" name="工程向导" libEmbed="true" icon="..." ui="win" output="tabs.exe" CompanyName="单位名称" FileDescription="附加说明......" LegalCopyright="Copyright (C) 作者 2011" ProductName="aardio工程15" InternalName="快手工程15" FileVersion="0.0.1.04" ProductVersion="0.0.1.04" publishDir="/dist/" dstrip="false" publishDir="/Publish/">
+<project ver="10" name="工程向导" libEmbed="true" icon="..." ui="win" output="tabs.exe" CompanyName="单位名称" FileDescription="附加说明......" LegalCopyright="Copyright (C) 作者 2011" ProductName="aardio工程15" InternalName="快手工程15" FileVersion="0.0.1.04" ProductVersion="0.0.1.04" publishDir="/dist/" dstrip="false" publishDir="/Publish/" local="false" ignored="false">
 	<file name="main.aardio" path="main.aardio" comment="main.aardio"/>
 	<folder name="资源文件" path="res" embed="true">
 		<folder name="icons" path="res\icons" comment="res\icons">
@@ -68,6 +68,7 @@
 			<file name="demo.aardio" path="forms\winform\demo.aardio" comment="forms\winform\demo.aardio"/>
 			<file name="paint.aardio" path="forms\winform\paint.aardio" comment="forms\winform\paint.aardio"/>
 			<file name="bat.aardio" path="forms\winform\bat.aardio" comment="forms\winform\bat.aardio"/>
+			<file name="python.aardio" path="forms\winform\python.aardio" comment="forms\winform\python.aardio"/>
 		</folder>
 	</folder>
 </project>

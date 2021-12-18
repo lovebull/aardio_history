@@ -1,70 +1,15 @@
-//2、编译java源码
-
-/*
-默认自带绿色精简版的JRE(版本1.6),压缩后6.8MB,可根据需要继续精简,或替换JRE版本
-默认在EXE目录或工程目录下的JAVA/jre 子目录查找jre,删除自带jre将会使用系统安装的jre或jdk(向下兼容jre 1.7,1.7,1.8.....)
-
-编译Java源码必须安装JDK(包含编译器javac.exe),
-注意高版本JDK中编译的JAVA程序不应在低版本的JRE中运行。
-*/
-
-//import win;
-//win.setenv("JAVA_HOME","C:\Program Files\Java\jdk1.6.0_45"); //可以在导入JAVA支持库以前手动指定绿色版JDK目录
-//win.setenv("JRE_HOME","C:\Program Files\Java\jre7"); //可以在导入JAVA支持库以前手动指定绿色版JRE目录
-
-import java; 
+﻿//编译java源码
 import console; 
+import java; 
 
-var home,ver = java.getJavaHome();
-console.log("当前JDK编译器版本",ver);
-console.log("当前JDK编译器所在目录",home);
-console.log("当前JDK编译器路径",java.getJavacPath () ); 
-console.log("当前加载的JRE根目录",java.getJvmHome() )
- 
-jreVersion = {
-	[0x00010006] = "6.0";//java 6( 1.6为内部版本号)
-	[0x00010007] = "6.0";//注意根据JAVA官方文档,JAVA 7 GetVersion()返回的版本号仍为1.6 
-	[0x00010008] = "8.0";//java 8
-	[0x00010009] = "9.0";//java 8
-}
- 
-console.log("当前加载的JRE版本",jreVersion[ java().env.GetVersion()  ]  ) 
-import fsys.version
-var javac = java.getJavacPath();
-if( ..io.exist(javac) ){
-	var productVersion = fsys.version.getInfo( javac ).productVersion;
-	console.log( "当前JDK编译器产品版本",productVersion,"产品版本8.0对应内部版本号1.8" )
-	
-	productVersion.build = 0;
-	productVersion.revision = 0;
-	if( productVersion > fsys.version(jreVersion[ java().env.GetVersion()  ] ) ){
-		console.log("JDK与JRE版本不一致,编译后的JAVA程序可能无法正常运行,请按确定退出本程序。")
-		console.pause()
-		return;
-	}
-}
-else {
-	//下载JDK1.6
-	import com;
-	try{
-		var thunder = com.CreateObject("ThunderAgent.Agent")  
-		thunder.AddTask(
-			"http://download.oracle.com/otn/java/jdk/6u45-b06/jdk-6u45-windows-i586.exe",
-			"jdk-6u45-windows-i586.exe", io.fullpath("~/download/") ,"jdk 1.6","http://download.oracle.com/otn/java/jdk/6u45-b06/jdk-6u45-windows-i586.exe", 1,false, 1) 
-		thunder.CommitTasks() 
-	}
-}
-
-
-var javacode = /****
-
+var javaCode = /****
 /*
-java中的包相当于aardio中的库,
-java中的package语句类似aardio中用namespace语句定义名字空间。
+Java 中的包相当于 aardio 中的库,
+Java 中的 package 语句类似 aardio 中用 namespace 语句定义名字空间。
 
-而且java与aardio一样,都要求包(或库)的名字空间与文件名保持一致。
-aardio到lib目录下查找库,而java则到类搜录路径(classpath)中去查找包。
-jre文件相当于一个虚拟的包目录。默认的aardio将"/java/"目录以及其目录下的所有jar添加到类搜录路径中。
+而且 Java 与 aardio 一样,都要求包(或库)的名字空间与文件名保持一致。
+aardio 到 lib 目录下查找库,而 Java 则到 classpath 中去查找包。
+jre 文件相当于一个虚拟的包目录。默认的aardio将 "/java/" 目录以及其目录下的所有 jar 添加到类搜录路径中。
 
 例如对于aardio.sample.HelloworldApp 这个类,
 我们就需要把他编译到 "/java/aardio/sample/HelloworldApp.class" 这个位置。
@@ -91,11 +36,16 @@ public class HelloworldApp{
 	}      
 }  
 ****/
+string.save("\java\aardio\sample\HelloworldApp.java",javaCode )  
 
-import fsys;
-fsys.createDir("\java\aardio\sample\")
-string.save( "\java\aardio\sample\HelloworldApp.java",string.fromto(javacode) )  
-java.compile("\java\aardio\sample\HelloworldApp.java")
+//在调用其他函数以前可自定义 JDK 路径
+//java.path.setJdkHome("C:\Program Files (x86)\Java\jdk1.6.0_45") 
 
+//编译 Java 代码
+var prcs = java.compile("\java\aardio\sample\HelloworldApp.java")
+prcs.logResponse(); //这是一个管理进程，也就是 process.popen 对象
+prcs.close();
+
+console.log("高版本 JDK 中编译的 JAVA 程序不应在低版本的 JRE 中运行。")
 console.log("如果控制台没有显示错误,则编译成功") 
 console.pause()

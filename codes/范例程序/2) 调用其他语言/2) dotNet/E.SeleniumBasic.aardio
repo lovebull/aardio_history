@@ -1,0 +1,64 @@
+//SeleniumBasic
+import console;
+console.showLoading(" 正在启动 SeleniumBasic ");
+ 
+/*
+只是调用 ChromeDriver 在 aardio 里用 chrome.driver 更简单一些。
+aardio 实际不需要任何第三方组件即可调用 ChromeDriver，这是因为 aardio 可以
+自动将任意 Web 接口转换为 aardio 对象，所以实现 WebDriver 协议只需要极少的代码。
+
+dotNet.seleniumBasic 基于开源的 SeleniumBasic，但增加了以下功能：
+1、自动检测并配置运行环境，如果没有 .Net 4.x 则自动安装，如果没有 Chrome 则自动安装。
+自动匹配 Chrome 版本下载对应版本的 ChromeDriver ，自动配置所有路径参数。
+2、自动兼容系统安装的 Chrome 或 Edge Chromium，自动选择 ChromeDriver 或 EdgeDriver
+3、不再需要注册 COM 控件，不再需要带一堆 DLL，可以生成绿色独立的 EXE 文件。 
+*/
+import dotNet.seleniumBasic;
+var SeleniumBasic = dotNet.seleniumBasic;
+
+var wd = SeleniumBasic.CreateDefaultWebDriver();
+if(!wd) error("初始化或配置环境失败",2) 
+
+/*
+注意这里有个大坑，通过 COM 调用是忽略大小写的，所以可VB 范例以写 URL，
+而这个属性的真正名字是 Url，直接通过 .Net 接口大小写要正确
+*/
+wd.Url = "https://www.baidu.com"
+
+//查找表单
+var form = wd.FindElementById("form")
+
+//查找输入框
+var keyword = form.FindElementById("kw")
+
+//清空输入框，aardio 不能像 VB 那样省略函数调用后的括号
+keyword.Clear();
+    
+keyword.SendKeys("aardio");
+
+var button = form.FindElementById("su");
+button.Click();
+    
+//截图
+wd.GetScreenshot().SaveAsFile(io.fullpath("/baidu.png"), 0);
+//上面第2个参数 0 ,也可以用枚举 SeleniumBasic.Utility.ScreenshotImageFormat.Png 获取
+
+console.close();
+console.log(wd.Title, wd.Url);
+console.log(wd.PageSource);
+console.pause(,"按任意键退出浏览器");
+
+//退出浏览器
+wd.Quit();
+
+/*
+更多用法可参考 
+https://www.cnblogs.com/ryueifu-VBA/p/13694765.html
+
+也可以用 ILSpy 查看 SeleniumBasic.dll 的源代码
+ILSpy 下载： https://github.com/icsharpcode/ILSpy
+SeleniumBasic.dll 路径 ~\lib\dotNet\seleniumBasic\.res\SeleniumBasic.dll
+
+SeleniumBasic.dll 使用 aardio 中的程序集合并工具生成。
+在 aardio 扩展库管理器中双击 dotNet.merge 可以打开此工具源代码。。
+*/

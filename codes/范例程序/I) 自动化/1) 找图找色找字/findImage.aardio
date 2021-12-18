@@ -50,8 +50,8 @@ winform.text = "已找到图片，相似度：" + sm;
 
 //移动鼠标
 import mouse;
-x,y = win.toScreen(winform.hwnd,x,y); //窗口坐标转换为屏幕坐标
-mouse.moveTo(x-50,y-50,true);//保留鼠标轨迹模仿真实的鼠标移动
+var wx,wy = win.getPos(winform.hwnd);//获取目标窗口坐标 
+mouse.moveTo(wx+x-50,wy+y-50,true);//保留鼠标轨迹模仿真实的鼠标移动
 mouse.click();//点击鼠标
 
 //启动消息循环

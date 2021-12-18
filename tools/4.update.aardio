@@ -1,4 +1,4 @@
-//检测更新/修复文件
+//更新与同步
 import ide;
 import inet.downBox;
 import process.file;

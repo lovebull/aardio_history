@@ -59,7 +59,7 @@ thread.invoke(
 							
 							var clsIdKeys = regClsId.keys(); 
 							table.push(items,{progId;clsId;
-										table.find(clsIdKeys,"Control")?"是":"否";
+										(table.find(clsIdKeys,"Control")||table.find(clsIdKeys,"ToolboxBitmap32"))?"是":"否";
 										description:"";
 										path:"";
 										}); 	

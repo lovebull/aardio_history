@@ -141,10 +141,14 @@ namespace image {
 				struct value={INT arr[]=arr};
 			})	 
 		};
-		getLoopCount = function(){ 
+		getLoopCount = function(){
+			if( owner.$loopCount ) return owner.$loopCount;
 			var p  = owner.getPropertyItem(0x5101/*PropertyTagLoopCount*/);
-			if( p ) return p.number;
-		}; 
+			if( p ) {
+				var n = p.number;
+				return n > 1 ? n+ 1 : n;
+			}
+		};
 		eachFrame = function(){
 			var delays = owner.getFrameDelays();
 			var total = #delays;
@@ -152,13 +156,15 @@ namespace image {
 			 
 			var dimension = owner.getFrameDimensionsList()[[1]];
 			var loop = owner.getLoopCount();
+		
 			var cur = 0; 
 			var this = owner;
 			return function(){  
-				if( loop < 0  ) return 0;
+				if( loop < 0  ) return;
 				cur = ( cur + 1 ) % total; 		
 				if( !cur ){ 
 					if( loop > 0 ) {
+						
 						loop--;
 						if( loop == 0 ) loop = -1;
 					}
@@ -176,7 +182,7 @@ namespace image {
 			}
 		};
 		createAnimation = function(ctrl,callback){
-			var nextFrameDelay = owner.eachFrame(); 
+			var nextFrameDelay = owner.eachFrame();
 			if ( nextFrameDelay  ) {
 			 	if( owner.animationCtrl ? owner.animationId ) {
 					owner.animationCtrl.clearInterval( owner.animationId ); 
@@ -186,14 +192,32 @@ namespace image {
 				if(!ctrl) ctrl = owner.animationCtrl;
 				if(!ctrl) error("请在参数@1指定显示动画的控件对象",2);
 				if(!callback) callback = ctrl.redrawTransparent;
-				
+
+				var lastDelay,lastTick;
 				var tmId = ctrl.setInterval(
-					function (hwnd,msg,id,tick) {
+					function () {
 						if( !this.isValid() ) return 0;
-						var delay = nextFrameDelay();
+						var d = nextFrameDelay();
+						if( d === null ) return 0;
+						
 						invoke(callback,ctrl);
-						if( delay === 0 ) return 1;//延时为0,但不是停止动画
-						return delay * 10 ;
+					
+						var d = d * 10;
+						var t = ..time.tick();
+						if(lastDelay){
+							var r = (t-lastTick) - lastDelay;
+							lastDelay = d;
+							
+							if(r>0){d = d-r}	
+							else {t = t - r;}
+						} 
+						else {
+							lastDelay = d
+						}
+						
+						if(d<=0){d=1;}
+						lastTick = t;
+						return d;
 					},nextFrameDelay() * 10  
 				); 
 				owner.animationCtrl = ctrl;
@@ -227,8 +251,7 @@ namespace image {
 				
 			var item = ..raw.convert(buffer,{int propId;int length;word type;BYTE value[]={0}});
 			var convert = convertPropertyValue[item.type];
-			if(!convert)return; 
-			
+			if(!convert)return;
 			return convert( item,buffer,size-item.length,item.length );  
 		};
 		removePropertyItem = function(id){
@@ -377,7 +400,6 @@ namespace image {
 			return owner[["pImage"]];
 		}
 	)
-	
 	
 	convertPropertyValue = {
 		[1] = function(i,b,of,len){
@@ -550,11 +572,11 @@ gdip.image("__/*请输入文件路径\n或图片数据*/") = 创建GDI+L图片�
 !gdipimage.frameDimension = 当前分辨率GUID
 !gdipimage.totalFrames = 动画帧总数\n不是动画返回1
 !gdipimage.activeFrame = 当前帧索引\n修改该属性请使用SelectActiveFrame函数
-!gdipimage.getLoopCount() = 动画循环次数\n0为一直循环
+!gdipimage.getLoopCount() = 获取动画循环次数,0为一直循环,\n根据 GDI+ 的规则,循环次数为2会改为1,其他不变,\n为不影响性能默认不处理这个问题\n\n如果要处理,步骤如下:\n1、读取循环次数如果为1就进行下一步\n2、在GIF图像数据中搜索关键字"NETSCAPE2.0"\n如果找到就将此图像的 $loopCount 属性赋值为2,\n注意 plus 控件支持将加载好的GDI+图像作为参数\n\nGIF动画循环次数一般不是0就是1,\n其他数值基本无人使用,搞这么复杂是不必要的
 !gdipimage.getFrameDelays() = 返回多帧图像每帧延时数值组成的数组,\n延时单位为厘秒,即0.01秒
 !gdipimage.setFrameDelays(__) = 修改多帧图像每帧延时数值\n参数必须是由数值组成的非空数组,\n延时单位为厘秒,即0.01秒\n必须在调用saveAdd以前设置
 !gdipimage.selectActiveFrame(.(帧序号) = 设置当前动画帧
-!gdipimage.eachFrame() = 如果图像支持动画,则返回一个帧迭代器\n每次调用帧迭代器切换到下一帧并返回当前帧所需延时\n动画完成返回0
+!gdipimage.eachFrame() = 如果图像支持动画,则返回一个帧迭代器,\n否则此函数返回 null,\n每次调用帧迭代器切换到下一帧并返回当前帧所需延时\n动画完成迭代器返回 null
 !gdipimage.createAnimation( = 如果图像是一个动画,创建定时器执行动画\n注意每个图像同时只能在一个窗口上创建动画\n创建动画前自动删除之前创建的动画定时器\n如果图像不是动画,此函数不执行任何操作\n成功返回定时器ID
 !gdipimage.createAnimation(.(窗口对象,回调函数) = 在窗口上创建定时器,\n每帧动画触发回调函数,\n回调函数owner参数被设为参数@1指定的窗口对象\n\n如果不指定控件,则默认指定为上次创建动画的控件,\n如果不指定回调函数,则默认指定为控件的redrawTransparent函数	
 !gdipimage.stopAnimation() = 如果此图像已运行动画,则停止动画

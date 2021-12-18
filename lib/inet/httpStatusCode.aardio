@@ -1,4 +1,4 @@
-//httpStatusCode HTTP状态码
+﻿//httpStatusCode HTTP状态码
 namespace inet.httpStatusCode;
 	
 ..table.assign( self, {
@@ -10,7 +10,7 @@ namespace inet.httpStatusCode;
 	[203]="已成功/非权威信息";
 	[204]="已成功/无内容";
 	[205]="已成功/重置内容";
-	[206]="已成功/断点续传部份内容";
+	[206]="已成功/断点续传部分内容";
 	[300]="重定向/多项选择";
 	[301]="重定向/永久移动地址";
 	[302]="重定向/已找到地址";

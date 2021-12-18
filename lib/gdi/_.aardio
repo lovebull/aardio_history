@@ -1,17 +1,7 @@
 import win;
 namespace gdi
 
-class BITMAP {
-	int bmType;
-	int bmWidth;
-	int bmHeight;
-	int bmWidthBytes;
-	WORD bmPlanes;
-	WORD bmBitsPixel;
-	pointer bmBits;
-}
-
-::LOGFONT = class{ 
+class ::LOGFONT{ 
 	ctor(arg){  
 		this.name = "Tahoma"; 
 		this.h = -12;
@@ -473,6 +463,16 @@ getBitmapObject = function( hdc ){
 	GetCurrentObject( hdc, 0x7/*_OBJ_BITMAP*/ )
 }
 
+class BITMAP {
+	int bmType;
+	int bmWidth;
+	int bmHeight;
+	int bmWidthBytes;
+	WORD bmPlanes;
+	WORD bmBitsPixel;
+	pointer bmBits;
+}
+
 getBitmapInfo = function( hbmp ){
 	var bmp = BITMAP()
 	if( GetObject(hbmp, ..raw.sizeof(bmp), bmp) )
@@ -717,9 +717,41 @@ drawLine(.(hdc,x1,y1,x2,y2,->->->) = 在hdc指定句柄的绘图设备上移动�
 end intellisense**/
 
 /**intellisense(::)
-::LOGFONT() = 创建字体对象\n!logfont.
-::LOGFONT(name="Tahoma";point=12) = 创建字体对象\npoint指定字体大小,单位pt(磅)
+::LOGFONT() = 创建字体[LOGFONT结构体]\n可调用createIndirect生成字体句柄\ngdi.textOut,gdi.drawText 等函数可以直接使用此对象作为参数\n所有窗口及控件的setFont函数可使用此对象作为参数\n!logfont.
+::LOGFONT( name="Tahoma";point=12 ) = 创建字体对象\n参数表可以使用键值对指定LOGFONT结构体中的字段值,\n参数也可以是另一个LOGFONT结构体,此时复制并创建新的结构体\npoint指定字体大小,以点数为单位
+?::LOGFONT = !logfont.
 end intellisense**/
+
+/**intellisense()
+LOGFONT() = 创建字体[LOGFONT结构体]\n可调用createIndirect生成字体句柄\ngdi.textOut,gdi.drawText 等函数可以直接使用此对象作为参数\n所有窗口及控件的setFont函数可使用此对象作为参数\n!logfont.
+LOGFONT( name="Tahoma";point=12 ) = 创建字体对象\n参数表可以使用键值对指定LOGFONT结构体中的字段值,\n参数也可以是另一个LOGFONT结构体,此时复制并创建新的结构体\npoint指定字体大小,以点数为单位
+!logfont.h = 指定字符的高度，逻辑单位，\n字体映射器会将此值转换为设备单位，\n默认的 MM_TEXT 映射模式下，这个值也就是像素值\n\n即使用此属性指定字体大小，\naardio 创建的窗口仍然可以默认支持自动DPI缩放
+!logfont.w = 指定字符的宽度，逻辑单位，\n一般不建议指定此参数
+!logfont.esc = 字符串相对页面底端角度
+!logfont.ori = 单个字符相对页面底端角度
+!logfont.weight = 重量,0到1000\n0为默认值,标准字体为400\n粗体为700
+!logfont.bold = 是否为粗体
+!logfont.italic = 斜体
+!logfont.underline = 添加下划线
+!logfont.strike = 添加删除线
+!logfont.charset = 字符集代码,请参考标准库 gdi 中 _CHARSET 后缀常量
+!logfont.out = 输出精度
+!logfont.clip = 剪辑精度
+!logfont.quality = 输出质量
+!logfont.family = 字符间距和族
+!logfont.name = 字体名称
+!logfont.color = 字体颜色
+!logfont.createIndirect( = 创建可用于GDI设备的逻辑字体\n并返回字体句柄
+!logfont.createIndirect(.(hdc,hwnd,own) = 创建可用于绘图设备的逻辑字体,并返回对象句柄\nhdc,hwnd为可选参数用于转换point单位,默认为屏幕dc\n参数@3指定是否由当前对象是否持有该字体句柄
+!logfont.deleteIndirect() = 删除createIndirect函数创建并管理生存期的字体\n必须确认该字体确实不再被使用
+!logfont.detach() = 分离并返回字体句柄\n并将对象的字体句柄置为空,\n已分离的句柄必须自行管理生存期并负责释放
+!logfont.handle = createIndirect 函数创建并管理生存期的字体句柄\n不应直接读写此句柄
+!logfont.point = 字体点数,\n此为内部只写属性,\n不应当使用直接此属性读写字体点数,\n请改用 getPointSize, setPointSize 函数
+!logfont.setPointSize(.(pt,hdc,hwnd) = @pt 参数指定字体点数,\n1点等于 1/72 英寸\n在不同DPI设置的显示器上,每英寸对应的点数与像素不相同,\n使用点数单位可在不同DPI设置的显示器上得到相同大小的字体,\n如果指定了@hdc 或 @hwnd 参数，则自动调用 stripPoint 函数并更新 h 属性指定的逻辑单位
+!logfont.getPointSize(.(hdc,hwnd) = 返回点数大小\n可选使用参数hdc指定绘图设备句柄,或使用hwnd指定获取hdc的窗口
+!logfont.stripPoint(.(hdc,hwnd) = 如果指定了字体点数,转换并更新 h 属性的逻辑单位,\n可选使用参数 @hdc 指定绘图设备句柄,或使用 @hwnd 指定获取 @hdc 的窗口
+end intellisense**/
+
 	
 /**intellisense()
 !gdicoinfo.fIcon = 是否图标 
@@ -738,6 +770,9 @@ end intellisense**/
 !blendFunction.blendFlags = 必须是0
 !blendFunction.sourceConstantAlpha = 透明度值 1~255\n如果要使用图像本身的透明值,设为255\n默认值为255
 !blendFunction.alphaFormat = 默认为1,\n即AC_SRC_ALPHA:使用图像自带透明通道
+end intellisense**/
+
+/**intellisense()
 _SRCCOPY=@0xCC0020/*_SRCCOPY*/
 _SRCPAINT=@0xEE0086/*_SRCPAINT*/
 _SRCAND=@0x8800C6/*_SRCAND*/
@@ -760,4 +795,27 @@ _STRETCH_HALFTONE=@0x4/*_STRETCH_HALFTONE*/
 _ULW_ALPHA = @0x2/*_ULW_ALPHA*/
 _ULW_OPAQUE = @0x4/*_ULW_OPAQUE*/
 _ULW_COLORKEY = @0x1/*_ULW_COLORKEY*/ 
+end intellisense**/
+
+/**intellisense()
+_ANSI_CHARSET=@0/*_ANSI_CHARSET*/
+_DEFAULT_CHARSET=@1/*_DEFAULT_CHARSET*/
+_SYMBOL_CHARSET=@2/*_SYMBOL_CHARSET*/
+_THAI_CHARSET=@0xDE/*_THAI_CHARSET*/
+_ARABIC_CHARSET=@0xB2/*_ARABIC_CHARSET*/
+_TURKISH_CHARSET=@0xA2/*_TURKISH_CHARSET*/
+_BALTIC_CHARSET=@0xBA/*_BALTIC_CHARSET*/
+_HANGUL_CHARSET=@0x81/*_HANGUL_CHARSET*/
+_GB2312_CHARSET=@0x86/*_GB2312_CHARSET*/
+_CHINESEBIG5_CHARSET=@0x88/*_CHINESEBIG5_CHARSET*/
+_EASTEUROPE_CHARSET=@0xEE/*_EASTEUROPE_CHARSET*/
+_GREEK_CHARSET=@0xA1/*_GREEK_CHARSET*/
+_HANGEUL_CHARSET=@0x81/*_HANGEUL_CHARSET*/
+_HEBREW_CHARSET=@0xB1/*_HEBREW_CHARSET*/
+_JOHAB_CHARSET=@0x82/*_JOHAB_CHARSET*/
+_MAC_CHARSET=@0x4D/*_MAC_CHARSET*/
+_OEM_CHARSET=@0xFF/*_OEM_CHARSET*/
+_RUSSIAN_CHARSET=@0xCC/*_RUSSIAN_CHARSET*/
+_SHIFTJIS_CHARSET=@0x80/*_SHIFTJIS_CHARSET*/
+_VIETNAMESE_CHARSET=@0xA3/*_VIETNAMESE_CHARSET*/
 end intellisense**/

@@ -187,11 +187,23 @@ class reg{
 		if (res!=0/*_ERROR_SUCCESS*/) return null,res;
 		return true; 
 	};
-	queryValueTable = function(r) {
-		r = r : {}
+	queryValueTable = function(r,...) {
+		r = r : {} 
+		if(type(r)!="table") r={r,...}
+		
+		if(#r){
+			var t,k = {};
+			for(i=1;#r;1){
+				k = r[i];
+				if(type(k)==="string") t[k] = owner.queryValue(k)
+			} 
+			
+			return (t[r[1]]!==null) ? t : null;
+		}
+		
 		for(name,value in owner.eachValue()) {
 			r[name] = value;
-		}	
+		}
 		return r;
 	};
 	queryValue = function(name) { 
@@ -260,9 +272,19 @@ class reg{
 			WORD MaximumLength =  #newName * 2 + 2;
 			ustring  Buffer = newName;
 		});
-	}; 
-	openReg = function(...){
-		return this.open(...);
+	};
+	queryTable = function(names,...){
+		if(type(names)!="table") names={names,...}
+		var a = {};
+		for k in this.eachKey() {
+			var r = this.open(k,true);
+			if(r){
+				a[k] = r.queryValueTable(names);
+				r.close();
+			}
+		}
+		
+		return a;
 	};
 	open = function(subpath, check ){
 		reg =  ..win.reg(subpath,check,this.handle,samDesired,createOption,securityAttributes);
@@ -270,6 +292,10 @@ class reg{
 			reg.path =  ..string.concat(this.path , "\" , subpath);
 			return reg;
 		}
+	};
+	//@Deprecated
+	openReg = function(...){
+		return this.open(...);
 	};
 	close = function(){
 			if (this.handle){
@@ -396,12 +422,12 @@ regReaderWow64 = function(rpath,createOption,securityAttributes){
 /**intellisense()
 win.reg("HKEY_CURRENT_USER__") = 打开已存在或创建新的注册表路径
 win.reg("HKEY_CURRENT_USER__",true) = 仅仅打开存在的注册表路径,如果不存在返回null
-win.regReaderWow64("HKEY_LOCAL_MACHINE__") = 在64位系统中访问64位注册表\n仅仅以只读模式打开存在的注册表路径,如果不存在返回nulll\n此函数显式指定只读权限速度较快
+win.regReaderWow64("HKEY_LOCAL_MACHINE__") = 在64位系统中访问64位注册表,\n32位系统作用与 win.regReader 相同,\n仅仅以只读模式打开存在的注册表路径,如果不存在返回nulll\n此函数显式指定只读权限速度较快
 win.regReader("HKEY_CURRENT_USER__") = 仅仅以只读模式打开存在的注册表路径,如果不存在返回null\n此函数显式指定只读权限速度较快
-win.regWow64("HKEY_LOCAL_MACHINE__") = 打开已存在或创建新的注册表路径,\n在64位系统中访问64位注册表
-win.regWow64("HKEY_LOCAL_MACHINE__",true) = 仅仅打开存在的注册表路径,\n在64位系统中访问64位注册表,\n如果不存在返回null
-win.regWow32("HKEY_LOCAL_MACHINE__") = 打开已存在或创建新的注册表路径,\n在64位系统中访问32位注册表
-win.regWow32("HKEY_LOCAL_MACHINE__",true) = 仅仅打开存在的注册表路径,\n在64位系统中访问32位注册表,\n如果不存在返回null
+win.regWow64("HKEY_LOCAL_MACHINE__") = 打开已存在或创建新的注册表路径,\n在64位系统中访问64位注册表,\n32位系统下作用与 win.reg 相同
+win.regWow64("HKEY_LOCAL_MACHINE__",true) = 仅仅打开存在的注册表路径,\n在64位系统中访问64位注册表,\n32位系统下作用与 win.reg 相同,\n如果不存在返回null
+win.regWow32("HKEY_LOCAL_MACHINE__") = 打开已存在或创建新的注册表路径,\n在64位系统中访问32位注册表,\n32位系统下作用与 win.reg 相同
+win.regWow32("HKEY_LOCAL_MACHINE__",true) = 仅仅打开存在的注册表路径,\n在64位系统中访问32位注册表,\n32位系统下作用与 win.reg 相同,\n如果不存在返回null
 win.reg.overridePredefinedKey("根键","重定向键",回调函数) = @.overridePredefinedKey("HKEY_CLASSES_ROOT","HKEY_CURRENT_USER\Software\Classes",\n    function(){\n        __/*注册表已成功重定向*/\n    }\n);
 win.reg.overrideClasses(runas,proc) = @.overrideClasses(false,\n	function(){\n		__/*重定向HKEY_CLASSES_ROOT到HKEY_CURRENT_USER\Software\Classes*/\n	}\n)
 win.reg.queryWow64( = 直接读取注册表路径的指定值,\n在64位系统访问64位注册表,兼容 32 位系统
@@ -416,7 +442,11 @@ win.reg.query(.(path,valueName) = 返回 @path 参数指定的注册表路径下
 !win_reg.setMultiSzValue("__",) = 设置复合字符串值
 !win_reg.setBinValue("__",) = 设置二进制值
 !win_reg.queryValue("__") = 查询值\n自动识别类型:\nREG_SZ,REG_EXPAND_SZ类型返回字符串,\nREG_MULTE_SZ类型返回字符串数组，\nREG_BINARY类型返回buffer对象,REG_DWORD类型返回数值，\nREG_QWORD类型返回math.size64对象表示的64位无符号长整数，\nREG_DWORD，REG_DWORD_BIG_ENDIAN类型返回数值
-!win_reg.queryValueTable() = 返回表，包含当前键的所有名值对\n如果在参数中传入表，则填入查询到的新值后返回该表,\n可以利用参数表指定默认值
+!win_reg.queryValueTable( = 返回表，包含当前键的指定名值对
+!win_reg.queryValueTable(.() = 返回表，包含当前键的所有名值对
+!win_reg.queryValueTable(.(default) = 参数 @default 指定默认值\n在参数 @1 中填入当前键的所有名值对\n返回参数 @1
+!win_reg.queryValueTable(.(names,->->->) = 返回表，包含当前键的指定名值对\n@names 参数可以是一个要查询的值名称数组,\n也可以是用于指定查询值名称的一个或多个字符串参数,\n第一个值名称指定的值为 null 则返回 null,
+!win_reg.queryTable(.(names,->->->) = 遍历当前注册表项的所有子项,\n获取 @names 指定名称的所有值,\n@names 可以是名称数组,也可以是多个字符串参数,\n返回值是表,表的键为子项名称，值为包含各子项名值对的表,\n如果子项第一个值名称对应的值为 null 则忽略该项,\n失败返回 null
 !win_reg.renameKey("__") = 重命名当前打开的键\n参数只要写新的键名就可以,不要在参数中写包含反斜杠的注册表路径
 !win_reg.delValue("__") = 删除值
 !win_reg.delKey("__") = 删除不包含子项的键
@@ -427,8 +457,10 @@ win.reg.query(.(path,valueName) = 返回 @path 参数指定的注册表路径下
 !win_reg.open("__") = 打开已存在或创建新的子路径,\n返回新的win.reg对象,
 !win_reg.open("__",true) = 仅仅打开已存在的子路径,\n返回新的win.reg对象,\n如果不存在返回null
 !win_reg.keys() = 获取所有子键的键名
-!win_reg.eachKey = @for(keyname,writetime in reg.eachKey() ){
-	var subKey = reg.open(keyname); 
+!win_reg.eachKey = @for(name,writeTime in reg.eachKey() ){
+	var subKey = reg.open(name); 
+	__/*name 为子键名,\nwriteTime 为 ::FILETIME 结构体,\n可用 fsys.time 解析*/
+	subKey.close()
 }
 !win_reg.enumKey = @.enumKey(\n\n	function(\n		subKey, /*这是某个子节点(win.reg对象)*/\n		keyname/*这是reg子节点的一个子项的名字*/\n	){  \n		if( subKey.delKey(keyname)  )\n			io.print("删除" + keyname + "成功") \n	}  \n) 
 !win_reg.eachValue = @for(name,value,t in reg.eachValue()) {
@@ -437,6 +469,7 @@ win.reg.query(.(path,valueName) = 返回 @path 参数指定的注册表路径下
 win.regReader() = !win_reg.
 win.regWow32() = !win_reg.
 win.regWow64() = !win_reg.
+win.regReaderWow64() = !win_reg.
 win.reg() = !win_reg.
 !win_reg.open() = !win_reg.
 

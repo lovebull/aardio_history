@@ -2,16 +2,16 @@
 import fonts.fontAwesome;
 import win.ui;
 /*DSG{{*/
-var winform = win.form(text="aadio网页部署到服务器步骤";right=1342;bottom=805;bgcolor=16777215)
+var winform = win.form(text="aadio网页部署到服务器步骤";right=1142;bottom=710)
 winform.add(
-btnNext={cls="plus";text='\uF061';left=1146;top=774;right=1208;bottom=797;color=8421376;db=1;dr=1;font=LOGFONT(h=-21;name='FontAwesome');notify=1;z=4};
-btnPrev={cls="plus";text='\uF060';left=1065;top=774;right=1127;bottom=797;color=8421376;db=1;dr=1;font=LOGFONT(h=-21;name='FontAwesome');notify=1;z=3};
-plus={cls="plus";left=6;top=7;right=1343;bottom=766;db=1;dl=1;dr=1;dt=1;notify=1;repeat="scale";z=1};
-plusLink={cls="plus";text="打开教程";left=859;top=774;right=921;bottom=797;db=1;dr=1;notify=1;z=2}
+btnNext={cls="plus";text='\uF061';left=1051;top=674;right=1113;bottom=697;color=8421376;db=1;dr=1;font=LOGFONT(h=-21;name='FontAwesome');notify=1;z=4};
+btnPrev={cls="plus";text='\uF060';left=970;top=674;right=1032;bottom=697;color=8421376;db=1;dr=1;font=LOGFONT(h=-21;name='FontAwesome');notify=1;z=3};
+plus={cls="plus";left=-193;top=-95;right=1143;bottom=664;bgcolor=16777215;color=12639424;db=1;dl=1;dr=1;dt=1;font=LOGFONT(h=-96;name='FontAwesome');foreRepeat="scale";notify=1;repeat="scale";z=1};
+plusLink={cls="plus";text="打开教程";left=764;top=674;right=826;bottom=697;db=1;dr=1;notify=1;z=2}
 )
 /*}}*/
 
-winform.show(); 
+winform.show(3/*_SW_MAXIMIZE*/); 
 
 import web.rest.htmlClient;
 var http = web.rest.htmlClient();
@@ -21,7 +21,7 @@ var images = bbs.get();
 
 images.index = 0;
 
-nextImage = function(step){
+var nextImage = function(step){
     
     images.index =  images.index + step;
     if( images.index > #images ) {
@@ -38,14 +38,9 @@ nextImage = function(step){
     winform.text = "正在打开图像...."
     
     var img = images[images.index];
-    if( type(img) == type.string ){
-        img = win.invoke(
-            function(url){
-                import inet.http;
-                return inet.http().get(url); 
-            },img
-        )
-
+    if( type(img) == type.string ){ 
+        img = inet.http.get(img);  
+		
         if( img ){
             img = gdip.bitmap(img);
             images[images.index] = img;
@@ -96,5 +91,4 @@ winform.btnPrev.oncommand = function(id,event){
     nextImage(-1);  
 }
 
-winform.show(); 
 win.loopMessage();

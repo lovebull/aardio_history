@@ -59,8 +59,8 @@ var reloadItemData = function(){
 			}
 			
 			dataTable.fields = {"displayName","appContainerName","loopback","sid"}
-			if(grid.sortCloumn){
-				var name = dataTable.fields[grid.sortCloumn];
+			if(grid.sortColumn){
+				var name = dataTable.fields[grid.sortColumn];
 				if(name){
 					if(!grid.sortDesc){
 						table.sort(dataTable,function(b){
@@ -89,9 +89,9 @@ var reloadItemData = function(){
 	)
 } 
 
-grid.onSortColumn = function(cloumn,desc){ 
+grid.onSortColumn = function(column,desc){ 
 	grid.sortDesc = desc;
-	grid.sortCloumn = cloumn ;
+	grid.sortColumn = column ;
 	reloadItemData();
 	return true;
 }

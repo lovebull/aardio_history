@@ -1,4 +1,4 @@
-//执行PHP代码,PHP与aardio语法比较
+﻿//执行PHP代码,PHP与aardio语法比较
 import php;
 import console;
  
@@ -19,7 +19,7 @@ phpcode =/***
 
 	//echo语句类似aardio中的 io.print
 	echo "PHP的注释语法与aardio一样,语句也以分号结束,并且分号不能象aardio那样省略\n";
-	echo 'PHP 中的所有变量必须以 $ 符号开始。 $号是变量的修饰前缀,但不是变量名称的一部份'; 
+	echo 'PHP 中的所有变量必须以 $ 符号开始。 $号是变量的修饰前缀,但不是变量名称的一部分'; 
 	echo "在PHP中函数内部变量默认为局部变量(这与aardio,Javascript正好相反),使用 global 语句引入或声明全局变量\n";
 	global $g; //定义全局变量
 	$abc = 123; //定义局部变量 

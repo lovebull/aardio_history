@@ -218,41 +218,31 @@ namespace tooltip {
 			if(!show) owner.capture = false;
 			return ::User32.SendMessage(owner.hwnd,show?0x422/*_TTM_POPUP*/:0x41C/*_TTM_POP*/,0,0);
 		};
-		_prenotify = function(id,code,ptr){
-			var evt = _NOTIFY_HANDLER[code];
-			if(!evt) return;
-		 	
-			if(code==0xFFFFFDF6/*_TTN_POP*/) { 
-				if(::User32.GetCapture()==owner.hwnd){
-					::User32.ReleaseCapture();
-				}
-				if(owner.onPopupHide)owner.onPopupHide(); 
-			}
-			elseif(code==0xFFFFFDF7/*_TTN_SHOW*/) { 
-				if(owner.onPopupShow)owner.onPopupShow();
-			}
-			elseif(code===0xFFFFFDF5/*_TTN_LINKCLICK*/){
-				var lnk = ..string.match(owner.text,"\<[aA]>(.+)\</[aA]>"); 
-				owner.popup(false);
-				owner.onHyperlinkClick(lnk); 
-			} 
-		};
 		ptInClientRect = function(x,y){
 			if(y===null) x,y = ..win.getMessagePos(x);
 			return owner.getClientRect().contains(x,y);
 		};
+		_prenotify = {
+			[0xFFFFFDF6/*_TTN_POP*/] = function(id,code,ptr){
+				if(::User32.GetCapture()==owner.hwnd){
+					::User32.ReleaseCapture();
+				}
+				if(owner.onPopupHide)owner.onPopupHide(); 	
+			};
+			[0xFFFFFDF7/*_TTN_SHOW*/] = function(id,code,ptr){
+				if(owner.onPopupShow)owner.onPopupShow();
+			};
+			[0xFFFFFDF5/*_TTN_LINKCLICK*/] = function(id,code,ptr){
+				var lnk = ..string.match(owner.text,"\<[aA]>(.+)\</[aA]>"); 
+				owner.popup(false);
+				owner.onHyperlinkClick(lnk); 
+			}; 
+		}
 		//@Deprecated
 		relayEvent = function(msg){
 			::SendMessageByStruct(owner.hwnd,0x407/*_TTM_RELAYEVENT*/,0,msg);
 		};
 	)
-	
-	_NOTIFY_HANDLER = {
-		[0xFFFFFDF5/*_TTN_LINKCLICK*/] = "onHyperlinkClick";
-		[0xFFFFFDF6/*_TTN_POP*/] = "onPopupHide";
-		[0xFFFFFDF7/*_TTN_SHOW*/] = "onPopupShow";
-	}
-
 }
 
 /**details(命名约定)
@@ -362,8 +352,8 @@ getClientRect() =  控件客户区块位置(::RECT结构体)\n!rect.
 getFont() = 控件字体(::LOGFONT结构体)\n!logfont.
 setFont(__/*指定字体*/) = 指定LOGFONT字体对象,或逻辑字体句柄 
 setFont(混入字体属性) = @.setFont(point=10;name="宋体");
-modifyStyle(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos 
-modifyStyleEx(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos
+modifyStyle(.(remove,add,swpFlags) = 修改窗口样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码 
+modifyStyleEx(.(remove,add,swpFlags) = 修改窗口扩展样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_EX_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_EX_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码
 redraw() = 刷新
 adjustRect( = 对工具提示控件的文本显示矩形与其窗口矩形之间进行自适应转换
 adjustRect(.(rc,true) = 参数 @rc 必须是一个指定文本显示的矩形的 ::RECT 结构\n调整该结构体为相应的窗口矩形,并返回该结构体

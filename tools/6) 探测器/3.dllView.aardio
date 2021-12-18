@@ -4,7 +4,7 @@ import win.ui;
 /*DSG{{*/
 winform = win.form(text="DLL查看工具";right=1019;bottom=679;bgcolor=15793151;border="none")
 winform.add(
-btnLoad={cls="plus";text="分析";left=717;top=639;right=826;bottom=674;bgcolor=11580047;db=1;dr=1;font=LOGFONT(h=-13);notify=1;z=9};
+btnLoad={cls="plus";text="分析";left=719;top=638;right=828;bottom=673;bgcolor=11580047;db=1;dr=1;font=LOGFONT(h=-13);notify=1;z=9};
 caption={cls="bkplus";text="DLL文件导入/导出表查看工具 ( 双击单元格可以编辑复制 )";left=67;top=9;right=486;bottom=27;align="left";color=6052956;dl=1;dt=1;font=LOGFONT(h=-14);z=6};
 editExportDeclaration={cls="edit";left=102;top=48;right=1001;bottom=627;db=1;dl=1;dr=1;dt=1;edge=1;hide=1;hscroll=1;multiline=1;vscroll=1;z=12};
 editFilePath={cls="plus";left=106;top=636;right=709;bottom=671;align="right";bgcolor=15793151;border={bottom=1;color=-16744448};db=1;dl=1;dr=1;editable="edit";font=LOGFONT(h=-16);tabstop=1;textPadding={top=6;bottom=1};z=8};
@@ -54,22 +54,39 @@ winform.btnLoad.skin({
 
 tbs.selIndex = 1;
 
+
+
+
 import raw.pefile;
 var showPeFile = function(pefile){
-	winform.lbInfo.text = pefile.isPe32 ? "32位PE文件" : "64位PE文件";
+	
+	if(pefile.getClrHeader()){
+		winform.lbInfo.text = ( ..string.endWith(pefile.path,".exe",true) ? ".Net 程序" : ".Net 程序集" )
+		
+		if( winform.btnLoad.text != "反编译" ){
+			tbs.selIndex = 2; 
+			winform.btnLoad.text = "反编译";
+		}
+	}
+	else {
+		winform.lbInfo.text = ( pefile.isPe32 ? "32位PE文件" : "64位PE文件" );
+		winform.btnLoad.text = "分析";
+	}
 		
 	winform.listview.clear(true);
+	
 	if(tbs.selIndex==2){
 		winform.listview.hide = false;
 		winform.editExportDeclaration.hide = true;
-		
+
 		winform.listview.insertColumn("DLL",100) 
-		winform.listview.insertColumn("导入函数",-1) 
-		
+		winform.listview.insertColumn("序号",50) 
+		winform.listview.insertColumn("函数名",-1)
+
 		var data = pefile.getImportDirectory(); 
 		for i,module in table.eachIndex(data){
 			for i,f in table.eachIndex(module.functions){
-				winform.listview.addItem({module.name;f})
+				winform.listview.addItem({module.name;f.hint,f.name})
 			}
 		}	
 	}
@@ -111,6 +128,8 @@ var searchDll = function(dllPath){
 import win.path;
 import fsys.wow64;
 winform.btnLoad.oncommand = function(id,event){ 
+	var ilSpy = (winform.btnLoad.text == "反编译");
+	
     var dllPath = searchDll(winform.editFilePath.text) || searchDll(winform.editFilePath.text+".dll"); 
 	var pefile,err = raw.pefile(dllPath);
 	if(!pefile){
@@ -121,9 +140,21 @@ winform.btnLoad.oncommand = function(id,event){
 			
 		return;
 	}
-		
+
 	winform.editFilePath.text = dllPath;
-	showPeFile(pefile)
+	showPeFile(pefile);	
+	
+	if(ilSpy) {
+		winform.btnLoad.disabledText =  "请稍候";
+		
+		import dotNet.ilSpy;
+		dotNet.ilSpy(dllPath);
+		
+		winform.setTimeout( 
+			function(){
+				winform.btnLoad.disabledText = null;
+			},3000) 
+	}
 }
 
 winform.editFilePath.editBox.onOk = function(){
@@ -164,4 +195,9 @@ winform.editFilePath.setFocus();
 winform.editFilePath.editBox.showInfoTip("DLL文件名","请在这里输入DLL名字、文件路径等然后直接回车,也可以直接拖放DLL文件到这里")
 winform.editFilePath.editBox.disableInputMethod()
 
-return win.loopMessage();
+winform.editFilePath.editBox.onChange = function(){ 
+	winform.btnLoad.text = "分析";
+}
+
+winform.listview.setExtended(0x10000/*_LVS_EX_DOUBLEBUFFER*/);
+win.loopMessage();

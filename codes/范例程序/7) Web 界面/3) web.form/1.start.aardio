@@ -8,7 +8,7 @@ winform.add()
 //web.form 使用系统自带的 IE 内核,生成的EXE体积很小，
 //即使 WIN10 删除IE浏览器，IE内核浏览器控件仍作为操作系统组件被保留。
 //大家通常低估了IE控件的作用：IE11已普及，一般用不到最新前端技术的话IE控件是非常强大的。
-import web.form.ie11;
+import web.form;
 var wb = web.form.ie11( winform,5/*_UIFLAG_DIALOG*/);//低于IE11就自动安装IE11
 
 import console;

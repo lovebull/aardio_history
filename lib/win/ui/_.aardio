@@ -769,8 +769,15 @@ namespace win.form{
 						if(!nmhdr) nmhdr = ..raw.convert(ptr,::NMHDR() );
 						var code = nmhdr.code;
 						var ret;
-						if( pre ) 
-							ret = ctrl._prenotify( id,code,ptr,nmhdr )
+						
+						if( pre ) {
+							/*
+							属性元表中使用名称 _prenotify,创建对象后使用名称 prenotify,
+							值只能为 null 或 table,不可指定为函数。
+							*/
+							if( type(pre)==="table" ) pre = pre[code]; 
+							if( pre ) ret = invoke(pre,ctrl,id,code,ptr,nmhdr);
+						}
 						
 						if( notify && ( ret === null) ) 
 							ret = ctrl.onnotify(id,code,ptr,nmhdr ) 
@@ -780,7 +787,7 @@ namespace win.form{
 					} 
 				}  
 			}
- 	   } 
+ 	   }; 
  	   [0x115/*_WM_VSCROLL*/] = function(this,hwnd, message, wParam, lParam){
  	       if( lParam ){
  	           var ctrl = this._ctrlHwnd[lParam];
@@ -965,7 +972,7 @@ namespace win.form{
             }
             
 			if( ctrl ? ctrl.onMeasureItem ) {
-				var ret = ctrl.onMeasureItem(item);
+				var ret = ctrl.onMeasureItem(item,ctrl.dpiScaleX:1,ctrl.dpiScaleY:1);
 				::CopyMemoryByStruct(lParam,item,24/* raw.sizeof(item)*/);
 				
 				if( ret !== null ){ 
@@ -986,7 +993,7 @@ namespace win.form{
             }
             
 			if( ctrl ? ctrl.onDrawItem ) {
-				var ret = ctrl.onDrawItem(item); 
+				var ret = ctrl.onDrawItem(item,ctrl.dpiScaleX:1,ctrl.dpiScaleY:1); 
 				if( ret !== null ){ 
 					return ret;
 				};
@@ -1822,16 +1829,14 @@ namespace win.form{
 						owner._ctrlAutoResize[ctrl.hwnd] = ctrl; 
 
 					ctrl_factory.onCreateComplete(ctrl,dpiScaleX,dpiScaleY);
+					if(owner["(dpiScaleInitialized)"]) ctrl.reloadScale();
 				} 
 			
 				if( owner._onControlCreated ) owner._onControlCreated(result);
 				if( owner.onControlCreated ) owner.onControlCreated(result);
 				
-				if(owner["(dpiScaleInitialized)"]){
-					owner.resize();
-				}
 				return result;
-    		}; 
+    		};  
 	)
 	
 	_metaProperty.addtimer = _metaProperty.setInterval;

@@ -38,16 +38,8 @@ getVersion  = function(){
     	return v;
     } 
     
-	::Shlwapi := raw.loadDll("Shlwapi.dll");
-	var hr,version = ::Shlwapi.DllGetVersion( {
-  		INT cbSize = 20; INT major;INT minor;INT build; INT platform;} )
-  		
-	if( hr>=0/*_SUCCEEDED*/ ) {
-		if(version.major >= 10) return "11.0";//win10
-		if(version.minor >= 1) return "8.0";//win7 v6.1.7600
-		if(version.build >= 6002) return "7.0";//v6.0.6002
-	}
-	return 6.0;
+    if(_WIN10_LATER) return "11.0";
+	return ..web.form.getMajorVersion() + ".0";
 }
 
 var IWebBrowser2 = class {
@@ -188,12 +180,12 @@ enableTab = ..web.form.enableTab;
 dlCtrl(wb,_DLCTL__) =  修改web窗体下载控制参数
 dlCtrl(wb) = 恢复默认设置
 dlCtrl(wb,0) = 禁止下载图片
-setUserAgent(wb) = 恢复默认useragent
-setUserAgent(wb,"aardio explorer") = 修改useragent
+setUserAgent(wb) = 恢复默认 User Agent
+setUserAgent(wb,"aardio explorer") = 修改 User Agent
 refreshOption() = 刷新web设置
-crossDomain() = 允许所有web.form对象跨域访问框架
+crossDomain() = 允许所有 web.form 对象跨域访问框架
 crossDomain(false) = 关闭跨域功能 
-getMajorVersion() = 返回IE主版本号,数值\n注意根据网页代码可能实际使用的是更低的兼容版本,\n兼容版本号使用web窗体的documentMode属性获取
+getMajorVersion() = 返回 IE 主版本号,数值\n注意根据网页代码可能实际使用的是更低的兼容版本,\n兼容版本号使用 Web 窗体的 documentMode 属性获取
 getVersion() = 返回IE版本号,字符串
 end intellisense**/
 

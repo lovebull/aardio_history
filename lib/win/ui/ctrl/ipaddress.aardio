@@ -38,16 +38,18 @@ namespace ipaddress{
 				else ::SendMessageInt(owner.hwnd,0x400/*_WM_USER*/ + 101,0,ip)
 			} 	
 		}; 
-		_prenotify = function(id,code,ptr,nmhdr){ 
-			if( code == 0xFFFFFCA4 && owner.onFieldChanged ){
-				var nm = ..raw.convert(ptr,{
-					struct hdr = ::NMHDR();
-					int field;
-					int value;
-				});
-				owner.onFieldChanged(nm.field+1,nm.value);
+		_prenotify = {
+			[0xFFFFFCA4] = function(id,code,ptr,nmhdr){
+				if( owner.onFieldChanged ){
+					var nm = ..raw.convert(ptr,{
+						struct hdr = ::NMHDR();
+						int field;
+						int value;
+					});
+					owner.onFieldChanged(nm.field+1,nm.value);
+				}	
 			}
-		}
+		} 
 	);
 }
 
@@ -81,8 +83,8 @@ win.ui.ctrl.ipaddress() = IP地址控件\n!SysIPAddress.
 !SysIPAddress.setFont(混入字体属性) = @.setFont(point=10;name="宋体");
 !SysIPAddress.clientRect =  获取控件客户区块位置(::RECT结构体)
 !SysIPAddress.theme = 外观主题,例如\nwinform.button.theme = "Explorer"\nwinform.button.theme = false
-!SysIPAddress.modifyStyle(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos 
-!SysIPAddress.modifyStyleEx(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos
+!SysIPAddress.modifyStyle(.(remove,add,swpFlags) = 修改窗口样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码 
+!SysIPAddress.modifyStyleEx(.(remove,add,swpFlags) = 修改窗口扩展样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_EX_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_EX_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码
 !SysIPAddress.close() = 关闭控件窗
 !SysIPAddress.capture = 是否捕获全局鼠标消息
 !SysIPAddress.invalidate(__/*可选使用::RECT()对象指定客户区*/) = 使窗口绘图区无效

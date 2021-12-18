@@ -286,6 +286,15 @@ class popen{
 	    	}
 		}
 	};
+	readAll = function(pattern,close,timeout){
+		..thread.waitOne(this.process.handle,timeout);
+		sleep(10);
+		
+		var ret = ..string.concat(this.read(-1),this.readErr(-1));
+		if(close || close===null ) this.close();
+		if(ret && pattern) return ..string.match(ret,pattern);
+		return ret;
+	};
 	wait = function(timeout){
 		if(! ( this.process ? this.process.handle ) ) return true;
 		var ret = ..thread.wait(this.process.handle,timeout)  
@@ -419,6 +428,8 @@ process.popen.detached() = !process_popen.
 !process_popen.read("%d") = 从当前位置,向后读取下一个数值\n支持多参数
 !process_popen.read(-1) = 向后读取到文件尾部\n负数表示从文件尾部倒计数位置\n如果第一个参数为-1，则自动调用 writeClose 关闭输出流,\n支持多参数
 !process_popen.readErr(-1) = 读取所有错误输出
+!process_popen.readAll( = 读取所有输出,包含标准输出与错误输出\n此函数等待读取过程中不会阻塞窗口消息
+!process_popen.readAll(.(匹配模式串,是否关闭,超时) = 读取所有输出,所有参数可选,\n如果有输出文本且指定了参数@1,\n则按参数@1指定的模式串在输出文本中查找并返回文本,\n参数@2指定是否关闭进程对象,默认为true,\n可选用参数@3指定超时,以毫秒为单位
 !process_popen.each( 间隔时间,超时时间 ) = @for( all,out,err in ??.each() ){
     io.stdout.write( out,err );__/*读取进程输出直到进程关闭*/
 }
@@ -452,7 +463,7 @@ process.popen.detached() = !process_popen.
 !process_popen.ctrlEvent(0)=发送Ctrl+C(SIGINT信号)\n信号将传递到与目标进程控制台连接的所有非分离控制台进程\n64位目标进程会导致当前控制台暂时关闭
 !process_popen.ctrlEvent(1)=发送Ctrl+Break(SIGBREAK信号)\n信号将传递到与目标进程控制台连接的所有非分离控制台进程\n64位目标进程会导致当前控制台暂时关闭
 !process_popen.process = !process.
-!process_popen.stdErr = !file.
-!process_popen.stdOut = !file.
-!process_popen.stdIn = !file.
+!process_popen.stdErr = 进程标准错误输出\n!file.
+!process_popen.stdOut = 进程标准输出\n!file.
+!process_popen.stdIn = 进程标准输出\n!file.
 end intellisense**/

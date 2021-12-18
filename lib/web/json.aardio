@@ -274,7 +274,11 @@ var levels = 0;
 var indent = '\32\32\32\32';
 stringify = function(tab,prettyPrint,unicodeEscaped,objreferences) {
 	if( unicodeEscaped === null ) unicodeEscaped = !prettyPrint; 
-	if( tab@[["_json"]] ) tab = invoke(tab@[["_json"]],tab);
+	if( tab@[["_json"]] ) {
+		var is;
+		tab,is = invoke(tab@[["_json"]],tab,prettyPrint,unicodeEscaped);
+		if(is && type(tab)==="string") return tab;
+	}
 	if( type(tab) != "table" ) return ( encode(tab) ) ;
 	
 	var LFCR = "";

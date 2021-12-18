@@ -1,9 +1,10 @@
-//xml 简单xml解析
+﻿//xml 简单xml解析
 import string.encoding;
 namespace string;
 
 var push = ..table.push;
 var pop = ..table.pop;
+var insert = ..table.insert;
 var sub = sub;
 var trim = trim;
 var find = find;
@@ -235,29 +236,30 @@ var nodePrototype = {
 		
 		return true;	
 	};
-	pushXml = function(html){
+	pushXml = function(html,pos){
 		var r;
 		var nodes = ..string.xml(html,owner@.xmlElementType,owner@.optionalTags); 
-		for(i=1;#nodes;1){r = owner.pushElement(nodes[1]);} 
+		for(i=1;#nodes;1){r = owner.pushElement(nodes[1],pos);} 
 		return r;
 	};
-	pushElement = function(ele,root){
+	pushElement = function(ele,pos){
+		var method = pos === null? push : insert;
 		if(ele.tagName && ( ele.tagName != "tagName") ){
 			var t = type(owner[ele.tagName]);
 			if( t == type.null ){
-				owner[ele.tagName] = {};
-				push( owner[ele.tagName],ele );
+				owner[ele.tagName] = {}; 
+				method( owner[ele.tagName],ele,pos );
 			}
 			elseif( t == type.table ){
-				push( owner[ele.tagName],ele );
+				method( owner[ele.tagName],ele,pos );
 			};
 		}
 
-		push( owner,ele ); 
-		if(!ele@)ele@ = createElementMeta(owner,root);
+		method( owner,ele,pos ); 
+		if(!ele@)ele@ = createElementMeta(owner,owner@.xmlRootNode);
 		else {
 			ele@.xmlParentNode = owner;
-			ele@.xmlRootNode = owner@.xmlRootNode : root;
+			ele@.xmlRootNode = owner@.xmlRootNode;
 		}
 		
 		return ele; 
@@ -330,7 +332,7 @@ class xml{
 				if( sub(xmlstr,tagfrom,tagfrom+8 ) == "<![CDATA[" ){ 
 					var cdata = match(xmlstr,"(.*?)<@]]>@>", tagfrom+9)
 					if(cdata){
-						topNode.pushElement({cdata=cdata},this)
+						topNode.pushElement({cdata=cdata})
 						strfrom = tagfrom + 12 + #cdata
 						tagfrom,tagto,slash_front ,tagName,properties, slash_back =  find(xmlstr, elementPattern , strfrom);
 						continue;
@@ -360,7 +362,7 @@ class xml{
 						} 
 						
 						var tab = {  tagName = tagName;text = text2 }
-						topNode.pushElement(tab,this);
+						topNode.pushElement(tab);
 						
 						strfrom = tagto2+1 
 						tagfrom,tagto,slash_front ,tagName,properties, slash_back =  find(xmlstr, elementPattern , strfrom );
@@ -369,7 +371,7 @@ class xml{
 					else {
 						var tab = {  tagName=tagName };
 						parseProperties( tab,properties);
-						topNode.pushElement(tab,this)
+						topNode.pushElement(tab)
 						strfrom = tagto+1 
 						tagfrom,tagto,slash_front ,tagName,properties, slash_back =  find(xmlstr, elementPattern , strfrom );
 						continue;
@@ -406,7 +408,7 @@ class xml{
 							if(lastNode && lastNode.tagName && tags[lower(lastNode.tagName)]){
 								var ele = pop(nodeStack);
 								topNode = nodeStack[#nodeStack];
-								topNode.pushElement( ele,this );
+								topNode.pushElement( ele );
 							}
 						}	
 					}
@@ -414,7 +416,7 @@ class xml{
 				
 				var tab = {  tagName=tagName; }
 				parseProperties( tab,properties);
-				topNode.pushElement( tab,this )
+				topNode.pushElement( tab )
 			}
 			elseif slash_front  != "/"  {
 				
@@ -426,7 +428,7 @@ class xml{
 							if(lastNode && lastNode.tagName && tags[lower(lastNode.tagName)]){
 								var ele = pop(nodeStack);
 								topNode = nodeStack[#nodeStack];
-								topNode.pushElement( ele,this );
+								topNode.pushElement( ele );
 							}
 						}	
 					}
@@ -452,7 +454,7 @@ class xml{
 					if( !matchIdx && ( cmp(nodeStack[#nodeStack].tagName,tagName) == 0 ) ){
 						var ele = pop(nodeStack)
 						topNode = nodeStack[#nodeStack]
-						topNode.pushElement( ele,this )  
+						topNode.pushElement( ele )  
 					}
 					else {
 						if(!matchIdx){
@@ -465,20 +467,20 @@ class xml{
 						
 						if( !matchIdx ){
 							var tab = { tagName = tagName }
-							topNode.pushElement( tab,this ) 
+							topNode.pushElement( tab ) 
 						}
 						else{
 							
 							for(i=#nodeStack;matchIdx+1;-1){
 								var ele = pop(nodeStack)
 								topNode = nodeStack[#nodeStack]
-								topNode.pushElement( ele,this )  
+								topNode.pushElement( ele )  
 							}
 							
 							var ele = pop(nodeStack)
 							topNode = nodeStack[#nodeStack]
 							if(!topNode) break;
-							topNode.pushElement( ele,this ) 
+							topNode.pushElement( ele ) 
 						}
 					}
 
@@ -486,7 +488,7 @@ class xml{
 				else {
 					var ele = pop(nodeStack)
 					topNode = nodeStack[#nodeStack]
-					topNode.pushElement( ele,this ) 
+					topNode.pushElement( ele ) 
 				}
 				
 				if #nodeStack < 1 { break; }
@@ -518,7 +520,7 @@ class xml{
 			for(i=#nodeStack;2;-1){
 				var ele = pop(nodeStack);
 				topNode = nodeStack[#nodeStack];
-				topNode.pushElement( ele,this );  
+				topNode.pushElement( ele );  
 			} 
 		}   
 	} };
@@ -528,8 +530,8 @@ xml.ncr = ncr;
 xml.elementPattern = "\<([\/]?)([\d\s]?![\?!\w_\-\::]+)(.*?)([\/\?]?)\>";
 
 /**intellisense()
-string.xml = 简单XML解析,\n严格的校验XML语法正确性不是本模块的义务和目标,\n所以,此解析器尽可能兼容错误,兼容了HTML,SGML的部份规则:\n1、不要求存在根标签 \n2、尝试自动修正不配对的标记 \n3、在有必要的时候尝试忽略大小写
-string.xml(__/*xml字符串*/) = 创建xml对象\n严格的校验XML语法正确性不是本模块的义务和目标,\n所以,此解析器尽可能兼容错误,兼容了HTML,SGML的部份规则:\n1、不要求存在根标签 \n2、尝试自动修正不配对的标记 \n3、在有必要的时候尝试忽略大小写
+string.xml = 简单XML解析,\n严格的校验XML语法正确性不是本模块的义务和目标,\n所以,此解析器尽可能兼容错误,兼容了HTML,SGML的部分规则:\n1、不要求存在根标签 \n2、尝试自动修正不配对的标记 \n3、在有必要的时候尝试忽略大小写
+string.xml(__/*xml字符串*/) = 创建xml对象\n严格的校验XML语法正确性不是本模块的义务和目标,\n所以,此解析器尽可能兼容错误,兼容了HTML,SGML的部分规则:\n1、不要求存在根标签 \n2、尝试自动修正不配对的标记 \n3、在有必要的时候尝试忽略大小写
 string.xml() = !string_xml.
 !string_xml.eachChild(标签名) = @for(index,tagName,childCount,xNode in ??.eachChild(__/*标签名*/) ){
 	io.print( index,tagName,childCount,xNode ) 
@@ -552,8 +554,8 @@ string.xml() = !string_xml.
 !string_xml.encoding = 源文本字符集
 !string_xml.codepage = 源文本代码页
 !string_xml.? = !string_xml.
-!string_xml.pushElement(节点属性表) = @.pushElement(\n    tagName = \n    cdata = \n    text = __/*注意text,cdata,tagName三个属性只能指定一个\n返回新增的节点对象*/\n)
-!string_xml.pushXml(__) = 将字符串参数@1中指定的XML添加到当前节点的子节点,\n返回新增XML中最后一个根节点
+!string_xml.pushElement(节点属性表) = @.pushElement(\n    tagName = \n    cdata = \n    text = __/*注意text,cdata,tagName三个属性只能指定一个,\n可选使用参数@2指定新增节点的位置,不指定则添加到子节点数组尾部,\n返回新增的节点对象*/\n)
+!string_xml.pushXml(__) = 将字符串参数@1中指定的XML添加到当前节点的子节点,\n可选用参数@2指定新节点的位置,不指定则添加到子节点数组尾部,\n返回新增XML中最后一个根节点
 !string_xml.pushElement() = !string_xml.
 !string_xml.pushXml() = !string_xml.
 !string_xml.getParent() = 获取父节点

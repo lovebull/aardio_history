@@ -1,4 +1,4 @@
-import web;
+﻿import web;
 import win.ui;
 import com.interface.IPersistStreamInit;
 import inet;
@@ -41,22 +41,6 @@ class form {
 		}
 		else {
 			winform.modifyStyle(0x20/*_WS_EX_TRANSPARENT*/,0x2000000/*_WS_CLIPCHILDREN*/);
-		} 
-		
-		if(html5Supported){
-			this.CommandStateChange = function(cmd,enable) { 
- 				select(cmd) { 
- 					case 0x2/*_CSC_NAVIGATEBACK*/ {
- 						this.navigateback = enable;
- 						
- 					}
- 					case 0x1/*_CSC_NAVIGATEFORWARD*/ {
- 						this.navigateforward = enable;
- 					}  
- 				}
- 			}
- 			this.canGoBack = function(){ return this.navigateback; } 
-			this.canGoForward = function(){ return this.navigateforward; } 
 		}
 	end;  
 	
@@ -658,7 +642,7 @@ namespace form {
 			};
 		};
 		getWebForm  = function(){
-			error("请调用web.form.util.crossDomain(true)",2)
+			error("请调用 web.form.util.crossDomain(true)",2)
 		};
 		getForm = function(){
 			return owner._form;
@@ -936,6 +920,63 @@ namespace form {
 	};
 	
 	emulation(11001,true);
+	
+	getMajorVersion = function(){
+		if(_WIN10_LATER) return 11;
+		
+		var form = ..win.form();
+		var wb = ..web.form( form );
+		wb.html = `<!doctype html><html><meta http-equiv="X-UA-Compatible" content="IE=edge" /></head>`;
+		var documentMode = wb.documentMode;
+		form.close();
+		
+		return documentMode;
+	}
+	
+	class ie11{
+		ctor(...){ 
+			import ..inet.installer;
+	
+			if(_WIN10_LATER || (..web.form.getMajorVersion() >= 11 ) ){
+				return ..web.form(...); 
+			}
+			elseif( _WIN7_LATER ) {
+		 		
+				var url;
+				var lcid = ::Kernel32.GetSystemDefaultLCID();
+				if( lcid == 0x804 ){
+					url = "http://download.microsoft.com/download/F/2/8/F2871AC4-E82B-4636-BB37-A5F2B14C8616/IE11-Windows6.1-x86-zh-cn.exe"
+					if(_WIN_64){
+						url = "http://download.microsoft.com/download/5/6/F/56FD6253-CB53-4E38-94C6-74367DA2AB34/IE11-Windows6.1-x64-zh-cn.exe"
+					}	
+				}
+				elseif( lcid == 0xC04 ){
+					url = "http://download.microsoft.com/download/7/8/8/788B10AB-C1D7-4DA9-BADF-2A939D769A43/IE11-Windows6.1-x86-zh-hk.exe"
+					if(_WIN_64){
+						url = "http://download.microsoft.com/download/5/1/C/51C47611-49D2-4791-B2DE-6DE0965B8ACC/IE11-Windows6.1-x64-zh-hk.exe"
+					}	
+				}
+				elseif( lcid == 0x404 ){
+					url = "http://download.microsoft.com/download/6/C/3/6C373F0D-F076-4947-93E5-DE787D45F695/IE11-Windows6.1-x86-zh-tw.exe"
+					if(_WIN_64){
+						url = "http://download.microsoft.com/download/2/9/6/2966291B-B5D3-4D57-842E-8DD2F1AB0BA1/IE11-Windows6.1-x64-zh-tw.exe"
+					}	
+				}
+				else{
+					url = "http://download.microsoft.com/download/9/2/F/92FC119C-3BCD-476C-B425-038A39625558/IE11-Windows6.1-x86-en-us.exe"
+					if(_WIN_64){
+						url = "http://download.microsoft.com/download/7/1/7/7179A150-F2D2-4502-9D70-4B59EA148EAA/IE11-Windows6.1-x64-en-us.exe"
+					}	
+				}
+				
+				if(!..inet.installer("IE11",url,"/passive /norestart",..io.appData("aardio/ie11.exe")) ) return;
+				
+				if( ..web.form.getMajorVersion() >= 11){
+					return ..web.form(...); 
+				}
+			}
+		}; 
+	}
 }
  
 /******intellisense( ) 
@@ -948,6 +989,10 @@ web.form.gpuRendering(true) = 设置是否启用GPU硬件加速\n第二个参数
 web.form.disableNavigationSounds() = 禁止打开链接的声音\n可在创建网页控件后动态设置
 web.form.enableTab(true) = 是否启用WebBrowser浏览器控件tab选项卡支持
 web.form.refreshOption() = 刷新WebBrowser浏览器控件设置
+web.form.getMajorVersion() = 返回 IE 主版本号,数值\n注意根据网页代码可能实际使用的是更低的兼容版本,\n兼容版本号使用 Web 窗体的 documentMode 属性获取
+web.form.ie11( = 创建web窗体,基于系统自带 IE11 内核WebBrowser浏览器控件\nWIN 7,WIN 8 未安装 IE11 时将自动安装\nXP 系统或者安装失败返回 null
+web.form.ie11(.(winform,hostFlags,dlControl,userAgent,securityTrusted) = 创建Web窗体,可调用 IE11 内核浏览器控件加载网页,\n\n参数说明：\n@winform 可使用窗体或窗体上的控件对象\n@hostFlags 可使用一个或多个_UIFLAG_ 前缀的常量自定义外观,多个常量用位或操作符( | ) 连接\n@dlControl 可使用_DLCTL_前缀的常量以控制下载行为,多个常量用位或操作符( | ) 连接\n@userAgent 设置浏览器User Agent,\n@securityTrusted 是否信任打开的网页（服务器上避免弹出警告），默认值为true\n\n关于创建参数的更多说明,请参考《aardio使用手册->Web程序设计->创建Web窗体》
+web.form.ie11() = !wb.
 !wb.dlControl = 修改下载控制台参数\n
 !wb.hwndEmbedding = 嵌入窗口
 !wb.hwndControl = 控件窗口
@@ -959,7 +1004,7 @@ web.form.refreshOption() = 刷新WebBrowser浏览器控件设置
 !wb.write("__","框架名") = 将字符串值写入框架网页、不允许追加
 !wb.html = @.html = /**\n<!doctype html>\n<html>\n<head>\n    <meta charset="utf-8">\n    <meta http-equiv="X-UA-Compatible" content="IE=edge" />\n    <style type="text/css">\n    html,body{ height:100%; margin:0; } __\n    </style>\n    <script type="text/javascript"></script>\n</head>\n<body>\n    <div id="header"></div>\n    <div id="container"> \n        <div class="lside"> </div> \n        <div class="rside"> </div>  \n    </div>\n</body>\n</html>\n**/
 !wb.type = 返回当前加载的文件类型\n例如doc文件返回Microsoft Word Document 
-!wb.wait( = 该函数等待网页完全加载完成,\n因为部份网页遇到问题可能部份内容无法完全加载,\n建议大家尽可能使用等待部份加载的waitEle或waitDoc等函数替代
+!wb.wait( = 该函数等待网页完全加载完成,\n因为部分网页遇到问题可能部分内容无法完全加载,\n建议大家尽可能使用等待部分加载的waitEle或waitDoc等函数替代
 !wb.wait(.("网址",超时值) = 等待指定的网页加载完成,所有参数可选,\n等待的网址支持模式语法,参数@2指定最大超时值,单位毫秒
 !wb.write("__") = 将字符串值写入网页
 !wb.waitClose() = 等待网页被关闭
@@ -982,13 +1027,13 @@ web.form.refreshOption() = 刷新WebBrowser浏览器控件设置
 !jsGlobal.eval(.("JS代码") = 返回表达式的值
 !jsGlobal.location = 当前URL
 !jsGlobal.location.hash = 网址“#”号后面的分段
-!jsGlobal.location.host = URL的主机以及端口号部份
-!jsGlobal.location.hostname = URL中的域名主机部份
+!jsGlobal.location.host = URL的主机以及端口号部分
+!jsGlobal.location.hostname = URL中的域名主机部分
 !jsGlobal.location.href = URL网址
 !jsGlobal.location.pathname = URL中的文件路径
 !jsGlobal.location.port = 端口号
 !jsGlobal.location.protocol = URL使用的协议
-!jsGlobal.location.search = 问号后面的部份 
+!jsGlobal.location.search = 问号后面的部分 
 !jsGlobal.navigate(__/*url*/) = 在当前窗口中装入指定 URL
 !jsGlobal.prompt(.(消息,默认值) = 显示输入对话框
 !jsGlobal.screenTop = 网页正文部分上
@@ -999,7 +1044,7 @@ web.form.refreshOption() = 刷新WebBrowser浏览器控件设置
 !jsGlobal.脚本函数名__() =  调用JS函数必须有实参\n无参数调用则返回函数类对象
 !jsGlobal.window = !jsGlobal.
 !jsGlobal.navigator = !navigator.
-!navigator.userAgent = 浏览器User Agent\n修改此值必须在打开网页前调用web.form.util.setUserAgent函数
+!navigator.userAgent = 浏览器User Agent\n修改此值必须在打开网页前调用 web.form.util.setUserAgent 函数
 !navigator.platform = 操作系统名称
 !navigator.systemLanguage = 系统默认语言
 !navigator.browserLanguage = 浏览器当前语言 
@@ -1389,16 +1434,16 @@ document.compatMode = "BackCompat" 对应 quirks mode(无DTD声明)\n"CSS1Compat
 !wb.getPos(ele__,true) = x,y,cx,cy = wb.getPos(ele)\n返回对象的屏幕坐标
 ?web.form = !wb.
 ?.getWebForm = !wb.
-!wb.getWebForm(__/*框架名字或索引*/) = 将框架转换为web.form对象\n必须调用web.form.util.crossDomain()启用此函数\n
+!wb.getWebForm(__/*框架名字或索引*/) = 将框架转换为web.form对象\n必须调用 web.form.util.crossDomain() 启用此函数\n
 !wb.getWebForm() = !wb.
-!wb.queryEles() = !ele. 
-!wb.waitQueryEles() = !ele.
+!wb.queryEles() = !webFormEles. 
+!wb.waitQueryEles() = !webFormEles.
 !wb.waitEle()= !ele.
 !wb.getElesByTag()= !ele.
-!wb.getEles() = !ele.
-!wb.getEle() = !ele. 
-!wb.queryEles() = !ele. 
-!wb.waitQueryEles() = !ele.
+!wb.getEles() = !webFormEles.
+!webFormEles.? = 节点\n!ele.
+!wb.getEle() = !ele.
+!wb.waitQueryEles() = !webFormEles.
 !wb.waitEle()= !ele.
 !wb.getDoc() = document.
 !wb.waitDoc() = document.
@@ -1410,8 +1455,6 @@ document.compatMode = "BackCompat" 对应 quirks mode(无DTD声明)\n"CSS1Compat
 !wb.eachLinks() = !ele.
 !wb.setEle() = !ele.
 !wb.waitQuerySelector() = !ele.
-!ele[] = !ele.
-!ele() = !ele.
 document.createElement() = !ele.
 document.getElementById() = !ele.
 document.getElementsByName() = !ele.

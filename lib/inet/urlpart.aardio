@@ -1,4 +1,4 @@
-//urlpart 网址拆分
+﻿//urlpart 网址拆分
 namespace inet.urlpart;
  
 ::Shlwapi := ..raw.loadDll("Shlwapi.dll");
@@ -36,6 +36,6 @@ getQuery(__/*url*/) = 返回url尾部?号后面的QueryString参数\n不包含?�
 getPort(__/*url*/) = 如果url中包含端口号则返回端口号\n未明确指定则返回null
 getUser(__/*url*/) = 返回url中的登录用户名
 getPassword(__/*url*/) = 返回url中的登录密码
-getHost(__/*url*/) = 返回url主机域名部份
+getHost(__/*url*/) = 返回url主机域名部分
 getScheme(__/*url*/) = 返回url协议头,例如"http"
 end intellisense**/

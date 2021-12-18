@@ -1,4 +1,4 @@
-import process;
+﻿import process;
 namespace service; 
 
 ::Advapi32 := ..raw.loadDll("Advapi32.dll");
@@ -589,7 +589,7 @@ msgboxTest = function(str,title,timeout){
 }
 
 /**intellisense()
-service = NT服务操作\n部份操作需要管理权限
+service = NT服务操作\n部分操作需要管理权限
 service.serviceName = 当前服务线程中运行的NT服务名，\n主线程应自行指定
 service.isExist(.("服务名") = 是否存在指定的服务
 service.start(.("服务名") = 启动服务,\n成功返回true,\n失败请使用lasterr函数获取错误信息
@@ -638,7 +638,7 @@ service.manager() = !ntsrvmgr.
 service.each(serviceType,serviceState,groupName) = @for( serviceName,displayName,svrStatusProcess in service.each()){
     io.print(serviceName, displayName,svrStatusProcess.state) 
 }
-service.updateStatus(.(服务状态表,服务名) = 参数@1应是registerCtrlHandler函数的返回值,\n在CtrlHandler函数中指定部份需要更新的值即可 
+service.updateStatus(.(服务状态表,服务名) = 参数@1应是registerCtrlHandler函数的返回值,\n在CtrlHandler函数中指定部分需要更新的值即可 
 service.startDispatchThread(服务回调函数表) = @.service.startDispatchThread( \n    服务名 = function(serviceName,argv){\n        import service; \n        var srvStatus = service.registerCtrlThread(serviceName,function(control,eventType,pEventData){ \n            import service; \n            if( control == 0x1/*_SERVICE_CONTROL_STOP*/ ){  \n                service.updateStatus({currentState = 0x1/*_SERVICE_STOPPED*/},owner.serviceName); \n            } \n        } )\n        \n        srvStatus.controlsAccepted = 0x1/*_SERVICE_ACCEPT_STOP*/\n        srvStatus.currentState = 0x4/*_SERVICE_RUNNING*/;\n        service.updateStatus(srvStatus,serviceName)\n         \n        __/*服务运行代码*/\n        \n        srvStatus.controlsAccepted = 0;\n        srvStatus.currentState = 0x1/*_SERVICE_STOPPED*/\n        service.updateStatus(srvStatus,serviceName)\n    }\n)
 service.registerCtrlThread(serviceName,handle) = @.registerCtrlThread( serviceName,function(control,eventType,pEventData){\n        \n    }\n)	
 service.registerCtrlThread() = !ntsrvsta2.

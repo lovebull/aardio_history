@@ -5,7 +5,7 @@ var winform = win.form(text="WebView2(web.view) 播放视频并支持全屏";rig
 winform.add()
 /*}}*/
 
-import web.form.ie11; 
+import web.form; 
 var wb = web.form.ie11( winform );
 
 //导出网页 JavaScript 可调用的 external 对象。

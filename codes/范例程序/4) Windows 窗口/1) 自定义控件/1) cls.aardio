@@ -9,16 +9,18 @@
 
 //图文教程: https://mp.weixin.qq.com/s/s95LlTis3lrVeD8EYNZD0w
 //这里直接定义控件类，实际使用建议写到用户库里
+import inet.http;
 import win.ui;
+
 class win.ui.ctrl.myCtrl{
 	ctor( parent,tParam ){
 		/*
 		parent 参数为父窗口
 		tParam 参数为创建控件的所有参数
 		*/
-		this = ..win._form(border="none";exmode="none";mode="child";parent=parent;left=tParam.left;top=tParam.top;right=tParam.right;bottom=tParam.bottom;tParam=tParam)
+		this = ..win._form(border="none";exmode="none";mode="child";parent=parent;right=750;bottom=387;tParam=tParam)
 		this.add(
-			edit2={cls="edit";text="win.ui.ctrl.myCtrl 控件里的文本框";left=45;top=36;right=294;bottom=127;edge=1;multiline=1;z=1}
+			plus={cls="plus";left=-5;top=2;right=751;bottom=393;db=1;dl=1;dr=1;dt=1;repeat="scale";z=1}
 		)	
 		
 		/*
@@ -34,16 +36,17 @@ class win.ui.ctrl.myCtrl{
 	};
 }
 /*DSG{{*/
-var winform = win.form(text="使用 custom 控件加载自定义控件类";right=759;bottom=469)
+var winform = win.form(text="使用 custom 控件加载自定义控件类";right=836;bottom=513)
 winform.add(
-custom={cls="myCtrl";text="自定义控件";left=43;top=54;right=696;bottom=386;z=1}
+custom={cls="myCtrl";text="自定义控件";left=3;top=-1;right=467;bottom=316;db=1;dl=1;dr=1;dt=1;z=1}
 )
 /*}}*/
 
 winform.show();
 
 //这时候 winform.custom 就是 win.ui.ctrl.myCtrl 的实例对象.
-winform.msgbox( winform.custom.edit2.text );
+winform.custom.plus.background = "http://download.aardio.com/v10.files/demo/images/custom.gif";
+
 /*
 不需要用 import 语句导入标准库 win.ui.ctrl 名字空间下的自带控件，
 aardio 会按需导入这些标准库控件，但是如果是自己添加的自定义控件就要提前导入。

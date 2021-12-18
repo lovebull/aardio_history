@@ -149,9 +149,10 @@ class message{
 		}
 		return dlg.doModal();
 	}
-	info = function(msg,timeOut){
+	info = function(msg,timeOut,...){
 		this.icon = '\uF05A';
 		this.iconColor = 0xD4883B;
+		if(...) msg = ..string.format(msg,...)
 		return this.doModal(msg,,timeOut);
 	}
 	warn = function(msg,timeOut){
@@ -248,7 +249,7 @@ create() = !winDlgMessageForm.
 create(.(显示信息,是否显示按钮,是否显示进度条) =  创建信息框,返回窗体对象,\n如果选择显示按钮则不会同时显示进度条\n所有参数都是可选参数
 doModal(.(显示信息,是否显示按钮) = 创建信息框,并显示为模态窗口
 show(.(显示信息) = = 创建信息框,并显示为非模态窗口
-info(__) = 显示提示框,\n可选使用参数@2指定延时自动关闭提示框的毫秒数
+info(__) = 显示提示框,\n可选使用参数@2指定延时自动关闭提示框的毫秒数\n\n如果指定参数@3或更多参数,\n则使用这些参数调用 string.format 格式化参数@1
 warn(__) = 显示警告提示框,\n可选使用参数@2指定延时自动关闭提示框的毫秒数
 ok(__) = 显示正确提示框,\n可选使用参数@2指定延时自动关闭提示框的毫秒数
 err(__) = 显示错误提示框,\n可选使用参数@2指定延时自动关闭提示框的毫秒数

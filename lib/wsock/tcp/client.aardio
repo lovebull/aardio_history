@@ -196,7 +196,7 @@ namespace client{
 						return pResultData,len;
 					}
 					elseif(len==size){ 
-						return pResultData;
+						return pResultData,len;
 					}  
 					else { 
 						pResultData = realloc(len, pResultData );
@@ -238,7 +238,7 @@ namespace client{
 					};
 				}
 			 	
-			}while(len); 
+			}while(len || len===null); 
 			
 			pBlock = realloc(0,pBlock);
 			
@@ -394,6 +394,16 @@ namespace client{
 			if(!l) l = (owner.bufferSize); 
 			if( l < 0 ) return;
 			
+			if(owner.unReadAllocData){ 
+				var p,size = owner.readAlloc(l);
+				if(p){
+					var s = ..raw.tostring(p,1,size);
+					owner.unReadAlloc(p);
+					return s;
+				}
+				return;
+			}
+			
 			var p = ..raw.realloc(l);
 			var readSize = ::Ws2_32.recv( owner.hSocket,p,l,0x2/*_MSG_PEEK*/); 
 			
@@ -403,6 +413,43 @@ namespace client{
 			}
 			p = ..raw.realloc(0,p);
 			return result;
+		};
+		readAllocEx = function(l){
+			if(!owner.hSocket) return null,"tcp客户端已断开";
+			if(!l && (l > 0)) error("必须指定大于 0 的长度参数",2); 
+			
+			var pRet;
+			while(l>0){
+				var p,size = owner.readAlloc(l); 
+				if(p){
+					l = l - size;
+					if(pRet){
+						pRet = ..raw.concat(pRet,p,size);
+						..raw.realloc(0,p);
+					}
+					else {
+						pRet = p;
+					}	
+				}
+				else {
+					break;
+				}
+			}
+			
+			if(pRet) return pRet,..raw.sizeof(pRet);
+			
+		};
+		readEx = function(l){
+			if(!owner.hSocket) return null,"tcp客户端已断开";
+			if(!l && (l > 0)) error("必须指定大于 0 的长度参数",2); 
+			
+			var p,size = owner.readAllocEx(l);
+		 
+			if(p){
+				var s = ..raw.tostring(p,1,size);
+				..raw.realloc(0,p);
+				return s;
+			}
 		};
 		readOobByte = function(){
 			var oob = {BYTE v}
@@ -621,8 +668,11 @@ eachReadBuffer = @for(readSize,remainSize in ??.eachReadBuffer() ){ \n	__/*可�
 readTo( = 读取直到以指定的字符串结束\n如果只是读取部分数据并没有获取到结束标记，第二个返回值为true\n否则只会返回一个值,成功返回读取字符串,\n失败返回null
 readTo(.('结束串') = 读取直到以指定的字符串结束,返回值不包含结束串,\n该函数每次仅读取一个字节,效率较低
 readTo(.('结束串',true)  = 读取直到以指定的字符串结束,返回值不包含结束串,\n如果没有读取到数据，则循环等待，等待时继续处理界面消息\n此用法仅适用于界面线程异步套接字\n该函数每次仅读取一个字节,效率较低
-read(.(读取长度) = 读取数据\n参数可以指定长度,也可以使用接收数据的结构体作为参数\n参数为-1表示读到尾部,无参数表示读取一行,\n使用CRLF回车换行符分行
+read( = 读取数据\n此函数等待数据到达,\n但如果参数未省略且不是-1,则不保证读取达到定的长度\n如果要等待直到指定长度应改用 readEx 函数
+read(.(读取长度) = 读取数据\n参数可以指定长度,也可以使用接收数据的结构体作为参数\n参数为-1表示读到尾部,无参数表示读取一行,\n使用CRLF回车换行符分行\n\n此函数等待数据到达,\n但如果参数未省略且不是-1,则不保证读取达到定的长度
 readAll() =  接收全部数据\n该函数读取直至连接关闭,应慎用该函数防止服务器保持连接无法返回
+readAllocEx(.(读取长度) = 读取数据达到指定长度,参数不可省略\n成功返回动态指针,数据长度,\n动态指针必须用 raw.realloc 函数释放,\n非必要请不要直接使用此函数,应改用 readEx 函数\n此函数不可用于异步套接字
+readEx(.(读取长度) = 读取数据达到指定长度,参数不可省略\n成功返回字符串,如果套接字关闭,则返回已读取的数据\n此函数不可用于异步套接字
 writeBuffer(.(缓冲区,长度) = 发送数据,\n参数@1应使用 buffer 对象,\n可选使用参数2指定长度\n成功返回true
 readBuffer(.(缓冲区,读取长度) = 读取数据,返回 buffer 对象,\n省略所有参数则读取所有数据，\n参数@1可选指定一个使用 buffer 对象，\n省略读取长度时取缓冲区长度，\n\n如果参数@1指定了缓冲区,成功返回读取长度,\n否则成功返回缓冲区，\n失败返回null
 peek(.(长度) = 读取但并不移除缓冲区的数据,返回字符串\n不指定参数则使用bufferSize指定的大小分配buffer并尝试读取

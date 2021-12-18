@@ -485,8 +485,8 @@ namespace driver{
 	
 	updateVersionData = function(){
 		var http = ..web.rest.client();
-		var versionInfo = http.api("https://npm.taobao.org/mirrors/chromedriver/{version}/notes.txt",,"Supports\s*Chrome\s*v|<version\s*>([\d\-]+)")
-		var chromeDriver = http.api("https://npm.taobao.org/mirrors/chromedriver",,{
+		var versionInfo = http.api("https://npmmirror.com/mirrors/chromedriver/{version}/notes.txt",,"Supports\s*Chrome\s*v|<version\s*>([\d\-]+)")
+		var chromeDriver = http.api("https://npmmirror.com/mirrors/chromedriver",,{
 			"\<pre>(.+)\</pre>";
 			"\>(\d[\d\.]*)\/\</a>";
 		});
@@ -568,8 +568,8 @@ namespace driver{
 		if( ..io.exist(path) ) return path;
 		
 		if(! ..io.exist(path) ){
-			..zlib.httpFile.referer = "https://npm.taobao.org/mirrors/chromedriver/" + vd;
-			..zlib.httpFile.download("https://npm.taobao.org/mirrors/chromedriver/"+vd+"/chromedriver_win32.zip"
+			..zlib.httpFile.referer = "https://npmmirror.com/mirrors/chromedriver/" + vd;
+			..zlib.httpFile.download("https://npmmirror.com/mirrors/chromedriver/"+vd+"/chromedriver_win32.zip"
 				,installTitle : "正在下载本程序必须的组件(chromeDriver/aardio)",..io.joinpath(dir,"\.download"),dir,"chromedriver_win32.zip"); 
 		}  
 		

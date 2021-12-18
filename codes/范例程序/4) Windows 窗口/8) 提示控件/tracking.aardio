@@ -11,6 +11,7 @@ import win.ui.tooltip;
 var tooltipCtrl = win.ui.tooltip.tracking(winform);
 tooltipCtrl.setInfo("提示标题");
 
+ 
 import process;
 tooltipCtrl.onHyperlinkClick = function(link,id,nmhdr){
 	process.openUrl(link);  

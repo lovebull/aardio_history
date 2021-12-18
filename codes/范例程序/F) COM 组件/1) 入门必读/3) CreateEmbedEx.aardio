@@ -1,0 +1,40 @@
+//嵌入控件
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="嵌入COM控件";right=759;bottom=469)
+winform.add(
+lbStatus={cls="static";left=25;top=435;right=725;bottom=460;db=1;dl=1;dr=1;transparent=1;z=2};
+static={cls="static";text="Static";left=11;top=8;right=744;bottom=426;db=1;dl=1;dr=1;dt=1;transparent=1;z=1}
+)
+/*}}*/
+
+//嵌入 COM 控件，宿主窗口这里指定为 winform.static 
+var browser = winform.static.createEmbedEx("Shell.Explorer.2"); 
+
+/*
+browser 是控件容器，这里也是默认的 COM 事件监听器
+browser._object 才是真正的 COM 对象（Shell.Explorer 对象）
+注意在 aardio 里下划线开头的成员是只读的，并且在智能提示候选列表里是默认隐藏的(按 _ 就会出来)
+
+winform.static.createEmbedEx() 以及 winform.static.createEmbed()
+也会将控件容器自身注册为 COM 对象的默认事件监听器，并且在窗口销毁前释放事件并释放 COM 对象。
+*/
+
+//这下定义事件回调函数就省事了
+browser.StatusTextChange = function(text) { 
+	winform.lbStatus.text = text;
+} 
+ 
+//通过控件容器调用 COM 对象打开指定的网页
+browser.Navigate("about:test");
+/*
+上面这句会自动转为调用 browser._object.Navigate("about:test")
+browser 已通过元方法成为了上述的 COM 控件代理对象，访问 browser 的成员会自动转为调用  browser._object。
+如果你想自己实现代理层，请改用 winform.static.createEmbed() 函数创建控件（函数名字后面少了 Ex ）。
+
+通常在封装库模块的时候，我们希望自己实现控件容器的元表，并更精细地封装 COM 接口，
+这时可以使用 createEmbed() 而非 createEmbedEx() 创建控件（ 参考标准库 web.form 的源代码 ）。
+*/
+
+winform.show();
+win.loopMessage();

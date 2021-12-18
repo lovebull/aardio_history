@@ -151,10 +151,10 @@ checkbox._metaProperty = metaProperty(
 
 	checked = {
 		_get = function(){ 
-			 return  ::SendMessage(owner.hwnd ,0xF0/*_BM_GETCHECK*/);
+			 return ::User32.SendMessageB(owner.hwnd ,0xF0/*_BM_GETCHECK*/,0,0);
 		}
 		_set = function( v ){
-			::SendMessage(owner.hwnd ,0xF1/*_BM_SETCHECK*/,topointer(v?1:0));
+			::User32.SendMessage(owner.hwnd ,0xF1/*_BM_SETCHECK*/,v?1:0,0);
 		} 	
 	}
 )
@@ -178,7 +178,7 @@ groupbox._metaProperty = metaProperty( )
 !button.cls = 设计时类名
 !button.className = 运行时类名
 !button.text = 按钮文本属性
-!button.disabledText = 指定文本时,禁用此控件,并显示指定文本,\n指定为null时,启用此控件,并恢复控件之前的正常文本
+!button.disabledText = @.disabledText = {"✶";"✸";"✹";"✺";"✹";"✷"}__/*指定文本时,禁用此控件,并显示指定文本,\n指定为数组时,创建动画并在主文本前循环显示数组中的字符串,\n数组可选用 text 属性指定按钮禁用状态按钮主文本,\n指定为null时,启用此控件,并恢复控件之前的正常文本*/
 !button.note = 设置按钮副标题\n仅VISTA以后系统支持\n写入该属性可选使用Unicode,返回文本为Unicode
 !button.hwnd = 控件句柄
 !button.id = 控件ID 
@@ -204,8 +204,8 @@ groupbox._metaProperty = metaProperty( )
 !button.setFont(__/*指定字体*/) = 指定LOGFONT字体对象,或逻辑字体句柄 
 !button.setFont(混入字体属性) = @.setFont(point=10;name="宋体");
 !button.theme = 外观主题,例如\nwinform.button.theme = "Explorer"\nwinform.button.theme = false
-!button.modifyStyle(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos 
-!button.modifyStyleEx(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos
+!button.modifyStyle(.(remove,add,swpFlags) = 修改窗口样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码 
+!button.modifyStyleEx(.(remove,add,swpFlags) = 修改窗口扩展样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_EX_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_EX_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码
 !button.capture = 是否捕获全局鼠标消息
 !button.close() = 关闭控件窗口
 !button.invalidate(__/*可选使用::RECT()对象指定客户区*/) = 使窗口绘图区无效
@@ -223,11 +223,12 @@ groupbox._metaProperty = metaProperty( )
 !button.reloadScale() = 按设计时位置参数、重新调整控件位置以适应窗口当前缩放比例。\n父窗口缩放时会自动执行此操作。\n默认在启动窗口消息循环时会自适应调整所有控件。\n所以在启动消息循环前添加控件不必调用此函数。
 !button.threadCallable() = 开启此控件的跨线程调用功能
 !button.orphanWindow(.(transparent,hwndBuddy) = 创建悬浮窗口,\n悬浮窗口仍然显示在原来的位置,\n悬浮窗口如影随形的跟随父窗口移动或改变大小,控件原来的固定边距等参数仍然有效\n此控件不建议指定参数
-!button.onMeasureItem(measureItem) = @.onMeasureItem = function(measureItem){
+!button.onMeasureItem(measureItem,dpiScaleX,dpiScaleY) = @.onMeasureItem = function(measureItem){
 	measureItem.itemHeight = 51;  
+	__/*控件属性里指定 ownerDraw 为 true 触发此事件\n在这里配置自绘控件项参数*/
 } 
-!button.onDrawItem(drawItem) = @.onDrawItem = function(drawItem){
-	
+!button.onDrawItem(drawItem,dpiScaleX,dpiScaleY) = @.onDrawItem = function(drawItem){
+	__/*控件属性里指定 ownerDraw 为 true 触发此事件\n在这里自绘控件项*/	
 } 
 !button.sendMessage(.(msg,wParam,lParam) = 发送窗口消息\n此函数用法请参考 ::User32.SendMessage
 !button.postMessage(.(msg,wParam,lParam) = 投递窗口消息到消息队列中\n此函数用法请参考 ::User32.PostMessage
@@ -267,8 +268,8 @@ win.ui.ctrl.checkbox() = 复选控钮控件\n!checkbox.
 !checkbox.setFont(__/*指定字体*/) = 指定LOGFONT字体对象,或逻辑字体句柄 
 !checkbox.setFont(混入字体属性) = @.setFont(point=10;name="宋体");
 !checkbox.theme = 外观主题,例如\nwinform.button.theme = "Explorer"\nwinform.button.theme = false
-!checkbox.modifyStyle(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos 
-!checkbox.modifyStyleEx(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos
+!checkbox.modifyStyle(.(remove,add,swpFlags) = 修改窗口样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码 
+!checkbox.modifyStyleEx(.(remove,add,swpFlags) = 修改窗口扩展样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_EX_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_EX_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码
 !checkbox.capture = 是否捕获全局鼠标消息
 !checkbox.close() = 关闭控件窗口
 !checkbox.invalidate(__/*可选使用::RECT()对象指定客户区*/) = 使窗口绘图区无效
@@ -318,8 +319,8 @@ win.ui.ctrl.radiobutton() = 单选控钮控件\n!radiobutton.
 !radiobutton.setFont(__/*指定字体*/) = 指定LOGFONT字体对象,或逻辑字体句柄 
 !radiobutton.setFont(混入字体属性) = @.setFont(point=10;name="宋体");
 !radiobutton.theme = 外观主题,例如\nwinform.button.theme = "Explorer"\nwinform.button.theme = false
-!radiobutton.modifyStyle(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos 
-!radiobutton.modifyStyleEx(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos
+!radiobutton.modifyStyle(.(remove,add,swpFlags) = 修改窗口样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码 
+!radiobutton.modifyStyleEx(.(remove,add,swpFlags) = 修改窗口扩展样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_EX_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_EX_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码
 !radiobutton.capture = 是否捕获全局鼠标消息
 !radiobutton.close() = 关闭控件窗
 !radiobutton.invalidate(__/*可选使用::RECT()对象指定客户区*/) = 使窗口绘图区无效

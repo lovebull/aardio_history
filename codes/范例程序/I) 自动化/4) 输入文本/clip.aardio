@@ -2,7 +2,6 @@
 
 import process
 import winex;
- 
 
 //打开写字板
 process.executeWaitInput("wordpad.exe");
@@ -22,3 +21,17 @@ function ctrl_v(str){
 
 shift_insert("测试用shift+insert键发送字符串")
 shift_insert("测试用ctrl+v发送字符串")
+
+/*
+其他发送字符串函数：
+
+key.send();
+key.sendString();
+winex.say();
+winex.sayIme();
+winex.sayAnsi();
+winex.sayImeAnsi();
+winex.sendString();
+winex.setText();
+winex.key.send();
+*/

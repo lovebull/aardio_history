@@ -99,7 +99,7 @@ class httpFile {
     			if( content ){
      				rangeInfoOld = eval( content ) ;
      				
-     				if( fileSize == rangeInfoOld.contentLength ) { //修正:12030错误
+     				if( fileSize === rangeInfoOld.contentLength ) { //修正:12030错误
      					var ok,err,errCode  = http.send(postData)  ;
      					if(!ok){
 							if(!test) this.file.close(); 
@@ -257,8 +257,10 @@ class httpFile {
 
 		this.file.flush();
 		this.file.seek("set");
-		this.complete = (this.totalContentLength === null) : ( this.totalContentLength == this.file.size() );
-		this.contentLength = this.totalContentLength;
+		
+		var fileSize = this.file.size();
+		this.complete = (this.totalContentLength === null) : ( this.totalContentLength == fileSize );
+		this.contentLength = this.totalContentLength : fileSize;
 		this.file.close();
 		http.endRequest(); 
 		
@@ -293,7 +295,7 @@ inet.httpFile() = !inet_file.
 !inet_file.download(.(HTTP头,引用网址,accept,flags,postData) = 下载文件,所有参数都是可选参数.\n下载成功返回true,\n文件已下载成功无需重新下载返回true,错误信息,\n下载失败返回null以及错误信息\n取消返回false,无错误信息\n\n可通过complete属性检测本次下载文件是否成功 
 !inet_file.statusCode = HTTP状态码
 !inet_file.bufferSize = 缓冲区大小\n不指定则默认为128KB
-!inet_file.contentLength = 需要下载的文件长度\n如果文件长度为零,并且modified属性为false,表示不需要重新下载\ndownload函数返回值为true则contentLength表示已下载文件总长度
+!inet_file.contentLength = 需要下载的文件长度\n如果文件长度为零,并且modified属性为false,表示不需要重新下载\ndownload函数返回值为 true 则 contentLength 表示已下载文件总长度
 !inet_file.onReceive = @.onReceive = function(buffer,readSize,contentLength){
 	
 }

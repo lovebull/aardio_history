@@ -35,7 +35,7 @@ formEnum.add(
 txtResult={ vscroll=1;left=1;multiline=1;top=1;right=532;bottom=419;hscroll=1;dl=1;dt=1;dr=1;db=1;edge=1;cls="edit" }
 )  
 
-getString = function( tab ){ 
+var getString = function( tab ){ 
 	var strResult = ..table.tostring(tab);
 	strResult = string.replace(strResult,";",';\r\n');
 	strResult = string.replace(strResult,"\{ *",'{\r\n');

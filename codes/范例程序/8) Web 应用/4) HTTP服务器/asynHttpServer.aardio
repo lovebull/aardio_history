@@ -58,9 +58,16 @@ import web.socket.server;
 var wsrv = web.socket.server();
 
 var srvHttp = wsrv.httpServer;
+/*
+wsrv.httpServer 是实现单线程异步 HTTP 服务端的 wsock.tcp.asynHttpServer 对象。
+浏览器组件发起异步 HTTP 请求支持 wsock.tcp.asynHttpServer。请不要用 inet.http 等
+阻塞请求同一线程创建的 asynHttpServer,这会导致 asynHttpServer 没有机会响应请求而导致死锁，
+如果确有这样的需求，可创建线程发起请求，或改用基于多线程的 wsock.tcp.simpleHttpServer。
+*/
 srvHttp.documentRoot = winform.txtMessage.text;
 srvHttp.userToken = string.random(18);
 winform.editPassword.text = srvHttp.userToken;
+
 
 import fsys.info; 
 var cacheSysIcons = {}
@@ -101,7 +108,8 @@ srvHttp.run(
 		
 		response.headers["Access-Control-Allow-Origin"] = "*";
 		response.headers["Access-Control-Allow-Headers"] = "*"
-		if(request.path=="/" && request.get["icon"]){
+	
+		if(request.path=="/main.aardio" && request.get["icon"]){
 			var iconIdx = tonumber(request.get["icon"]);
 			if(iconIdx!==null){
 				if(cacheSysIcons[iconIdx]){
@@ -333,7 +341,6 @@ winform.btnOpenUpload.oncommand = function(id,event){
 	}
 }
 
-winform.enableDpiScaling();
 import win.ui.simpleWindow2;
 win.ui.simpleWindow2(winform);
 winform.show(); 

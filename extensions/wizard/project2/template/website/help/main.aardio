@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -18,7 +18,7 @@
 
 二、aardio源代码文件里可以直接书写HTML代码，在HTML代码中aardio代码必须置于 &lt;? ..... ?&gt; 内部，，类似PHP的模板语法, 但是要注意与PHP的区别是，aardio规定开始标记  &lt;? 必须独立不能紧跟英文字母，例如 &lt;?xml.....  不是合法的aardio代码段开始标记(aardio会认为这是一个XML标记)。 另外，aardio总是忽略文件开始的空白字符（包含空格、制表符，换行）。
 
-三、在一个aardio文件中如果混合了HTML代码，aardio将&lt;? ..... ?&gt; 之外的部份解析为： print("HTML代码") 以调用全局函数print输出HTML。
+三、在一个aardio文件中如果混合了HTML代码，aardio将&lt;? ..... ?&gt; 之外的部分解析为： print("HTML代码") 以调用全局函数print输出HTML。
 关于print函数的规则：
    1)、print允许接收多个参数，并且必须对每个参数调用tostring()转换为字符串
    2)、在一个aardio文件解析结束时，print函数将收到一个null参数调用

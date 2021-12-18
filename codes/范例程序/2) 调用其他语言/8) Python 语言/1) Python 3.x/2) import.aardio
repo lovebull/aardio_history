@@ -1,8 +1,9 @@
 //使用模块 
 
 /*
-系统安装的 Python 与你在 aardio 加载的 Python 请使用完全相同的版本，
+系统安装的 Python 与你在 aardio 加载的 Python 请使用完全相同的版本(Python v3.8 32位)，
 然后用 pip 安装模块，再把安装好的模块手动复制到 aardio 里面。 
+要注意看提示安装了哪些依赖模块，把这些依赖模块也复制到 aardio 里.
 
 添加第三方 Python 模块失败的可能原因：
 1、低级错误，模块放错了位置。
@@ -26,17 +27,17 @@ sys.path 默认包含以下目录：
 "\" aardio 工程目录(也就是发布后的 EXE运行目录), 
 "~\lib\py3\.res\DLLs"
 
-aardio中的 Python 解释器是32位版本，
+aardio中的 Python 解释器是 32 位版本，
 pyd 以及 DLL 必须与当前 Python 解释器使用相同的运行时构建。
 关于 Python 的版本信息，可调用 py3.run() 打开解释器查看。
 */
 import console;
 console.open();//在导入py前打开控制台可以显示python输出
 
-import py3;//这里是导入Python3.4,改成import py2 就是导入Python2.7
+import py3;
 
 //可以自己添加模块搜索路径，例如：
-//py3.appendPath("C:\Python34\Lib\site-packages\");
+//py3.appendPath("\py\site-packages\");
  
 var pyCode = /**
 import urllib.request

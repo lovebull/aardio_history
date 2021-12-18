@@ -1,5 +1,4 @@
-
-import  key
+import key
 import console;
 
 while( ! key.getStateX( 0x1B/*_VK_ESCAPE*/ ) ){
@@ -14,4 +13,3 @@ while( ! key.getStateX( 0x1B/*_VK_ESCAPE*/ ) ){
 }
 
 console.pause();
-

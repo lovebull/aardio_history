@@ -127,48 +127,45 @@ class explorer{
 			if( this.imageList )this.imageList.destroy()
 		}
 		
-		this.treeview._prenotify = function(id,code,ptr){
-	 
- 	 		if( code = 0xFFFFFE3A/*_TVN_ITEMEXPANDINGW*/){  
- 	 				var nmtv = this.treeview.getNotifyMessage(code,ptr) 
- 	 				if(nmtv.action & 2/*_TVE_EXPAND*/) { 
- 	 					var hItem = nmtv.itemNew.hItem; 
-    					if( ! this.treeview.isExpandedOnce(hItem) ) {
-    			 			this.loadItemFile( hItem,this.getFilePath(hItem) );
-    			 			if( this.onExpandedOnce ){
-    			 				this.onExpandedOnce( hItem );
-    			 			}
-						}
- 	 				}
- 	 		}
-	 		elseif( code == 0xFFFFFFFE/*_NM_CLICK*/ ){  
+		this.treeview.prenotify = {
+			[0xFFFFFE3A/*_TVN_ITEMEXPANDINGW*/] = function(id,code,ptr){
+				var nmtv = this.treeview.getNotifyMessage(code,ptr) 
+ 	 			if(nmtv.action & 2/*_TVE_EXPAND*/) { 
+ 	 				var hItem = nmtv.itemNew.hItem; 
+    				if( ! this.treeview.isExpandedOnce(hItem) ) {
+    			 		this.loadItemFile( hItem,this.getFilePath(hItem) );
+    			 		if( this.onExpandedOnce ){
+    			 			this.onExpandedOnce( hItem );
+    			 		}
+					}
+ 	 			}
+			};
+			[0xFFFFFFFE/*_NM_CLICK*/] = function(id,code,ptr){
 				var hItem,flags = this.treeview.hitTest()  
 				if( hItem  && this.onClick && ( flags & 6/*_TVHT_ONITEMLABEL | _TVHT_ONITEMICON*/) ){
 			 		this.onClick( this.getFilePath(hItem),hItem );
 				}
-			}
-			elseif( code ==  0xFFFFFE3D/*_TVN_SELCHANGEDW*/ ){  
+			};
+			[0xFFFFFE3D/*_TVN_SELCHANGEDW*/] = function(id,code,ptr){
 				var hItem = this.treeview.getSelection() ; 
 				if( hItem && this.onSelChanged){ 
 			 		this.onSelChanged( this.getFilePath(hItem),hItem );
 				}
-			}
-			elseif( code == 0xFFFFFFFD/*_NM_DBLCLK*/){  
+			};
+			[0xFFFFFFFD/*_NM_DBLCLK*/] = function(id,code,ptr){
 				var hItem,flags = this.treeview.hitTest()  
 				if( hItem  && this.onDoubleClick && ( flags & 6/*_TVHT_ONITEMLABEL | _TVHT_ONITEMICON*/) ){ 
 			 		this.onDoubleClick( this.getFilePath(hItem),hItem );
 				}
-			}
-			elseif(code = 0xFFFFFFFB/*_NM_RCLICK*/){
+			};
+			[0xFFFFFFFB/*_NM_RCLICK*/] = function(id,code,ptr){
 				var x,y = ..win.getMessagePos(); 
 				var hItem,flags = this.treeview.hitTest(x,y,true)  
 				if( hItem  && this.onRightClick ){  
 			 		this.onRightClick( this.getFilePath(hItem),hItem,x,y );
-				}
-			} 
-		
-		}
-		
+				}	
+			};
+		};
 		this.loadFile();
 		..table.gc(this,function(){
 			if( this.imageList )this.imageList.destroy();

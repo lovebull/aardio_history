@@ -161,23 +161,23 @@ body{
 **/
 
 //切换选项页激活下面的事件
-import win.util.tray;
+import console;
 wbLayout.onElementExpanded = {
     panel1  =  function (ltTarget,ltEle,reason) { 
-        win.util.tray.pop( ltTarget.outerHTML );
+        console.dump( ltTarget.outerHTML );
     };
     panel2 =  function (ltTarget,ltEle,reason) { 
-        win.util.tray.pop( ltTarget.outerHTML );
+        console.dump( ltTarget.outerHTML );
     };
     panel3 =  function (ltTarget,ltEle,reason) { 
-        win.util.tray.pop( ltTarget.outerHTML );
+        console.dump( ltTarget.outerHTML );
     };
     /*
     HTMLayout的回调事件即可以是函数,也可以是一个函数表。
     函数表的键即节点的id或name属性,如果没有匹配名称的函数,则调用default函数
     */
     default = function(ltTarget,ltEle,reason){
-    	win.util.tray.pop( ltTarget.name );
+    	console.dump( ltTarget.name );
     };
 }
 

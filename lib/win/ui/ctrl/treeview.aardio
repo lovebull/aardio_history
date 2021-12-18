@@ -1,4 +1,4 @@
-//treeview 树形控件
+﻿//treeview 树形控件
 import win.ui.ctrl.metaProperty;//导入控件属性元表支持
 namespace win.ui.ctrl; 
 
@@ -696,8 +696,8 @@ getFont() = 控件字体(::LOGFONT结构体)\n!logfont.
 setFont(__/*指定字体*/) = 指定LOGFONT字体对象,或逻辑字体句柄 
 setFont(混入字体属性) = @.setFont(point=10;name="宋体");
 theme = 外观主题,例如\nwinform.button.theme = "Explorer"\nwinform.button.theme = false
-modifyStyle(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos 
-modifyStyleEx(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos
+modifyStyle(.(remove,add,swpFlags) = 修改窗口样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码 
+modifyStyleEx(.(remove,add,swpFlags) = 修改窗口扩展样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_EX_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_EX_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码
 capture = 是否捕获全局鼠标消息
 close() = 关闭控件窗口
 invalidate(__/*可选使用::RECT()对象指定客户区*/) = 使窗口绘图区无效
@@ -870,7 +870,7 @@ end intellisense**/
 _TVHT_NOWHERE=@1/*_TVHT_NOWHERE*/  //位于客户区内,但在最后项目之下
 _TVHT_ONITEMICON=@2/*_TVHT_ONITEMICON*/  //在位图上
 _TVHT_ONITEMLABEL=@4/*_TVHT_ONITEMLABEL*/  //在标签上 
-_TVHT_ONITEMINDENT=@8/*_TVHT_ONITEMINDENT*/  //在项目的缩进部份 
+_TVHT_ONITEMINDENT=@8/*_TVHT_ONITEMINDENT*/  //在项目的缩进部分 
 _TVHT_ONITEMBUTTON=@0x10/*_TVHT_ONITEMBUTTON*/  //在+ -号按钮上
 _TVHT_ONITEMRIGHT=@0x20/*_TVHT_ONITEMRIGHT*/  //在项目右边的区域内
 _TVHT_ONITEMSTATEICON=@0x40/*_TVHT_ONITEMSTATEICON*/ //在状态图标上. 

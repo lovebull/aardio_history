@@ -20,54 +20,15 @@ class listbox{
 				
 			this._commandFuncnames = {
 	        	[1/*_LBN_SELCHANGE*/]="onSelChange";
+	        	[0x3/*_LBN_SELCANCEL*/]="onSelCancel";
+	        	[0x5/*_LBN_KILLFOCUS*/]="onKillFocus";
+	        	[0x4/*_LBN_SETFOCUS*/]="onSetFocus";
+	        	[0x2/*_LBN_DBLCLK*/]="onDoubleClickItem";
 	        }
 		}
-    };
-    clear = function(){
-       ::SendMessage(this.hwnd , 0x184/*_LB_RESETCONTENT*/, null,null)
-    };
-    delete = function(i){
-    	if (!i) i = this.selIndex;
-       ::SendMessage(this.hwnd , 0x182/*_LB_DELETESTRING*/, topointer(i - 1),null)
-    };
-    add = function( str,ind=-1){
-    	if(ind<0)
-    		ind = this.count + ind +1;
-    	else 
-    		ind--;
-    	
-    	if(!str) error("参数不能为空",2); 
-        ::User32.SendMessage(this.hwnd,0x181/*_LB_INSERTSTRING*/,ind,str);
-    };
-	addfile = function( str){//listbox添加文件到列表项 DlgDirList
-		::User32.SendMessage(this.hwnd, 0x196/*_LB_ADDFILE*/, ,str)
-	};
-	find = function( str ){//在列表框里查找指定的项
-		return ::User32.SendMessage(this.hwnd , 0x18F/*_LB_FINDSTRING*/,this.selIndex-1, str ) + 1; 
-	};
-	findEx = function( str ){//精确查找指定的项
-		return ::User32.SendMessage(this.hwnd , 0x1A2/*_LB_FINDSTRINGEXACT*/, , str ) + 1;
-	};
-	getItemRect = function(ind,rc){ 
-		rc := ::RECT();
-		var ret = ::SendMessageByStruct(this.hwnd,0x198/*_LB_GETITEMRECT*/,ind-1,rc); 
-		return rc;
-	};
-	getItemText = function(ind){ 
-		var len = ::User32.SendMessage(this.hwnd, 0x18A/*_LB_GETTEXTLEN*/, ind-1,0) ; 
-		var ret,text  =  ::SendMessageByStr(owner.hwnd , 0x189/*_LB_GETTEXT*/,ind-1,len+1);  
-		return text;
-	};
-	getAt = function(x,y){
-		var rc = ::RECT()
-		for(i=1;this.count){
-			this.getItemRect(i,rc); 
-			if( ::PtInRect(rc,x,y) )
-				return i;
-		} 
-	}; 
+    }; 
 	@_metaProperty;
-}
+} 
 
 namespace listbox{
  	_metaProperty = ..win.ui.ctrl.metaProperty( 
@@ -95,21 +56,7 @@ namespace listbox{
 		};
 		getSelected = function(ind){
 			return ::SendMessageInt(owner.hwnd,0x187/*_LB_GETSEL*/,ind-1,0);
-		}; 
-		hitTest = function(x,y,screen=false){
-			if( !(x && y) ){
-				x,y = ..win.getMessagePos();
-				screen = true;
-			} 
-			if(screen) x,y = ..win.toClient(owner.hwnd,x,y)
-			
-			var rc = ::RECT();
-			for(i=1;owner.count;1){
-				if(! owner.getItemRect(i,rc) ) return; 
-				if( ::PtInRect(rc,x,y) )
-						return i; 
-			} 
-		};
+		};  
 		selText = {
 			_get = function(){ 
 				var sel = ::SendMessage(owner.hwnd, 0x188/*_LB_GETCURSEL*/) ; 
@@ -126,28 +73,88 @@ namespace listbox{
 		items = {
 			_get = function(){ 
 				var count = ::SendMessage(owner.hwnd, 0x18B/*_LB_GETCOUNT*/, null);
-					var tab = {};
-					for(i=1;count){ 
-               	 		..table.push(tab,owner.getItemText(i) )
-                	}
-                	
-					return tab;
+				var tab = {};
+				var push = ..table.push;
+				for(i=1;count) push(tab,owner.getItemText(i) );
+				return tab;
 			}
 			_set = function( v ){
 				::SendMessage(owner.hwnd , 0x184/*_LB_RESETCONTENT*/);
-				for(i=1;#(v) ){ 
-				    	::SendMessage(owner.hwnd , 0x180/*_LB_ADDSTRING*/, null,..string.toUnicode(v[i]));
+				for(i=1;#v) ::SendMessage(owner.hwnd , 0x180/*_LB_ADDSTRING*/, null,..string.toUnicode(v[i])); 
+			}
+		};
+		selected = {
+			_get = function(){  
+				var count = ::SendMessage(owner.hwnd, 0x18B/*_LB_GETCOUNT*/, null);
+				var tab = {};
+				var push = ..table.push;
+				for(i=1;count){
+					if(::SendMessageInt(owner.hwnd,0x187/*_LB_GETSEL*/,i-1,0)) push(tab,i);
 				}
+				return tab;
+			};
+			_set = function(c){ 
+				var s = owner.selected;
+				for(i=1;#s) owner.setSelected(s[i],false) 
+				for(i=1;#c) owner.setSelected(c[i],true);
 			} 	
 		};
+		eachSelected = function(col){
+			var items = owner.selected;
+			..table.reverse(items);
+			
+			var i,v;
+			return function(){ 
+				i,v = ..table.next(items,i,v);
+				if(i) return v,owner.getItemText(v);
+			},owner
+		};
+		ensureVisible = function (row) {
+			::SendMessageInt(owner.hwnd, 0x197/*_LB_SETTOPINDEX*/, (row : owner.selIndex) - 1, 0);
+		};
+		clear = function(){
+       		::SendMessage(owner.hwnd,0x184/*_LB_RESETCONTENT*/)
+    	};
+    	delete = function(i){
+    		if (!i) i = owner.selIndex;
+       		::SendMessageInt(owner.hwnd , 0x182/*_LB_DELETESTRING*/,i-1,0)
+    	};
+    	add = function( str,ind=-1){
+    		if(ind<0) ind = owner.count + ind +1;
+    		else ind--;
+    		
+    		if(!str) error("参数不能为空",2); 
+        	::User32.SendMessage(owner.hwnd,0x181/*_LB_INSERTSTRING*/,ind,tostring(str));
+    	};
+		addfile = function( str){
+			::User32.SendMessage(owner.hwnd, 0x196/*_LB_ADDFILE*/, ,str)
+		};
+		find = function( str ){
+			return ::User32.SendMessage(owner.hwnd , 0x18F/*_LB_FINDSTRING*/,owner.selIndex-1, str ) + 1; 
+		};
+		findEx = function( str ){
+			return ::User32.SendMessage(owner.hwnd , 0x1A2/*_LB_FINDSTRINGEXACT*/, , str ) + 1;
+		};
+		getItemRect = function(ind,rc){ 
+			rc := ::RECT();
+			var ret = ::SendMessageByStruct(owner.hwnd,0x198/*_LB_GETITEMRECT*/,ind-1,rc); 
+			return rc;
+		};
+		getItemText = function(ind){ 
+			var len = ::User32.SendMessage(owner.hwnd, 0x18A/*_LB_GETTEXTLEN*/, ind-1,0) ; 
+			var ret,text = ::SendMessageByStr(owner.hwnd , 0x189/*_LB_GETTEXT*/,ind-1,len+1);  
+			return text;
+		};
+		hitTest = function(x,y,screen){
+			if(!screen)x,y = ..win.toScreen(owner.hwnd,x,y);
+			return 1 + ::Comctl32.LBItemFromPt(owner.hwnd,x,y,0); 
+		}; 
 	);
 	
-	namespace _metaProperty{
-		self.select = getSelected; 
-		selected = setSelected;
+	namespace _metaProperty{ 
+		getAt = hitTest;//@Deprecated
 	};
 }
-
 
 /***intellisense()
 ?win.ui.ctrl.listbox =!listbox.
@@ -159,11 +166,11 @@ win.ui.ctrl.listbox() = 列表框\n!listbox.
 !listbox.delete(__) = 删除指定项
 !listbox.getItemText(__/*项索引*/) = 获取指定项文本
 !listbox.getItemRect(__/*项索引*/) = 获取指定项区块位置\n返回::RECT() 结构体
-!listbox.getAt(x,y) = 返回指定客户区坐标所在的项索引.
+!listbox.hitTest(x,y) = 返回指定客户区坐标所在的项索引.
 !listbox.add(__/*请输入文本*/) = 添加列表项到尾部
 !listbox.add(__/*请输入文本*/,-1) = 添加列表项到尾部
 !listbox.add(__/*请输入文本*/,1) = 添加列表项到头部
-!listbox.selIndex = 获取或设置列表框当前选中项\n仅在单选模式下有效,多选模式下请使用 getSelected() setSelected() 函数
+!listbox.selIndex = 获取或设置列表框当前选中项\n仅在单选模式下有效,多选模式下请使用 selected 获取所有获中项
 !listbox.selText = 获取当前选项的文本\n或根据指定的文本查找并改变选项
 !listbox.hwnd = 控件句柄
 !listbox.id = 控件ID
@@ -200,8 +207,9 @@ win.ui.ctrl.listbox() = 列表框\n!listbox.
 !listbox.setFont(混入字体属性) = @.setFont(point=10;name="宋体");
 !listbox.clientRect =  获取控件客户区块位置(::RECT结构体)
 !listbox.theme = 外观主题,例如\nwinform.button.theme = "Explorer"\nwinform.button.theme = false
-!listbox.modifyStyle(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos 
-!listbox.modifyStyleEx(.(remove,add) = 如果指定第三个参数,则使用此参数调用::SetWidnowPos
+!listbox.modifyStyle(.(remove,add,swpFlags) = 修改窗口样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码 
+!listbox.modifyStyleEx(.(remove,add,swpFlags) = 修改窗口扩展样式,所有参数都是可选参数,\n@remove 用数值指定要移除的样式,可使用 _WS_EX_ 前缀的常量\n@add 用数值指定要添加的样式,可使用 _WS_EX_ 前缀的常量\n@swpFlags 可选用数值指定调整窗口选项,可使用 _SWP_ 前缀的常量\n如果指定了 @swpFlag ,则使用该参数调用::SetWindowPos\n细节请参考 win.modifyStyle 函数源码
+!listbox.ensureVisible(__) = 滚动视图以确定可以显示参数指定行序号的项,\n不指定参数则设置当前选中焦点项
 !listbox.close() = 关闭控件窗
 !listbox.capture = 是否捕获全局鼠标消息
 !listbox.invalidate(__/*可选使用::RECT()对象指定客户区*/) = 使窗口绘图区无效
@@ -212,15 +220,32 @@ win.ui.ctrl.listbox() = 列表框\n!listbox.
 !listbox.getPos() = 返回相对坐标,宽,高\nx,y,cx,cy=win.getPos(hwnd) 
 !listbox.orphanWindow(.(transparent,hwndBuddy) = 创建悬浮窗口,\n悬浮窗口仍然显示在原来的位置,\n悬浮窗口如影随形的跟随父窗口移动或改变大小,控件原来的固定边距等参数仍然有效\n此控件不建议指定参数
 !listbox.threadCallable() = 开启此控件的跨线程调用功能
-!listbox.onMeasureItem(measureItem) = @.onMeasureItem = function(measureItem){
-	measureItem.itemHeight = 51;  
+!listbox.selected = 所有选中项目索引的数组,\n设为 null 或空表清除所有选中项
+!listbox.eachSelected() = @for index,text in ??.eachSelected(){
+	__/*从后向前倒序遍历所有选中项,\n迭代变量 index 为选中项序号,\n迭代变量 text 当前行文本值*/
+}
+!listbox.onMeasureItem(measureItem,dpiScaleX,dpiScaleY) = @.onMeasureItem = function(measureItem){
+	measureItem.itemHeight = 61 * dpiScaleY;  
+	__/*控件属性里指定 ownerDraw 为 true 触发此事件\n在这里配置自绘控件项参数*/
 } 
 !listbox.onDrawItem(drawItem) = @.onDrawItem = function(drawItem){
-	
+	__/*控件属性里指定 ownerDraw 为 true 触发此事件\n在这里自绘控件项*/	
 } 
 !listbox.onSelChange() = @.onSelChange = function(){
 	__/*改变当前选项时触发此事件*/
 }
+!listbox.onSelCancel() = @.onSelCancel = function(){
+	__/*取消选项时触发此事件*/
+}
+!listbox.onSetFocus() = @.onSetFocus = function(){
+	__/*获得焦点触发此事件*/
+}
+!listbox.onKillFocus() = @.onKillFocus = function(){
+	__/*失去焦点触发此事件*/
+}
+!listbox.onDoubleClickItem() = @.onDoubleClickItem = function(){
+	__/*双击列表项触发此事件,\n使使用 selIndex 获取双击的项*/
+} 
 !listbox.onDestroy = @.onDestroy = function(){\n	__/*窗口销毁前触发*/\n}
 !listbox.onnotify = @.onnotify = function(id,code,ptr){\n	__/*通知事件触发*/\n}
 !listbox.oncommand = @.oncommand = function(id,event){\n	__/*命令事件触发*/\n}

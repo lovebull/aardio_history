@@ -7,11 +7,11 @@ listbox={cls="listbox";left=12;top=11;right=745;bottom=457;bgcolor=16777215;db=1
 )
 /*}}*/
 
-winform.listbox.onMeasureItem = function(measureItem){
-    measureItem.itemHeight = 51;  
+winform.listbox.onMeasureItem = function(measureItem,dpiScaleX,dpiScaleY){ 
+    measureItem.itemHeight = 61 * dpiScaleY;  
 }
 
-winform.listbox.onDrawItem = function(drawItem){
+winform.listbox.onDrawItem = function(drawItem,dpiScaleX,dpiScaleY){ 
      gdi.selectBrush(
      
         function(hdc,pen,brush){
@@ -29,8 +29,8 @@ winform.listbox.onDrawItem = function(drawItem){
     		
     		var str = winform.listbox.getItemText(drawItem.itemID + 1);
     		
-    		var font = ::LOGFONT(weight=400;color=0x000000);
-    		gdi.textOut(hdc,font,str,rc.left + 18, rc.top + 26); 
+    		var font = ::LOGFONT(weight=400;point=10;color=0x000000);
+    		gdi.textOut(hdc,font,str,rc.left + 18/dpiScaleX, rc.top + 26/dpiScaleY); 
     		
    		},drawItem.hDC,0xF5FDFF/*背景色*/,0xEEEEEE/*画笔色*/)
 }

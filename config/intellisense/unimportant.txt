@@ -103,4 +103,5 @@ pt=POINT/POINTF结构体\n这是保留变量名,应专用于POINT/POINTF对象,\
 ::DwmApi = @DwmApi := raw.loadDll("Dwmapi.dll")
 details = @/**details(实现原理)\n__/*用于在库文件中添加在库函数文档中默认折叠的附加说明*/\nend details**/
 buffer = 原生字节数组,\n由 raw.buffer 函数分配的可读写、固定长度的内存，\n可用于存取各种二进制数据，几乎所有字符串函数中都可以作为字符串使用
-
+Deprecated = @Deprecated__/*注释已废弃并将在后续版本移除功能*/
+lvDispInfo = !LV_DISPINFO.

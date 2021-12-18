@@ -2,13 +2,13 @@ import win.ui;
 /*DSG{{*/
 var winform = win.form(text="aardio form";right=484;bottom=383;bgcolor=15658734;parent=...)
 winform.add(
-plus={cls="plus";left=90;top=27;right=103;bottom=40;background="\res\images\checkbox.png";notify=1;repeat="repeat-x";z=2};
-plus2={cls="plus";left=90;top=57;right=103;bottom=70;background="\res\images\checkbox.png";notify=1;repeat="repeat-x";z=3};
-plus3={cls="plus";left=90;top=88;right=103;bottom=101;background="\res\images\checkbox.png";notify=1;repeat="repeat-x";z=6};
-plus4={cls="plus";left=90;top=118;right=103;bottom=131;background="\res\images\checkbox.png";notify=1;repeat="repeat-x";z=7};
-plus5={cls="plus";left=90;top=147;right=103;bottom=160;background="\res\images\radio.png";notify=1;repeat="repeat-x";z=11};
-plus6={cls="plus";left=249;top=150;right=262;bottom=163;background="\res\images\radio.png";color=8421504;notify=1;repeat="repeat-x";z=13};
-plus7={cls="plus";left=90;top=178;right=103;bottom=191;background="\res\images\checkbox.png";notify=1;repeat="repeat-x";z=16};
+plus={cls="plus";left=90;top=27;right=103;bottom=40;foreground="\res\images\checkbox.png";notify=1;repeat="repeat-x";z=2};
+plus2={cls="plus";left=90;top=57;right=103;bottom=70;foreground="\res\images\checkbox.png";notify=1;repeat="repeat-x";z=3};
+plus3={cls="plus";left=90;top=88;right=103;bottom=101;foreground="\res\images\checkbox.png";notify=1;repeat="repeat-x";z=6};
+plus4={cls="plus";left=90;top=118;right=103;bottom=131;foreground="\res\images\checkbox.png";notify=1;repeat="repeat-x";z=7};
+plus5={cls="plus";left=90;top=147;right=103;bottom=160;foreground="\res\images\radio.png";notify=1;repeat="repeat-x";z=11};
+plus6={cls="plus";left=249;top=150;right=262;bottom=163;color=8421504;foreground="\res\images\radio.png";notify=1;repeat="repeat-x";z=13};
+plus7={cls="plus";left=90;top=178;right=103;bottom=191;foreground="\res\images\checkbox.png";notify=1;repeat="repeat-x";z=16};
 static={cls="static";text="开启";left=17;top=24;right=73;bottom=42;align="right";transparent=1;z=1};
 static10={cls="static";text="退出时";left=17;top=175;right=73;bottom=193;align="right";transparent=1;z=15};
 static11={cls="static";text="清空播放记录";left=105;top=177;right=193;bottom=195;align="right";color=8421504;notify=1;transparent=1;z=17};

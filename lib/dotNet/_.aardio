@@ -3,6 +3,24 @@ namespace dotNet;
 
 try{ 
 	import ..dotNet.clr; 
+	
+	var app = appDomain();
+	load = app.load;
+	loadFile = app.loadFile;
+	loadAppData = app.loadAppData;
+	createWebService = app.createWebService;
+	createCompiler = app.createCompiler;
+	createArrayList = app.createArrayList;
+	mscorlib = app.mscorlib;
+	system = app.system;
+	
+	getObject = function(v){
+		return v[["_dotNetObject"]];
+	}
+	
+	unWrapObject = function(obj){
+		return obj[["_dotNetObject"]] : obj;
+	}
 }
 catch(e){ 
 	class clr{
@@ -13,5 +31,113 @@ catch(e){
 }
 
 /**intellisense()
-dotNet = dotNet支持库
+dotNet = dotNet 支持库\n此名字空间下的函数由当前线程默认应用程序域提供,\n使用无参数调用 dotNet.appDomain 获取当前线程默认应用程序域
 end intellisense**/
+
+/**intellisense(dotNet)
+mscorlib = mscorlib.dll 程序集\n!dotNetCrlAssembly.
+system = Systme.dll 程序集\n!dotNetCrlAssembly.
+load( = 使用当前线程默认应用程序域载入程序集,\n程序集 也就是 .Net 创建的 DLL 文件,\n程序集如果引用了自身路径必须使用 load 函数加载,\n用 loadFile 函数加载会失败
+load(.("程序集名") = 使用当前线程默认应用程序域载入程序集,\n参数可以是程序集名称或路径,程序集也就是 .Net 创建的 DLL 文件。\n\n此函数会按以下顺序调用下列函数尝试加载程序集：\nAssembly.LoadWithPartialName,Assembly.Load,Assembly.LoadFrom,Assembly.LoadFile
+loadFile( = 使用当前线程默认应用程序域载入程序集文件,\n与 load 函数不同这个函数要指定明确的文件路径或内存数据,\n程序集如果引用了自身路径必须使用 load 函数加载,\n用 loadFile 函数加载会失败
+loadFile(.("程序集路径") = 使用当前线程默认应用程序域载入程序集,\n参数可以是路径,或内存资源。\n\n在路径字符串前加$符号可将文件编译并嵌入 aardio 代码,\n可选在第2个参数中指定pdb调试数据或pdb调试文件路径。
+load() = !dotNetCrlAssembly.
+loadFile() = !dotNetCrlAssembly.
+loadAppData( = 可用于嵌入并自 %appData% 目录加载\n不支持通过 loadFile 函数内存加载的程序集
+loadAppData(.(path,data) = 用 @path 指定 %appData% 目录下的相对路径,\n将 @data 参数指定的内存程序集数据释放到该路径,\n并使用 load 函数加载此程序集,\n@data 参数应在路径前加$符号使文件数据嵌入到代码中
+loadAppData() = !dotNetCrlAssembly.
+createWebService( = 使用当前线程默认应用程序域创建Web服务程序集
+createWebService(.(服务网址,名字空间,协议名,DLL路径) = 使用当前线程默认应用程序域创建 Web 服务程序集,\n可选在参数@2中指定一个自定义的名字空间\n协议名默认为"Soap",可选值"Soap12",\n如果使用参数@4指定输出DLL路径则在内存中编译程序集
+createWebService() = !dotNetCrlAssembly.
+createCompiler("C#") = 使用当前线程默认应用程序域创建C#编译器
+createCompiler("VB") = 使用当前线程默认应用程序域创建VB编译器
+createCompiler() = !dotNetCompiler.
+createArrayList(.(初始化数组) = 使用当前线程默认应用程序域创建 System.Collections.ArrayList 对象\n可传递到C#函数中,C#中应声明为object类型,然后强制转换为ArrayList,\n使用圆括号访问数组成员,0为初始下标,\n可选参数一指定table数组用于初始化对象\n\n注意这个函数返回的是原生.Net对象，也就是COM 对象\n返回值传入 dotNet.getObject 函数会返回 null
+getObject(__) = 如果对象是封装的 .Net 对象\n返回被封装的原生 .Net对象,\n原生 .Net 对象在 aardio 中是一个 COM 对象,\n\n注意 dotNet.createArrayList 返回的是未封装的原生 .Net 对象,\n未封装的 .Net 对象传入此参数会返回 null
+unWrapObject(__) = 如果对象是封装的 .Net 对象\n返回被封装的原生 .Net对象,\n否则直接返回参数
+end intellisense**/
+
+/**intellisense(!dotNetCrlAssembly)
+Location = 获取完整路径
+FullName = 获取程序集的全名
+import("__") = 参数指定类名或名字空间，\n与程序集名称相同的名字空间前缀可省略,\n不传入参数则默认指定参数为程序集名称,\n返回一个 aardio 对象，该对象可作为函数调用直接构建类对象，\n也可以用成员操作符返回静态成员，或调用静态函数。\n\n要特别注意，使用此函数导入的 .Net 类,\n在调用其静态成员函数、或构造函数时，出错不会抛出异常,\n而是返回 2 个值，分别为： null,错误信息
+new(.("类名",->->-> ) = 创建对象实例,\n可添加不定个数构造参数\n失败返回空值,以及错误信息
+invokeStaticMember(.("类名->方法名",->->-> ) = 调用类的静态方法,\n可添加不定个数调用参数\n失败返回空值,以及错误信息
+invokeMember(.("类名->方法名",BindingFlags) = 调用类的方法,\n可添加不定个数调用参数\n失败返回空值,以及错误信息
+getStaticMember(.("类名->字段名") = 获取字段或属性值、或枚举值
+getEnum(.("枚举类型名->枚举字段名") = 获取枚举值\n注意参数要指定完整类型名
+end intellisense**/
+
+/**details(用法说明)
+
+一、了解应用程序域
+--------------------------------------------------------
+应用程序域是 .Net 里的程序隔离边界，
+一个进程可以包含多个应用程序员。
+
+在 aardio 中应用程序域就是 dotNet.appDomain 对象。
+在 aardio 中一个不怕复杂的、完整的创建应用程序域的代码如下：
+
+	var clr = dotNet.clr("v4.0")
+	var appDomain = clr.createAppDomain() //可选在参数中指定域名称
+	var SystemAssembly = appDomain.load("System"); 
+	var System = dll.import("System");
+	//.....
+	appDomain.unload() //卸载应用程序域
+	
+这个看起来似乎很强大的一大堆代码，其实 99% 的时候我们用不到，
+99% 的时候我们不需要应用程序域，但我们要千万遍写这些复杂代码很不合算。
+另外 aardio 可以自适应所有 .Net 版本，所以我们也不必要指定版本去创建 dotNet.clr。
+
+所以 aardio 规定，
+如果无参数调用 dotNet.appDomain() 不会创建新的应用程序域，
+在同一线程始终返回相同的实例，而且你不用卸载，线程结束 aardio 会自动卸载这个应用程序域。
+
+我们甚至不必要去调用 dotNet.appDomain()，aardio 会自动帮我们调用。
+所以上面的代码我们可以简化如下：
+
+	var SystemAssembly = dotNet.load("System"); 
+	var System = dll.import("System");
+
+二、关于 .Net 版本
+--------------------------------------------------------
+前面我们提到了，用下面的代码可以指定 .Net 的版本并创建新的应用程序域。
+dotNet.clr("v4.0").createAppDomain()
+
+.Net 版本虽然多，但实际上内核运行时只有 v2.0 和 v4.0，
+而 aardio 可以兼容不同的版本，所以大多时候不需要去指定版本，
+更不需要自己去创建应用程序域。
+
+二、参数类型转换
+--------------------------------------------------------
+注意 aardio 与 .Net 交互基于 COM 接口，
+.Net 返回给 aardio 的原生 .Net 对象都是 COM 对象
+但所有这些 .Net 对象 aardio 都进行了二次封装。
+
+封装后的 .Net 对象可以用 dotNet.unWrapObject() 转换为原生 .Net 对象，
+注意 dotNet.createArrayList() 返回的是原生 .Net 对象，并未进行封装。 
+
+aardio 调用 C# 函数时遵守 COM 调用传参规则，
+调用 COM 函数传参时，如果 COM 函数支持参数自动类型识别 —— 则 aardio 优先使用 COM 函数需要的类型。
+否则按默认规则处理：整数默认处理为 32 位整型(int,int32)，小数默认处理为64位浮点数(double)。
+
+调用 C# 函数时不支持参数自动类型识别和转换，
+而 C# 是静态语言，参数类型不一致会提示找不到函数，
+这时候可以使用 com 名字空间提供的以下函数显式创建指定类型的对象：
+
+com.byte() 
+com.ubyte() 
+com.word() 
+com.uword()
+com.int() 
+com.uint()
+com.long() 
+com.ulong()
+com.float() 
+com.double()
+
+上面这些函数可以在参数中指定数值，
+返回的 com.Variant 对象已经带上了兼容 .Net 的类型信息，
+都可以作为 .Net 函数的参数使用。
+
+end details**/

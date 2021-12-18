@@ -1,4 +1,5 @@
-﻿namespace preload;
+﻿//io 文件相关
+namespace preload;
 self.io = global.io;
 
 namespace io;
@@ -22,7 +23,7 @@ getSize = function(path){
 }
 
 appData = function(p,d){
-	if(!d) return getSpecial(id,p);
+	if(!d) return getSpecial(0x1c /*_CSIDL_LOCAL_APPDATA*/,p);
 	return specialData(p,d,0x1c/*_CSIDL_LOCAL_APPDATA*/);
 }
 
@@ -48,7 +49,30 @@ specialData = function(p,d,id){
 	return p;
 }
 
-if(_WIN10_LATER) self.utf8 = true;
+var tmpdir =  ..string.expand("%TMP%") : appData("Temp") ;
+..string.setenv("TMP",tmpdir);
+
+tmpname = function(p,e){
+	d = joinpath(tmpdir,"\");
+	
+	var t = ..string.format("%s$%X$%X$",p:"",..thread.getId(),..time.tick());
+	if(!e) e = "";
+	
+	var r;
+	var i = 0;
+	do{
+		r= ..io.joinpath(d, t ++ i ++ e)
+		i++;
+	}while(exist(r))
+	
+	return r;
+}
+
+if(_WIN10_LATER) {
+	if( _WIN_VER_MAJOR > 10 ||  _WIN_VER_MINOR > 0 || _WIN_VER_BUILD >= 16299 ){
+		self.utf8 = true; //if(::Kernel32.GetACP()==65001) io.utf8 = true;
+	} 
+}
 
 /**intellisense(io)
 getSpecial(_CSIDL__) = 获取特殊文件夹,\n参数@1使用 _CSIDL 开头的常量指定特殊文件夹的 CSIDL,\n不指定参数@1则默认值为 _CSIDL_DESKTOP,\n可选增加任意个拼接到目录后的子路径参数\n这个函数与fsys.getSpecial函数用法接近,\n但支持不定个数子路径参数, 不支持返回PIDL

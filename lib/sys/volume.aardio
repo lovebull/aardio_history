@@ -1,5 +1,5 @@
-//volume 分区管理函数
-//Volume Management Functions
+//volume 存储卷
+import fsys.drives;
 namespace sys.volume;
 
 GetVolumeInformation = ::Kernel32.api("GetVolumeInformationW","int(ustring root,ustring &lab,INT labSize,INT& sNum,INT& maxlen,INT& flags,ustring& fsys,INT fsysSize)");
@@ -23,28 +23,8 @@ getDriveType = function(drv){
 	return ::Kernel32.GetDriveType( drv[[1]] + ":" )
 }
 
-getFreeDrive = function(){
-	var dr = ::Kernel32.GetLogicalDrives();
-	var tab = {}; 
-	for(i=2;31){ 
-		if( !( dr & (1<<i) ) ){ 
-			return ..string.pack('A'# + i) + ":"  
-		}
-	}	
-} 
-
-getLogicalDrives = function(dr){
-	dr := ::Kernel32.GetLogicalDrives();
-	var tab = {}; 
-	for(i=0;31){ 
-		if( dr & (1<<i) ){ 
-			..table.push(tab, ..string.pack('A'# + i) + ":" )
-		}
-	}
-	return tab;
-}
-
 getInfo = function(drive){
+	drive = ..io.localpath(drive) : drive;
 	var ok,label,serialNum,maxlen,flag,fsys = GetVolumeInformation(drive[[1]] + ":\",510,255,0,0,0,510,255) ;	
 	if(ok)
 		return  { 
@@ -90,23 +70,20 @@ getDeviceName = function( filepath ) {
 }
 
 getPathName = function(devicePath){
-	var drives = ::Kernel32.GetLogicalDrives();
-	for(i=2;31){ 
-		if( drives & (1<<i) ){
-			var drv =  ..string.pack('A'# + i) + ":\" 
-			var device = getDeviceName( drv ) 
+
+	for drv in ..fsys.drives.each() {
+		drv = drv + "\";
+		
+		var device = getDeviceName( drv ) 
 			if ( device &&  ( ..string.cmp( device, devicePath, #device ) == 0) ) 
 				return drv ++ ..string.slice(devicePath,#device+1);  
-			
-		}
 	}
 	
 	return ( ..string.replace(devicePath,"^\\<@@Device@>\\\w+\\","\\\\") );
 }
 
-var sizeDivf = function(a,b){
-	return tonumber( a / b )  + ( tonumber(  a % b ) / tonumber(b) )
-}
+getFreeDrive = ..fsys.drives.free;
+getLogicalDrives = ..fsys.drives.get;
 
 getSpaceSize = function(dirName){
 	if( !#dirName ) error("参数@1不能为空",2)
@@ -116,8 +93,8 @@ getSpaceSize = function(dirName){
 			totalSize = total;
 			avaliableSize = avaliable;
 			freeSize = free; 
-			avaliablePercentage = ..math.round( sizeDivf(avaliable,total),4) * 100;
-			freePercentage =..math.round( sizeDivf(free,total),4) * 100;
+			avaliablePercentage =  ..math.round( avaliable.divf(total),4) * 100;
+			freePercentage =..math.round( avaliable.divf(total),4) * 100;
 		}
 	}
 }
@@ -137,8 +114,8 @@ sys.volume.getSpaceSize() = !valuespacesize.
 !volumeinfo.flag = 标志位
 !volumeinfo.fsys = 文件系统
 !volumeinfo.maxlen = 文件路径最大长度
-?sys.volume.getInfo = !volumeinfo.
-sys.volume.getInfo(__/*分区或完整路径*/) = 返回分区信息
+sys.volume.getInfo() = !volumeinfo.
+sys.volume.getInfo(__/*分区或完整路径*/) = 返回分区信息,\n参数可指定盘符或完整文件路径\n盘符可带冒号也可以不带
 end intellisense**/
 
 /**intellisense(sys.volume)
@@ -146,10 +123,11 @@ getDeviceName(__/*文件路径*/) = 文件路径转换为设备名
 getPathName(__/*设备名*/) = 设备名转换为文件路径
 getAllDevice() = 返回所有设备名
 getDriveType(__/*驱动器路径*/) = 返回驱动器类型\n以_DRIVE_为前缀的常量表示不同类型
-getLogicalDrives() = 返回一个table对象\n包含所可用的逻辑分区路径
+
 setLabel("__/*驱动器路径*/","卷标") = 设置区分卷标
 deviceDefine(__/*文件路径*/) = 将指定的目录映射为虚拟分区\n成功返回分区路径
 deviceDefine(__/*文件路径*/,"Z:") = 将指定的目录映射为虚拟分区\n成功返回分区路径
 deviceRemove("__/*驱动器路径*/") = 移除分区
-getFreeDrive() = 获取未使用的盘符(自"C:"开始)
+getFreeDrive() = 获取未使用的盘符（自"C:"开始）\n这个函数实际指向 fsys.drives.free 函数
+getLogicalDrives() = 返回一个包含所可用的逻辑分区盘符的数组,\n盘符以冒号结束\n\n这个函数实际指向 fsys.drives.get
 end intellisense**/

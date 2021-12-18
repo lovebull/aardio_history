@@ -10,7 +10,8 @@ listview={cls="listview";left=24;top=27;right=996;bottom=555;edge=1;z=1}
 
 import win.ui.grid;
 var grid = win.ui.grid(winform.listview);//创建数据视图
-grid.readonlyColums = { [1] = true };//设置禁止编辑的列
+grid.setReadonlyColumns(1);//可选设置禁止编辑的列
+grid.setColumns({"ID";"日期";"标题"}) //可选自定义显示列名
 
 import sqlite;
 var db = sqlite("/testParameters.db");
@@ -26,13 +27,10 @@ for(i=1;10;1){
  	)
 }
 
-//直接支持常用数据库的getTable函数返回的数据格式
+//直接支持常用数据库的 getTable 函数返回的数据格式
 var dataTable = db.getTable("SELECT * FROM [myTableName] ");
 
-//可选自定义显示列名
-//grid.setColumns({"ID";"日期";"标题"})
-
-////直接让liswview控件显示数据库的查询结果
+//直接让 listview 控件显示数据库的查询结果
 grid.setTable( dataTable )
 
 //编辑变更值会触发下面的事件
@@ -44,10 +42,10 @@ grid.onEditChanged = function(text,iItem,iSubItem){
 
 /*
 用户点击列头排序时会触发下面的事件，
-cloumn为例号，desc参数指定是否倒序，返回true允许当前列排序
+column 为例号，desc 参数指定是否倒序，返回 true 允许当前列排序
 */
-grid.onSortColumn = function(cloumn,desc){
-	var name = dataTable.fields[cloumn]
+grid.onSortColumn = function(column,desc){
+	var name = dataTable.fields[column]
 	
 	if(name=="date"){
 		if(desc){

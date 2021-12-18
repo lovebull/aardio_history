@@ -86,17 +86,20 @@ class grid{
         edit.capture = true;
         return true;	
 	};
-	_prenotify = function(id,code,ptr){ 
-		
- 		if(code=0xFFFFFFFD/*_NM_DBLCLK*/){
-        	var event = this.getNotifyMessage(code,ptr);
+	setReadonlyColumns = function(...){
+		var c = type(...) === "table" ? ... : {...}
+		for(i,idx in c) this.readonlyColums[idx] = 1;
+	};
+	prenotify = {
+		[0xFFFFFFFD/*_NM_DBLCLK*/] = function(id,code,ptr){
+			var event = this.getNotifyMessage(code,ptr);
         	if( ! event.iItem && event.iSubItem ) return ;
         	
         	this.editBox.event = event; 
-        	this.beginEdit();  
-    	}
-    	elseif(code==0xFFFFFF65/*_LVN_KEYDOWN*/){
-    		var nmkey = ..raw.convert(ptr,{
+        	this.beginEdit(); 
+		};
+		[0xFFFFFF65/*_LVN_KEYDOWN*/] = function(id,code,ptr){
+			var nmkey = ..raw.convert(ptr,{
   				struct hdr = ::NMHDR();
   				WORD vkey;
   				INT flags;
@@ -111,9 +114,9 @@ class grid{
 				if(!edit.event.iSubItem)edit.event.iSubItem=1;
 				this.beginEdit(); 
 			} 
-    	}
-    	elseif(code==0xFFFFFF94/*_LVN_COLUMNCLICK*/) {
-    		var nm = this.getNotifyMessage(code,ptr)
+		};
+		[0xFFFFFF94/*_LVN_COLUMNCLICK*/] = function(id,code,ptr){
+			var nm = this.getNotifyMessage(code,ptr)
     		var desc = this.getColumnImage(nm.iSubItem) == 0;
     		if(this.onSortColumn){
     			if( this.onSortColumn(nm.iSubItem,desc) ){
@@ -121,8 +124,8 @@ class grid{
     				this.setColumnImage(nm.iSubItem, desc ? 1 : 0);
     			}
     		} 
-    	}
-	}
+		}; 
+	} 
 }
 
 namespace grid{
@@ -147,8 +150,8 @@ win.ui.grid() = !win_ui_grid.
 } 
 !win_ui_grid.setTable(__) = 用listview控件显示数据表\n此函数会自动清空控件之前的所有项,\n如果没有创建任何列,则自动创建列\n\n数据表应当包含行组成的数组,\n每行的数据列必须是由列名和列值组成的键值对\n数据表应使用fields包含需要显示的列名称数组\n可以通过fields控制要显的列、以及要显示的顺序\n\n使用sqlite,access,sqlServer等数据库对象提供的getTable函数可获取符合此规格的数据表 
 !win_ui_grid.setColumns(__) = 用一个字符串数组指定要显示的列\n如果参数为空则清空所有列
+!win_ui_grid.setReadonlyColumns(__) = 可以使用一个或多个参数指定要禁止编辑的列序号,\n也可以用一个数组参数指定多个列序号
 !win_ui_grid.clear() = 清空所有行
 !win_ui_grid.clear(true) = 清空所有行,并且清空所有列
 !win_ui_grid.beginEdit(.(行,列) = 切换到编辑状态
-!win_ui_grid.readonlyColums = @.readonlyColums = { [1] = true;__/*设置禁止编辑的列序号*/ }
 end intellisense**/

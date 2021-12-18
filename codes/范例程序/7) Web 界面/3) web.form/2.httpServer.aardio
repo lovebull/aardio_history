@@ -5,7 +5,7 @@ var winform = win.form(text="嵌入HTTP服务器";right=759;bottom=469)
 winform.add()
 /*}}*/
 
-import web.form.ie11;
+import web.form;
 var wb = web.form.ie11(winform);
 if(!wb) return;
 

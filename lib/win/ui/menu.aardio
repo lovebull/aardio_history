@@ -519,11 +519,11 @@ _TPM_VCENTERALIGN=@0x10/*_TPM_VCENTERALIGN*/
 !popmenu.selIndex = 获取或修改当前选中项索引,单选模式
 !popmenu.selId = 获取或修改当前选中项命令ID,单选模式
 !popmenu.selText = 获取或修改当前选中项文本,单选模式
-win.ui.menu.onMeasureItem = @.onMeasureItem = function(measureItem){ 
+win.ui.menu.onMeasureItem = @.onMeasureItem = function(measureItem,dpiScaleX,dpiScaleY){ 
 	measureItem.itemWidth = 80;  
 	measureItem.itemHeight = ::GetSystemMetrics(0xF/*_SM_CYMENU*/);
 }
-win.ui.menu.onDrawItem = @.onDrawItem = function(drawItem){
+win.ui.menu.onDrawItem = @.onDrawItem = function(drawItem,dpiScaleX,dpiScaleY){
 
 	return 1; 
 }
